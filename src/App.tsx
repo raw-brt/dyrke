@@ -1,9 +1,11 @@
 import type { FC } from "react";
+import UnauthenticatedApp from "./UnauthenticatedApp";
 
 const App: FC = () => {
   return (
-    <div className="App">
-    </div>
+    <main className="w-screen h-screen">
+      <UnauthenticatedApp />
+    </main>
   );
 }
 

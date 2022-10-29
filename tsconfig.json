@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,9 +18,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@abis/*": ["src/abis/*"],
+      "@utils/*": ["src/utils/*"],
+      "@lib/*": ["src/lib/*"],
+      "@gql/*": ["src/graphql/*"],
+      "@generated/*": ["src/generated/*"]
+    }
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "**/*.ts", 
+    "**/*.tsx",
+  ],
+  "exclude": ["node_modules"]
 }
