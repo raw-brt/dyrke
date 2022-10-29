@@ -23,7 +23,7 @@ module.exports = {
       "spaced-comment": ["error", "always", { markers: ["/"] }],
       camelcase: "warn",
       quotes: ["warn", "double"],
-      "no-duplicate-imports": "error",
+      "no-duplicate-imports": "off",
       "no-undef": "off",
       "react/jsx-curly-brace-presence": ["warn", { props: "never", children: "never" }],
       "no-unused-vars": "off",

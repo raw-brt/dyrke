@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "@headlessui/react": "^1.7.3",
+    "@heroicons/react": "^2.0.12",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,10 +14,13 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "clsx": "^1.2.1",
+    "ethers": "^5.7.2",
+    "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.8.4",
+    "wagmi": "^0.7.8",
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.3"
   },
@@ -32,8 +38,10 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "typescript",
+      "typescript/react",
+      "typescript/prettier",
+      "typescript/prettier-react"
     ]
   },
   "browserslist": {
@@ -53,6 +61,17 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
+    "@graphql-codegen/cli": "^2.13.7",
+    "@graphql-codegen/fragment-matcher": "^3.3.1",
+    "@graphql-codegen/typed-document-node": "^2.3.5",
+    "@graphql-codegen/typescript": "^2.8.0",
+    "@graphql-codegen/typescript-operations": "^2.5.5",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@types/react": "^18.0.23",
+    "@types/react-dom": "^18.0.7",
+    "tsconfig-paths": "^4.1.0",
     "autoprefixer": "^10.4.13",
     "cypress": "^10.6.0",
     "eslint": "^8.26.0",
