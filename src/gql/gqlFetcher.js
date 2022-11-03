@@ -1,4 +1,4 @@
-import { gqlClient } from "./client";
+import { gqlClient } from "./gqlClient";
 
 export const fetcher = async ({
   token = null,

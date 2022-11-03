@@ -13,16 +13,11 @@ export const Card: FC<CardProps> = ({
   children,
   as: Tag = "div",
   className = "",
-  forceRounded = false,
   onClick
 }) => {
   return (
     <Tag
-      className={clsx(
-        forceRounded ? "rounded-xl" : "rounded-none sm:rounded-xl",
-        "border dark:border-gray-700/80 bg-white dark:bg-gray-900",
-        className
-      )}
+      className={className}
       onClick={onClick}
     >
       {children}

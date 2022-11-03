@@ -13,7 +13,7 @@ import {
 } from "../data/contracts";
 import { LENS_NETWORK, MAINNET_API_URL, SANDBOX_API_URL, TESTNET_API_URL } from "../config/constants";
 
-const getEnvConfig = () => {
+export const getEnvConfig = () => {
   switch (LENS_NETWORK) {
     case "mainnet":
       return {
@@ -49,5 +49,3 @@ const getEnvConfig = () => {
       };
   }
 };
-
-export default getEnvConfig;

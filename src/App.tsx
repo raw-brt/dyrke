@@ -1,11 +1,20 @@
 import type { FC } from "react";
-import UnauthenticatedApp from "./UnauthenticatedApp";
+import { Route, Routes } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import { Login } from "./routes/Login/Login";
+
 
 const App: FC = () => {
+
+  // Handle unauth/auth app 
+
   return (
-    <main className="w-screen h-screen">
-      <UnauthenticatedApp />
-    </main>
+    <Layout>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Login />} />
+      </Routes>
+    </Layout>
   );
 }
 
