@@ -21,7 +21,7 @@ export const Login: FC = () => {
           </div>
           {/* Body */}
           <div className='text-sm text-gray-100 p-5'>
-            <p className="mb-5">Connect with one of our available wallet providers or create a new one.</p>
+            <p className="mb-5 text-base text-neutral-100">Connect with one of our available wallet providers or create a new one.</p>
             <WalletConnector setIsConnected={setIsConnected} setHasLensProfile={setHasLensProfile} />
           </div>
         </div>

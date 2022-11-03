@@ -45,11 +45,11 @@ export const WalletConnector: FC<Props> = ({setIsConnected, setHasLensProfile}) 
               {
                 "hover:bg-neutral-600": connector.id === activeConnector?.id
               },
-              "w-full h-auto flex justify-center items-center p-5 text-neutral-100 bg-neutral-700 rounded-xl hover:bg-neutral-600 hover:font-bold"
+              "w-full h-auto flex justify-center items-center p-5 text-neutral-100 font-medium text-lg bg-neutral-700 rounded-xl hover:bg-neutral-600 hover:font-bold"
             )}
             onClick={() => onConnect}
           >
-            <span className=" w-full h-auto flex justify-between items-center">
+            <span className="w-full h-auto flex justify-between items-center">
               {isMounted ? (connector.id === "injected" ? "Browser Wallet" : connector.name): connector.name}
               {isMounted ? !connector.ready && " (not supported) " : ""}
             </span>
