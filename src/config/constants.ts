@@ -21,8 +21,8 @@ export const DEFAULT_COLLECT_TOKEN = getEnvConfig().defaultCollectToken;
 export const IS_MAINNET = API_URL === MAINNET_API_URL;
 
 // XMTP
-export const XMTP_ENV = IS_MAINNET ? "production" : "dev";
-export const XMTP_PREFIX = "lens.dev/dm";
+// export const XMTP_ENV = IS_MAINNET ? "production" : "dev";
+// export const XMTP_PREFIX = "lens.dev/dm";
 
 // Application
 export const APP_NAME = "dyrke";
@@ -39,7 +39,7 @@ export const GIT_COMMIT_SHA = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.sli
 // export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 // Messages
-export const ERROR_MESSAGE = "Something went wrong!";
+export const ERROR_MESSAGE = "Something went wrong! Please, try again.";
 export const SIGN_WALLET = "Please sign in your wallet.";
 export const WRONG_NETWORK = IS_MAINNET
   ? "Please change network to Polygon mainnet."
