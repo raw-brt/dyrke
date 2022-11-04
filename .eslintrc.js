@@ -10,6 +10,7 @@ module.exports = {
       "plugin:react/recommended",
       "plugin:@typescript-eslint/recommended",
       "prettier",
+      "plugin:@tanstack/eslint-plugin-query/recommended"
     ],
     overrides: [],
     parser: "@typescript-eslint/parser",
@@ -17,7 +18,7 @@ module.exports = {
       ecmaVersion: "latest",
       sourceType: "module",
     },
-    plugins: ["react", "react-hooks", "@typescript-eslint", "prettier"],
+    plugins: ["react", "react-hooks", "@typescript-eslint", "prettier", "@tanstack/query"],
     rules: {
       "react/react-in-jsx-scope": "off",
       "spaced-comment": ["error", "always", { markers: ["/"] }],

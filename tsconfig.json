@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -24,14 +20,10 @@
       "@abis/*": ["src/abis/*"],
       "@utils/*": ["src/utils/*"],
       "@lib/*": ["src/lib/*"],
-      "@gql/*": ["src/graphql/*"],
+      "@gql/*": ["src/gql/*"],
       "@generated/*": ["src/generated/*"]
     }
   },
-  "include": [
-    "src",
-    "**/*.ts", 
-    "**/*.tsx",
-  ],
+  "include": ["src", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
