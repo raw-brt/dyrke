@@ -16,6 +16,7 @@ import {
 } from "../../../generated/types";
 import toast from "react-hot-toast";
 import { useAuthStore } from "src/store/auth";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 interface Props {
   setIsConnected: Dispatch<boolean>;
@@ -26,7 +27,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
 
   // Dependencies & State
   const { address, connector: activeConnector } = useAccount();
-  const { connectors, error, connectAsync } = useConnect();
+  const { connectors, error: connectError, connectAsync } = useConnect();
   const signMessage = useSignMessage();
   const { chain } = useNetwork();
   const { isMounted } = useIsMounted();
@@ -107,12 +108,24 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     {
       // Fetch profiles once the auth data is set
       enabled: authState.accessToken !== "",
-      onSuccess: (data) => console.log("Data from profiles is: ", data)
+      cacheTime: Infinity,
+      staleTime: Infinity,
+      onSuccess: (data) => {
+        // If user does not have any Lens profile:
+        if (data?.profiles?.items?.length === 0 ) {
+          setHasLensProfile(false);
+          return;
+        } else {
+          const profiles: any = data?.profiles?.items;
+
+          // Store in Profile store
+          
+        }
+      }
     }
 );
 
   // Private methods
-
   const onConnect = async (connector: Connector) => {
     try {
       const account = await connectAsync({ connector });
@@ -123,18 +136,20 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       // Send message to logger
 
       // Show toast
-
-      console.log(error);
+      toast.error(`${ERROR_MESSAGE}. Details: ${error}`);
     }
   };
 
   const handleSignin = async () => {
     try {
-      // Run the auth workflow
+      // Run the sign in workflow
       await signChallenge.refetch();
 
     } catch (error) {
-      console.log(error);
+      // TODO: Send to logger
+
+      // Show toast
+      toast.error(`${ERROR_MESSAGE}. Details: ${error}`);
     }
   };
 
@@ -168,6 +183,12 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
         ) : (
           <SwitchNetwork />
         )}
+        {(signChallenge.isError || authenticateMutation.isError || getProfiles.isError) && (
+          <div className="flex items-center space-x-1 font-bold text-red-500">
+            <XCircleIcon className="w-5 h-5" />
+          <div>{ERROR_MESSAGE}</div>
+        </div>
+      )}
       </div>
     );
   } else {
@@ -203,6 +224,12 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
             </button>
           );
         })}
+        {connectError?.message ? (
+          <div className="flex items-center space-x-1 text-red-500">
+            <XCircleIcon className="w-5 h-5" />
+            <div>{connectError?.message ?? "Failed to connect"}</div>
+          </div>
+        ) : null}
       </div>
     );
   }
