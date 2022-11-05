@@ -13,10 +13,10 @@ export const Spinner: FC<Props> = ({ className = "", variant = "primary", size =
     <div 
       className={clsx(
         {
-          "border-brand-200 border-t-brand-600": variant === "primary",
+          "border-primary-200 border-t-primary-600": variant === "primary",
           "border-gray-200 border-t-gray-600": variant === "secondary",
-          "border-green-200 border-t-green-600": variant === "success",
-          "border-yellow-200 border-t-yellow-600": variant === "warning",
+          "border-success-200 border-t-success-600": variant === "success",
+          "border-orange-200 border-t-orange-600": variant === "warning",
           "border-red-200 border-t-red-600": variant === "danger",
           "h-4 w-4 border-[2px]": size === "xs",
           "h-5 w-5 border-2": size === "sm",

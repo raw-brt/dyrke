@@ -30,6 +30,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   const signMessage = useSignMessage();
   const { chain } = useNetwork();
   const { isMounted } = useIsMounted();
+  const [isSignatureLoading, setIsSignatureLoading] = useState(false);
 
   // Auth store
   const authState = useAuthStore((state) => state.authState);
@@ -72,16 +73,19 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
 
       // Once the challenge is fetched from the API, sign it and get the pair of tokens.
       onSuccess: async (data) => {
+
+        setIsSignatureLoading(true);
+
         // Sign the challenge
         const signature = await signMessage.signMessageAsync({
-          message: data?.challenge?.text,
+          message: data?.challenge?.text
         });
+
+        setIsSignatureLoading(false);
 
         // Authenticate user
         authenticateMutation.mutate({ request: { address, signature } });
 
-        // Check if there are Lens profiles in the connected account
-        await getProfiles.refetch();
       },
     },
   );
@@ -101,6 +105,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       ownedBy: ["0x7241DDDec3A6aF367882eAF9651b87E1C7549Dff"]
     },
     {
+      // Fetch profiles once the auth data is set
       enabled: authState.accessToken !== "",
       onSuccess: (data) => console.log("Data from profiles is: ", data)
     }
@@ -123,7 +128,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     }
   };
 
-  const handleSignChallenge = async () => {
+  const handleSignin = async () => {
     try {
       // Run the auth workflow
       await signChallenge.refetch();
@@ -138,23 +143,25 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     if (address) setIsConnected(true);
   }, []);
 
-  // If user has connected an account...
+  // Button loading state
+  const isLoading = (signChallenge.isLoading && signChallenge.isFetching) || authenticateMutation.isLoading || (getProfiles.isFetching && getProfiles.isFetching) || isSignatureLoading;
 
+  // If user has connected an account...
   if (activeConnector?.id) {
     return (
       <div className='space-y-3'>
         {chain?.id === CHAIN_ID ? (
           <Button
             size='lg'
-            disabled={signChallenge.isFetching}
+            disabled={isLoading}
             icon={
-              signChallenge.isFetching ? (
+              isLoading ? (
                 <Spinner className='mr-0.5' size='xs' />
               ) : (
                 <img src={LensIcon} className='mr-1 w-5 h-5 text-neutral-900' alt='Lens Isotype' />
               )
             }
-            onClick={() => handleSignChallenge()}
+            onClick={() => handleSignin()}
           >
             Sign-in with Lens
           </Button>
