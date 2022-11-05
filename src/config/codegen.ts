@@ -4,6 +4,7 @@ import { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   schema: MAINNET_API_URL,
   documents: ["src/**/*.tsx"],
+  watch: true,
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     "./src/gql/": {

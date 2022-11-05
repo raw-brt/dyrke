@@ -3307,6 +3307,26 @@ export type WorldcoinIdentity = {
   isHuman: Scalars["Boolean"];
 };
 
+export type ProfileFieldsFragment = {
+  __typename?: "Profile";
+  id: any;
+  name?: string | null;
+  handle: any;
+  bio?: string | null;
+  ownedBy: any;
+  attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+  picture?:
+    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
+    | { __typename?: "NftImage"; uri: any }
+    | null;
+  followModule?:
+    | { __typename: "FeeFollowModuleSettings" }
+    | { __typename: "ProfileFollowModuleSettings" }
+    | { __typename: "RevertFollowModuleSettings" }
+    | { __typename: "UnknownFollowModuleSettings" }
+    | null;
+};
+
 export type StatsFieldsFragment = {
   __typename?: "PublicationStats";
   totalUpvotes: number;
@@ -3333,6 +3353,66 @@ export type ChallengeQuery = {
   challenge: { __typename?: "AuthChallengeResult"; text: string };
 };
 
+export type UserProfilesQueryVariables = Exact<{
+  ownedBy?: InputMaybe<Array<Scalars["EthereumAddress"]> | Scalars["EthereumAddress"]>;
+}>;
+
+export type UserProfilesQuery = {
+  __typename?: "Query";
+  profiles: {
+    __typename?: "PaginatedProfileResult";
+    items: Array<{
+      __typename?: "Profile";
+      isDefault: boolean;
+      id: any;
+      name?: string | null;
+      handle: any;
+      bio?: string | null;
+      ownedBy: any;
+      stats: { __typename?: "ProfileStats"; totalFollowing: number };
+      dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
+      attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+      picture?:
+        | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename?: "NftImage"; uri: any }
+        | null;
+      followModule?:
+        | { __typename: "FeeFollowModuleSettings" }
+        | { __typename: "ProfileFollowModuleSettings" }
+        | { __typename: "RevertFollowModuleSettings" }
+        | { __typename: "UnknownFollowModuleSettings" }
+        | null;
+    }>;
+  };
+  userSigNonces: { __typename?: "UserSigNonces"; lensHubOnChainSigNonce: any };
+};
+
+export const ProfileFieldsFragmentDoc = `
+    fragment ProfileFields on Profile {
+  id
+  name
+  handle
+  bio
+  ownedBy
+  attributes {
+    key
+    value
+  }
+  picture {
+    ... on MediaSet {
+      original {
+        url
+      }
+    }
+    ... on NftImage {
+      uri
+    }
+  }
+  followModule {
+    __typename
+  }
+}
+    `;
 export const StatsFieldsFragmentDoc = `
     fragment StatsFields on PublicationStats {
   totalUpvotes
@@ -3387,6 +3467,40 @@ export const useChallengeQuery = <TData = ChallengeQuery, TError = unknown>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
       ChallengeDocument,
+      variables,
+    ),
+    options,
+  );
+export const UserProfilesDocument = `
+    query UserProfiles($ownedBy: [EthereumAddress!]) {
+  profiles(request: {ownedBy: $ownedBy}) {
+    items {
+      ...ProfileFields
+      stats {
+        totalFollowing
+      }
+      isDefault
+      dispatcher {
+        canUseRelay
+      }
+    }
+  }
+  userSigNonces {
+    lensHubOnChainSigNonce
+  }
+}
+    ${ProfileFieldsFragmentDoc}`;
+export const useUserProfilesQuery = <TData = UserProfilesQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: UserProfilesQueryVariables,
+  options?: UseQueryOptions<UserProfilesQuery, TError, TData>,
+) =>
+  useQuery<UserProfilesQuery, TError, TData>(
+    ["UserProfiles", variables],
+    fetcher<UserProfilesQuery, UserProfilesQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      UserProfilesDocument,
       variables,
     ),
     options,
