@@ -40,9 +40,9 @@ export const AuthenticatedLayout: FC = () => {
     <>
       <div className="flex h-screen w-screen">
         {/* Narrow sidebar */}
-        <div className="hidden w-auto overflow-y-auto bg-neutral-800 backdrop-blur-md md:block">
-          <div className="flex w-full flex-col items-center py-6">
-            <div className="w-full flex flex-shrink-0 justify-start items-center pl-6">
+        <div className="hidden w-auto overflow-y-auto bg-neutral-800 backdrop-blur-md md:block border-r border-neutral-700">
+          <div className="flex w-full flex-col items-center">
+            <div className="w-full h-16 flex flex-shrink-0 justify-start items-center pl-6 border-b border-neutral-700">
               <img
                 className="h-8 w-auto"
                 src={DyrkeImagotype}
@@ -99,7 +99,7 @@ export const AuthenticatedLayout: FC = () => {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-neutral-800 backdrop-blur-md pt-5 pb-4">
+                <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-neutral-800 backdrop-blur-md pb-4">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -109,7 +109,7 @@ export const AuthenticatedLayout: FC = () => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <div className="absolute top-1 right-0 -mr-14 p-1">
+                    <div className="absolute top-1 right-0 p-1">
                       <button
                         type="button"
                         className="flex h-12 w-12 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-100"
@@ -120,7 +120,7 @@ export const AuthenticatedLayout: FC = () => {
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="w-full flex flex-shrink-0 items-center pl-6">
+                  <div className="w-full h-16 flex flex-shrink-0 items-center pl-6 border-b border-neutral-700">
                     <img
                       className="h-8 w-auto"
                       src={DyrkeImagotype}
