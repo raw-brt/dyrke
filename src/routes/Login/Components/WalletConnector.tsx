@@ -17,6 +17,7 @@ import {
 import toast from "react-hot-toast";
 import { useAuthStore } from "src/store/auth";
 import { XCircleIcon } from "@heroicons/react/24/outline";
+import { useProfileStore } from "src/store/profiles";
 
 interface Props {
   setIsConnected: Dispatch<boolean>;
@@ -36,6 +37,12 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   // Auth store
   const authState = useAuthStore((state) => state.authState);
   const setAuthState = useAuthStore((state) => state.setAuthState);
+
+  // Profile store
+  const setProfiles = useProfileStore((state) => state.setProfiles);
+  const setCurrentProfile = useProfileStore((state) => state.setCurrentProfile);
+  const setCurrentProfileId = useProfileStore((state) => state.setCurrentProfileId);
+  const setCurrentProfileHandle = useProfileStore((state) => state.setCurrentProfileHandle);
 
   // Mutations
   const authenticateMutation = useAuthenticateMutation(
@@ -111,16 +118,26 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       cacheTime: Infinity,
       staleTime: Infinity,
       onSuccess: (data) => {
-        // If user does not have any Lens profile:
-        if (data?.profiles?.items?.length === 0 ) {
-          setHasLensProfile(false);
-          return;
-        } else {
-          const profiles: any = data?.profiles?.items;
+        try {
+          // If user does not have any Lens profile:
+          if (data?.profiles?.items?.length === 0 ) {
+            setHasLensProfile(false);
+            return;
+          } else {
+            const profiles: any = data?.profiles?.items;
 
-          // Store in Profile store
-          
-        }
+            // Store in Profile store
+            const currentProfile = profiles[0];
+            setProfiles(profiles);
+            setCurrentProfile(currentProfile);
+            setCurrentProfileId(currentProfile.id);
+            setCurrentProfileHandle(currentProfile.handle);
+          }
+        } catch (error) {
+            // TODO: Send error to logger
+
+            toast.error(`${ERROR_MESSAGE}: ${error}`)
+          }
       }
     }
 );
