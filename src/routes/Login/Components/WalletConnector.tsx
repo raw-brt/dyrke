@@ -4,7 +4,7 @@ import { useAccount, useConnect, useNetwork, useSignMessage } from "wagmi";
 import type { Connector } from "wagmi";
 import { useIsMounted } from "src/hooks/useIsMounted";
 import { getWalletIso } from "../../../lib/getWalletIso";
-import { CHAIN_ID, ERROR_MESSAGE, TESTNET_API_URL } from "src/config/constants";
+import { CHAIN_ID, ERROR_MESSAGE, MAINNET_API_URL } from "src/config/constants";
 import { Button } from "src/components/UI/Button";
 import { Spinner } from "src/components/UI/Spinner";
 import LensIcon from "../../../assets/lens-icon.svg";
@@ -23,8 +23,8 @@ interface Props {
 }
 
 export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }) => {
-  // Dependencies & State
 
+  // Dependencies & State
   const { address, connector: activeConnector } = useAccount();
   const { connectors, error, connectAsync } = useConnect();
   const signMessage = useSignMessage();
@@ -38,7 +38,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   // Mutations
   const authenticateMutation = useAuthenticateMutation(
     {
-      endpoint: TESTNET_API_URL,
+      endpoint: MAINNET_API_URL,
       fetchParams: {
         headers: {
           "Content-Type": "application/json",
@@ -47,6 +47,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     },
     {
       onSuccess: (data) => (
+        // Set auth global state if mutation succeeds
         data?.authenticate?.accessToken && data?.authenticate?.refreshToken
           ? 
             setAuthState(data.authenticate) 
@@ -58,7 +59,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   // Queries
   const signChallenge = useChallengeQuery(
     {
-      endpoint: TESTNET_API_URL,
+      endpoint: MAINNET_API_URL,
       fetchParams: {
         headers: {
           "Content-Type": "application/json",
@@ -79,12 +80,6 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
         // Authenticate user
         authenticateMutation.mutate({ request: { address, signature } });
 
-        // Store tokens
-        setAuthState({
-          accessToken: authenticateMutation?.data?.authenticate?.accessToken,
-          refreshToken: authenticateMutation?.data?.authenticate?.refreshToken,
-        });
-
         // Check if there are Lens profiles in the connected account
         await getProfiles.refetch();
       },
@@ -93,19 +88,20 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
 
   const getProfiles = useUserProfilesQuery(
     {
-      endpoint: TESTNET_API_URL,
+      endpoint: MAINNET_API_URL,
       fetchParams: {
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": authState.accessToken
+          "x-access-token": `Bearer ${authState.accessToken}`
         },
       },
     },
     {
-      ownedBy: [address]
+      // Using Stani's profile for development purposes
+      ownedBy: ["0x7241DDDec3A6aF367882eAF9651b87E1C7549Dff"]
     },
     {
-      enabled: false,
+      enabled: authState.accessToken !== "",
       onSuccess: (data) => console.log("Data from profiles is: ", data)
     }
 );

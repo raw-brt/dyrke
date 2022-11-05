@@ -1,4 +1,3 @@
-/* eslint-disable @tanstack/query/prefer-query-object-syntax */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
@@ -3353,6 +3352,65 @@ export type ChallengeQuery = {
   challenge: { __typename?: "AuthChallengeResult"; text: string };
 };
 
+export type ProfileQueryVariables = Exact<{
+  request: SingleProfileQueryRequest;
+  who?: InputMaybe<Scalars["ProfileId"]>;
+}>;
+
+export type ProfileQuery = {
+  __typename?: "Query";
+  profile?: {
+    __typename?: "Profile";
+    id: any;
+    handle: any;
+    ownedBy: any;
+    name?: string | null;
+    bio?: string | null;
+    metadata?: any | null;
+    followNftAddress?: any | null;
+    isFollowedByMe: boolean;
+    isFollowing: boolean;
+    attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+    dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
+    onChainIdentity: {
+      __typename?: "OnChainIdentity";
+      proofOfHumanity: boolean;
+      sybilDotOrg: {
+        __typename?: "SybilDotOrgIdentity";
+        verified: boolean;
+        source: {
+          __typename?: "SybilDotOrgIdentitySource";
+          twitter: { __typename?: "SybilDotOrgTwitterIdentity"; handle?: string | null };
+        };
+      };
+      ens?: { __typename?: "EnsOnChainIdentity"; name?: any | null } | null;
+      worldcoin: { __typename?: "WorldcoinIdentity"; isHuman: boolean };
+    };
+    stats: {
+      __typename?: "ProfileStats";
+      totalFollowers: number;
+      totalFollowing: number;
+      totalPosts: number;
+      totalComments: number;
+      totalMirrors: number;
+    };
+    picture?:
+      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename?: "NftImage"; uri: any }
+      | null;
+    coverPicture?:
+      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename?: "NftImage" }
+      | null;
+    followModule?:
+      | { __typename: "FeeFollowModuleSettings" }
+      | { __typename: "ProfileFollowModuleSettings" }
+      | { __typename: "RevertFollowModuleSettings" }
+      | { __typename: "UnknownFollowModuleSettings" }
+      | null;
+  } | null;
+};
+
 export type UserProfilesQueryVariables = Exact<{
   ownedBy?: InputMaybe<Array<Scalars["EthereumAddress"]> | Scalars["EthereumAddress"]>;
 }>;
@@ -3471,6 +3529,87 @@ export const useChallengeQuery = <TData = ChallengeQuery, TError = unknown>(
     ),
     options,
   );
+export const ProfileDocument = `
+    query Profile($request: SingleProfileQueryRequest!, $who: ProfileId) {
+  profile(request: $request) {
+    id
+    handle
+    ownedBy
+    name
+    bio
+    metadata
+    followNftAddress
+    isFollowedByMe
+    isFollowing(who: $who)
+    attributes {
+      key
+      value
+    }
+    dispatcher {
+      canUseRelay
+    }
+    onChainIdentity {
+      proofOfHumanity
+      sybilDotOrg {
+        verified
+        source {
+          twitter {
+            handle
+          }
+        }
+      }
+      ens {
+        name
+      }
+      worldcoin {
+        isHuman
+      }
+    }
+    stats {
+      totalFollowers
+      totalFollowing
+      totalPosts
+      totalComments
+      totalMirrors
+    }
+    picture {
+      ... on MediaSet {
+        original {
+          url
+        }
+      }
+      ... on NftImage {
+        uri
+      }
+    }
+    coverPicture {
+      ... on MediaSet {
+        original {
+          url
+        }
+      }
+    }
+    followModule {
+      __typename
+    }
+  }
+}
+    `;
+export const useProfileQuery = <TData = ProfileQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: ProfileQueryVariables,
+  options?: UseQueryOptions<ProfileQuery, TError, TData>,
+) =>
+  useQuery<ProfileQuery, TError, TData>(
+    ["Profile", variables],
+    fetcher<ProfileQuery, ProfileQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      ProfileDocument,
+      variables,
+    ),
+    options,
+  );
 export const UserProfilesDocument = `
     query UserProfiles($ownedBy: [EthereumAddress!]) {
   profiles(request: {ownedBy: $ownedBy}) {
@@ -3496,7 +3635,7 @@ export const useUserProfilesQuery = <TData = UserProfilesQuery, TError = unknown
   options?: UseQueryOptions<UserProfilesQuery, TError, TData>,
 ) =>
   useQuery<UserProfilesQuery, TError, TData>(
-    ["UserProfiles", variables],
+    variables === undefined ? ["UserProfiles"] : ["UserProfiles", variables],
     fetcher<UserProfilesQuery, UserProfilesQueryVariables>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
