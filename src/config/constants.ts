@@ -50,6 +50,7 @@ export const SIGN_ERROR = "Failed to sign data";
 export const STATIC_ASSETS = "https://bnlpauclfbgihmzediqa.supabase.co/storage/v1/object/public/assets";
 export const POLYGONSCAN_URL = IS_MAINNET ? "https://polygonscan.com" : "https://mumbai.polygonscan.com";
 export const LENS_HANDLE_CLAIM = "https://claim.lens.xyz";
+export const IPFS_GATEWAY = "https://lens.infura-ipfs.io/ipfs/";
 
 // Web3
 export const ALCHEMY_KEY = process.env.REACT_APP_ALCHEMY_KEY;

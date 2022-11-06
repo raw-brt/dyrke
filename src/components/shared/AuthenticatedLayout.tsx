@@ -12,20 +12,17 @@ import {
   PencilSquareIcon,
   SparklesIcon,
   UserGroupIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 const sidebarNavigation = [
-  { name: "Performance", href: "#", icon: ChartBarSquareIcon, current: false },
-  { name: "Audience", href: "#", icon: UserGroupIcon, current: false },
-  { name: "Content", href: "#", icon: PencilSquareIcon, current: true },
-  { name: "Insights", href: "#", icon: SparklesIcon, current: false },
-  { name: "Settings", href: "#", icon: CogIcon, current: false },
+  { name: "Performance", href: "/performance", icon: ChartBarSquareIcon, current: true },
+  { name: "Audience", href: "/audience", icon: UserGroupIcon, current: false },
+  { name: "Content", href: "/content", icon: PencilSquareIcon, current: false },
+  { name: "Insights", href: "/insights", icon: SparklesIcon, current: false },
+  { name: "Settings", href: "/settings", icon: CogIcon, current: false },
 ];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export const AuthenticatedLayout: FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,10 +41,10 @@ export const AuthenticatedLayout: FC = () => {
             </div>
             <div className='mt-6 w-full h-full flex-1 space-y-4 px-2'>
               {sidebarNavigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
-                  className={classNames(
+                  to={item.href}
+                  className={clsx(
                     item.current
                       ? "bg-gray-700 text-neutral-100 font-bold"
                       : "text-neutral-100 hover:bg-gray-700 hover:text-neutral-100 hover:font-bold",
@@ -56,7 +53,7 @@ export const AuthenticatedLayout: FC = () => {
                   aria-current={item.current ? "page" : undefined}
                 >
                   <item.icon
-                    className={classNames(
+                    className={clsx(
                       item.current
                         ? "text-primary-500"
                         : "text-primary-600 group-hover:text-primary-500",
@@ -65,7 +62,7 @@ export const AuthenticatedLayout: FC = () => {
                     aria-hidden='true'
                   />
                   <span>{item.name}</span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -141,7 +138,7 @@ export const AuthenticatedLayout: FC = () => {
                           <a
                             key={item.name}
                             href={item.href}
-                            className={classNames(
+                            className={clsx(
                               item.current
                                 ? "bg-gray-700 text-neutral-100 font-bold"
                                 : "text-neutral-100 hover:bg-gray-600 hover:text-neutral-100 hover:font-bold",
@@ -150,7 +147,7 @@ export const AuthenticatedLayout: FC = () => {
                             aria-current={item.current ? "page" : undefined}
                           >
                             <item.icon
-                              className={classNames(
+                              className={clsx(
                                 item.current
                                   ? "text-primary-500"
                                   : "text-primary-600 group-hover:text-primary-500",
@@ -226,7 +223,7 @@ export const AuthenticatedLayout: FC = () => {
                           <a
                             key={item.name}
                             href={item.href}
-                            className={classNames(
+                            className={clsx(
                               item.current
                                 ? "bg-gray-700 text-neutral-100 font-bold"
                                 : "text-neutral-100 hover:bg-gray-600 hover:text-neutral-100 hover:font-bold",
@@ -235,7 +232,7 @@ export const AuthenticatedLayout: FC = () => {
                             aria-current={item.current ? "page" : undefined}
                           >
                             <item.icon
-                              className={classNames(
+                              className={clsx(
                                 item.current
                                   ? "text-primary-500"
                                   : "text-primary-600 group-hover:text-primary-500",

@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { useAuthStore } from "src/store/auth";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { useProfileStore } from "src/store/profiles";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   setIsConnected: Dispatch<boolean>;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }) => {
+
   // Dependencies & State
   const { address, connector: activeConnector } = useAccount();
   const { connectors, error: connectError, connectAsync } = useConnect();
@@ -32,6 +34,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   const { chain } = useNetwork();
   const { isMounted } = useIsMounted();
   const [isSignatureLoading, setIsSignatureLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Auth store
   const authState = useAuthStore((state) => state.authState);
@@ -127,6 +130,9 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
             setCurrentProfile(currentProfile);
             setCurrentProfileId(currentProfile.id);
             setCurrentProfileHandle(currentProfile.handle);
+
+            // Go to dashboard
+            navigate("/performance");
           }
         } catch (error) {
           // TODO: Send error to logger
@@ -156,6 +162,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     try {
       // Run the sign in workflow
       await signChallenge.refetch();
+
     } catch (error) {
       // TODO: Send to logger
 
