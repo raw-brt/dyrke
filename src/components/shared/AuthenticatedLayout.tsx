@@ -118,7 +118,7 @@ export const AuthenticatedLayout: FC = () => {
                     </div>
                   </Transition.Child>
                   <div className='w-96 h-16 flex flex-shrink-0 items-center border-b border-gray-700'>
-                    <div className='flex items-center space-x-4 sm:ml-6 sm:space-x-6'>
+                    <div className='flex items-center space-x-4 ml-5 sm:space-x-6'>
                       {/* Profile dropdown */}
                       <button
                         className='flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
@@ -131,7 +131,7 @@ export const AuthenticatedLayout: FC = () => {
                           alt=''
                         />
                       </button>
-                      <p className='hidden md:flex font-semibold text-primary-500'>@rbart.lens</p>
+                      <p className='md:flex font-semibold text-primary-500'>@rbart.lens</p>
                     </div>
                   </div>
                   <div className='mt-5 h-0 flex-1 overflow-y-auto px-2'>
@@ -270,8 +270,8 @@ export const AuthenticatedLayout: FC = () => {
                 <span className='sr-only'>Open sidebar</span>
                 <Bars3BottomLeftIcon className='h-6 w-6' aria-hidden='true' />
               </button>
-              <div className='flex flex-1 justify-end px-4 sm:px-6'>
-                <div className='ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6'>
+              <div className='flex flex-1 justify-end'>
+                <div className='flex justify-center items-center space-x-4 sm:space-x-6 md:border-none border-l border-gray-700 px-4'>
                   {/* Profile dropdown */}
                   <button
                     className='flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
