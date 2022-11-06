@@ -33,17 +33,17 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
       ref={ref}
       className={clsx(
         {
-          "bg-primary-500 hover:bg-primary-600 text-neutral-900 focus:ring-primary-400 focus:ring-offset-2":
+          "bg-primary-500 hover:bg-primary-600 text-gray-900 focus:ring-primary-400 focus:ring-offset-2":
             !outline && !light && variant === "primary",
-          "bg-gray-500 hover:bg-gray-600 text-neutral-900 focus:ring-gray-400 focus:ring-offset-2":
+          "bg-gray-500 hover:bg-gray-600 text-gray-900 focus:ring-gray-400 focus:ring-offset-2":
             !outline && !light && variant === "secondary",
-          "bg-success-500 hover:bg-success-400 border border-success-600 text-neutral-900 focus:ring-success-400 focus:ring-offset-2":
+          "bg-success-500 hover:bg-success-400 border border-success-600 text-gray-900 focus:ring-success-400 focus:ring-offset-2":
             !outline && !light && variant === "success",
-          "bg-orange-500 hover:bg-orange-400 text-neutral-900 focus:ring-orange-400 focus:ring-offset-2":
+          "bg-orange-500 hover:bg-orange-400 text-gray-900 focus:ring-orange-400 focus:ring-offset-2":
             !outline && !light && variant === "warning",
-          "bg-pink-500 hover:bg-pink-400 border border-pink-600 text-neutral-900 focus:ring-pink-400 focus:ring-offset-2":
+          "bg-pink-500 hover:bg-pink-400 border border-pink-600 text-gray-900 focus:ring-pink-400 focus:ring-offset-2":
             !outline && !light && variant === "super",
-          "bg-red-500 hover:bg-red-400 text-neutral-900 focus:ring-red-400 focus:ring-offset-2":
+          "bg-red-500 hover:bg-red-400 text-gray-900 focus:ring-red-400 focus:ring-offset-2":
             !outline && !light && variant === "danger",
           "text-primary hover:bg-primary-100 focus:ring-primary-400 focus:ring-offset-2":
             outline && !light && variant === "primary",

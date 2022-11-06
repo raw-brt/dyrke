@@ -16,7 +16,7 @@ export const Login: FC = () => {
   return (
     <section className='w-auto h-auto flex flex-col justify-start items-center p-10'>
       <Card 
-        className='bg-neutral-800 border-none rounded-xl max-w-md'
+        className='bg-gray-800 border-none rounded-xl max-w-md'
         >
         <div className='space-y-1'>
 
@@ -27,7 +27,7 @@ export const Login: FC = () => {
                 <>
                   {/* Header */}
 
-                  <div className='w-full h-auto flex justify-start items-center border-b border-neutral-700 p-5'>
+                  <div className='w-full h-auto flex justify-start items-center border-b border-gray-700 p-5'>
                     <LockClosedIcon className='w-6 mr-2 text-primary-500' />
                     <h1 className='text-2xl font-bold text-gray-100'>Login to dyrke</h1>
                   </div>
@@ -45,7 +45,7 @@ export const Login: FC = () => {
                 <>
                   {/* Header */}
 
-                  <div className='w-full h-auto flex justify-start items-center border-b border-neutral-700 p-5'>
+                  <div className='w-full h-auto flex justify-start items-center border-b border-gray-700 p-5'>
                     {
                       chain?.id === CHAIN_ID
                         ? <LockOpenIcon className='w-6 mr-2 text-primary-500' />

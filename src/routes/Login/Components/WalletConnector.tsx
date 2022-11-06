@@ -25,7 +25,6 @@ interface Props {
 }
 
 export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }) => {
-
   // Dependencies & State
   const { address, connector: activeConnector } = useAccount();
   const { connectors, error: connectError, connectAsync } = useConnect();
@@ -55,13 +54,11 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       },
     },
     {
-      onSuccess: (data) => (
+      onSuccess: (data) =>
         // Set auth global state if mutation succeeds
         data?.authenticate?.accessToken && data?.authenticate?.refreshToken
-          ? 
-            setAuthState(data.authenticate) 
-          : console.log(data)
-        )
+          ? setAuthState(data.authenticate)
+          : console.log(data),
     },
   );
 
@@ -81,19 +78,17 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
 
       // Once the challenge is fetched from the API, sign it and get the pair of tokens.
       onSuccess: async (data) => {
-
         setIsSignatureLoading(true);
 
         // Sign the challenge
         const signature = await signMessage.signMessageAsync({
-          message: data?.challenge?.text
+          message: data?.challenge?.text,
         });
 
         setIsSignatureLoading(false);
 
         // Authenticate user
         authenticateMutation.mutate({ request: { address, signature } });
-
       },
     },
   );
@@ -104,13 +99,13 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       fetchParams: {
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": `Bearer ${authState.accessToken}`
+          "x-access-token": `Bearer ${authState.accessToken}`,
         },
       },
     },
     {
       // Using Stani's profile for development purposes
-      ownedBy: ["0x7241DDDec3A6aF367882eAF9651b87E1C7549Dff"]
+      ownedBy: ["0x7241DDDec3A6aF367882eAF9651b87E1C7549Dff"],
     },
     {
       // Fetch profiles once the auth data is set
@@ -120,7 +115,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       onSuccess: (data) => {
         try {
           // If user does not have any Lens profile:
-          if (data?.profiles?.items?.length === 0 ) {
+          if (data?.profiles?.items?.length === 0) {
             setHasLensProfile(false);
             return;
           } else {
@@ -134,13 +129,13 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
             setCurrentProfileHandle(currentProfile.handle);
           }
         } catch (error) {
-            // TODO: Send error to logger
+          // TODO: Send error to logger
 
-            toast.error(`${ERROR_MESSAGE}: ${error}`)
-          }
-      }
-    }
-);
+          toast.error(`${ERROR_MESSAGE}: ${error}`);
+        }
+      },
+    },
+  );
 
   // Private methods
   const onConnect = async (connector: Connector) => {
@@ -161,7 +156,6 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     try {
       // Run the sign in workflow
       await signChallenge.refetch();
-
     } catch (error) {
       // TODO: Send to logger
 
@@ -176,7 +170,11 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   }, []);
 
   // Button loading state
-  const isLoading = (signChallenge.isLoading && signChallenge.isFetching) || authenticateMutation.isLoading || (getProfiles.isFetching && getProfiles.isFetching) || isSignatureLoading;
+  const isLoading =
+    (signChallenge.isLoading && signChallenge.isFetching) ||
+    authenticateMutation.isLoading ||
+    (getProfiles.isFetching && getProfiles.isFetching) ||
+    isSignatureLoading;
 
   // If user has connected an account...
   if (activeConnector?.id) {
@@ -190,7 +188,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
               isLoading ? (
                 <Spinner className='mr-0.5' size='xs' />
               ) : (
-                <img src={LensIcon} className='mr-1 w-5 h-5 text-neutral-900' alt='Lens Isotype' />
+                <img src={LensIcon} className='mr-1 w-5 h-5 text-gray-900' alt='Lens Isotype' />
               )
             }
             onClick={() => handleSignin()}
@@ -201,11 +199,11 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
           <SwitchNetwork />
         )}
         {(signChallenge.isError || authenticateMutation.isError || getProfiles.isError) && (
-          <div className="flex items-center space-x-1 font-bold text-red-500">
-            <XCircleIcon className="w-5 h-5" />
-          <div>{ERROR_MESSAGE}</div>
-        </div>
-      )}
+          <div className='flex items-center space-x-1 font-bold text-red-500'>
+            <XCircleIcon className='w-5 h-5' />
+            <div>{ERROR_MESSAGE}</div>
+          </div>
+        )}
       </div>
     );
   } else {
@@ -218,9 +216,9 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
               type='button'
               className={clsx(
                 {
-                  "hover:bg-neutral-600": connector.id === activeConnector?.id,
+                  "hover:bg-gray-600": connector.id === activeConnector?.id,
                 },
-                "w-full h-auto flex justify-center items-center p-5 text-neutral-100 font-medium text-lg bg-neutral-700 rounded-xl hover:bg-neutral-600 hover:font-bold",
+                "w-full h-auto flex justify-center items-center p-5 text-neutral-100 font-medium text-lg bg-gray-700 rounded-xl hover:bg-gray-600 hover:font-bold",
               )}
               onClick={() => onConnect(connector)}
             >
@@ -242,8 +240,8 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
           );
         })}
         {connectError?.message ? (
-          <div className="flex items-center space-x-1 text-red-500">
-            <XCircleIcon className="w-5 h-5" />
+          <div className='flex items-center space-x-1 text-red-500'>
+            <XCircleIcon className='w-5 h-5' />
             <div>{connectError?.message ?? "Failed to connect"}</div>
           </div>
         ) : null}
