@@ -1,4 +1,4 @@
-import getIPFSLink from "../../lib/getIPFSLink";
+import { getIPFSLink } from "../../lib/getIPFSLink";
 import type { FC } from "react";
 import { STATIC_ASSETS } from "../../config/constants";
 
@@ -7,6 +7,7 @@ interface Props {
 }
 
 const Cover: FC<Props> = ({ cover }) => {
+
   return (
     <div
       className="h-52 sm:h-80"

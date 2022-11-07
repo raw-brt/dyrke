@@ -50,12 +50,14 @@ query Profile($request: SingleProfileQueryRequest!, $who: ProfileId) {
         uri
       }
     }
+    __typename
     coverPicture {
       ... on MediaSet {
         original {
           url
         }
       }
+    __typename
     }
     followModule {
       __typename

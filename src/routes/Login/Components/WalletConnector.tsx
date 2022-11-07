@@ -137,7 +137,6 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
           }
         } catch (error) {
           // TODO: Send error to logger
-
           toast.error(`${ERROR_MESSAGE}: ${error}`);
         }
       },
@@ -153,9 +152,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       }
     } catch (error) {
       // Send message to logger
-
-      // Show toast
-      toast.error(`${ERROR_MESSAGE}. Details: ${error}`);
+      toast.error(ERROR_MESSAGE)
     }
   };
 

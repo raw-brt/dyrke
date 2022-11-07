@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -2411,7 +2410,7 @@ export type PublicationMetadataV1Input = {
   /** A human-readable description of the item. */
   description?: InputMaybe<Scalars["Markdown"]>;
   /**
-   * This is the URL that will appear below the asset's image on OpenSea and others etc
+   * This is the URL that will appear below the asset"s image on OpenSea and others etc
    *       and will allow users to leave OpenSea and view the item on the site.
    */
   external_url?: InputMaybe<Scalars["Url"]>;
@@ -2450,7 +2449,7 @@ export type PublicationMetadataV2Input = {
   /** A human-readable description of the item. */
   description?: InputMaybe<Scalars["Markdown"]>;
   /**
-   * This is the URL that will appear below the asset's image on OpenSea and others etc
+   * This is the URL that will appear below the asset"s image on OpenSea and others etc
    *       and will allow users to leave OpenSea and view the item on the site.
    */
   external_url?: InputMaybe<Scalars["Url"]>;
@@ -3315,8 +3314,8 @@ export type ProfileFieldsFragment = {
   ownedBy: any;
   attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
   picture?:
-    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-    | { __typename?: "NftImage"; uri: any }
+    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+    | { __typename: "NftImage"; uri: any }
     | null;
   followModule?:
     | { __typename: "FeeFollowModuleSettings" }
@@ -3360,7 +3359,7 @@ export type ProfileQueryVariables = Exact<{
 export type ProfileQuery = {
   __typename?: "Query";
   profile?: {
-    __typename?: "Profile";
+    __typename: "Profile";
     id: any;
     handle: any;
     ownedBy: any;
@@ -3399,8 +3398,8 @@ export type ProfileQuery = {
       | { __typename?: "NftImage"; uri: any }
       | null;
     coverPicture?:
-      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-      | { __typename?: "NftImage" }
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage" }
       | null;
     followModule?:
       | { __typename: "FeeFollowModuleSettings" }
@@ -3431,8 +3430,8 @@ export type UserProfilesQuery = {
       dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
       attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
       picture?:
-        | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-        | { __typename?: "NftImage"; uri: any }
+        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename: "NftImage"; uri: any }
         | null;
       followModule?:
         | { __typename: "FeeFollowModuleSettings" }
@@ -3458,11 +3457,13 @@ export const ProfileFieldsFragmentDoc = `
   }
   picture {
     ... on MediaSet {
+      __typename
       original {
         url
       }
     }
     ... on NftImage {
+      __typename
       uri
     }
   }
@@ -3582,12 +3583,14 @@ export const ProfileDocument = `
         uri
       }
     }
+    __typename
     coverPicture {
       ... on MediaSet {
         original {
           url
         }
       }
+      __typename
     }
     followModule {
       __typename

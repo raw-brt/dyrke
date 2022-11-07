@@ -10,11 +10,13 @@ fragment ProfileFields on Profile {
   }
   picture {
     ... on MediaSet {
+      __typename
       original {
         url
       }
     }
     ... on NftImage {
+      __typename
       uri
     }
   }

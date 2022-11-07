@@ -6,7 +6,7 @@ import { IPFS_GATEWAY } from "../config/constants";
  * @returns IPFS link
  */
 
-const getIPFSLink = (hash: string): string => {
+export const getIPFSLink = (hash: string): string => {
   const gateway = IPFS_GATEWAY;
 
   return hash
@@ -14,5 +14,3 @@ const getIPFSLink = (hash: string): string => {
     .replace("https://ipfs.io/ipfs/", gateway)
     .replace("ipfs://", gateway);
 };
-
-export default getIPFSLink;
