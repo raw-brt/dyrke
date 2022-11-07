@@ -20,6 +20,21 @@ fragment ProfileFields on Profile {
       uri
     }
   }
+  coverPicture {
+  ... on NftImage {
+    contractAddress
+    tokenId
+    uri
+    verified
+  }
+  ... on MediaSet {
+    original {
+      url
+      mimeType
+    }
+  }
+  __typename
+}
   followModule {
     __typename
   }

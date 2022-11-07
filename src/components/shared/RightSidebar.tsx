@@ -6,14 +6,18 @@ import { getIPFSLink } from "../../lib/getIPFSLink";
 import { useProfileStore } from "src/store/profiles";
 import { STATIC_ASSETS } from "src/config/constants";
 import { Profile } from "../Profile/Profile";
+import { useRightSidebarState } from "src/store/rightSidebar";
+
 
 interface Props {
   rightSidebarOpen: boolean,
-  setRightSidebarOpen: Dispatch<boolean>
+  setRightSidebarOpen: Dispatch<boolean>,
 }
 
 export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen }) => {
 
+  // Store
+  const sidebarContents = useRightSidebarState((state) => state);
   const { currentProfile } = useProfileStore((state) => state);
   const currentProfileHandle = useProfileStore((state) => state.currentProfileHandle);
 
@@ -85,9 +89,14 @@ export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen 
                 <p className='md:flex font-semibold text-primary-500'>@{currentProfileHandle}</p>
               </div>
             </div>
-            <div className='mt-5 h-0 flex-1 overflow-y-auto px-2'>
-              <Profile />
-            </div>
+            {
+              sidebarContents.whatToShow === "ownProfile" && (
+                <div className='h-0 flex-1 overflow-y-auto'>
+                  <Profile />
+                </div>
+              )
+            }
+
           </Dialog.Panel>
         </Transition.Child>
       </div>

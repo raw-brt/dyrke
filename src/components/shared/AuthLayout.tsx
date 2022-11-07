@@ -84,7 +84,10 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
           </div>
         </div>
 
-        <RightSidebar rightSidebarOpen={rightSidebarOpen} setRightSidebarOpen={setRightSidebarOpen} />
+        <RightSidebar 
+          rightSidebarOpen={rightSidebarOpen} 
+          setRightSidebarOpen={setRightSidebarOpen} 
+        />
 
         <MobileMenu 
           mobileMenuOpen={mobileMenuOpen} 

@@ -2410,7 +2410,7 @@ export type PublicationMetadataV1Input = {
   /** A human-readable description of the item. */
   description?: InputMaybe<Scalars["Markdown"]>;
   /**
-   * This is the URL that will appear below the asset"s image on OpenSea and others etc
+   * This is the URL that will appear below the asset's image on OpenSea and others etc
    *       and will allow users to leave OpenSea and view the item on the site.
    */
   external_url?: InputMaybe<Scalars["Url"]>;
@@ -2449,7 +2449,7 @@ export type PublicationMetadataV2Input = {
   /** A human-readable description of the item. */
   description?: InputMaybe<Scalars["Markdown"]>;
   /**
-   * This is the URL that will appear below the asset"s image on OpenSea and others etc
+   * This is the URL that will appear below the asset's image on OpenSea and others etc
    *       and will allow users to leave OpenSea and view the item on the site.
    */
   external_url?: InputMaybe<Scalars["Url"]>;
@@ -3317,6 +3317,13 @@ export type ProfileFieldsFragment = {
     | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
     | { __typename: "NftImage"; uri: any }
     | null;
+  coverPicture?:
+    | {
+        __typename: "MediaSet";
+        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+      }
+    | { __typename: "NftImage"; contractAddress: any; tokenId: string; uri: any; verified: boolean }
+    | null;
   followModule?:
     | { __typename: "FeeFollowModuleSettings" }
     | { __typename: "ProfileFollowModuleSettings" }
@@ -3433,6 +3440,19 @@ export type UserProfilesQuery = {
         | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
         | { __typename: "NftImage"; uri: any }
         | null;
+      coverPicture?:
+        | {
+            __typename: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }
+        | {
+            __typename: "NftImage";
+            contractAddress: any;
+            tokenId: string;
+            uri: any;
+            verified: boolean;
+          }
+        | null;
       followModule?:
         | { __typename: "FeeFollowModuleSettings" }
         | { __typename: "ProfileFollowModuleSettings" }
@@ -3466,6 +3486,21 @@ export const ProfileFieldsFragmentDoc = `
       __typename
       uri
     }
+  }
+  coverPicture {
+    ... on NftImage {
+      contractAddress
+      tokenId
+      uri
+      verified
+    }
+    ... on MediaSet {
+      original {
+        url
+        mimeType
+      }
+    }
+    __typename
   }
   followModule {
     __typename

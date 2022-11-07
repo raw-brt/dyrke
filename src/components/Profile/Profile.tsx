@@ -87,31 +87,17 @@ import Cover from "./Cover";
 export const Profile: FC = () => {
 
   // State & Dependencies
-  const currentProfileId = useProfileStore((state) => state.currentProfileId);
-  const authState = useAuthStore((state) => state.authState);
+  const currentProfile = useProfileStore((state) => state.currentProfile);
 
-  // Queries
-  const getProfile = useProfileQuery(
-    {
-      endpoint: MAINNET_API_URL,
-      fetchParams: {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": `Bearer ${authState.accessToken}`,
-        },
-      },
-    },
-    {
-      request: { profileId: currentProfileId }
-    }
-  );
+  console.log(currentProfile)
+
 
   return (
     <>
       <Cover
         cover={
-          getProfile.isSuccess && getProfile?.data?.profile?.coverPicture?.__typename === "MediaSet"
-            ? getProfile?.data?.profile?.coverPicture?.original?.url
+          currentProfile?.coverPicture?.__typename === "MediaSet"
+            ? currentProfile?.coverPicture?.original?.url
             : `${STATIC_ASSETS}/patterns/2.svg`
         }
       />
