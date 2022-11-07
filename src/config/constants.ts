@@ -51,6 +51,7 @@ export const STATIC_ASSETS = "https://bnlpauclfbgihmzediqa.supabase.co/storage/v
 export const POLYGONSCAN_URL = IS_MAINNET ? "https://polygonscan.com" : "https://mumbai.polygonscan.com";
 export const LENS_HANDLE_CLAIM = "https://claim.lens.xyz";
 export const IPFS_GATEWAY = "https://lens.infura-ipfs.io/ipfs/";
+export const NOT_FOUND_GIF = "https://bnlpauclfbgihmzediqa.supabase.co/storage/v1/object/public/assets/gifs/confused-travolta.gif?t=2022-11-07T12%3A08%3A48.829Z"; 
 
 // Web3
 export const ALCHEMY_KEY = process.env.REACT_APP_ALCHEMY_KEY;

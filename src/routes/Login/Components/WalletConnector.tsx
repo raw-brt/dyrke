@@ -108,6 +108,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     },
     {
       // Using Stani's profile for development purposes
+      // ownedBy: address,
       ownedBy: ["0x7241DDDec3A6aF367882eAF9651b87E1C7549Dff"],
     },
     {

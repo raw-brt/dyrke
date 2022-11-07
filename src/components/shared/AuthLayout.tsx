@@ -16,6 +16,7 @@ import {
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { Profile } from "../Profile/Profile";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -137,34 +138,7 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
                     </div>
                   </div>
                   <div className='mt-5 h-0 flex-1 overflow-y-auto px-2'>
-                    <nav className='flex h-full flex-col'>
-                      <div className='space-y-4'>
-                        {sidebarNavigation.map((item) => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className={clsx(
-                              item.current
-                                ? "bg-gray-700 text-neutral-100 font-bold"
-                                : "text-neutral-100 hover:bg-gray-600 hover:text-neutral-100 hover:font-bold",
-                              "group py-2 px-3 rounded-md flex items-center text-base",
-                            )}
-                            aria-current={item.current ? "page" : undefined}
-                          >
-                            <item.icon
-                              className={clsx(
-                                item.current
-                                  ? "text-primary-500"
-                                  : "text-primary-600 group-hover:text-primary-500",
-                                "mr-3 h-6 w-6",
-                              )}
-                              aria-hidden='true'
-                            />
-                            <span>{item.name}</span>
-                          </a>
-                        ))}
-                      </div>
-                    </nav>
+                    <Profile />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

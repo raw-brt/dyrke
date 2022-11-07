@@ -77,7 +77,7 @@
 //   );
 // };
 
-import { useProfileQuery } from "@generated/types";
+import { useProfileQuery } from "../../generated/types";
 import type { FC } from "react";
 import { MAINNET_API_URL, STATIC_ASSETS } from "src/config/constants";
 import { useAuthStore } from "src/store/auth";
@@ -104,7 +104,7 @@ export const Profile: FC = () => {
     {
       request: { profileId: currentProfileId }
     }
-  )
+  );
 
   return (
     <>

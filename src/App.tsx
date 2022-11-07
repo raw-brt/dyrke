@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Custom404 } from "./routes/404";
 import { Login } from "./routes/Login/Login";
 import { useProfileStore } from "./store/profiles";
 
@@ -25,7 +26,7 @@ const App: FC = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="performance" element={<p>Home</p>} />
         </Route>
-        <Route path='*' element={<p>404</p>} />
+        <Route path='*' element={<Custom404 />} />
       </Routes>
     </Layout>
   );

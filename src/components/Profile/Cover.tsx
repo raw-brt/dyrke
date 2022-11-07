@@ -1,4 +1,4 @@
-import getIPFSLink from "@lib/getIPFSLink";
+import getIPFSLink from "../../lib/getIPFSLink";
 import type { FC } from "react";
 import { STATIC_ASSETS } from "../../config/constants";
 
