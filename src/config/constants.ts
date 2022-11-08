@@ -36,7 +36,7 @@ export const GIT_COMMIT_SHA = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.sli
 // Misc
 // export const CONTACT_EMAIL = "support@lenster.xyz";
 // export const RELAY_ON = process.env.NEXT_PUBLIC_RELAY_ON === "true";
-// export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 // Messages
 export const ERROR_MESSAGE = "Something went wrong! Please, try again.";
@@ -113,10 +113,3 @@ export const SCROLL_THRESHOLD = 0.5;
 export const AVATAR = "avatar";
 export const COVER = "cover";
 export const ATTACHMENT = "attachment";
-
-// Localstorage keys
-// export const LS_KEYS = {
-//   LENSTER_STORE: "lenster.store",
-//   TRANSACTION_STORE: "transaction.store",
-//   TIMELINE_STORE: "timeline.store"
-// };

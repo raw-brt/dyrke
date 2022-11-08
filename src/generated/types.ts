@@ -3358,6 +3358,108 @@ export type ChallengeQuery = {
   challenge: { __typename?: "AuthChallengeResult"; text: string };
 };
 
+export type FollowersQueryVariables = Exact<{
+  request: FollowersRequest;
+}>;
+
+export type FollowersQuery = {
+  __typename?: "Query";
+  followers: {
+    __typename?: "PaginatedFollowersResult";
+    items: Array<{
+      __typename?: "Follower";
+      totalAmountOfTimesFollowed: number;
+      wallet: {
+        __typename?: "Wallet";
+        address: any;
+        defaultProfile?: {
+          __typename?: "Profile";
+          isFollowedByMe: boolean;
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+          picture?:
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
+            | null;
+          coverPicture?:
+            | {
+                __typename: "MediaSet";
+                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+              }
+            | {
+                __typename: "NftImage";
+                contractAddress: any;
+                tokenId: string;
+                uri: any;
+                verified: boolean;
+              }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        } | null;
+      };
+    }>;
+    pageInfo: { __typename?: "PaginatedResultInfo"; next?: any | null; totalCount?: number | null };
+  };
+};
+
+export type FollowingQueryVariables = Exact<{
+  request: FollowingRequest;
+}>;
+
+export type FollowingQuery = {
+  __typename?: "Query";
+  following: {
+    __typename?: "PaginatedFollowingResult";
+    items: Array<{
+      __typename?: "Following";
+      totalAmountOfTimesFollowing: number;
+      profile: {
+        __typename?: "Profile";
+        isFollowedByMe: boolean;
+        id: any;
+        name?: string | null;
+        handle: any;
+        bio?: string | null;
+        ownedBy: any;
+        attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+        picture?:
+          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+          | { __typename: "NftImage"; uri: any }
+          | null;
+        coverPicture?:
+          | {
+              __typename: "MediaSet";
+              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+            }
+          | {
+              __typename: "NftImage";
+              contractAddress: any;
+              tokenId: string;
+              uri: any;
+              verified: boolean;
+            }
+          | null;
+        followModule?:
+          | { __typename: "FeeFollowModuleSettings" }
+          | { __typename: "ProfileFollowModuleSettings" }
+          | { __typename: "RevertFollowModuleSettings" }
+          | { __typename: "UnknownFollowModuleSettings" }
+          | null;
+      };
+    }>;
+    pageInfo: { __typename?: "PaginatedResultInfo"; next?: any | null; totalCount?: number | null };
+  };
+};
+
 export type ProfileQueryVariables = Exact<{
   request: SingleProfileQueryRequest;
   who?: InputMaybe<Scalars["ProfileId"]>;
@@ -3561,6 +3663,73 @@ export const useChallengeQuery = <TData = ChallengeQuery, TError = unknown>(
       dataSource.endpoint,
       dataSource.fetchParams || {},
       ChallengeDocument,
+      variables,
+    ),
+    options,
+  );
+export const FollowersDocument = `
+    query Followers($request: FollowersRequest!) {
+  followers(request: $request) {
+    items {
+      wallet {
+        address
+        defaultProfile {
+          ...ProfileFields
+          isFollowedByMe
+        }
+      }
+      totalAmountOfTimesFollowed
+    }
+    pageInfo {
+      next
+      totalCount
+    }
+  }
+}
+    ${ProfileFieldsFragmentDoc}`;
+export const useFollowersQuery = <TData = FollowersQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: FollowersQueryVariables,
+  options?: UseQueryOptions<FollowersQuery, TError, TData>,
+) =>
+  useQuery<FollowersQuery, TError, TData>(
+    ["Followers", variables],
+    fetcher<FollowersQuery, FollowersQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      FollowersDocument,
+      variables,
+    ),
+    options,
+  );
+export const FollowingDocument = `
+    query Following($request: FollowingRequest!) {
+  following(request: $request) {
+    items {
+      profile {
+        ...ProfileFields
+        isFollowedByMe
+      }
+      totalAmountOfTimesFollowing
+    }
+    pageInfo {
+      next
+      totalCount
+    }
+  }
+}
+    ${ProfileFieldsFragmentDoc}`;
+export const useFollowingQuery = <TData = FollowingQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: FollowingQueryVariables,
+  options?: UseQueryOptions<FollowingQuery, TError, TData>,
+) =>
+  useQuery<FollowingQuery, TError, TData>(
+    ["Following", variables],
+    fetcher<FollowingQuery, FollowingQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      FollowingDocument,
       variables,
     ),
     options,

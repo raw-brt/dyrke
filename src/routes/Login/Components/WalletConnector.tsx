@@ -19,6 +19,7 @@ import { useAuthStore } from "src/store/auth";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { useProfileStore } from "src/store/profiles";
 import { useNavigate } from "react-router-dom";
+import { getAuthProperties, getUnauthProperties } from "@lib/getFetchOptions";
 
 interface Props {
   setIsConnected: Dispatch<boolean>;
@@ -48,14 +49,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
 
   // Mutations
   const authenticateMutation = useAuthenticateMutation(
-    {
-      endpoint: MAINNET_API_URL,
-      fetchParams: {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    },
+    getUnauthProperties(MAINNET_API_URL),
     {
       onSuccess: (data) =>
         // Set auth global state if mutation succeeds
@@ -67,14 +61,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
 
   // Queries
   const signChallenge = useChallengeQuery(
-    {
-      endpoint: MAINNET_API_URL,
-      fetchParams: {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    },
+    getUnauthProperties(MAINNET_API_URL),
     { request: { address } },
     {
       enabled: false,
@@ -97,15 +84,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   );
 
   const getProfiles = useUserProfilesQuery(
-    {
-      endpoint: MAINNET_API_URL,
-      fetchParams: {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": `Bearer ${authState.accessToken}`,
-        },
-      },
-    },
+    getAuthProperties(MAINNET_API_URL, authState?.accessToken),
     {
       // Using Stani's profile for development purposes
       // ownedBy: address,
