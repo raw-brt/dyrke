@@ -20,10 +20,6 @@ export const DEFAULT_COLLECT_TOKEN = getEnvConfig().defaultCollectToken;
 
 export const IS_MAINNET = API_URL === MAINNET_API_URL;
 
-// XMTP
-// export const XMTP_ENV = IS_MAINNET ? "production" : "dev";
-// export const XMTP_PREFIX = "lens.dev/dm";
-
 // Application
 export const APP_NAME = "dyrke";
 export const DESCRIPTION =
@@ -45,6 +41,7 @@ export const WRONG_NETWORK = IS_MAINNET
   ? "Please change network to Polygon mainnet."
   : "Please change network to Polygon Mumbai testnet.";
 export const SIGN_ERROR = "Failed to sign data";
+export const UNDER_DEVELOPMENT = "This feature is under development."
 
 // URLs
 export const STATIC_ASSETS = "https://bnlpauclfbgihmzediqa.supabase.co/storage/v1/object/public/assets";
@@ -88,18 +85,18 @@ export const ALL_HANDLES_REGEX = /([\s+])@(\S+)/g;
 export const HANDLE_SANITIZE_REGEX = /[^\d .A-Za-z]/g;
 
 // Utils
-// export const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-// export const ALLOWED_AUDIO_TYPES = [
-//   "audio/mpeg",
-//   "audio/wav",
-//   "audio/mp4",
-//   "audio/aac",
-//   "audio/ogg",
-//   "audio/webm",
-//   "audio/flac"
-// ];
-// export const ALLOWED_VIDEO_TYPES = ["video/mp4", "video/mpeg", "video/ogg", "video/webm", "video/quicktime"];
-// export const ALLOWED_MEDIA_TYPES = [...ALLOWED_VIDEO_TYPES, ...ALLOWED_IMAGE_TYPES, ...ALLOWED_AUDIO_TYPES];
+export const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+export const ALLOWED_AUDIO_TYPES = [
+  "audio/mpeg",
+  "audio/wav",
+  "audio/mp4",
+  "audio/aac",
+  "audio/ogg",
+  "audio/webm",
+  "audio/flac"
+];
+export const ALLOWED_VIDEO_TYPES = ["video/mp4", "video/mpeg", "video/ogg", "video/webm", "video/quicktime"];
+export const ALLOWED_MEDIA_TYPES = [...ALLOWED_VIDEO_TYPES, ...ALLOWED_IMAGE_TYPES, ...ALLOWED_AUDIO_TYPES];
 
 // Bundlr
 // export const BUNDLR_CURRENCY = "matic";

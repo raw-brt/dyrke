@@ -8,7 +8,7 @@ import { CHAIN_ID, ERROR_MESSAGE, MAINNET_API_URL } from "src/config/constants";
 import { Button } from "src/components/UI/Button";
 import { Spinner } from "src/components/UI/Spinner";
 import LensIcon from "../../../assets/lens-icon.svg";
-import { SwitchNetwork } from "src/components/shared/SwitchNetwork";
+import { SwitchNetwork } from "src/components/Shared/SwitchNetwork";
 import {
   useAuthenticateMutation,
   useChallengeQuery,
@@ -19,7 +19,7 @@ import { useAuthStore } from "src/store/auth";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { useProfileStore } from "src/store/profiles";
 import { useNavigate } from "react-router-dom";
-import { getAuthProperties, getUnauthProperties } from "@lib/getFetchOptions";
+import { getAuthProperties, getUnauthProperties } from "../../../lib/getFetchOptions";
 
 interface Props {
   setIsConnected: Dispatch<boolean>;
@@ -27,7 +27,6 @@ interface Props {
 }
 
 export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }) => {
-
   // Dependencies & State
   const { address, connector: activeConnector } = useAccount();
   const { connectors, error: connectError, connectAsync } = useConnect();
@@ -48,16 +47,13 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
   const setCurrentProfileHandle = useProfileStore((state) => state.setCurrentProfileHandle);
 
   // Mutations
-  const authenticateMutation = useAuthenticateMutation(
-    getUnauthProperties(MAINNET_API_URL),
-    {
-      onSuccess: (data) =>
-        // Set auth global state if mutation succeeds
-        data?.authenticate?.accessToken && data?.authenticate?.refreshToken
-          ? setAuthState(data.authenticate)
-          : console.log(data),
-    },
-  );
+  const authenticateMutation = useAuthenticateMutation(getUnauthProperties(MAINNET_API_URL), {
+    onSuccess: (data) =>
+      // Set auth global state if mutation succeeds
+      data?.authenticate?.accessToken && data?.authenticate?.refreshToken
+        ? setAuthState(data.authenticate)
+        : console.log(data),
+  });
 
   // Queries
   const signChallenge = useChallengeQuery(
@@ -131,7 +127,7 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
       }
     } catch (error) {
       // Send message to logger
-      toast.error(ERROR_MESSAGE)
+      toast.error(ERROR_MESSAGE);
     }
   };
 
@@ -139,7 +135,6 @@ export const WalletConnector: FC<Props> = ({ setIsConnected, setHasLensProfile }
     try {
       // Run the sign in workflow
       await signChallenge.refetch();
-
     } catch (error) {
       // TODO: Send to logger
 

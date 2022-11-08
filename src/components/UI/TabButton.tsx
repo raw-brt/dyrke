@@ -1,4 +1,4 @@
-import nFormatter from "@lib/nFormatter";
+import nFormatter from "../../lib/nFormatter";
 import clsx from "clsx";
 import type { FC, ReactNode } from "react";
 

@@ -1,19 +1,19 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, useState } from "react";
 import { STATIC_ASSETS } from "src/config/constants";
 import { useProfileStore } from "src/store/profiles";
-import { GridItemFour, GridLayout } from "../UI/GridLayout";
+import { GridItemEight, GridItemFour, GridLayout } from "../UI/GridLayout";
 import Cover from "./Cover";
+import { Details } from "./Details";
+import { FeedSelector } from "./FeedSelector";
+import { Feed } from "../Profile/Feed";
 
-type FeedType = "PUBLICATIONS" | "REPLIES" | "MEDIA";
+type FeedType = "FEED" | "REPLIES" | "MEDIA";
 
 export const Profile: FC = () => {
-  const [feedType, setFeedType] = useState<FeedType>("PUBLICATIONS");
+  const [feedType, setFeedType] = useState<FeedType>("FEED");
 
   // State & Dependencies
   const currentProfile = useProfileStore((state) => state.currentProfile);
-
-  console.log(currentProfile)
-
 
   return (
     <>
@@ -26,8 +26,18 @@ export const Profile: FC = () => {
       />
       <GridLayout className="pt-6">
         <GridItemFour>
-
+          <Details profile={currentProfile as any} />
         </GridItemFour>
+        <GridItemEight className="space-y-5">
+          <FeedSelector
+            stats={currentProfile?.stats as any}
+            feedType={feedType}
+            setFeedType={setFeedType as Dispatch<string>}
+          />
+          {(feedType === "FEED" || feedType === "REPLIES" || feedType === "MEDIA") && (
+            <Feed profile={currentProfile as any} type={feedType} />
+          )}
+        </GridItemEight>
       </GridLayout>
     </>
   );

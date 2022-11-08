@@ -96,7 +96,6 @@ export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen 
                 </div>
               )
             }
-
           </Dialog.Panel>
         </Transition.Child>
       </div>
