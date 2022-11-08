@@ -13,15 +13,17 @@ const config: CodegenConfig = {
   generates: {
     "src/generated/types.ts": {
       plugins: [
-        "typescript", 
-        "typescript-operations", 
-        "typescript-react-query"
+        "typescript",
+        "typescript-operations",
+        "typescript-react-query",
+        "typescript-resolvers",
       ],
       config: {
-        fetcher: "fetch"
-      }
-    }
-  }
+        fetcher: "fetch",
+        dedupeFragments: true,
+      },
+    },
+  },
 };
 
 export default config;

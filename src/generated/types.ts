@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/ban-types */
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from "graphql";
 import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 
 function fetcher<TData, TVariables>(
   endpoint: string,
@@ -7990,10 +7994,7 @@ export const PostFieldsFragmentDoc = `
   createdAt
   appId
 }
-    ${ProfileFieldsFragmentDoc}
-${CollectModuleFieldsFragmentDoc}
-${StatsFieldsFragmentDoc}
-${MetadataFieldsFragmentDoc}`;
+    `;
 export const MirrorFieldsFragmentDoc = `
     fragment MirrorFields on Mirror {
   id
@@ -8043,11 +8044,7 @@ export const MirrorFieldsFragmentDoc = `
   createdAt
   appId
 }
-    ${ProfileFieldsFragmentDoc}
-${CollectModuleFieldsFragmentDoc}
-${StatsFieldsFragmentDoc}
-${MetadataFieldsFragmentDoc}
-${PostFieldsFragmentDoc}`;
+    `;
 export const CommentFieldsFragmentDoc = `
     fragment CommentFields on Comment {
   id
@@ -8130,12 +8127,7 @@ export const CommentFieldsFragmentDoc = `
     }
   }
 }
-    ${ProfileFieldsFragmentDoc}
-${CollectModuleFieldsFragmentDoc}
-${StatsFieldsFragmentDoc}
-${MetadataFieldsFragmentDoc}
-${PostFieldsFragmentDoc}
-${MirrorFieldsFragmentDoc}`;
+    `;
 export const AuthenticateDocument = `
     mutation Authenticate($request: SignedAuthChallenge!) {
   authenticate(request: $request) {
@@ -8357,6 +8349,10 @@ export const ProfileFeedDocument = `
   }
 }
     ${PostFieldsFragmentDoc}
+${ProfileFieldsFragmentDoc}
+${CollectModuleFieldsFragmentDoc}
+${StatsFieldsFragmentDoc}
+${MetadataFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
 ${MirrorFieldsFragmentDoc}`;
 export const useProfileFeedQuery = <TData = ProfileFeedQuery, TError = unknown>(
@@ -8408,3 +8404,3833 @@ export const useUserProfilesQuery = <TData = UserProfilesQuery, TError = unknown
     ),
     options,
   );
+
+export type ResolverTypeWrapper<T> = Promise<T> | T;
+
+export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
+  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
+};
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+
+export type ResolverFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => Promise<TResult> | TResult;
+
+export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
+
+export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => TResult | Promise<TResult>;
+
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> {
+  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
+}
+
+export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<any, TParent, TContext, TArgs>;
+  resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
+}
+
+export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
+  | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
+  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
+
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> =
+  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+  | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
+
+export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
+  parent: TParent,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
+
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
+
+export type NextResolverFn<T> = () => Promise<T>;
+
+export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
+  next: NextResolverFn<TResult>,
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => TResult | Promise<TResult>;
+
+/** Mapping between all available schema types and the resolvers types */
+export type ResolversTypes = {
+  AchRequest: AchRequest;
+  AllPublicationsTagsRequest: AllPublicationsTagsRequest;
+  ApprovedAllowanceAmount: ResolverTypeWrapper<ApprovedAllowanceAmount>;
+  ApprovedModuleAllowanceAmountRequest: ApprovedModuleAllowanceAmountRequest;
+  Attribute: ResolverTypeWrapper<Attribute>;
+  AuthChallengeResult: ResolverTypeWrapper<AuthChallengeResult>;
+  AuthenticationResult: ResolverTypeWrapper<AuthenticationResult>;
+  BlockchainData: ResolverTypeWrapper<Scalars["BlockchainData"]>;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  BroadcastId: ResolverTypeWrapper<Scalars["BroadcastId"]>;
+  BroadcastRequest: BroadcastRequest;
+  BurnProfileRequest: BurnProfileRequest;
+  CanCommentResponse: ResolverTypeWrapper<CanCommentResponse>;
+  CanMirrorResponse: ResolverTypeWrapper<CanMirrorResponse>;
+  ChainId: ResolverTypeWrapper<Scalars["ChainId"]>;
+  ChallengeRequest: ChallengeRequest;
+  ClaimHandleRequest: ClaimHandleRequest;
+  ClaimStatus: ClaimStatus;
+  ClaimableHandles: ResolverTypeWrapper<ClaimableHandles>;
+  CollectModule:
+    | ResolversTypes["FeeCollectModuleSettings"]
+    | ResolversTypes["FreeCollectModuleSettings"]
+    | ResolversTypes["LimitedFeeCollectModuleSettings"]
+    | ResolversTypes["LimitedTimedFeeCollectModuleSettings"]
+    | ResolversTypes["RevertCollectModuleSettings"]
+    | ResolversTypes["TimedFeeCollectModuleSettings"]
+    | ResolversTypes["UnknownCollectModuleSettings"];
+  CollectModuleData: ResolverTypeWrapper<Scalars["CollectModuleData"]>;
+  CollectModuleParams: CollectModuleParams;
+  CollectModules: CollectModules;
+  CollectProxyAction: CollectProxyAction;
+  CollectedEvent: ResolverTypeWrapper<CollectedEvent>;
+  Comment: ResolverTypeWrapper<
+    Omit<Comment, "collectModule" | "commentOn" | "mainPost" | "referenceModule"> & {
+      collectModule: ResolversTypes["CollectModule"];
+      commentOn?: Maybe<ResolversTypes["Publication"]>;
+      mainPost: ResolversTypes["MainPostReference"];
+      referenceModule?: Maybe<ResolversTypes["ReferenceModule"]>;
+    }
+  >;
+  ContractAddress: ResolverTypeWrapper<Scalars["ContractAddress"]>;
+  CreateBurnEIP712TypedData: ResolverTypeWrapper<CreateBurnEip712TypedData>;
+  CreateBurnEIP712TypedDataTypes: ResolverTypeWrapper<CreateBurnEip712TypedDataTypes>;
+  CreateBurnEIP712TypedDataValue: ResolverTypeWrapper<CreateBurnEip712TypedDataValue>;
+  CreateBurnProfileBroadcastItemResult: ResolverTypeWrapper<CreateBurnProfileBroadcastItemResult>;
+  CreateCollectBroadcastItemResult: ResolverTypeWrapper<CreateCollectBroadcastItemResult>;
+  CreateCollectEIP712TypedData: ResolverTypeWrapper<CreateCollectEip712TypedData>;
+  CreateCollectEIP712TypedDataTypes: ResolverTypeWrapper<CreateCollectEip712TypedDataTypes>;
+  CreateCollectEIP712TypedDataValue: ResolverTypeWrapper<CreateCollectEip712TypedDataValue>;
+  CreateCollectRequest: CreateCollectRequest;
+  CreateCommentBroadcastItemResult: ResolverTypeWrapper<CreateCommentBroadcastItemResult>;
+  CreateCommentEIP712TypedData: ResolverTypeWrapper<CreateCommentEip712TypedData>;
+  CreateCommentEIP712TypedDataTypes: ResolverTypeWrapper<CreateCommentEip712TypedDataTypes>;
+  CreateCommentEIP712TypedDataValue: ResolverTypeWrapper<CreateCommentEip712TypedDataValue>;
+  CreateFollowBroadcastItemResult: ResolverTypeWrapper<CreateFollowBroadcastItemResult>;
+  CreateFollowEIP712TypedData: ResolverTypeWrapper<CreateFollowEip712TypedData>;
+  CreateFollowEIP712TypedDataTypes: ResolverTypeWrapper<CreateFollowEip712TypedDataTypes>;
+  CreateFollowEIP712TypedDataValue: ResolverTypeWrapper<CreateFollowEip712TypedDataValue>;
+  CreateHandle: ResolverTypeWrapper<Scalars["CreateHandle"]>;
+  CreateMirrorBroadcastItemResult: ResolverTypeWrapper<CreateMirrorBroadcastItemResult>;
+  CreateMirrorEIP712TypedData: ResolverTypeWrapper<CreateMirrorEip712TypedData>;
+  CreateMirrorEIP712TypedDataTypes: ResolverTypeWrapper<CreateMirrorEip712TypedDataTypes>;
+  CreateMirrorEIP712TypedDataValue: ResolverTypeWrapper<CreateMirrorEip712TypedDataValue>;
+  CreateMirrorRequest: CreateMirrorRequest;
+  CreatePostBroadcastItemResult: ResolverTypeWrapper<CreatePostBroadcastItemResult>;
+  CreatePostEIP712TypedData: ResolverTypeWrapper<CreatePostEip712TypedData>;
+  CreatePostEIP712TypedDataTypes: ResolverTypeWrapper<CreatePostEip712TypedDataTypes>;
+  CreatePostEIP712TypedDataValue: ResolverTypeWrapper<CreatePostEip712TypedDataValue>;
+  CreateProfileRequest: CreateProfileRequest;
+  CreatePublicCommentRequest: CreatePublicCommentRequest;
+  CreatePublicPostRequest: CreatePublicPostRequest;
+  CreatePublicSetProfileMetadataURIRequest: CreatePublicSetProfileMetadataUriRequest;
+  CreateSetDefaultProfileRequest: CreateSetDefaultProfileRequest;
+  CreateSetDispatcherBroadcastItemResult: ResolverTypeWrapper<CreateSetDispatcherBroadcastItemResult>;
+  CreateSetDispatcherEIP712TypedData: ResolverTypeWrapper<CreateSetDispatcherEip712TypedData>;
+  CreateSetDispatcherEIP712TypedDataTypes: ResolverTypeWrapper<CreateSetDispatcherEip712TypedDataTypes>;
+  CreateSetDispatcherEIP712TypedDataValue: ResolverTypeWrapper<CreateSetDispatcherEip712TypedDataValue>;
+  CreateSetFollowModuleBroadcastItemResult: ResolverTypeWrapper<CreateSetFollowModuleBroadcastItemResult>;
+  CreateSetFollowModuleEIP712TypedData: ResolverTypeWrapper<CreateSetFollowModuleEip712TypedData>;
+  CreateSetFollowModuleEIP712TypedDataTypes: ResolverTypeWrapper<CreateSetFollowModuleEip712TypedDataTypes>;
+  CreateSetFollowModuleEIP712TypedDataValue: ResolverTypeWrapper<CreateSetFollowModuleEip712TypedDataValue>;
+  CreateSetFollowModuleRequest: CreateSetFollowModuleRequest;
+  CreateSetFollowNFTUriBroadcastItemResult: ResolverTypeWrapper<CreateSetFollowNftUriBroadcastItemResult>;
+  CreateSetFollowNFTUriEIP712TypedData: ResolverTypeWrapper<CreateSetFollowNftUriEip712TypedData>;
+  CreateSetFollowNFTUriEIP712TypedDataTypes: ResolverTypeWrapper<CreateSetFollowNftUriEip712TypedDataTypes>;
+  CreateSetFollowNFTUriEIP712TypedDataValue: ResolverTypeWrapper<CreateSetFollowNftUriEip712TypedDataValue>;
+  CreateSetFollowNFTUriRequest: CreateSetFollowNftUriRequest;
+  CreateSetProfileImageUriBroadcastItemResult: ResolverTypeWrapper<CreateSetProfileImageUriBroadcastItemResult>;
+  CreateSetProfileImageUriEIP712TypedData: ResolverTypeWrapper<CreateSetProfileImageUriEip712TypedData>;
+  CreateSetProfileImageUriEIP712TypedDataTypes: ResolverTypeWrapper<CreateSetProfileImageUriEip712TypedDataTypes>;
+  CreateSetProfileImageUriEIP712TypedDataValue: ResolverTypeWrapper<CreateSetProfileImageUriEip712TypedDataValue>;
+  CreateSetProfileMetadataURIBroadcastItemResult: ResolverTypeWrapper<CreateSetProfileMetadataUriBroadcastItemResult>;
+  CreateSetProfileMetadataURIEIP712TypedData: ResolverTypeWrapper<CreateSetProfileMetadataUrieip712TypedData>;
+  CreateSetProfileMetadataURIEIP712TypedDataTypes: ResolverTypeWrapper<CreateSetProfileMetadataUrieip712TypedDataTypes>;
+  CreateSetProfileMetadataURIEIP712TypedDataValue: ResolverTypeWrapper<CreateSetProfileMetadataUrieip712TypedDataValue>;
+  CreateToggleFollowBroadcastItemResult: ResolverTypeWrapper<CreateToggleFollowBroadcastItemResult>;
+  CreateToggleFollowEIP712TypedData: ResolverTypeWrapper<CreateToggleFollowEip712TypedData>;
+  CreateToggleFollowEIP712TypedDataTypes: ResolverTypeWrapper<CreateToggleFollowEip712TypedDataTypes>;
+  CreateToggleFollowEIP712TypedDataValue: ResolverTypeWrapper<CreateToggleFollowEip712TypedDataValue>;
+  CreateToggleFollowRequest: CreateToggleFollowRequest;
+  CreateUnfollowBroadcastItemResult: ResolverTypeWrapper<CreateUnfollowBroadcastItemResult>;
+  Cursor: ResolverTypeWrapper<Scalars["Cursor"]>;
+  CustomFiltersTypes: CustomFiltersTypes;
+  DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
+  DefaultProfileRequest: DefaultProfileRequest;
+  DegreesOfSeparationReferenceModuleParams: DegreesOfSeparationReferenceModuleParams;
+  DegreesOfSeparationReferenceModuleSettings: ResolverTypeWrapper<DegreesOfSeparationReferenceModuleSettings>;
+  Dispatcher: ResolverTypeWrapper<Dispatcher>;
+  DoesFollow: DoesFollow;
+  DoesFollowRequest: DoesFollowRequest;
+  DoesFollowResponse: ResolverTypeWrapper<DoesFollowResponse>;
+  EIP712TypedDataDomain: ResolverTypeWrapper<Eip712TypedDataDomain>;
+  EIP712TypedDataField: ResolverTypeWrapper<Eip712TypedDataField>;
+  ElectedMirror: ResolverTypeWrapper<ElectedMirror>;
+  EnabledModule: ResolverTypeWrapper<EnabledModule>;
+  EnabledModules: ResolverTypeWrapper<EnabledModules>;
+  Ens: ResolverTypeWrapper<Scalars["Ens"]>;
+  EnsOnChainIdentity: ResolverTypeWrapper<EnsOnChainIdentity>;
+  Erc20: ResolverTypeWrapper<Erc20>;
+  Erc20Amount: ResolverTypeWrapper<Erc20Amount>;
+  EthereumAddress: ResolverTypeWrapper<Scalars["EthereumAddress"]>;
+  ExploreProfileResult: ResolverTypeWrapper<ExploreProfileResult>;
+  ExploreProfilesRequest: ExploreProfilesRequest;
+  ExplorePublicationRequest: ExplorePublicationRequest;
+  ExplorePublicationResult: ResolverTypeWrapper<
+    Omit<ExplorePublicationResult, "items"> & { items: Array<ResolversTypes["Publication"]> }
+  >;
+  FeeCollectModuleParams: FeeCollectModuleParams;
+  FeeCollectModuleSettings: ResolverTypeWrapper<FeeCollectModuleSettings>;
+  FeeFollowModuleParams: FeeFollowModuleParams;
+  FeeFollowModuleRedeemParams: FeeFollowModuleRedeemParams;
+  FeeFollowModuleSettings: ResolverTypeWrapper<FeeFollowModuleSettings>;
+  FeedEventItemType: FeedEventItemType;
+  FeedHighlightsRequest: FeedHighlightsRequest;
+  FeedItem: ResolverTypeWrapper<Omit<FeedItem, "root"> & { root: ResolversTypes["FeedItemRoot"] }>;
+  FeedItemRoot: ResolversTypes["Comment"] | ResolversTypes["Post"];
+  FeedRequest: FeedRequest;
+  Float: ResolverTypeWrapper<Scalars["Float"]>;
+  Follow: Follow;
+  FollowModule:
+    | ResolversTypes["FeeFollowModuleSettings"]
+    | ResolversTypes["ProfileFollowModuleSettings"]
+    | ResolversTypes["RevertFollowModuleSettings"]
+    | ResolversTypes["UnknownFollowModuleSettings"];
+  FollowModuleData: ResolverTypeWrapper<Scalars["FollowModuleData"]>;
+  FollowModuleParams: FollowModuleParams;
+  FollowModuleRedeemParams: FollowModuleRedeemParams;
+  FollowModules: FollowModules;
+  FollowOnlyReferenceModuleSettings: ResolverTypeWrapper<FollowOnlyReferenceModuleSettings>;
+  FollowProxyAction: FollowProxyAction;
+  FollowRequest: FollowRequest;
+  FollowRevenueResult: ResolverTypeWrapper<FollowRevenueResult>;
+  Follower: ResolverTypeWrapper<Follower>;
+  FollowerNftOwnedTokenIds: ResolverTypeWrapper<FollowerNftOwnedTokenIds>;
+  FollowerNftOwnedTokenIdsRequest: FollowerNftOwnedTokenIdsRequest;
+  FollowersRequest: FollowersRequest;
+  Following: ResolverTypeWrapper<Following>;
+  FollowingRequest: FollowingRequest;
+  FraudReasonInputParams: FraudReasonInputParams;
+  FreeCollectModuleParams: FreeCollectModuleParams;
+  FreeCollectModuleSettings: ResolverTypeWrapper<FreeCollectModuleSettings>;
+  FreeCollectProxyAction: FreeCollectProxyAction;
+  FreeFollowProxyAction: FreeFollowProxyAction;
+  GenerateModuleCurrencyApproval: ResolverTypeWrapper<GenerateModuleCurrencyApproval>;
+  GenerateModuleCurrencyApprovalDataRequest: GenerateModuleCurrencyApprovalDataRequest;
+  GetPublicationMetadataStatusRequest: GetPublicationMetadataStatusRequest;
+  GlobalProtocolStats: ResolverTypeWrapper<GlobalProtocolStats>;
+  GlobalProtocolStatsRequest: GlobalProtocolStatsRequest;
+  Handle: ResolverTypeWrapper<Scalars["Handle"]>;
+  HandleClaimIdScalar: ResolverTypeWrapper<Scalars["HandleClaimIdScalar"]>;
+  HasTxHashBeenIndexedRequest: HasTxHashBeenIndexedRequest;
+  HidePublicationRequest: HidePublicationRequest;
+  IllegalReasonInputParams: IllegalReasonInputParams;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
+  InternalPublicationId: ResolverTypeWrapper<Scalars["InternalPublicationId"]>;
+  InternalPublicationsFilterRequest: InternalPublicationsFilterRequest;
+  Jwt: ResolverTypeWrapper<Scalars["Jwt"]>;
+  LimitScalar: ResolverTypeWrapper<Scalars["LimitScalar"]>;
+  LimitedFeeCollectModuleParams: LimitedFeeCollectModuleParams;
+  LimitedFeeCollectModuleSettings: ResolverTypeWrapper<LimitedFeeCollectModuleSettings>;
+  LimitedTimedFeeCollectModuleParams: LimitedTimedFeeCollectModuleParams;
+  LimitedTimedFeeCollectModuleSettings: ResolverTypeWrapper<LimitedTimedFeeCollectModuleSettings>;
+  Locale: ResolverTypeWrapper<Scalars["Locale"]>;
+  Log: ResolverTypeWrapper<Log>;
+  MainPostReference: ResolversTypes["Mirror"] | ResolversTypes["Post"];
+  Markdown: ResolverTypeWrapper<Scalars["Markdown"]>;
+  Media: ResolverTypeWrapper<Media>;
+  MediaSet: ResolverTypeWrapper<MediaSet>;
+  MentionPublication: ResolversTypes["Comment"] | ResolversTypes["Post"];
+  MetadataAttributeInput: MetadataAttributeInput;
+  MetadataAttributeOutput: ResolverTypeWrapper<MetadataAttributeOutput>;
+  MetadataOutput: ResolverTypeWrapper<MetadataOutput>;
+  MimeType: ResolverTypeWrapper<Scalars["MimeType"]>;
+  Mirror: ResolverTypeWrapper<
+    Omit<Mirror, "collectModule" | "mirrorOf" | "referenceModule"> & {
+      collectModule: ResolversTypes["CollectModule"];
+      mirrorOf: ResolversTypes["MirrorablePublication"];
+      referenceModule?: Maybe<ResolversTypes["ReferenceModule"]>;
+    }
+  >;
+  MirrorEvent: ResolverTypeWrapper<MirrorEvent>;
+  MirrorablePublication: ResolversTypes["Comment"] | ResolversTypes["Post"];
+  ModuleFeeAmount: ResolverTypeWrapper<ModuleFeeAmount>;
+  ModuleFeeAmountParams: ModuleFeeAmountParams;
+  ModuleInfo: ResolverTypeWrapper<ModuleInfo>;
+  Mutation: ResolverTypeWrapper<{}>;
+  MutualFollowersProfilesQueryRequest: MutualFollowersProfilesQueryRequest;
+  NFT: ResolverTypeWrapper<Nft>;
+  NFTContent: ResolverTypeWrapper<NftContent>;
+  NFTData: NftData;
+  NFTsRequest: NfTsRequest;
+  NFTsResult: ResolverTypeWrapper<NfTsResult>;
+  NewCollectNotification: ResolverTypeWrapper<
+    Omit<NewCollectNotification, "collectedPublication"> & {
+      collectedPublication: ResolversTypes["Publication"];
+    }
+  >;
+  NewCommentNotification: ResolverTypeWrapper<NewCommentNotification>;
+  NewFollowerNotification: ResolverTypeWrapper<NewFollowerNotification>;
+  NewMentionNotification: ResolverTypeWrapper<
+    Omit<NewMentionNotification, "mentionPublication"> & {
+      mentionPublication: ResolversTypes["MentionPublication"];
+    }
+  >;
+  NewMirrorNotification: ResolverTypeWrapper<
+    Omit<NewMirrorNotification, "publication"> & {
+      publication: ResolversTypes["MirrorablePublication"];
+    }
+  >;
+  NewReactionNotification: ResolverTypeWrapper<
+    Omit<NewReactionNotification, "publication"> & { publication: ResolversTypes["Publication"] }
+  >;
+  NftImage: ResolverTypeWrapper<NftImage>;
+  NftOwnershipChallenge: NftOwnershipChallenge;
+  NftOwnershipChallengeRequest: NftOwnershipChallengeRequest;
+  NftOwnershipChallengeResult: ResolverTypeWrapper<NftOwnershipChallengeResult>;
+  NftOwnershipId: ResolverTypeWrapper<Scalars["NftOwnershipId"]>;
+  Nonce: ResolverTypeWrapper<Scalars["Nonce"]>;
+  Notification:
+    | ResolversTypes["NewCollectNotification"]
+    | ResolversTypes["NewCommentNotification"]
+    | ResolversTypes["NewFollowerNotification"]
+    | ResolversTypes["NewMentionNotification"]
+    | ResolversTypes["NewMirrorNotification"]
+    | ResolversTypes["NewReactionNotification"];
+  NotificationId: ResolverTypeWrapper<Scalars["NotificationId"]>;
+  NotificationRequest: NotificationRequest;
+  NotificationTypes: NotificationTypes;
+  OnChainIdentity: ResolverTypeWrapper<OnChainIdentity>;
+  Owner: ResolverTypeWrapper<Owner>;
+  PaginatedAllPublicationsTagsResult: ResolverTypeWrapper<PaginatedAllPublicationsTagsResult>;
+  PaginatedFeedResult: ResolverTypeWrapper<PaginatedFeedResult>;
+  PaginatedFollowersResult: ResolverTypeWrapper<PaginatedFollowersResult>;
+  PaginatedFollowingResult: ResolverTypeWrapper<PaginatedFollowingResult>;
+  PaginatedNotificationResult: ResolverTypeWrapper<
+    Omit<PaginatedNotificationResult, "items"> & { items: Array<ResolversTypes["Notification"]> }
+  >;
+  PaginatedProfilePublicationsForSaleResult: ResolverTypeWrapper<
+    Omit<PaginatedProfilePublicationsForSaleResult, "items"> & {
+      items: Array<ResolversTypes["PublicationForSale"]>;
+    }
+  >;
+  PaginatedProfileResult: ResolverTypeWrapper<PaginatedProfileResult>;
+  PaginatedPublicationResult: ResolverTypeWrapper<
+    Omit<PaginatedPublicationResult, "items"> & { items: Array<ResolversTypes["Publication"]> }
+  >;
+  PaginatedResultInfo: ResolverTypeWrapper<PaginatedResultInfo>;
+  PaginatedTimelineResult: ResolverTypeWrapper<
+    Omit<PaginatedTimelineResult, "items"> & { items: Array<ResolversTypes["Publication"]> }
+  >;
+  PaginatedWhoCollectedResult: ResolverTypeWrapper<PaginatedWhoCollectedResult>;
+  PaginatedWhoReactedResult: ResolverTypeWrapper<PaginatedWhoReactedResult>;
+  PendingApprovalFollowsRequest: PendingApprovalFollowsRequest;
+  PendingApproveFollowsResult: ResolverTypeWrapper<PendingApproveFollowsResult>;
+  Post: ResolverTypeWrapper<
+    Omit<Post, "collectModule" | "referenceModule"> & {
+      collectModule: ResolversTypes["CollectModule"];
+      referenceModule?: Maybe<ResolversTypes["ReferenceModule"]>;
+    }
+  >;
+  Profile: ResolverTypeWrapper<
+    Omit<Profile, "coverPicture" | "followModule" | "picture"> & {
+      coverPicture?: Maybe<ResolversTypes["ProfileMedia"]>;
+      followModule?: Maybe<ResolversTypes["FollowModule"]>;
+      picture?: Maybe<ResolversTypes["ProfileMedia"]>;
+    }
+  >;
+  ProfileFollowModuleBeenRedeemedRequest: ProfileFollowModuleBeenRedeemedRequest;
+  ProfileFollowModuleRedeemParams: ProfileFollowModuleRedeemParams;
+  ProfileFollowModuleSettings: ResolverTypeWrapper<ProfileFollowModuleSettings>;
+  ProfileFollowRevenueQueryRequest: ProfileFollowRevenueQueryRequest;
+  ProfileId: ResolverTypeWrapper<Scalars["ProfileId"]>;
+  ProfileMedia: ResolversTypes["MediaSet"] | ResolversTypes["NftImage"];
+  ProfileOnChainIdentityRequest: ProfileOnChainIdentityRequest;
+  ProfilePublicationRevenueQueryRequest: ProfilePublicationRevenueQueryRequest;
+  ProfilePublicationRevenueResult: ResolverTypeWrapper<ProfilePublicationRevenueResult>;
+  ProfilePublicationsForSaleRequest: ProfilePublicationsForSaleRequest;
+  ProfileQueryRequest: ProfileQueryRequest;
+  ProfileSearchResult: ResolverTypeWrapper<ProfileSearchResult>;
+  ProfileSortCriteria: ProfileSortCriteria;
+  ProfileStats: ResolverTypeWrapper<ProfileStats>;
+  ProxyActionError: ResolverTypeWrapper<ProxyActionError>;
+  ProxyActionId: ResolverTypeWrapper<Scalars["ProxyActionId"]>;
+  ProxyActionQueued: ResolverTypeWrapper<ProxyActionQueued>;
+  ProxyActionRequest: ProxyActionRequest;
+  ProxyActionStatusResult: ResolverTypeWrapper<ProxyActionStatusResult>;
+  ProxyActionStatusResultUnion:
+    | ResolversTypes["ProxyActionError"]
+    | ResolversTypes["ProxyActionQueued"]
+    | ResolversTypes["ProxyActionStatusResult"];
+  ProxyActionStatusTypes: ProxyActionStatusTypes;
+  Publication: ResolversTypes["Comment"] | ResolversTypes["Mirror"] | ResolversTypes["Post"];
+  PublicationContentWarning: PublicationContentWarning;
+  PublicationForSale: ResolversTypes["Comment"] | ResolversTypes["Post"];
+  PublicationId: ResolverTypeWrapper<Scalars["PublicationId"]>;
+  PublicationMainFocus: PublicationMainFocus;
+  PublicationMetadataContentWarningFilter: PublicationMetadataContentWarningFilter;
+  PublicationMetadataDisplayTypes: PublicationMetadataDisplayTypes;
+  PublicationMetadataFilters: PublicationMetadataFilters;
+  PublicationMetadataMediaInput: PublicationMetadataMediaInput;
+  PublicationMetadataStatus: ResolverTypeWrapper<PublicationMetadataStatus>;
+  PublicationMetadataStatusType: PublicationMetadataStatusType;
+  PublicationMetadataTagsFilter: PublicationMetadataTagsFilter;
+  PublicationMetadataV1Input: PublicationMetadataV1Input;
+  PublicationMetadataV2Input: PublicationMetadataV2Input;
+  PublicationQueryRequest: PublicationQueryRequest;
+  PublicationReportingFraudSubreason: PublicationReportingFraudSubreason;
+  PublicationReportingIllegalSubreason: PublicationReportingIllegalSubreason;
+  PublicationReportingReason: PublicationReportingReason;
+  PublicationReportingSensitiveSubreason: PublicationReportingSensitiveSubreason;
+  PublicationReportingSpamSubreason: PublicationReportingSpamSubreason;
+  PublicationRevenue: ResolverTypeWrapper<
+    Omit<PublicationRevenue, "publication"> & { publication: ResolversTypes["Publication"] }
+  >;
+  PublicationRevenueQueryRequest: PublicationRevenueQueryRequest;
+  PublicationSearchResult: ResolverTypeWrapper<
+    Omit<PublicationSearchResult, "items"> & {
+      items: Array<ResolversTypes["PublicationSearchResultItem"]>;
+    }
+  >;
+  PublicationSearchResultItem: ResolversTypes["Comment"] | ResolversTypes["Post"];
+  PublicationSignatureContextInput: PublicationSignatureContextInput;
+  PublicationSortCriteria: PublicationSortCriteria;
+  PublicationStats: ResolverTypeWrapper<PublicationStats>;
+  PublicationTag: ResolverTypeWrapper<Scalars["PublicationTag"]>;
+  PublicationTypes: PublicationTypes;
+  PublicationUrl: ResolverTypeWrapper<Scalars["PublicationUrl"]>;
+  PublicationValidateMetadataResult: ResolverTypeWrapper<PublicationValidateMetadataResult>;
+  PublicationsQueryRequest: PublicationsQueryRequest;
+  Query: ResolverTypeWrapper<{}>;
+  ReactionEvent: ResolverTypeWrapper<ReactionEvent>;
+  ReactionFieldResolverRequest: ReactionFieldResolverRequest;
+  ReactionId: ResolverTypeWrapper<Scalars["ReactionId"]>;
+  ReactionRequest: ReactionRequest;
+  ReactionTypes: ReactionTypes;
+  RecommendedProfileOptions: RecommendedProfileOptions;
+  ReferenceModule:
+    | ResolversTypes["DegreesOfSeparationReferenceModuleSettings"]
+    | ResolversTypes["FollowOnlyReferenceModuleSettings"]
+    | ResolversTypes["UnknownReferenceModuleSettings"];
+  ReferenceModuleData: ResolverTypeWrapper<Scalars["ReferenceModuleData"]>;
+  ReferenceModuleParams: ReferenceModuleParams;
+  ReferenceModules: ReferenceModules;
+  RefreshRequest: RefreshRequest;
+  RelRequest: RelRequest;
+  RelayError: ResolverTypeWrapper<RelayError>;
+  RelayErrorReasons: RelayErrorReasons;
+  RelayResult: ResolversTypes["RelayError"] | ResolversTypes["RelayerResult"];
+  RelayerResult: ResolverTypeWrapper<RelayerResult>;
+  ReportPublicationRequest: ReportPublicationRequest;
+  ReportingReasonInputParams: ReportingReasonInputParams;
+  ReservedClaimableHandle: ResolverTypeWrapper<ReservedClaimableHandle>;
+  RevenueAggregate: ResolverTypeWrapper<RevenueAggregate>;
+  RevertCollectModuleSettings: ResolverTypeWrapper<RevertCollectModuleSettings>;
+  RevertFollowModuleSettings: ResolverTypeWrapper<RevertFollowModuleSettings>;
+  Search: ResolverTypeWrapper<Scalars["Search"]>;
+  SearchQueryRequest: SearchQueryRequest;
+  SearchRequestTypes: SearchRequestTypes;
+  SearchResult: ResolversTypes["ProfileSearchResult"] | ResolversTypes["PublicationSearchResult"];
+  SensitiveReasonInputParams: SensitiveReasonInputParams;
+  SetDefaultProfileBroadcastItemResult: ResolverTypeWrapper<SetDefaultProfileBroadcastItemResult>;
+  SetDefaultProfileEIP712TypedData: ResolverTypeWrapper<SetDefaultProfileEip712TypedData>;
+  SetDefaultProfileEIP712TypedDataTypes: ResolverTypeWrapper<SetDefaultProfileEip712TypedDataTypes>;
+  SetDefaultProfileEIP712TypedDataValue: ResolverTypeWrapper<SetDefaultProfileEip712TypedDataValue>;
+  SetDispatcherRequest: SetDispatcherRequest;
+  Signature: ResolverTypeWrapper<Scalars["Signature"]>;
+  SignedAuthChallenge: SignedAuthChallenge;
+  SingleProfileQueryRequest: SingleProfileQueryRequest;
+  Sources: ResolverTypeWrapper<Scalars["Sources"]>;
+  SpamReasonInputParams: SpamReasonInputParams;
+  String: ResolverTypeWrapper<Scalars["String"]>;
+  SybilDotOrgIdentity: ResolverTypeWrapper<SybilDotOrgIdentity>;
+  SybilDotOrgIdentitySource: ResolverTypeWrapper<SybilDotOrgIdentitySource>;
+  SybilDotOrgTwitterIdentity: ResolverTypeWrapper<SybilDotOrgTwitterIdentity>;
+  TagResult: ResolverTypeWrapper<TagResult>;
+  TagSortCriteria: TagSortCriteria;
+  TimedFeeCollectModuleParams: TimedFeeCollectModuleParams;
+  TimedFeeCollectModuleSettings: ResolverTypeWrapper<TimedFeeCollectModuleSettings>;
+  TimelineRequest: TimelineRequest;
+  TimelineType: TimelineType;
+  TimestampScalar: ResolverTypeWrapper<Scalars["TimestampScalar"]>;
+  TransactionError: ResolverTypeWrapper<TransactionError>;
+  TransactionErrorReasons: TransactionErrorReasons;
+  TransactionIndexedResult: ResolverTypeWrapper<TransactionIndexedResult>;
+  TransactionReceipt: ResolverTypeWrapper<TransactionReceipt>;
+  TransactionResult:
+    | ResolversTypes["TransactionError"]
+    | ResolversTypes["TransactionIndexedResult"];
+  TxHash: ResolverTypeWrapper<Scalars["TxHash"]>;
+  TxId: ResolverTypeWrapper<Scalars["TxId"]>;
+  TypedDataOptions: TypedDataOptions;
+  UnfollowRequest: UnfollowRequest;
+  UnixTimestamp: ResolverTypeWrapper<Scalars["UnixTimestamp"]>;
+  UnknownCollectModuleParams: UnknownCollectModuleParams;
+  UnknownCollectModuleSettings: ResolverTypeWrapper<UnknownCollectModuleSettings>;
+  UnknownFollowModuleParams: UnknownFollowModuleParams;
+  UnknownFollowModuleRedeemParams: UnknownFollowModuleRedeemParams;
+  UnknownFollowModuleSettings: ResolverTypeWrapper<UnknownFollowModuleSettings>;
+  UnknownReferenceModuleParams: UnknownReferenceModuleParams;
+  UnknownReferenceModuleSettings: ResolverTypeWrapper<UnknownReferenceModuleSettings>;
+  UpdateProfileImageRequest: UpdateProfileImageRequest;
+  Url: ResolverTypeWrapper<Scalars["Url"]>;
+  UserSigNonces: ResolverTypeWrapper<UserSigNonces>;
+  ValidatePublicationMetadataRequest: ValidatePublicationMetadataRequest;
+  VerifyRequest: VerifyRequest;
+  Void: ResolverTypeWrapper<Scalars["Void"]>;
+  Wallet: ResolverTypeWrapper<Wallet>;
+  WhoCollectedPublicationRequest: WhoCollectedPublicationRequest;
+  WhoReactedPublicationRequest: WhoReactedPublicationRequest;
+  WhoReactedResult: ResolverTypeWrapper<WhoReactedResult>;
+  WorldcoinIdentity: ResolverTypeWrapper<WorldcoinIdentity>;
+};
+
+/** Mapping between all available schema types and the resolvers parents */
+export type ResolversParentTypes = {
+  AchRequest: AchRequest;
+  AllPublicationsTagsRequest: AllPublicationsTagsRequest;
+  ApprovedAllowanceAmount: ApprovedAllowanceAmount;
+  ApprovedModuleAllowanceAmountRequest: ApprovedModuleAllowanceAmountRequest;
+  Attribute: Attribute;
+  AuthChallengeResult: AuthChallengeResult;
+  AuthenticationResult: AuthenticationResult;
+  BlockchainData: Scalars["BlockchainData"];
+  Boolean: Scalars["Boolean"];
+  BroadcastId: Scalars["BroadcastId"];
+  BroadcastRequest: BroadcastRequest;
+  BurnProfileRequest: BurnProfileRequest;
+  CanCommentResponse: CanCommentResponse;
+  CanMirrorResponse: CanMirrorResponse;
+  ChainId: Scalars["ChainId"];
+  ChallengeRequest: ChallengeRequest;
+  ClaimHandleRequest: ClaimHandleRequest;
+  ClaimableHandles: ClaimableHandles;
+  CollectModule:
+    | ResolversParentTypes["FeeCollectModuleSettings"]
+    | ResolversParentTypes["FreeCollectModuleSettings"]
+    | ResolversParentTypes["LimitedFeeCollectModuleSettings"]
+    | ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"]
+    | ResolversParentTypes["RevertCollectModuleSettings"]
+    | ResolversParentTypes["TimedFeeCollectModuleSettings"]
+    | ResolversParentTypes["UnknownCollectModuleSettings"];
+  CollectModuleData: Scalars["CollectModuleData"];
+  CollectModuleParams: CollectModuleParams;
+  CollectProxyAction: CollectProxyAction;
+  CollectedEvent: CollectedEvent;
+  Comment: Omit<Comment, "collectModule" | "commentOn" | "mainPost" | "referenceModule"> & {
+    collectModule: ResolversParentTypes["CollectModule"];
+    commentOn?: Maybe<ResolversParentTypes["Publication"]>;
+    mainPost: ResolversParentTypes["MainPostReference"];
+    referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]>;
+  };
+  ContractAddress: Scalars["ContractAddress"];
+  CreateBurnEIP712TypedData: CreateBurnEip712TypedData;
+  CreateBurnEIP712TypedDataTypes: CreateBurnEip712TypedDataTypes;
+  CreateBurnEIP712TypedDataValue: CreateBurnEip712TypedDataValue;
+  CreateBurnProfileBroadcastItemResult: CreateBurnProfileBroadcastItemResult;
+  CreateCollectBroadcastItemResult: CreateCollectBroadcastItemResult;
+  CreateCollectEIP712TypedData: CreateCollectEip712TypedData;
+  CreateCollectEIP712TypedDataTypes: CreateCollectEip712TypedDataTypes;
+  CreateCollectEIP712TypedDataValue: CreateCollectEip712TypedDataValue;
+  CreateCollectRequest: CreateCollectRequest;
+  CreateCommentBroadcastItemResult: CreateCommentBroadcastItemResult;
+  CreateCommentEIP712TypedData: CreateCommentEip712TypedData;
+  CreateCommentEIP712TypedDataTypes: CreateCommentEip712TypedDataTypes;
+  CreateCommentEIP712TypedDataValue: CreateCommentEip712TypedDataValue;
+  CreateFollowBroadcastItemResult: CreateFollowBroadcastItemResult;
+  CreateFollowEIP712TypedData: CreateFollowEip712TypedData;
+  CreateFollowEIP712TypedDataTypes: CreateFollowEip712TypedDataTypes;
+  CreateFollowEIP712TypedDataValue: CreateFollowEip712TypedDataValue;
+  CreateHandle: Scalars["CreateHandle"];
+  CreateMirrorBroadcastItemResult: CreateMirrorBroadcastItemResult;
+  CreateMirrorEIP712TypedData: CreateMirrorEip712TypedData;
+  CreateMirrorEIP712TypedDataTypes: CreateMirrorEip712TypedDataTypes;
+  CreateMirrorEIP712TypedDataValue: CreateMirrorEip712TypedDataValue;
+  CreateMirrorRequest: CreateMirrorRequest;
+  CreatePostBroadcastItemResult: CreatePostBroadcastItemResult;
+  CreatePostEIP712TypedData: CreatePostEip712TypedData;
+  CreatePostEIP712TypedDataTypes: CreatePostEip712TypedDataTypes;
+  CreatePostEIP712TypedDataValue: CreatePostEip712TypedDataValue;
+  CreateProfileRequest: CreateProfileRequest;
+  CreatePublicCommentRequest: CreatePublicCommentRequest;
+  CreatePublicPostRequest: CreatePublicPostRequest;
+  CreatePublicSetProfileMetadataURIRequest: CreatePublicSetProfileMetadataUriRequest;
+  CreateSetDefaultProfileRequest: CreateSetDefaultProfileRequest;
+  CreateSetDispatcherBroadcastItemResult: CreateSetDispatcherBroadcastItemResult;
+  CreateSetDispatcherEIP712TypedData: CreateSetDispatcherEip712TypedData;
+  CreateSetDispatcherEIP712TypedDataTypes: CreateSetDispatcherEip712TypedDataTypes;
+  CreateSetDispatcherEIP712TypedDataValue: CreateSetDispatcherEip712TypedDataValue;
+  CreateSetFollowModuleBroadcastItemResult: CreateSetFollowModuleBroadcastItemResult;
+  CreateSetFollowModuleEIP712TypedData: CreateSetFollowModuleEip712TypedData;
+  CreateSetFollowModuleEIP712TypedDataTypes: CreateSetFollowModuleEip712TypedDataTypes;
+  CreateSetFollowModuleEIP712TypedDataValue: CreateSetFollowModuleEip712TypedDataValue;
+  CreateSetFollowModuleRequest: CreateSetFollowModuleRequest;
+  CreateSetFollowNFTUriBroadcastItemResult: CreateSetFollowNftUriBroadcastItemResult;
+  CreateSetFollowNFTUriEIP712TypedData: CreateSetFollowNftUriEip712TypedData;
+  CreateSetFollowNFTUriEIP712TypedDataTypes: CreateSetFollowNftUriEip712TypedDataTypes;
+  CreateSetFollowNFTUriEIP712TypedDataValue: CreateSetFollowNftUriEip712TypedDataValue;
+  CreateSetFollowNFTUriRequest: CreateSetFollowNftUriRequest;
+  CreateSetProfileImageUriBroadcastItemResult: CreateSetProfileImageUriBroadcastItemResult;
+  CreateSetProfileImageUriEIP712TypedData: CreateSetProfileImageUriEip712TypedData;
+  CreateSetProfileImageUriEIP712TypedDataTypes: CreateSetProfileImageUriEip712TypedDataTypes;
+  CreateSetProfileImageUriEIP712TypedDataValue: CreateSetProfileImageUriEip712TypedDataValue;
+  CreateSetProfileMetadataURIBroadcastItemResult: CreateSetProfileMetadataUriBroadcastItemResult;
+  CreateSetProfileMetadataURIEIP712TypedData: CreateSetProfileMetadataUrieip712TypedData;
+  CreateSetProfileMetadataURIEIP712TypedDataTypes: CreateSetProfileMetadataUrieip712TypedDataTypes;
+  CreateSetProfileMetadataURIEIP712TypedDataValue: CreateSetProfileMetadataUrieip712TypedDataValue;
+  CreateToggleFollowBroadcastItemResult: CreateToggleFollowBroadcastItemResult;
+  CreateToggleFollowEIP712TypedData: CreateToggleFollowEip712TypedData;
+  CreateToggleFollowEIP712TypedDataTypes: CreateToggleFollowEip712TypedDataTypes;
+  CreateToggleFollowEIP712TypedDataValue: CreateToggleFollowEip712TypedDataValue;
+  CreateToggleFollowRequest: CreateToggleFollowRequest;
+  CreateUnfollowBroadcastItemResult: CreateUnfollowBroadcastItemResult;
+  Cursor: Scalars["Cursor"];
+  DateTime: Scalars["DateTime"];
+  DefaultProfileRequest: DefaultProfileRequest;
+  DegreesOfSeparationReferenceModuleParams: DegreesOfSeparationReferenceModuleParams;
+  DegreesOfSeparationReferenceModuleSettings: DegreesOfSeparationReferenceModuleSettings;
+  Dispatcher: Dispatcher;
+  DoesFollow: DoesFollow;
+  DoesFollowRequest: DoesFollowRequest;
+  DoesFollowResponse: DoesFollowResponse;
+  EIP712TypedDataDomain: Eip712TypedDataDomain;
+  EIP712TypedDataField: Eip712TypedDataField;
+  ElectedMirror: ElectedMirror;
+  EnabledModule: EnabledModule;
+  EnabledModules: EnabledModules;
+  Ens: Scalars["Ens"];
+  EnsOnChainIdentity: EnsOnChainIdentity;
+  Erc20: Erc20;
+  Erc20Amount: Erc20Amount;
+  EthereumAddress: Scalars["EthereumAddress"];
+  ExploreProfileResult: ExploreProfileResult;
+  ExploreProfilesRequest: ExploreProfilesRequest;
+  ExplorePublicationRequest: ExplorePublicationRequest;
+  ExplorePublicationResult: Omit<ExplorePublicationResult, "items"> & {
+    items: Array<ResolversParentTypes["Publication"]>;
+  };
+  FeeCollectModuleParams: FeeCollectModuleParams;
+  FeeCollectModuleSettings: FeeCollectModuleSettings;
+  FeeFollowModuleParams: FeeFollowModuleParams;
+  FeeFollowModuleRedeemParams: FeeFollowModuleRedeemParams;
+  FeeFollowModuleSettings: FeeFollowModuleSettings;
+  FeedHighlightsRequest: FeedHighlightsRequest;
+  FeedItem: Omit<FeedItem, "root"> & { root: ResolversParentTypes["FeedItemRoot"] };
+  FeedItemRoot: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
+  FeedRequest: FeedRequest;
+  Float: Scalars["Float"];
+  Follow: Follow;
+  FollowModule:
+    | ResolversParentTypes["FeeFollowModuleSettings"]
+    | ResolversParentTypes["ProfileFollowModuleSettings"]
+    | ResolversParentTypes["RevertFollowModuleSettings"]
+    | ResolversParentTypes["UnknownFollowModuleSettings"];
+  FollowModuleData: Scalars["FollowModuleData"];
+  FollowModuleParams: FollowModuleParams;
+  FollowModuleRedeemParams: FollowModuleRedeemParams;
+  FollowOnlyReferenceModuleSettings: FollowOnlyReferenceModuleSettings;
+  FollowProxyAction: FollowProxyAction;
+  FollowRequest: FollowRequest;
+  FollowRevenueResult: FollowRevenueResult;
+  Follower: Follower;
+  FollowerNftOwnedTokenIds: FollowerNftOwnedTokenIds;
+  FollowerNftOwnedTokenIdsRequest: FollowerNftOwnedTokenIdsRequest;
+  FollowersRequest: FollowersRequest;
+  Following: Following;
+  FollowingRequest: FollowingRequest;
+  FraudReasonInputParams: FraudReasonInputParams;
+  FreeCollectModuleParams: FreeCollectModuleParams;
+  FreeCollectModuleSettings: FreeCollectModuleSettings;
+  FreeCollectProxyAction: FreeCollectProxyAction;
+  FreeFollowProxyAction: FreeFollowProxyAction;
+  GenerateModuleCurrencyApproval: GenerateModuleCurrencyApproval;
+  GenerateModuleCurrencyApprovalDataRequest: GenerateModuleCurrencyApprovalDataRequest;
+  GetPublicationMetadataStatusRequest: GetPublicationMetadataStatusRequest;
+  GlobalProtocolStats: GlobalProtocolStats;
+  GlobalProtocolStatsRequest: GlobalProtocolStatsRequest;
+  Handle: Scalars["Handle"];
+  HandleClaimIdScalar: Scalars["HandleClaimIdScalar"];
+  HasTxHashBeenIndexedRequest: HasTxHashBeenIndexedRequest;
+  HidePublicationRequest: HidePublicationRequest;
+  IllegalReasonInputParams: IllegalReasonInputParams;
+  Int: Scalars["Int"];
+  InternalPublicationId: Scalars["InternalPublicationId"];
+  InternalPublicationsFilterRequest: InternalPublicationsFilterRequest;
+  Jwt: Scalars["Jwt"];
+  LimitScalar: Scalars["LimitScalar"];
+  LimitedFeeCollectModuleParams: LimitedFeeCollectModuleParams;
+  LimitedFeeCollectModuleSettings: LimitedFeeCollectModuleSettings;
+  LimitedTimedFeeCollectModuleParams: LimitedTimedFeeCollectModuleParams;
+  LimitedTimedFeeCollectModuleSettings: LimitedTimedFeeCollectModuleSettings;
+  Locale: Scalars["Locale"];
+  Log: Log;
+  MainPostReference: ResolversParentTypes["Mirror"] | ResolversParentTypes["Post"];
+  Markdown: Scalars["Markdown"];
+  Media: Media;
+  MediaSet: MediaSet;
+  MentionPublication: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
+  MetadataAttributeInput: MetadataAttributeInput;
+  MetadataAttributeOutput: MetadataAttributeOutput;
+  MetadataOutput: MetadataOutput;
+  MimeType: Scalars["MimeType"];
+  Mirror: Omit<Mirror, "collectModule" | "mirrorOf" | "referenceModule"> & {
+    collectModule: ResolversParentTypes["CollectModule"];
+    mirrorOf: ResolversParentTypes["MirrorablePublication"];
+    referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]>;
+  };
+  MirrorEvent: MirrorEvent;
+  MirrorablePublication: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
+  ModuleFeeAmount: ModuleFeeAmount;
+  ModuleFeeAmountParams: ModuleFeeAmountParams;
+  ModuleInfo: ModuleInfo;
+  Mutation: {};
+  MutualFollowersProfilesQueryRequest: MutualFollowersProfilesQueryRequest;
+  NFT: Nft;
+  NFTContent: NftContent;
+  NFTData: NftData;
+  NFTsRequest: NfTsRequest;
+  NFTsResult: NfTsResult;
+  NewCollectNotification: Omit<NewCollectNotification, "collectedPublication"> & {
+    collectedPublication: ResolversParentTypes["Publication"];
+  };
+  NewCommentNotification: NewCommentNotification;
+  NewFollowerNotification: NewFollowerNotification;
+  NewMentionNotification: Omit<NewMentionNotification, "mentionPublication"> & {
+    mentionPublication: ResolversParentTypes["MentionPublication"];
+  };
+  NewMirrorNotification: Omit<NewMirrorNotification, "publication"> & {
+    publication: ResolversParentTypes["MirrorablePublication"];
+  };
+  NewReactionNotification: Omit<NewReactionNotification, "publication"> & {
+    publication: ResolversParentTypes["Publication"];
+  };
+  NftImage: NftImage;
+  NftOwnershipChallenge: NftOwnershipChallenge;
+  NftOwnershipChallengeRequest: NftOwnershipChallengeRequest;
+  NftOwnershipChallengeResult: NftOwnershipChallengeResult;
+  NftOwnershipId: Scalars["NftOwnershipId"];
+  Nonce: Scalars["Nonce"];
+  Notification:
+    | ResolversParentTypes["NewCollectNotification"]
+    | ResolversParentTypes["NewCommentNotification"]
+    | ResolversParentTypes["NewFollowerNotification"]
+    | ResolversParentTypes["NewMentionNotification"]
+    | ResolversParentTypes["NewMirrorNotification"]
+    | ResolversParentTypes["NewReactionNotification"];
+  NotificationId: Scalars["NotificationId"];
+  NotificationRequest: NotificationRequest;
+  OnChainIdentity: OnChainIdentity;
+  Owner: Owner;
+  PaginatedAllPublicationsTagsResult: PaginatedAllPublicationsTagsResult;
+  PaginatedFeedResult: PaginatedFeedResult;
+  PaginatedFollowersResult: PaginatedFollowersResult;
+  PaginatedFollowingResult: PaginatedFollowingResult;
+  PaginatedNotificationResult: Omit<PaginatedNotificationResult, "items"> & {
+    items: Array<ResolversParentTypes["Notification"]>;
+  };
+  PaginatedProfilePublicationsForSaleResult: Omit<
+    PaginatedProfilePublicationsForSaleResult,
+    "items"
+  > & { items: Array<ResolversParentTypes["PublicationForSale"]> };
+  PaginatedProfileResult: PaginatedProfileResult;
+  PaginatedPublicationResult: Omit<PaginatedPublicationResult, "items"> & {
+    items: Array<ResolversParentTypes["Publication"]>;
+  };
+  PaginatedResultInfo: PaginatedResultInfo;
+  PaginatedTimelineResult: Omit<PaginatedTimelineResult, "items"> & {
+    items: Array<ResolversParentTypes["Publication"]>;
+  };
+  PaginatedWhoCollectedResult: PaginatedWhoCollectedResult;
+  PaginatedWhoReactedResult: PaginatedWhoReactedResult;
+  PendingApprovalFollowsRequest: PendingApprovalFollowsRequest;
+  PendingApproveFollowsResult: PendingApproveFollowsResult;
+  Post: Omit<Post, "collectModule" | "referenceModule"> & {
+    collectModule: ResolversParentTypes["CollectModule"];
+    referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]>;
+  };
+  Profile: Omit<Profile, "coverPicture" | "followModule" | "picture"> & {
+    coverPicture?: Maybe<ResolversParentTypes["ProfileMedia"]>;
+    followModule?: Maybe<ResolversParentTypes["FollowModule"]>;
+    picture?: Maybe<ResolversParentTypes["ProfileMedia"]>;
+  };
+  ProfileFollowModuleBeenRedeemedRequest: ProfileFollowModuleBeenRedeemedRequest;
+  ProfileFollowModuleRedeemParams: ProfileFollowModuleRedeemParams;
+  ProfileFollowModuleSettings: ProfileFollowModuleSettings;
+  ProfileFollowRevenueQueryRequest: ProfileFollowRevenueQueryRequest;
+  ProfileId: Scalars["ProfileId"];
+  ProfileMedia: ResolversParentTypes["MediaSet"] | ResolversParentTypes["NftImage"];
+  ProfileOnChainIdentityRequest: ProfileOnChainIdentityRequest;
+  ProfilePublicationRevenueQueryRequest: ProfilePublicationRevenueQueryRequest;
+  ProfilePublicationRevenueResult: ProfilePublicationRevenueResult;
+  ProfilePublicationsForSaleRequest: ProfilePublicationsForSaleRequest;
+  ProfileQueryRequest: ProfileQueryRequest;
+  ProfileSearchResult: ProfileSearchResult;
+  ProfileStats: ProfileStats;
+  ProxyActionError: ProxyActionError;
+  ProxyActionId: Scalars["ProxyActionId"];
+  ProxyActionQueued: ProxyActionQueued;
+  ProxyActionRequest: ProxyActionRequest;
+  ProxyActionStatusResult: ProxyActionStatusResult;
+  ProxyActionStatusResultUnion:
+    | ResolversParentTypes["ProxyActionError"]
+    | ResolversParentTypes["ProxyActionQueued"]
+    | ResolversParentTypes["ProxyActionStatusResult"];
+  Publication:
+    | ResolversParentTypes["Comment"]
+    | ResolversParentTypes["Mirror"]
+    | ResolversParentTypes["Post"];
+  PublicationForSale: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
+  PublicationId: Scalars["PublicationId"];
+  PublicationMetadataContentWarningFilter: PublicationMetadataContentWarningFilter;
+  PublicationMetadataFilters: PublicationMetadataFilters;
+  PublicationMetadataMediaInput: PublicationMetadataMediaInput;
+  PublicationMetadataStatus: PublicationMetadataStatus;
+  PublicationMetadataTagsFilter: PublicationMetadataTagsFilter;
+  PublicationMetadataV1Input: PublicationMetadataV1Input;
+  PublicationMetadataV2Input: PublicationMetadataV2Input;
+  PublicationQueryRequest: PublicationQueryRequest;
+  PublicationRevenue: Omit<PublicationRevenue, "publication"> & {
+    publication: ResolversParentTypes["Publication"];
+  };
+  PublicationRevenueQueryRequest: PublicationRevenueQueryRequest;
+  PublicationSearchResult: Omit<PublicationSearchResult, "items"> & {
+    items: Array<ResolversParentTypes["PublicationSearchResultItem"]>;
+  };
+  PublicationSearchResultItem: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
+  PublicationSignatureContextInput: PublicationSignatureContextInput;
+  PublicationStats: PublicationStats;
+  PublicationTag: Scalars["PublicationTag"];
+  PublicationUrl: Scalars["PublicationUrl"];
+  PublicationValidateMetadataResult: PublicationValidateMetadataResult;
+  PublicationsQueryRequest: PublicationsQueryRequest;
+  Query: {};
+  ReactionEvent: ReactionEvent;
+  ReactionFieldResolverRequest: ReactionFieldResolverRequest;
+  ReactionId: Scalars["ReactionId"];
+  ReactionRequest: ReactionRequest;
+  RecommendedProfileOptions: RecommendedProfileOptions;
+  ReferenceModule:
+    | ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"]
+    | ResolversParentTypes["FollowOnlyReferenceModuleSettings"]
+    | ResolversParentTypes["UnknownReferenceModuleSettings"];
+  ReferenceModuleData: Scalars["ReferenceModuleData"];
+  ReferenceModuleParams: ReferenceModuleParams;
+  RefreshRequest: RefreshRequest;
+  RelRequest: RelRequest;
+  RelayError: RelayError;
+  RelayResult: ResolversParentTypes["RelayError"] | ResolversParentTypes["RelayerResult"];
+  RelayerResult: RelayerResult;
+  ReportPublicationRequest: ReportPublicationRequest;
+  ReportingReasonInputParams: ReportingReasonInputParams;
+  ReservedClaimableHandle: ReservedClaimableHandle;
+  RevenueAggregate: RevenueAggregate;
+  RevertCollectModuleSettings: RevertCollectModuleSettings;
+  RevertFollowModuleSettings: RevertFollowModuleSettings;
+  Search: Scalars["Search"];
+  SearchQueryRequest: SearchQueryRequest;
+  SearchResult:
+    | ResolversParentTypes["ProfileSearchResult"]
+    | ResolversParentTypes["PublicationSearchResult"];
+  SensitiveReasonInputParams: SensitiveReasonInputParams;
+  SetDefaultProfileBroadcastItemResult: SetDefaultProfileBroadcastItemResult;
+  SetDefaultProfileEIP712TypedData: SetDefaultProfileEip712TypedData;
+  SetDefaultProfileEIP712TypedDataTypes: SetDefaultProfileEip712TypedDataTypes;
+  SetDefaultProfileEIP712TypedDataValue: SetDefaultProfileEip712TypedDataValue;
+  SetDispatcherRequest: SetDispatcherRequest;
+  Signature: Scalars["Signature"];
+  SignedAuthChallenge: SignedAuthChallenge;
+  SingleProfileQueryRequest: SingleProfileQueryRequest;
+  Sources: Scalars["Sources"];
+  SpamReasonInputParams: SpamReasonInputParams;
+  String: Scalars["String"];
+  SybilDotOrgIdentity: SybilDotOrgIdentity;
+  SybilDotOrgIdentitySource: SybilDotOrgIdentitySource;
+  SybilDotOrgTwitterIdentity: SybilDotOrgTwitterIdentity;
+  TagResult: TagResult;
+  TimedFeeCollectModuleParams: TimedFeeCollectModuleParams;
+  TimedFeeCollectModuleSettings: TimedFeeCollectModuleSettings;
+  TimelineRequest: TimelineRequest;
+  TimestampScalar: Scalars["TimestampScalar"];
+  TransactionError: TransactionError;
+  TransactionIndexedResult: TransactionIndexedResult;
+  TransactionReceipt: TransactionReceipt;
+  TransactionResult:
+    | ResolversParentTypes["TransactionError"]
+    | ResolversParentTypes["TransactionIndexedResult"];
+  TxHash: Scalars["TxHash"];
+  TxId: Scalars["TxId"];
+  TypedDataOptions: TypedDataOptions;
+  UnfollowRequest: UnfollowRequest;
+  UnixTimestamp: Scalars["UnixTimestamp"];
+  UnknownCollectModuleParams: UnknownCollectModuleParams;
+  UnknownCollectModuleSettings: UnknownCollectModuleSettings;
+  UnknownFollowModuleParams: UnknownFollowModuleParams;
+  UnknownFollowModuleRedeemParams: UnknownFollowModuleRedeemParams;
+  UnknownFollowModuleSettings: UnknownFollowModuleSettings;
+  UnknownReferenceModuleParams: UnknownReferenceModuleParams;
+  UnknownReferenceModuleSettings: UnknownReferenceModuleSettings;
+  UpdateProfileImageRequest: UpdateProfileImageRequest;
+  Url: Scalars["Url"];
+  UserSigNonces: UserSigNonces;
+  ValidatePublicationMetadataRequest: ValidatePublicationMetadataRequest;
+  VerifyRequest: VerifyRequest;
+  Void: Scalars["Void"];
+  Wallet: Wallet;
+  WhoCollectedPublicationRequest: WhoCollectedPublicationRequest;
+  WhoReactedPublicationRequest: WhoReactedPublicationRequest;
+  WhoReactedResult: WhoReactedResult;
+  WorldcoinIdentity: WorldcoinIdentity;
+};
+
+export type ApprovedAllowanceAmountResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ApprovedAllowanceAmount"] = ResolversParentTypes["ApprovedAllowanceAmount"],
+> = {
+  allowance?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  currency?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  module?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AttributeResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Attribute"] = ResolversParentTypes["Attribute"],
+> = {
+  displayType?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  key?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  traitType?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AuthChallengeResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AuthChallengeResult"] = ResolversParentTypes["AuthChallengeResult"],
+> = {
+  text?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AuthenticationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AuthenticationResult"] = ResolversParentTypes["AuthenticationResult"],
+> = {
+  accessToken?: Resolver<ResolversTypes["Jwt"], ParentType, ContextType>;
+  refreshToken?: Resolver<ResolversTypes["Jwt"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface BlockchainDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["BlockchainData"], any> {
+  name: "BlockchainData";
+}
+
+export interface BroadcastIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["BroadcastId"], any> {
+  name: "BroadcastId";
+}
+
+export type CanCommentResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CanCommentResponse"] = ResolversParentTypes["CanCommentResponse"],
+> = {
+  result?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CanMirrorResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CanMirrorResponse"] = ResolversParentTypes["CanMirrorResponse"],
+> = {
+  result?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface ChainIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ChainId"], any> {
+  name: "ChainId";
+}
+
+export type ClaimableHandlesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ClaimableHandles"] = ResolversParentTypes["ClaimableHandles"],
+> = {
+  canClaimFreeTextHandle?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  reservedHandles?: Resolver<
+    Array<ResolversTypes["ReservedClaimableHandle"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CollectModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CollectModule"] = ResolversParentTypes["CollectModule"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "FeeCollectModuleSettings"
+    | "FreeCollectModuleSettings"
+    | "LimitedFeeCollectModuleSettings"
+    | "LimitedTimedFeeCollectModuleSettings"
+    | "RevertCollectModuleSettings"
+    | "TimedFeeCollectModuleSettings"
+    | "UnknownCollectModuleSettings",
+    ParentType,
+    ContextType
+  >;
+};
+
+export interface CollectModuleDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["CollectModuleData"], any> {
+  name: "CollectModuleData";
+}
+
+export type CollectedEventResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CollectedEvent"] = ResolversParentTypes["CollectedEvent"],
+> = {
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Comment"] = ResolversParentTypes["Comment"],
+> = {
+  appId?: Resolver<Maybe<ResolversTypes["Sources"]>, ParentType, ContextType>;
+  canComment?: Resolver<
+    ResolversTypes["CanCommentResponse"],
+    ParentType,
+    ContextType,
+    Partial<CommentCanCommentArgs>
+  >;
+  canMirror?: Resolver<
+    ResolversTypes["CanMirrorResponse"],
+    ParentType,
+    ContextType,
+    Partial<CommentCanMirrorArgs>
+  >;
+  collectModule?: Resolver<ResolversTypes["CollectModule"], ParentType, ContextType>;
+  collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
+  collectedBy?: Resolver<Maybe<ResolversTypes["Wallet"]>, ParentType, ContextType>;
+  commentOn?: Resolver<Maybe<ResolversTypes["Publication"]>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  firstComment?: Resolver<Maybe<ResolversTypes["Comment"]>, ParentType, ContextType>;
+  hasCollectedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  hidden?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  mainPost?: Resolver<ResolversTypes["MainPostReference"], ParentType, ContextType>;
+  metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
+  mirrors?: Resolver<
+    Array<ResolversTypes["InternalPublicationId"]>,
+    ParentType,
+    ContextType,
+    Partial<CommentMirrorsArgs>
+  >;
+  onChainContentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  reaction?: Resolver<
+    Maybe<ResolversTypes["ReactionTypes"]>,
+    ParentType,
+    ContextType,
+    Partial<CommentReactionArgs>
+  >;
+  referenceModule?: Resolver<Maybe<ResolversTypes["ReferenceModule"]>, ParentType, ContextType>;
+  stats?: Resolver<ResolversTypes["PublicationStats"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface ContractAddressScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ContractAddress"], any> {
+  name: "ContractAddress";
+}
+
+export type CreateBurnEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnEIP712TypedData"] = ResolversParentTypes["CreateBurnEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<ResolversTypes["CreateBurnEIP712TypedDataTypes"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["CreateBurnEIP712TypedDataValue"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateBurnEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnEIP712TypedDataTypes"] = ResolversParentTypes["CreateBurnEIP712TypedDataTypes"],
+> = {
+  BurnWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateBurnEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnEIP712TypedDataValue"] = ResolversParentTypes["CreateBurnEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  tokenId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateBurnProfileBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnProfileBroadcastItemResult"] = ResolversParentTypes["CreateBurnProfileBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["CreateBurnEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCollectBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectBroadcastItemResult"] = ResolversParentTypes["CreateCollectBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["CreateCollectEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCollectEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectEIP712TypedData"] = ResolversParentTypes["CreateCollectEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<ResolversTypes["CreateCollectEIP712TypedDataTypes"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["CreateCollectEIP712TypedDataValue"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCollectEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectEIP712TypedDataTypes"] = ResolversParentTypes["CreateCollectEIP712TypedDataTypes"],
+> = {
+  CollectWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCollectEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectEIP712TypedDataValue"] = ResolversParentTypes["CreateCollectEIP712TypedDataValue"],
+> = {
+  data?: Resolver<ResolversTypes["BlockchainData"], ParentType, ContextType>;
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  pubId?: Resolver<ResolversTypes["PublicationId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCommentBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentBroadcastItemResult"] = ResolversParentTypes["CreateCommentBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["CreateCommentEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCommentEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentEIP712TypedData"] = ResolversParentTypes["CreateCommentEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<ResolversTypes["CreateCommentEIP712TypedDataTypes"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["CreateCommentEIP712TypedDataValue"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCommentEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentEIP712TypedDataTypes"] = ResolversParentTypes["CreateCommentEIP712TypedDataTypes"],
+> = {
+  CommentWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateCommentEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentEIP712TypedDataValue"] = ResolversParentTypes["CreateCommentEIP712TypedDataValue"],
+> = {
+  collectModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  collectModuleInitData?: Resolver<ResolversTypes["CollectModuleData"], ParentType, ContextType>;
+  contentURI?: Resolver<ResolversTypes["PublicationUrl"], ParentType, ContextType>;
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  profileIdPointed?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  pubIdPointed?: Resolver<ResolversTypes["PublicationId"], ParentType, ContextType>;
+  referenceModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  referenceModuleData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
+  referenceModuleInitData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateFollowBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowBroadcastItemResult"] = ResolversParentTypes["CreateFollowBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["CreateFollowEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateFollowEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowEIP712TypedData"] = ResolversParentTypes["CreateFollowEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<ResolversTypes["CreateFollowEIP712TypedDataTypes"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["CreateFollowEIP712TypedDataValue"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateFollowEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowEIP712TypedDataTypes"] = ResolversParentTypes["CreateFollowEIP712TypedDataTypes"],
+> = {
+  FollowWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateFollowEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowEIP712TypedDataValue"] = ResolversParentTypes["CreateFollowEIP712TypedDataValue"],
+> = {
+  datas?: Resolver<Array<ResolversTypes["BlockchainData"]>, ParentType, ContextType>;
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileIds?: Resolver<Array<ResolversTypes["ProfileId"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface CreateHandleScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["CreateHandle"], any> {
+  name: "CreateHandle";
+}
+
+export type CreateMirrorBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorBroadcastItemResult"] = ResolversParentTypes["CreateMirrorBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["CreateMirrorEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateMirrorEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedData"] = ResolversParentTypes["CreateMirrorEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<ResolversTypes["CreateMirrorEIP712TypedDataTypes"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["CreateMirrorEIP712TypedDataValue"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateMirrorEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedDataTypes"] = ResolversParentTypes["CreateMirrorEIP712TypedDataTypes"],
+> = {
+  MirrorWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateMirrorEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedDataValue"] = ResolversParentTypes["CreateMirrorEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  profileIdPointed?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  pubIdPointed?: Resolver<ResolversTypes["PublicationId"], ParentType, ContextType>;
+  referenceModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  referenceModuleData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
+  referenceModuleInitData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreatePostBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostBroadcastItemResult"] = ResolversParentTypes["CreatePostBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["CreatePostEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreatePostEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostEIP712TypedData"] = ResolversParentTypes["CreatePostEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<ResolversTypes["CreatePostEIP712TypedDataTypes"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["CreatePostEIP712TypedDataValue"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreatePostEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostEIP712TypedDataTypes"] = ResolversParentTypes["CreatePostEIP712TypedDataTypes"],
+> = {
+  PostWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreatePostEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostEIP712TypedDataValue"] = ResolversParentTypes["CreatePostEIP712TypedDataValue"],
+> = {
+  collectModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  collectModuleInitData?: Resolver<ResolversTypes["CollectModuleData"], ParentType, ContextType>;
+  contentURI?: Resolver<ResolversTypes["PublicationUrl"], ParentType, ContextType>;
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  referenceModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  referenceModuleInitData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetDispatcherBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherBroadcastItemResult"] = ResolversParentTypes["CreateSetDispatcherBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetDispatcherEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetDispatcherEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedData"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetDispatcherEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetDispatcherEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetDispatcherEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedDataTypes"],
+> = {
+  SetDispatcherWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetDispatcherEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedDataValue"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  dispatcher?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowModuleBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleBroadcastItemResult"] = ResolversParentTypes["CreateSetFollowModuleBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetFollowModuleEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowModuleEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedData"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetFollowModuleEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetFollowModuleEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowModuleEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataTypes"],
+> = {
+  SetFollowModuleWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowModuleEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataValue"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  followModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  followModuleInitData?: Resolver<ResolversTypes["FollowModuleData"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowNftUriBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriBroadcastItemResult"] = ResolversParentTypes["CreateSetFollowNFTUriBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowNftUriEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedData"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowNftUriEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"],
+> = {
+  SetFollowNFTURIWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetFollowNftUriEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataValue"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  followNFTURI?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileImageUriBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriBroadcastItemResult"] = ResolversParentTypes["CreateSetProfileImageUriBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileImageUriEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedData"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileImageUriEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataTypes"],
+> = {
+  SetProfileImageURIWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileImageUriEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataValue"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  imageURI?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileMetadataUriBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIBroadcastItemResult"] = ResolversParentTypes["CreateSetProfileMetadataURIBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileMetadataUrieip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedData"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileMetadataUrieip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"],
+> = {
+  SetProfileMetadataURIWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateSetProfileMetadataUrieip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  metadata?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateToggleFollowBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowBroadcastItemResult"] = ResolversParentTypes["CreateToggleFollowBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateToggleFollowEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateToggleFollowEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedData"] = ResolversParentTypes["CreateToggleFollowEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateToggleFollowEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateToggleFollowEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateToggleFollowEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedDataTypes"] = ResolversParentTypes["CreateToggleFollowEIP712TypedDataTypes"],
+> = {
+  ToggleFollowWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateToggleFollowEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedDataValue"] = ResolversParentTypes["CreateToggleFollowEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  enables?: Resolver<Array<ResolversTypes["Boolean"]>, ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileIds?: Resolver<Array<ResolversTypes["ProfileId"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateUnfollowBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateUnfollowBroadcastItemResult"] = ResolversParentTypes["CreateUnfollowBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["CreateBurnEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Cursor"], any> {
+  name: "Cursor";
+}
+
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
+  name: "DateTime";
+}
+
+export type DegreesOfSeparationReferenceModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"] = ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"],
+> = {
+  commentsRestricted?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  degreesOfSeparation?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  mirrorsRestricted?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["ReferenceModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DispatcherResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Dispatcher"] = ResolversParentTypes["Dispatcher"],
+> = {
+  address?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  canUseRelay?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DoesFollowResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["DoesFollowResponse"] = ResolversParentTypes["DoesFollowResponse"],
+> = {
+  followerAddress?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  follows?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  isFinalisedOnChain?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Eip712TypedDataDomainResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EIP712TypedDataDomain"] = ResolversParentTypes["EIP712TypedDataDomain"],
+> = {
+  chainId?: Resolver<ResolversTypes["ChainId"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  verifyingContract?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  version?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Eip712TypedDataFieldResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EIP712TypedDataField"] = ResolversParentTypes["EIP712TypedDataField"],
+> = {
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ElectedMirrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ElectedMirror"] = ResolversParentTypes["ElectedMirror"],
+> = {
+  mirrorId?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EnabledModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EnabledModule"] = ResolversParentTypes["EnabledModule"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  inputParams?: Resolver<Array<ResolversTypes["ModuleInfo"]>, ParentType, ContextType>;
+  moduleName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  redeemParams?: Resolver<Array<ResolversTypes["ModuleInfo"]>, ParentType, ContextType>;
+  returnDataParms?: Resolver<Array<ResolversTypes["ModuleInfo"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EnabledModulesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EnabledModules"] = ResolversParentTypes["EnabledModules"],
+> = {
+  collectModules?: Resolver<Array<ResolversTypes["EnabledModule"]>, ParentType, ContextType>;
+  followModules?: Resolver<Array<ResolversTypes["EnabledModule"]>, ParentType, ContextType>;
+  referenceModules?: Resolver<Array<ResolversTypes["EnabledModule"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface EnsScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Ens"], any> {
+  name: "Ens";
+}
+
+export type EnsOnChainIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EnsOnChainIdentity"] = ResolversParentTypes["EnsOnChainIdentity"],
+> = {
+  name?: Resolver<Maybe<ResolversTypes["Ens"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Erc20Resolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Erc20"] = ResolversParentTypes["Erc20"],
+> = {
+  address?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  decimals?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  symbol?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Erc20AmountResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Erc20Amount"] = ResolversParentTypes["Erc20Amount"],
+> = {
+  asset?: Resolver<ResolversTypes["Erc20"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface EthereumAddressScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["EthereumAddress"], any> {
+  name: "EthereumAddress";
+}
+
+export type ExploreProfileResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ExploreProfileResult"] = ResolversParentTypes["ExploreProfileResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ExplorePublicationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ExplorePublicationResult"] = ResolversParentTypes["ExplorePublicationResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Publication"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeeCollectModuleSettings"] = ResolversParentTypes["FeeCollectModuleSettings"],
+> = {
+  amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  followerOnly?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  recipient?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  referralFee?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FeeFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeeFollowModuleSettings"] = ResolversParentTypes["FeeFollowModuleSettings"],
+> = {
+  amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  recipient?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["FollowModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FeedItemResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeedItem"] = ResolversParentTypes["FeedItem"],
+> = {
+  collects?: Resolver<Array<ResolversTypes["CollectedEvent"]>, ParentType, ContextType>;
+  comments?: Resolver<Maybe<Array<ResolversTypes["Comment"]>>, ParentType, ContextType>;
+  electedMirror?: Resolver<Maybe<ResolversTypes["ElectedMirror"]>, ParentType, ContextType>;
+  mirrors?: Resolver<Array<ResolversTypes["MirrorEvent"]>, ParentType, ContextType>;
+  reactions?: Resolver<Array<ResolversTypes["ReactionEvent"]>, ParentType, ContextType>;
+  root?: Resolver<ResolversTypes["FeedItemRoot"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FeedItemRootResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeedItemRoot"] = ResolversParentTypes["FeedItemRoot"],
+> = {
+  __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
+};
+
+export type FollowModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowModule"] = ResolversParentTypes["FollowModule"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "FeeFollowModuleSettings"
+    | "ProfileFollowModuleSettings"
+    | "RevertFollowModuleSettings"
+    | "UnknownFollowModuleSettings",
+    ParentType,
+    ContextType
+  >;
+};
+
+export interface FollowModuleDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["FollowModuleData"], any> {
+  name: "FollowModuleData";
+}
+
+export type FollowOnlyReferenceModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowOnlyReferenceModuleSettings"] = ResolversParentTypes["FollowOnlyReferenceModuleSettings"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["ReferenceModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FollowRevenueResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowRevenueResult"] = ResolversParentTypes["FollowRevenueResult"],
+> = {
+  revenues?: Resolver<Array<ResolversTypes["RevenueAggregate"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FollowerResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Follower"] = ResolversParentTypes["Follower"],
+> = {
+  totalAmountOfTimesFollowed?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  wallet?: Resolver<ResolversTypes["Wallet"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FollowerNftOwnedTokenIdsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowerNftOwnedTokenIds"] = ResolversParentTypes["FollowerNftOwnedTokenIds"],
+> = {
+  followerNftAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  tokensIds?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FollowingResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Following"] = ResolversParentTypes["Following"],
+> = {
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  totalAmountOfTimesFollowing?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FreeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FreeCollectModuleSettings"] = ResolversParentTypes["FreeCollectModuleSettings"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  followerOnly?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GenerateModuleCurrencyApprovalResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["GenerateModuleCurrencyApproval"] = ResolversParentTypes["GenerateModuleCurrencyApproval"],
+> = {
+  data?: Resolver<ResolversTypes["BlockchainData"], ParentType, ContextType>;
+  from?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  to?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GlobalProtocolStatsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["GlobalProtocolStats"] = ResolversParentTypes["GlobalProtocolStats"],
+> = {
+  totalBurntProfiles?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalCollects?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalComments?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalFollows?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalMirrors?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalPosts?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalProfiles?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalRevenue?: Resolver<Array<ResolversTypes["Erc20Amount"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface HandleScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Handle"], any> {
+  name: "Handle";
+}
+
+export interface HandleClaimIdScalarScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["HandleClaimIdScalar"], any> {
+  name: "HandleClaimIdScalar";
+}
+
+export interface InternalPublicationIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["InternalPublicationId"], any> {
+  name: "InternalPublicationId";
+}
+
+export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Jwt"], any> {
+  name: "Jwt";
+}
+
+export interface LimitScalarScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["LimitScalar"], any> {
+  name: "LimitScalar";
+}
+
+export type LimitedFeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["LimitedFeeCollectModuleSettings"] = ResolversParentTypes["LimitedFeeCollectModuleSettings"],
+> = {
+  amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
+  collectLimit?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  followerOnly?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  recipient?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  referralFee?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LimitedTimedFeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"] = ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"],
+> = {
+  amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
+  collectLimit?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  endTimestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  followerOnly?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  recipient?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  referralFee?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface LocaleScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Locale"], any> {
+  name: "Locale";
+}
+
+export type LogResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Log"] = ResolversParentTypes["Log"],
+> = {
+  address?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  blockHash?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  blockNumber?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  data?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  logIndex?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  removed?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  topics?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
+  transactionHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
+  transactionIndex?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MainPostReferenceResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MainPostReference"] = ResolversParentTypes["MainPostReference"],
+> = {
+  __resolveType: TypeResolveFn<"Mirror" | "Post", ParentType, ContextType>;
+};
+
+export interface MarkdownScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["Markdown"], any> {
+  name: "Markdown";
+}
+
+export type MediaResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Media"] = ResolversParentTypes["Media"],
+> = {
+  altTag?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  cover?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  height?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  mimeType?: Resolver<Maybe<ResolversTypes["MimeType"]>, ParentType, ContextType>;
+  size?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
+  width?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MediaSetResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MediaSet"] = ResolversParentTypes["MediaSet"],
+> = {
+  medium?: Resolver<Maybe<ResolversTypes["Media"]>, ParentType, ContextType>;
+  original?: Resolver<ResolversTypes["Media"], ParentType, ContextType>;
+  small?: Resolver<Maybe<ResolversTypes["Media"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MentionPublicationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MentionPublication"] = ResolversParentTypes["MentionPublication"],
+> = {
+  __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
+};
+
+export type MetadataAttributeOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MetadataAttributeOutput"] = ResolversParentTypes["MetadataAttributeOutput"],
+> = {
+  displayType?: Resolver<
+    Maybe<ResolversTypes["PublicationMetadataDisplayTypes"]>,
+    ParentType,
+    ContextType
+  >;
+  traitType?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  value?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MetadataOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MetadataOutput"] = ResolversParentTypes["MetadataOutput"],
+> = {
+  animatedUrl?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
+  attributes?: Resolver<Array<ResolversTypes["MetadataAttributeOutput"]>, ParentType, ContextType>;
+  content?: Resolver<Maybe<ResolversTypes["Markdown"]>, ParentType, ContextType>;
+  contentWarning?: Resolver<
+    Maybe<ResolversTypes["PublicationContentWarning"]>,
+    ParentType,
+    ContextType
+  >;
+  cover?: Resolver<Maybe<ResolversTypes["MediaSet"]>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes["Markdown"]>, ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
+  locale?: Resolver<Maybe<ResolversTypes["Locale"]>, ParentType, ContextType>;
+  mainContentFocus?: Resolver<ResolversTypes["PublicationMainFocus"], ParentType, ContextType>;
+  media?: Resolver<Array<ResolversTypes["MediaSet"]>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface MimeTypeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["MimeType"], any> {
+  name: "MimeType";
+}
+
+export type MirrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Mirror"] = ResolversParentTypes["Mirror"],
+> = {
+  appId?: Resolver<Maybe<ResolversTypes["Sources"]>, ParentType, ContextType>;
+  canComment?: Resolver<
+    ResolversTypes["CanCommentResponse"],
+    ParentType,
+    ContextType,
+    Partial<MirrorCanCommentArgs>
+  >;
+  canMirror?: Resolver<
+    ResolversTypes["CanMirrorResponse"],
+    ParentType,
+    ContextType,
+    Partial<MirrorCanMirrorArgs>
+  >;
+  collectModule?: Resolver<ResolversTypes["CollectModule"], ParentType, ContextType>;
+  collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  hasCollectedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  hidden?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
+  mirrorOf?: Resolver<ResolversTypes["MirrorablePublication"], ParentType, ContextType>;
+  onChainContentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  reaction?: Resolver<
+    Maybe<ResolversTypes["ReactionTypes"]>,
+    ParentType,
+    ContextType,
+    Partial<MirrorReactionArgs>
+  >;
+  referenceModule?: Resolver<Maybe<ResolversTypes["ReferenceModule"]>, ParentType, ContextType>;
+  stats?: Resolver<ResolversTypes["PublicationStats"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MirrorEventResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MirrorEvent"] = ResolversParentTypes["MirrorEvent"],
+> = {
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MirrorablePublicationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MirrorablePublication"] = ResolversParentTypes["MirrorablePublication"],
+> = {
+  __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
+};
+
+export type ModuleFeeAmountResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ModuleFeeAmount"] = ResolversParentTypes["ModuleFeeAmount"],
+> = {
+  asset?: Resolver<ResolversTypes["Erc20"], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ModuleInfoResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ModuleInfo"] = ResolversParentTypes["ModuleInfo"],
+> = {
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
+> = {
+  ach?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationAchArgs, "request">
+  >;
+  addReaction?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddReactionArgs, "request">
+  >;
+  authenticate?: Resolver<
+    ResolversTypes["AuthenticationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationAuthenticateArgs, "request">
+  >;
+  broadcast?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationBroadcastArgs, "request">
+  >;
+  claim?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationClaimArgs, "request">
+  >;
+  createBurnProfileTypedData?: Resolver<
+    ResolversTypes["CreateBurnProfileBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateBurnProfileTypedDataArgs, "request">
+  >;
+  createCollectTypedData?: Resolver<
+    ResolversTypes["CreateCollectBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCollectTypedDataArgs, "request">
+  >;
+  createCommentTypedData?: Resolver<
+    ResolversTypes["CreateCommentBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCommentTypedDataArgs, "request">
+  >;
+  createCommentViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCommentViaDispatcherArgs, "request">
+  >;
+  createFollowTypedData?: Resolver<
+    ResolversTypes["CreateFollowBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateFollowTypedDataArgs, "request">
+  >;
+  createMirrorTypedData?: Resolver<
+    ResolversTypes["CreateMirrorBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateMirrorTypedDataArgs, "request">
+  >;
+  createMirrorViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateMirrorViaDispatcherArgs, "request">
+  >;
+  createPostTypedData?: Resolver<
+    ResolversTypes["CreatePostBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreatePostTypedDataArgs, "request">
+  >;
+  createPostViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreatePostViaDispatcherArgs, "request">
+  >;
+  createProfile?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProfileArgs, "request">
+  >;
+  createSetDefaultProfileTypedData?: Resolver<
+    ResolversTypes["SetDefaultProfileBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetDefaultProfileTypedDataArgs, "request">
+  >;
+  createSetDispatcherTypedData?: Resolver<
+    ResolversTypes["CreateSetDispatcherBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetDispatcherTypedDataArgs, "request">
+  >;
+  createSetFollowModuleTypedData?: Resolver<
+    ResolversTypes["CreateSetFollowModuleBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetFollowModuleTypedDataArgs, "request">
+  >;
+  createSetFollowNFTUriTypedData?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetFollowNftUriTypedDataArgs, "request">
+  >;
+  createSetProfileImageURITypedData?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileImageUriTypedDataArgs, "request">
+  >;
+  createSetProfileImageURIViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileImageUriViaDispatcherArgs, "request">
+  >;
+  createSetProfileMetadataTypedData?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileMetadataTypedDataArgs, "request">
+  >;
+  createSetProfileMetadataViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileMetadataViaDispatcherArgs, "request">
+  >;
+  createToggleFollowTypedData?: Resolver<
+    ResolversTypes["CreateToggleFollowBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateToggleFollowTypedDataArgs, "request">
+  >;
+  createUnfollowTypedData?: Resolver<
+    ResolversTypes["CreateUnfollowBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUnfollowTypedDataArgs, "request">
+  >;
+  hidePublication?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationHidePublicationArgs, "request">
+  >;
+  proxyAction?: Resolver<
+    ResolversTypes["ProxyActionId"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationProxyActionArgs, "request">
+  >;
+  refresh?: Resolver<
+    ResolversTypes["AuthenticationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRefreshArgs, "request">
+  >;
+  removeReaction?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveReactionArgs, "request">
+  >;
+  reportPublication?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationReportPublicationArgs, "request">
+  >;
+};
+
+export type NftResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NFT"] = ResolversParentTypes["NFT"],
+> = {
+  chainId?: Resolver<ResolversTypes["ChainId"], ParentType, ContextType>;
+  collectionName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  contentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  contractName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  ercType?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  originalContent?: Resolver<ResolversTypes["NFTContent"], ParentType, ContextType>;
+  owners?: Resolver<Array<ResolversTypes["Owner"]>, ParentType, ContextType>;
+  symbol?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  tokenId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NftContentResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NFTContent"] = ResolversParentTypes["NFTContent"],
+> = {
+  animatedUrl?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  metaType?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  uri?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NfTsResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NFTsResult"] = ResolversParentTypes["NFTsResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["NFT"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewCollectNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewCollectNotification"] = ResolversParentTypes["NewCollectNotification"],
+> = {
+  collectedPublication?: Resolver<ResolversTypes["Publication"], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
+  wallet?: Resolver<ResolversTypes["Wallet"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewCommentNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewCommentNotification"] = ResolversParentTypes["NewCommentNotification"],
+> = {
+  comment?: Resolver<ResolversTypes["Comment"], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewFollowerNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewFollowerNotification"] = ResolversParentTypes["NewFollowerNotification"],
+> = {
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  isFollowedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
+  wallet?: Resolver<ResolversTypes["Wallet"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewMentionNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewMentionNotification"] = ResolversParentTypes["NewMentionNotification"],
+> = {
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  mentionPublication?: Resolver<ResolversTypes["MentionPublication"], ParentType, ContextType>;
+  notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewMirrorNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewMirrorNotification"] = ResolversParentTypes["NewMirrorNotification"],
+> = {
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  publication?: Resolver<ResolversTypes["MirrorablePublication"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewReactionNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewReactionNotification"] = ResolversParentTypes["NewReactionNotification"],
+> = {
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  publication?: Resolver<ResolversTypes["Publication"], ParentType, ContextType>;
+  reaction?: Resolver<ResolversTypes["ReactionTypes"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NftImageResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NftImage"] = ResolversParentTypes["NftImage"],
+> = {
+  chainId?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  tokenId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  uri?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
+  verified?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NftOwnershipChallengeResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NftOwnershipChallengeResult"] = ResolversParentTypes["NftOwnershipChallengeResult"],
+> = {
+  id?: Resolver<ResolversTypes["NftOwnershipId"], ParentType, ContextType>;
+  text?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  timeout?: Resolver<ResolversTypes["TimestampScalar"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface NftOwnershipIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["NftOwnershipId"], any> {
+  name: "NftOwnershipId";
+}
+
+export interface NonceScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Nonce"], any> {
+  name: "Nonce";
+}
+
+export type NotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Notification"] = ResolversParentTypes["Notification"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "NewCollectNotification"
+    | "NewCommentNotification"
+    | "NewFollowerNotification"
+    | "NewMentionNotification"
+    | "NewMirrorNotification"
+    | "NewReactionNotification",
+    ParentType,
+    ContextType
+  >;
+};
+
+export interface NotificationIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["NotificationId"], any> {
+  name: "NotificationId";
+}
+
+export type OnChainIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["OnChainIdentity"] = ResolversParentTypes["OnChainIdentity"],
+> = {
+  ens?: Resolver<Maybe<ResolversTypes["EnsOnChainIdentity"]>, ParentType, ContextType>;
+  proofOfHumanity?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  sybilDotOrg?: Resolver<ResolversTypes["SybilDotOrgIdentity"], ParentType, ContextType>;
+  worldcoin?: Resolver<ResolversTypes["WorldcoinIdentity"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type OwnerResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Owner"] = ResolversParentTypes["Owner"],
+> = {
+  address?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  amount?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedAllPublicationsTagsResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedAllPublicationsTagsResult"] = ResolversParentTypes["PaginatedAllPublicationsTagsResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["TagResult"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedFeedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedFeedResult"] = ResolversParentTypes["PaginatedFeedResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["FeedItem"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedFollowersResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedFollowersResult"] = ResolversParentTypes["PaginatedFollowersResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Follower"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedFollowingResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedFollowingResult"] = ResolversParentTypes["PaginatedFollowingResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Following"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedNotificationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedNotificationResult"] = ResolversParentTypes["PaginatedNotificationResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Notification"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedProfilePublicationsForSaleResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedProfilePublicationsForSaleResult"] = ResolversParentTypes["PaginatedProfilePublicationsForSaleResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["PublicationForSale"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedProfileResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedProfileResult"] = ResolversParentTypes["PaginatedProfileResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedPublicationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedPublicationResult"] = ResolversParentTypes["PaginatedPublicationResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Publication"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedResultInfoResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedResultInfo"] = ResolversParentTypes["PaginatedResultInfo"],
+> = {
+  next?: Resolver<Maybe<ResolversTypes["Cursor"]>, ParentType, ContextType>;
+  prev?: Resolver<Maybe<ResolversTypes["Cursor"]>, ParentType, ContextType>;
+  totalCount?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedTimelineResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedTimelineResult"] = ResolversParentTypes["PaginatedTimelineResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Publication"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedWhoCollectedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedWhoCollectedResult"] = ResolversParentTypes["PaginatedWhoCollectedResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Wallet"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PaginatedWhoReactedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedWhoReactedResult"] = ResolversParentTypes["PaginatedWhoReactedResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["WhoReactedResult"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PendingApproveFollowsResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PendingApproveFollowsResult"] = ResolversParentTypes["PendingApproveFollowsResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PostResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Post"] = ResolversParentTypes["Post"],
+> = {
+  appId?: Resolver<Maybe<ResolversTypes["Sources"]>, ParentType, ContextType>;
+  canComment?: Resolver<
+    ResolversTypes["CanCommentResponse"],
+    ParentType,
+    ContextType,
+    Partial<PostCanCommentArgs>
+  >;
+  canMirror?: Resolver<
+    ResolversTypes["CanMirrorResponse"],
+    ParentType,
+    ContextType,
+    Partial<PostCanMirrorArgs>
+  >;
+  collectModule?: Resolver<ResolversTypes["CollectModule"], ParentType, ContextType>;
+  collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
+  collectedBy?: Resolver<Maybe<ResolversTypes["Wallet"]>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  hasCollectedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  hidden?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
+  mirrors?: Resolver<
+    Array<ResolversTypes["InternalPublicationId"]>,
+    ParentType,
+    ContextType,
+    Partial<PostMirrorsArgs>
+  >;
+  onChainContentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  reaction?: Resolver<
+    Maybe<ResolversTypes["ReactionTypes"]>,
+    ParentType,
+    ContextType,
+    Partial<PostReactionArgs>
+  >;
+  referenceModule?: Resolver<Maybe<ResolversTypes["ReferenceModule"]>, ParentType, ContextType>;
+  stats?: Resolver<ResolversTypes["PublicationStats"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProfileResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Profile"] = ResolversParentTypes["Profile"],
+> = {
+  attributes?: Resolver<Maybe<Array<ResolversTypes["Attribute"]>>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  coverPicture?: Resolver<Maybe<ResolversTypes["ProfileMedia"]>, ParentType, ContextType>;
+  dispatcher?: Resolver<Maybe<ResolversTypes["Dispatcher"]>, ParentType, ContextType>;
+  followModule?: Resolver<Maybe<ResolversTypes["FollowModule"]>, ParentType, ContextType>;
+  followNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
+  handle?: Resolver<ResolversTypes["Handle"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  isDefault?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  isFollowedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  isFollowing?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    Partial<ProfileIsFollowingArgs>
+  >;
+  metadata?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  onChainIdentity?: Resolver<ResolversTypes["OnChainIdentity"], ParentType, ContextType>;
+  ownedBy?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  picture?: Resolver<Maybe<ResolversTypes["ProfileMedia"]>, ParentType, ContextType>;
+  stats?: Resolver<ResolversTypes["ProfileStats"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProfileFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileFollowModuleSettings"] = ResolversParentTypes["ProfileFollowModuleSettings"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["FollowModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface ProfileIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ProfileId"], any> {
+  name: "ProfileId";
+}
+
+export type ProfileMediaResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileMedia"] = ResolversParentTypes["ProfileMedia"],
+> = {
+  __resolveType: TypeResolveFn<"MediaSet" | "NftImage", ParentType, ContextType>;
+};
+
+export type ProfilePublicationRevenueResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfilePublicationRevenueResult"] = ResolversParentTypes["ProfilePublicationRevenueResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["PublicationRevenue"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProfileSearchResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileSearchResult"] = ResolversParentTypes["ProfileSearchResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["SearchRequestTypes"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProfileStatsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileStats"] = ResolversParentTypes["ProfileStats"],
+> = {
+  commentsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsCommentsTotalArgs, "forSources">
+  >;
+  id?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  mirrorsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsMirrorsTotalArgs, "forSources">
+  >;
+  postsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsPostsTotalArgs, "forSources">
+  >;
+  publicationsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsPublicationsTotalArgs, "forSources">
+  >;
+  totalCollects?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalComments?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalFollowers?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalFollowing?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalMirrors?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalPosts?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalPublications?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProxyActionErrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionError"] = ResolversParentTypes["ProxyActionError"],
+> = {
+  lastKnownTxId?: Resolver<Maybe<ResolversTypes["TxId"]>, ParentType, ContextType>;
+  reason?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface ProxyActionIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ProxyActionId"], any> {
+  name: "ProxyActionId";
+}
+
+export type ProxyActionQueuedResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionQueued"] = ResolversParentTypes["ProxyActionQueued"],
+> = {
+  queuedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProxyActionStatusResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionStatusResult"] = ResolversParentTypes["ProxyActionStatusResult"],
+> = {
+  status?: Resolver<ResolversTypes["ProxyActionStatusTypes"], ParentType, ContextType>;
+  txHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
+  txId?: Resolver<ResolversTypes["TxId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProxyActionStatusResultUnionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionStatusResultUnion"] = ResolversParentTypes["ProxyActionStatusResultUnion"],
+> = {
+  __resolveType: TypeResolveFn<
+    "ProxyActionError" | "ProxyActionQueued" | "ProxyActionStatusResult",
+    ParentType,
+    ContextType
+  >;
+};
+
+export type PublicationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Publication"] = ResolversParentTypes["Publication"],
+> = {
+  __resolveType: TypeResolveFn<"Comment" | "Mirror" | "Post", ParentType, ContextType>;
+};
+
+export type PublicationForSaleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationForSale"] = ResolversParentTypes["PublicationForSale"],
+> = {
+  __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
+};
+
+export interface PublicationIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["PublicationId"], any> {
+  name: "PublicationId";
+}
+
+export type PublicationMetadataStatusResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationMetadataStatus"] = ResolversParentTypes["PublicationMetadataStatus"],
+> = {
+  reason?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes["PublicationMetadataStatusType"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PublicationRevenueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationRevenue"] = ResolversParentTypes["PublicationRevenue"],
+> = {
+  publication?: Resolver<ResolversTypes["Publication"], ParentType, ContextType>;
+  revenue?: Resolver<ResolversTypes["RevenueAggregate"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PublicationSearchResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationSearchResult"] = ResolversParentTypes["PublicationSearchResult"],
+> = {
+  items?: Resolver<Array<ResolversTypes["PublicationSearchResultItem"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["SearchRequestTypes"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PublicationSearchResultItemResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationSearchResultItem"] = ResolversParentTypes["PublicationSearchResultItem"],
+> = {
+  __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
+};
+
+export type PublicationStatsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationStats"] = ResolversParentTypes["PublicationStats"],
+> = {
+  commentsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<PublicationStatsCommentsTotalArgs, "forSources">
+  >;
+  id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  totalAmountOfCollects?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalAmountOfComments?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalAmountOfMirrors?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalDownvotes?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  totalUpvotes?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface PublicationTagScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["PublicationTag"], any> {
+  name: "PublicationTag";
+}
+
+export interface PublicationUrlScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["PublicationUrl"], any> {
+  name: "PublicationUrl";
+}
+
+export type PublicationValidateMetadataResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationValidateMetadataResult"] = ResolversParentTypes["PublicationValidateMetadataResult"],
+> = {
+  reason?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  valid?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
+> = {
+  allPublicationsTags?: Resolver<
+    ResolversTypes["PaginatedAllPublicationsTagsResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryAllPublicationsTagsArgs, "request">
+  >;
+  approvedModuleAllowanceAmount?: Resolver<
+    Array<ResolversTypes["ApprovedAllowanceAmount"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryApprovedModuleAllowanceAmountArgs, "request">
+  >;
+  challenge?: Resolver<
+    ResolversTypes["AuthChallengeResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryChallengeArgs, "request">
+  >;
+  claimableHandles?: Resolver<ResolversTypes["ClaimableHandles"], ParentType, ContextType>;
+  claimableStatus?: Resolver<ResolversTypes["ClaimStatus"], ParentType, ContextType>;
+  defaultProfile?: Resolver<
+    Maybe<ResolversTypes["Profile"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDefaultProfileArgs, "request">
+  >;
+  doesFollow?: Resolver<
+    Array<ResolversTypes["DoesFollowResponse"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDoesFollowArgs, "request">
+  >;
+  enabledModuleCurrencies?: Resolver<Array<ResolversTypes["Erc20"]>, ParentType, ContextType>;
+  enabledModules?: Resolver<ResolversTypes["EnabledModules"], ParentType, ContextType>;
+  exploreProfiles?: Resolver<
+    ResolversTypes["ExploreProfileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryExploreProfilesArgs, "request">
+  >;
+  explorePublications?: Resolver<
+    ResolversTypes["ExplorePublicationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryExplorePublicationsArgs, "request">
+  >;
+  feed?: Resolver<
+    ResolversTypes["PaginatedFeedResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFeedArgs, "request">
+  >;
+  feedHighlights?: Resolver<
+    ResolversTypes["PaginatedTimelineResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFeedHighlightsArgs, "request">
+  >;
+  followerNftOwnedTokenIds?: Resolver<
+    Maybe<ResolversTypes["FollowerNftOwnedTokenIds"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryFollowerNftOwnedTokenIdsArgs, "request">
+  >;
+  followers?: Resolver<
+    ResolversTypes["PaginatedFollowersResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFollowersArgs, "request">
+  >;
+  following?: Resolver<
+    ResolversTypes["PaginatedFollowingResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFollowingArgs, "request">
+  >;
+  generateModuleCurrencyApprovalData?: Resolver<
+    ResolversTypes["GenerateModuleCurrencyApproval"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGenerateModuleCurrencyApprovalDataArgs, "request">
+  >;
+  globalProtocolStats?: Resolver<
+    ResolversTypes["GlobalProtocolStats"],
+    ParentType,
+    ContextType,
+    Partial<QueryGlobalProtocolStatsArgs>
+  >;
+  hasTxHashBeenIndexed?: Resolver<
+    ResolversTypes["TransactionResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryHasTxHashBeenIndexedArgs, "request">
+  >;
+  internalPublicationFilter?: Resolver<
+    ResolversTypes["PaginatedPublicationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryInternalPublicationFilterArgs, "request">
+  >;
+  mutualFollowersProfiles?: Resolver<
+    ResolversTypes["PaginatedProfileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryMutualFollowersProfilesArgs, "request">
+  >;
+  nftOwnershipChallenge?: Resolver<
+    ResolversTypes["NftOwnershipChallengeResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNftOwnershipChallengeArgs, "request">
+  >;
+  nfts?: Resolver<
+    ResolversTypes["NFTsResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNftsArgs, "request">
+  >;
+  notifications?: Resolver<
+    ResolversTypes["PaginatedNotificationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNotificationsArgs, "request">
+  >;
+  pendingApprovalFollows?: Resolver<
+    ResolversTypes["PendingApproveFollowsResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPendingApprovalFollowsArgs, "request">
+  >;
+  ping?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  profile?: Resolver<
+    Maybe<ResolversTypes["Profile"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileArgs, "request">
+  >;
+  profileFollowModuleBeenRedeemed?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileFollowModuleBeenRedeemedArgs, "request">
+  >;
+  profileFollowRevenue?: Resolver<
+    ResolversTypes["FollowRevenueResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileFollowRevenueArgs, "request">
+  >;
+  profileOnChainIdentity?: Resolver<
+    Array<ResolversTypes["OnChainIdentity"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileOnChainIdentityArgs, "request">
+  >;
+  profilePublicationRevenue?: Resolver<
+    ResolversTypes["ProfilePublicationRevenueResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfilePublicationRevenueArgs, "request">
+  >;
+  profilePublicationsForSale?: Resolver<
+    ResolversTypes["PaginatedProfilePublicationsForSaleResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfilePublicationsForSaleArgs, "request">
+  >;
+  profiles?: Resolver<
+    ResolversTypes["PaginatedProfileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfilesArgs, "request">
+  >;
+  proxyActionStatus?: Resolver<
+    ResolversTypes["ProxyActionStatusResultUnion"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProxyActionStatusArgs, "proxyActionId">
+  >;
+  publication?: Resolver<
+    Maybe<ResolversTypes["Publication"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationArgs, "request">
+  >;
+  publicationMetadataStatus?: Resolver<
+    ResolversTypes["PublicationMetadataStatus"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationMetadataStatusArgs, "request">
+  >;
+  publicationRevenue?: Resolver<
+    Maybe<ResolversTypes["PublicationRevenue"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationRevenueArgs, "request">
+  >;
+  publications?: Resolver<
+    ResolversTypes["PaginatedPublicationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationsArgs, "request">
+  >;
+  recommendedProfiles?: Resolver<
+    Array<ResolversTypes["Profile"]>,
+    ParentType,
+    ContextType,
+    Partial<QueryRecommendedProfilesArgs>
+  >;
+  rel?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryRelArgs, "request">
+  >;
+  search?: Resolver<
+    ResolversTypes["SearchResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QuerySearchArgs, "request">
+  >;
+  timeline?: Resolver<
+    ResolversTypes["PaginatedTimelineResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryTimelineArgs, "request">
+  >;
+  txIdToTxHash?: Resolver<
+    ResolversTypes["TxHash"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryTxIdToTxHashArgs, "txId">
+  >;
+  unknownEnabledModules?: Resolver<ResolversTypes["EnabledModules"], ParentType, ContextType>;
+  userSigNonces?: Resolver<ResolversTypes["UserSigNonces"], ParentType, ContextType>;
+  validatePublicationMetadata?: Resolver<
+    ResolversTypes["PublicationValidateMetadataResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryValidatePublicationMetadataArgs, "request">
+  >;
+  verify?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryVerifyArgs, "request">
+  >;
+  whoCollectedPublication?: Resolver<
+    ResolversTypes["PaginatedWhoCollectedResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryWhoCollectedPublicationArgs, "request">
+  >;
+  whoReactedPublication?: Resolver<
+    ResolversTypes["PaginatedWhoReactedResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryWhoReactedPublicationArgs, "request">
+  >;
+};
+
+export type ReactionEventResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ReactionEvent"] = ResolversParentTypes["ReactionEvent"],
+> = {
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  reaction?: Resolver<ResolversTypes["ReactionTypes"], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface ReactionIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ReactionId"], any> {
+  name: "ReactionId";
+}
+
+export type ReferenceModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ReferenceModule"] = ResolversParentTypes["ReferenceModule"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "DegreesOfSeparationReferenceModuleSettings"
+    | "FollowOnlyReferenceModuleSettings"
+    | "UnknownReferenceModuleSettings",
+    ParentType,
+    ContextType
+  >;
+};
+
+export interface ReferenceModuleDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ReferenceModuleData"], any> {
+  name: "ReferenceModuleData";
+}
+
+export type RelayErrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RelayError"] = ResolversParentTypes["RelayError"],
+> = {
+  reason?: Resolver<ResolversTypes["RelayErrorReasons"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type RelayResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RelayResult"] = ResolversParentTypes["RelayResult"],
+> = {
+  __resolveType: TypeResolveFn<"RelayError" | "RelayerResult", ParentType, ContextType>;
+};
+
+export type RelayerResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RelayerResult"] = ResolversParentTypes["RelayerResult"],
+> = {
+  txHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
+  txId?: Resolver<ResolversTypes["TxId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ReservedClaimableHandleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ReservedClaimableHandle"] = ResolversParentTypes["ReservedClaimableHandle"],
+> = {
+  expiry?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  handle?: Resolver<ResolversTypes["Handle"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["HandleClaimIdScalar"], ParentType, ContextType>;
+  source?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type RevenueAggregateResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RevenueAggregate"] = ResolversParentTypes["RevenueAggregate"],
+> = {
+  total?: Resolver<ResolversTypes["Erc20Amount"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type RevertCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RevertCollectModuleSettings"] = ResolversParentTypes["RevertCollectModuleSettings"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type RevertFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RevertFollowModuleSettings"] = ResolversParentTypes["RevertFollowModuleSettings"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["FollowModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface SearchScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Search"], any> {
+  name: "Search";
+}
+
+export type SearchResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SearchResult"] = ResolversParentTypes["SearchResult"],
+> = {
+  __resolveType: TypeResolveFn<
+    "ProfileSearchResult" | "PublicationSearchResult",
+    ParentType,
+    ContextType
+  >;
+};
+
+export type SetDefaultProfileBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileBroadcastItemResult"] = ResolversParentTypes["SetDefaultProfileBroadcastItemResult"],
+> = {
+  expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
+  typedData?: Resolver<ResolversTypes["SetDefaultProfileEIP712TypedData"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SetDefaultProfileEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedData"] = ResolversParentTypes["SetDefaultProfileEIP712TypedData"],
+> = {
+  domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["SetDefaultProfileEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["SetDefaultProfileEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SetDefaultProfileEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedDataTypes"] = ResolversParentTypes["SetDefaultProfileEIP712TypedDataTypes"],
+> = {
+  SetDefaultProfileWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SetDefaultProfileEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedDataValue"] = ResolversParentTypes["SetDefaultProfileEIP712TypedDataValue"],
+> = {
+  deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
+  nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  wallet?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface SignatureScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["Signature"], any> {
+  name: "Signature";
+}
+
+export interface SourcesScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["Sources"], any> {
+  name: "Sources";
+}
+
+export type SybilDotOrgIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SybilDotOrgIdentity"] = ResolversParentTypes["SybilDotOrgIdentity"],
+> = {
+  source?: Resolver<ResolversTypes["SybilDotOrgIdentitySource"], ParentType, ContextType>;
+  verified?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SybilDotOrgIdentitySourceResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SybilDotOrgIdentitySource"] = ResolversParentTypes["SybilDotOrgIdentitySource"],
+> = {
+  twitter?: Resolver<ResolversTypes["SybilDotOrgTwitterIdentity"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SybilDotOrgTwitterIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SybilDotOrgTwitterIdentity"] = ResolversParentTypes["SybilDotOrgTwitterIdentity"],
+> = {
+  handle?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TagResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TagResult"] = ResolversParentTypes["TagResult"],
+> = {
+  tag?: Resolver<ResolversTypes["PublicationTag"], ParentType, ContextType>;
+  total?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TimedFeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TimedFeeCollectModuleSettings"] = ResolversParentTypes["TimedFeeCollectModuleSettings"],
+> = {
+  amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  endTimestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  followerOnly?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  recipient?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  referralFee?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface TimestampScalarScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["TimestampScalar"], any> {
+  name: "TimestampScalar";
+}
+
+export type TransactionErrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionError"] = ResolversParentTypes["TransactionError"],
+> = {
+  reason?: Resolver<ResolversTypes["TransactionErrorReasons"], ParentType, ContextType>;
+  txReceipt?: Resolver<Maybe<ResolversTypes["TransactionReceipt"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TransactionIndexedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionIndexedResult"] = ResolversParentTypes["TransactionIndexedResult"],
+> = {
+  indexed?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  metadataStatus?: Resolver<
+    Maybe<ResolversTypes["PublicationMetadataStatus"]>,
+    ParentType,
+    ContextType
+  >;
+  txHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
+  txReceipt?: Resolver<Maybe<ResolversTypes["TransactionReceipt"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TransactionReceiptResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionReceipt"] = ResolversParentTypes["TransactionReceipt"],
+> = {
+  blockHash?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  blockNumber?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  byzantium?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  confirmations?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  contractAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
+  cumulativeGasUsed?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  effectiveGasPrice?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  from?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  gasUsed?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  logs?: Resolver<Array<ResolversTypes["Log"]>, ParentType, ContextType>;
+  logsBloom?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  root?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  to?: Resolver<Maybe<ResolversTypes["EthereumAddress"]>, ParentType, ContextType>;
+  transactionHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
+  transactionIndex?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TransactionResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionResult"] = ResolversParentTypes["TransactionResult"],
+> = {
+  __resolveType: TypeResolveFn<
+    "TransactionError" | "TransactionIndexedResult",
+    ParentType,
+    ContextType
+  >;
+};
+
+export interface TxHashScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["TxHash"], any> {
+  name: "TxHash";
+}
+
+export interface TxIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["TxId"], any> {
+  name: "TxId";
+}
+
+export interface UnixTimestampScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["UnixTimestamp"], any> {
+  name: "UnixTimestamp";
+}
+
+export type UnknownCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UnknownCollectModuleSettings"] = ResolversParentTypes["UnknownCollectModuleSettings"],
+> = {
+  collectModuleReturnData?: Resolver<ResolversTypes["CollectModuleData"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UnknownFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UnknownFollowModuleSettings"] = ResolversParentTypes["UnknownFollowModuleSettings"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  followModuleReturnData?: Resolver<ResolversTypes["FollowModuleData"], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes["FollowModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UnknownReferenceModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UnknownReferenceModuleSettings"] = ResolversParentTypes["UnknownReferenceModuleSettings"],
+> = {
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  referenceModuleReturnData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
+  type?: Resolver<ResolversTypes["ReferenceModules"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface UrlScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Url"], any> {
+  name: "Url";
+}
+
+export type UserSigNoncesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UserSigNonces"] = ResolversParentTypes["UserSigNonces"],
+> = {
+  lensHubOnChainSigNonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  peripheryOnChainSigNonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Void"], any> {
+  name: "Void";
+}
+
+export type WalletResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Wallet"] = ResolversParentTypes["Wallet"],
+> = {
+  address?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  defaultProfile?: Resolver<Maybe<ResolversTypes["Profile"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type WhoReactedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["WhoReactedResult"] = ResolversParentTypes["WhoReactedResult"],
+> = {
+  profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
+  reaction?: Resolver<ResolversTypes["ReactionTypes"], ParentType, ContextType>;
+  reactionAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  reactionId?: Resolver<ResolversTypes["ReactionId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type WorldcoinIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["WorldcoinIdentity"] = ResolversParentTypes["WorldcoinIdentity"],
+> = {
+  isHuman?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Resolvers<ContextType = any> = {
+  ApprovedAllowanceAmount?: ApprovedAllowanceAmountResolvers<ContextType>;
+  Attribute?: AttributeResolvers<ContextType>;
+  AuthChallengeResult?: AuthChallengeResultResolvers<ContextType>;
+  AuthenticationResult?: AuthenticationResultResolvers<ContextType>;
+  BlockchainData?: GraphQLScalarType;
+  BroadcastId?: GraphQLScalarType;
+  CanCommentResponse?: CanCommentResponseResolvers<ContextType>;
+  CanMirrorResponse?: CanMirrorResponseResolvers<ContextType>;
+  ChainId?: GraphQLScalarType;
+  ClaimableHandles?: ClaimableHandlesResolvers<ContextType>;
+  CollectModule?: CollectModuleResolvers<ContextType>;
+  CollectModuleData?: GraphQLScalarType;
+  CollectedEvent?: CollectedEventResolvers<ContextType>;
+  Comment?: CommentResolvers<ContextType>;
+  ContractAddress?: GraphQLScalarType;
+  CreateBurnEIP712TypedData?: CreateBurnEip712TypedDataResolvers<ContextType>;
+  CreateBurnEIP712TypedDataTypes?: CreateBurnEip712TypedDataTypesResolvers<ContextType>;
+  CreateBurnEIP712TypedDataValue?: CreateBurnEip712TypedDataValueResolvers<ContextType>;
+  CreateBurnProfileBroadcastItemResult?: CreateBurnProfileBroadcastItemResultResolvers<ContextType>;
+  CreateCollectBroadcastItemResult?: CreateCollectBroadcastItemResultResolvers<ContextType>;
+  CreateCollectEIP712TypedData?: CreateCollectEip712TypedDataResolvers<ContextType>;
+  CreateCollectEIP712TypedDataTypes?: CreateCollectEip712TypedDataTypesResolvers<ContextType>;
+  CreateCollectEIP712TypedDataValue?: CreateCollectEip712TypedDataValueResolvers<ContextType>;
+  CreateCommentBroadcastItemResult?: CreateCommentBroadcastItemResultResolvers<ContextType>;
+  CreateCommentEIP712TypedData?: CreateCommentEip712TypedDataResolvers<ContextType>;
+  CreateCommentEIP712TypedDataTypes?: CreateCommentEip712TypedDataTypesResolvers<ContextType>;
+  CreateCommentEIP712TypedDataValue?: CreateCommentEip712TypedDataValueResolvers<ContextType>;
+  CreateFollowBroadcastItemResult?: CreateFollowBroadcastItemResultResolvers<ContextType>;
+  CreateFollowEIP712TypedData?: CreateFollowEip712TypedDataResolvers<ContextType>;
+  CreateFollowEIP712TypedDataTypes?: CreateFollowEip712TypedDataTypesResolvers<ContextType>;
+  CreateFollowEIP712TypedDataValue?: CreateFollowEip712TypedDataValueResolvers<ContextType>;
+  CreateHandle?: GraphQLScalarType;
+  CreateMirrorBroadcastItemResult?: CreateMirrorBroadcastItemResultResolvers<ContextType>;
+  CreateMirrorEIP712TypedData?: CreateMirrorEip712TypedDataResolvers<ContextType>;
+  CreateMirrorEIP712TypedDataTypes?: CreateMirrorEip712TypedDataTypesResolvers<ContextType>;
+  CreateMirrorEIP712TypedDataValue?: CreateMirrorEip712TypedDataValueResolvers<ContextType>;
+  CreatePostBroadcastItemResult?: CreatePostBroadcastItemResultResolvers<ContextType>;
+  CreatePostEIP712TypedData?: CreatePostEip712TypedDataResolvers<ContextType>;
+  CreatePostEIP712TypedDataTypes?: CreatePostEip712TypedDataTypesResolvers<ContextType>;
+  CreatePostEIP712TypedDataValue?: CreatePostEip712TypedDataValueResolvers<ContextType>;
+  CreateSetDispatcherBroadcastItemResult?: CreateSetDispatcherBroadcastItemResultResolvers<ContextType>;
+  CreateSetDispatcherEIP712TypedData?: CreateSetDispatcherEip712TypedDataResolvers<ContextType>;
+  CreateSetDispatcherEIP712TypedDataTypes?: CreateSetDispatcherEip712TypedDataTypesResolvers<ContextType>;
+  CreateSetDispatcherEIP712TypedDataValue?: CreateSetDispatcherEip712TypedDataValueResolvers<ContextType>;
+  CreateSetFollowModuleBroadcastItemResult?: CreateSetFollowModuleBroadcastItemResultResolvers<ContextType>;
+  CreateSetFollowModuleEIP712TypedData?: CreateSetFollowModuleEip712TypedDataResolvers<ContextType>;
+  CreateSetFollowModuleEIP712TypedDataTypes?: CreateSetFollowModuleEip712TypedDataTypesResolvers<ContextType>;
+  CreateSetFollowModuleEIP712TypedDataValue?: CreateSetFollowModuleEip712TypedDataValueResolvers<ContextType>;
+  CreateSetFollowNFTUriBroadcastItemResult?: CreateSetFollowNftUriBroadcastItemResultResolvers<ContextType>;
+  CreateSetFollowNFTUriEIP712TypedData?: CreateSetFollowNftUriEip712TypedDataResolvers<ContextType>;
+  CreateSetFollowNFTUriEIP712TypedDataTypes?: CreateSetFollowNftUriEip712TypedDataTypesResolvers<ContextType>;
+  CreateSetFollowNFTUriEIP712TypedDataValue?: CreateSetFollowNftUriEip712TypedDataValueResolvers<ContextType>;
+  CreateSetProfileImageUriBroadcastItemResult?: CreateSetProfileImageUriBroadcastItemResultResolvers<ContextType>;
+  CreateSetProfileImageUriEIP712TypedData?: CreateSetProfileImageUriEip712TypedDataResolvers<ContextType>;
+  CreateSetProfileImageUriEIP712TypedDataTypes?: CreateSetProfileImageUriEip712TypedDataTypesResolvers<ContextType>;
+  CreateSetProfileImageUriEIP712TypedDataValue?: CreateSetProfileImageUriEip712TypedDataValueResolvers<ContextType>;
+  CreateSetProfileMetadataURIBroadcastItemResult?: CreateSetProfileMetadataUriBroadcastItemResultResolvers<ContextType>;
+  CreateSetProfileMetadataURIEIP712TypedData?: CreateSetProfileMetadataUrieip712TypedDataResolvers<ContextType>;
+  CreateSetProfileMetadataURIEIP712TypedDataTypes?: CreateSetProfileMetadataUrieip712TypedDataTypesResolvers<ContextType>;
+  CreateSetProfileMetadataURIEIP712TypedDataValue?: CreateSetProfileMetadataUrieip712TypedDataValueResolvers<ContextType>;
+  CreateToggleFollowBroadcastItemResult?: CreateToggleFollowBroadcastItemResultResolvers<ContextType>;
+  CreateToggleFollowEIP712TypedData?: CreateToggleFollowEip712TypedDataResolvers<ContextType>;
+  CreateToggleFollowEIP712TypedDataTypes?: CreateToggleFollowEip712TypedDataTypesResolvers<ContextType>;
+  CreateToggleFollowEIP712TypedDataValue?: CreateToggleFollowEip712TypedDataValueResolvers<ContextType>;
+  CreateUnfollowBroadcastItemResult?: CreateUnfollowBroadcastItemResultResolvers<ContextType>;
+  Cursor?: GraphQLScalarType;
+  DateTime?: GraphQLScalarType;
+  DegreesOfSeparationReferenceModuleSettings?: DegreesOfSeparationReferenceModuleSettingsResolvers<ContextType>;
+  Dispatcher?: DispatcherResolvers<ContextType>;
+  DoesFollowResponse?: DoesFollowResponseResolvers<ContextType>;
+  EIP712TypedDataDomain?: Eip712TypedDataDomainResolvers<ContextType>;
+  EIP712TypedDataField?: Eip712TypedDataFieldResolvers<ContextType>;
+  ElectedMirror?: ElectedMirrorResolvers<ContextType>;
+  EnabledModule?: EnabledModuleResolvers<ContextType>;
+  EnabledModules?: EnabledModulesResolvers<ContextType>;
+  Ens?: GraphQLScalarType;
+  EnsOnChainIdentity?: EnsOnChainIdentityResolvers<ContextType>;
+  Erc20?: Erc20Resolvers<ContextType>;
+  Erc20Amount?: Erc20AmountResolvers<ContextType>;
+  EthereumAddress?: GraphQLScalarType;
+  ExploreProfileResult?: ExploreProfileResultResolvers<ContextType>;
+  ExplorePublicationResult?: ExplorePublicationResultResolvers<ContextType>;
+  FeeCollectModuleSettings?: FeeCollectModuleSettingsResolvers<ContextType>;
+  FeeFollowModuleSettings?: FeeFollowModuleSettingsResolvers<ContextType>;
+  FeedItem?: FeedItemResolvers<ContextType>;
+  FeedItemRoot?: FeedItemRootResolvers<ContextType>;
+  FollowModule?: FollowModuleResolvers<ContextType>;
+  FollowModuleData?: GraphQLScalarType;
+  FollowOnlyReferenceModuleSettings?: FollowOnlyReferenceModuleSettingsResolvers<ContextType>;
+  FollowRevenueResult?: FollowRevenueResultResolvers<ContextType>;
+  Follower?: FollowerResolvers<ContextType>;
+  FollowerNftOwnedTokenIds?: FollowerNftOwnedTokenIdsResolvers<ContextType>;
+  Following?: FollowingResolvers<ContextType>;
+  FreeCollectModuleSettings?: FreeCollectModuleSettingsResolvers<ContextType>;
+  GenerateModuleCurrencyApproval?: GenerateModuleCurrencyApprovalResolvers<ContextType>;
+  GlobalProtocolStats?: GlobalProtocolStatsResolvers<ContextType>;
+  Handle?: GraphQLScalarType;
+  HandleClaimIdScalar?: GraphQLScalarType;
+  InternalPublicationId?: GraphQLScalarType;
+  Jwt?: GraphQLScalarType;
+  LimitScalar?: GraphQLScalarType;
+  LimitedFeeCollectModuleSettings?: LimitedFeeCollectModuleSettingsResolvers<ContextType>;
+  LimitedTimedFeeCollectModuleSettings?: LimitedTimedFeeCollectModuleSettingsResolvers<ContextType>;
+  Locale?: GraphQLScalarType;
+  Log?: LogResolvers<ContextType>;
+  MainPostReference?: MainPostReferenceResolvers<ContextType>;
+  Markdown?: GraphQLScalarType;
+  Media?: MediaResolvers<ContextType>;
+  MediaSet?: MediaSetResolvers<ContextType>;
+  MentionPublication?: MentionPublicationResolvers<ContextType>;
+  MetadataAttributeOutput?: MetadataAttributeOutputResolvers<ContextType>;
+  MetadataOutput?: MetadataOutputResolvers<ContextType>;
+  MimeType?: GraphQLScalarType;
+  Mirror?: MirrorResolvers<ContextType>;
+  MirrorEvent?: MirrorEventResolvers<ContextType>;
+  MirrorablePublication?: MirrorablePublicationResolvers<ContextType>;
+  ModuleFeeAmount?: ModuleFeeAmountResolvers<ContextType>;
+  ModuleInfo?: ModuleInfoResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
+  NFT?: NftResolvers<ContextType>;
+  NFTContent?: NftContentResolvers<ContextType>;
+  NFTsResult?: NfTsResultResolvers<ContextType>;
+  NewCollectNotification?: NewCollectNotificationResolvers<ContextType>;
+  NewCommentNotification?: NewCommentNotificationResolvers<ContextType>;
+  NewFollowerNotification?: NewFollowerNotificationResolvers<ContextType>;
+  NewMentionNotification?: NewMentionNotificationResolvers<ContextType>;
+  NewMirrorNotification?: NewMirrorNotificationResolvers<ContextType>;
+  NewReactionNotification?: NewReactionNotificationResolvers<ContextType>;
+  NftImage?: NftImageResolvers<ContextType>;
+  NftOwnershipChallengeResult?: NftOwnershipChallengeResultResolvers<ContextType>;
+  NftOwnershipId?: GraphQLScalarType;
+  Nonce?: GraphQLScalarType;
+  Notification?: NotificationResolvers<ContextType>;
+  NotificationId?: GraphQLScalarType;
+  OnChainIdentity?: OnChainIdentityResolvers<ContextType>;
+  Owner?: OwnerResolvers<ContextType>;
+  PaginatedAllPublicationsTagsResult?: PaginatedAllPublicationsTagsResultResolvers<ContextType>;
+  PaginatedFeedResult?: PaginatedFeedResultResolvers<ContextType>;
+  PaginatedFollowersResult?: PaginatedFollowersResultResolvers<ContextType>;
+  PaginatedFollowingResult?: PaginatedFollowingResultResolvers<ContextType>;
+  PaginatedNotificationResult?: PaginatedNotificationResultResolvers<ContextType>;
+  PaginatedProfilePublicationsForSaleResult?: PaginatedProfilePublicationsForSaleResultResolvers<ContextType>;
+  PaginatedProfileResult?: PaginatedProfileResultResolvers<ContextType>;
+  PaginatedPublicationResult?: PaginatedPublicationResultResolvers<ContextType>;
+  PaginatedResultInfo?: PaginatedResultInfoResolvers<ContextType>;
+  PaginatedTimelineResult?: PaginatedTimelineResultResolvers<ContextType>;
+  PaginatedWhoCollectedResult?: PaginatedWhoCollectedResultResolvers<ContextType>;
+  PaginatedWhoReactedResult?: PaginatedWhoReactedResultResolvers<ContextType>;
+  PendingApproveFollowsResult?: PendingApproveFollowsResultResolvers<ContextType>;
+  Post?: PostResolvers<ContextType>;
+  Profile?: ProfileResolvers<ContextType>;
+  ProfileFollowModuleSettings?: ProfileFollowModuleSettingsResolvers<ContextType>;
+  ProfileId?: GraphQLScalarType;
+  ProfileMedia?: ProfileMediaResolvers<ContextType>;
+  ProfilePublicationRevenueResult?: ProfilePublicationRevenueResultResolvers<ContextType>;
+  ProfileSearchResult?: ProfileSearchResultResolvers<ContextType>;
+  ProfileStats?: ProfileStatsResolvers<ContextType>;
+  ProxyActionError?: ProxyActionErrorResolvers<ContextType>;
+  ProxyActionId?: GraphQLScalarType;
+  ProxyActionQueued?: ProxyActionQueuedResolvers<ContextType>;
+  ProxyActionStatusResult?: ProxyActionStatusResultResolvers<ContextType>;
+  ProxyActionStatusResultUnion?: ProxyActionStatusResultUnionResolvers<ContextType>;
+  Publication?: PublicationResolvers<ContextType>;
+  PublicationForSale?: PublicationForSaleResolvers<ContextType>;
+  PublicationId?: GraphQLScalarType;
+  PublicationMetadataStatus?: PublicationMetadataStatusResolvers<ContextType>;
+  PublicationRevenue?: PublicationRevenueResolvers<ContextType>;
+  PublicationSearchResult?: PublicationSearchResultResolvers<ContextType>;
+  PublicationSearchResultItem?: PublicationSearchResultItemResolvers<ContextType>;
+  PublicationStats?: PublicationStatsResolvers<ContextType>;
+  PublicationTag?: GraphQLScalarType;
+  PublicationUrl?: GraphQLScalarType;
+  PublicationValidateMetadataResult?: PublicationValidateMetadataResultResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
+  ReactionEvent?: ReactionEventResolvers<ContextType>;
+  ReactionId?: GraphQLScalarType;
+  ReferenceModule?: ReferenceModuleResolvers<ContextType>;
+  ReferenceModuleData?: GraphQLScalarType;
+  RelayError?: RelayErrorResolvers<ContextType>;
+  RelayResult?: RelayResultResolvers<ContextType>;
+  RelayerResult?: RelayerResultResolvers<ContextType>;
+  ReservedClaimableHandle?: ReservedClaimableHandleResolvers<ContextType>;
+  RevenueAggregate?: RevenueAggregateResolvers<ContextType>;
+  RevertCollectModuleSettings?: RevertCollectModuleSettingsResolvers<ContextType>;
+  RevertFollowModuleSettings?: RevertFollowModuleSettingsResolvers<ContextType>;
+  Search?: GraphQLScalarType;
+  SearchResult?: SearchResultResolvers<ContextType>;
+  SetDefaultProfileBroadcastItemResult?: SetDefaultProfileBroadcastItemResultResolvers<ContextType>;
+  SetDefaultProfileEIP712TypedData?: SetDefaultProfileEip712TypedDataResolvers<ContextType>;
+  SetDefaultProfileEIP712TypedDataTypes?: SetDefaultProfileEip712TypedDataTypesResolvers<ContextType>;
+  SetDefaultProfileEIP712TypedDataValue?: SetDefaultProfileEip712TypedDataValueResolvers<ContextType>;
+  Signature?: GraphQLScalarType;
+  Sources?: GraphQLScalarType;
+  SybilDotOrgIdentity?: SybilDotOrgIdentityResolvers<ContextType>;
+  SybilDotOrgIdentitySource?: SybilDotOrgIdentitySourceResolvers<ContextType>;
+  SybilDotOrgTwitterIdentity?: SybilDotOrgTwitterIdentityResolvers<ContextType>;
+  TagResult?: TagResultResolvers<ContextType>;
+  TimedFeeCollectModuleSettings?: TimedFeeCollectModuleSettingsResolvers<ContextType>;
+  TimestampScalar?: GraphQLScalarType;
+  TransactionError?: TransactionErrorResolvers<ContextType>;
+  TransactionIndexedResult?: TransactionIndexedResultResolvers<ContextType>;
+  TransactionReceipt?: TransactionReceiptResolvers<ContextType>;
+  TransactionResult?: TransactionResultResolvers<ContextType>;
+  TxHash?: GraphQLScalarType;
+  TxId?: GraphQLScalarType;
+  UnixTimestamp?: GraphQLScalarType;
+  UnknownCollectModuleSettings?: UnknownCollectModuleSettingsResolvers<ContextType>;
+  UnknownFollowModuleSettings?: UnknownFollowModuleSettingsResolvers<ContextType>;
+  UnknownReferenceModuleSettings?: UnknownReferenceModuleSettingsResolvers<ContextType>;
+  Url?: GraphQLScalarType;
+  UserSigNonces?: UserSigNoncesResolvers<ContextType>;
+  Void?: GraphQLScalarType;
+  Wallet?: WalletResolvers<ContextType>;
+  WhoReactedResult?: WhoReactedResultResolvers<ContextType>;
+  WorldcoinIdentity?: WorldcoinIdentityResolvers<ContextType>;
+};
