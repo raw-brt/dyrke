@@ -4,6 +4,8 @@ import humanize from "@lib/humanize";
 import type { FC } from "react";
 import { useState } from "react";
 import { Modal } from "../UI/Modal";
+import Followers from "./Followers";
+import { Following } from "./Following";
 
 interface Props {
   profile: Profile
@@ -12,6 +14,8 @@ interface Props {
 export const FollowMetrics: FC<Props> = ({ profile }) => {
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showFollowersModal, setShowFollowersModal] = useState(false);
+
+  console.log(profile)
 
   return (
     <div className="flex gap-8">
@@ -29,7 +33,7 @@ export const FollowMetrics: FC<Props> = ({ profile }) => {
         show={showFollowingModal}
         onClose={() => setShowFollowingModal(false)}
       >
-        {/* <Following profile={profile} /> */}
+        <Following profile={profile} />
       </Modal>
       <Modal
         title="Followers"
@@ -37,7 +41,7 @@ export const FollowMetrics: FC<Props> = ({ profile }) => {
         show={showFollowersModal}
         onClose={() => setShowFollowersModal(false)}
       >
-        {/* <Following profile={profile} /> */}
+        <Followers profile={profile} />
       </Modal>
     </div>
   );

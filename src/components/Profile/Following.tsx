@@ -24,6 +24,8 @@ export const Following: FC<Props> = ({ profile, onProfileSelected }) => {
     },
   );
 
+  console.log(profilesIFollow)
+
   const followings = profilesIFollow.data?.following?.items;
   const pageInfo = profilesIFollow?.data?.following?.pageInfo;
   const hasMore = pageInfo?.next && followings?.length !== pageInfo.totalCount;

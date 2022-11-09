@@ -42,8 +42,6 @@ export const SinglePublication: FC<Props> = ({
     ? publication?.mirrorOf?.createdAt
     : publication?.createdAt;
 
-    console.log("Root is: ", rootPublication)
-
   return (
     <article className="hover:bg-gray-700 cursor-pointer first:rounded-t-xl last:rounded-b-xl p-5">
       {
@@ -77,15 +75,14 @@ export const SinglePublication: FC<Props> = ({
             <PublicationBody 
               publication={rootPublication as DyrkePublication}
             />
-            {/* {
+            {
               showActions && (
                 <PublicationActions 
                   publication={rootPublication as DyrkePublication}
                   electedMirror={feedItem?.electedMirror as ElectedMirror}
                 />
               )
-            } */}
-            {/* {rootPublication as DyrkePublication} */}
+            }
           </>
         )
       }

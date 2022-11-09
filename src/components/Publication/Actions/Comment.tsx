@@ -1,4 +1,5 @@
-import { ChatAlt2Icon } from "@heroicons/react/outline";
+
+import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import nFormatter from "@lib/nFormatter";
 import { motion } from "framer-motion";
 import type { FC } from "react";
@@ -17,6 +18,7 @@ export const Comment: FC<Props> = ({ publication, isFullPublication }) => {
     publication.__typename === "Mirror"
       ? publication?.mirrorOf?.stats?.totalAmountOfComments
       : publication?.stats?.totalAmountOfComments;
+  
   const iconClassName = isFullPublication ? "w-[17px] sm:w-[20px]" : "w-[15px] sm:w-[18px]";
 
   return (
@@ -29,7 +31,7 @@ export const Comment: FC<Props> = ({ publication, isFullPublication }) => {
               content={count > 0 ? `${humanize(count)} Comments` : "Comment"}
               withDelay
             >
-              <ChatAlt2Icon className={iconClassName} />
+              <ChatBubbleLeftIcon className={iconClassName} />
             </Tooltip>
           </span>
           {count > 0 && !isFullPublication && (

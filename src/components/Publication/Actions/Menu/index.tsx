@@ -1,6 +1,7 @@
 import { DyrkePublication } from "@generated/dyrketypes";
 import { Menu, Transition } from "@headlessui/react";
-import { DotsHorizontalIcon } from "@heroicons/react/outline";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+
 import clsx from "clsx";
 import type { FC } from "react";
 import { Fragment } from "react";
@@ -21,7 +22,7 @@ const PublicationMenu: FC<Props> = ({ publication, isFullPublication }) => {
       {({ open }) => (
         <>
           <Menu.Button className="p-1.5 rounded-full hover:bg-gray-300 hover:bg-opacity-20" aria-label="More">
-            <DotsHorizontalIcon className={clsx("text-gray-500 dark:text-gray-300", iconClassName)} />
+            <EllipsisHorizontalIcon className={clsx("text-gray-500 dark:text-gray-300", iconClassName)} />
           </Menu.Button>
           <Transition
             show={open}

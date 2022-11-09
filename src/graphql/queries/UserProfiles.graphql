@@ -4,6 +4,7 @@ query UserProfiles($ownedBy: [EthereumAddress!]) {
       ...ProfileFields
       stats {
         totalFollowing
+        totalFollowers
       }
       isDefault
       dispatcher {

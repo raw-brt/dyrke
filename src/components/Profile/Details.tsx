@@ -16,6 +16,7 @@ import { STATIC_ASSETS } from "src/config/constants";
 import Badges from "./Badges";
 import { Follow } from "../Shared/Follow";
 import { Unfollow } from "../Shared/Unfollow";
+import { FollowMetrics } from "./FollowMetrics";
 
 interface Props {
   profile: Profile;
@@ -24,7 +25,6 @@ interface Props {
 export const Details: FC<Props> = ({ profile }) => {
   const currentProfile = useProfileStore((state) => state.currentProfile);
   const [following, setFollowing] = useState(profile?.isFollowedByMe);
-  const [showMutualFollowersModal, setShowMutualFollowersModal] = useState(false);
 
   const MetaDetails = ({ children, icon }: { children: ReactElement; icon: ReactElement }) => (
     <div className='flex gap-2 items-center'>
@@ -64,7 +64,7 @@ export const Details: FC<Props> = ({ profile }) => {
         </div>
       </div>
       <div className='space-y-5'>
-        <Following profile={profile} />
+        <FollowMetrics profile={profile} />
         <div>
           {currentProfile?.id === profile?.id ? (
             <Link to='/settings'>

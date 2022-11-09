@@ -7782,7 +7782,7 @@ export type UserProfilesQuery = {
       handle: any;
       bio?: string | null;
       ownedBy: any;
-      stats: { __typename?: "ProfileStats"; totalFollowing: number };
+      stats: { __typename?: "ProfileStats"; totalFollowing: number; totalFollowers: number };
       dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
       attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
       picture?:
@@ -8377,6 +8377,7 @@ export const UserProfilesDocument = `
       ...ProfileFields
       stats {
         totalFollowing
+        totalFollowers
       }
       isDefault
       dispatcher {

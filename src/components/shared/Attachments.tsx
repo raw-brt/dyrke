@@ -1,7 +1,6 @@
 
 import { DyrkePublication, DyrkeAttachment } from "@generated/dyrketypes";
 import type { MediaSet } from "@generated/types";
-import { ExternalLinkIcon, XIcon } from "@heroicons/react/outline";
 import { getIPFSLink } from "@lib/getIPFSLink";
 import clsx from "clsx";
 import type { FC } from "react";
@@ -11,6 +10,7 @@ import { ALLOWED_AUDIO_TYPES, ALLOWED_VIDEO_TYPES, ATTACHMENT } from "../../conf
 
 import { Video } from "./Video";
 import { LightBox } from "../UI/LightBox";
+import { LinkIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const getClass = (attachments: number, isNew = false) => {
   if (attachments === 1) {
@@ -95,7 +95,7 @@ const Attachments: FC<Props> = ({
                 <Button
                   className="text-sm"
                   variant="primary"
-                  icon={<ExternalLinkIcon className="h-4 w-4" />}
+                  icon={<LinkIcon className="h-4 w-4" />}
                   onClick={() => window.open(url, "_blank")}
                 >
                   <span>Open Image in new tab</span>
@@ -122,7 +122,7 @@ const Attachments: FC<Props> = ({
                     className="p-1.5 bg-gray-900 rounded-full opacity-75"
                     onClick={() => removeAttachment(attachment)}
                   >
-                    <XIcon className="w-4 h-4 text-white" />
+                    <XMarkIcon className="w-4 h-4 text-white" />
                   </button>
                 </div>
               )}

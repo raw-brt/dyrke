@@ -24,21 +24,16 @@ export const Profile: FC = () => {
             : `${STATIC_ASSETS}/patterns/2.svg`
         }
       />
-      <GridLayout className="pt-6">
-        <GridItemFour>
-          <Details profile={currentProfile as any} />
-        </GridItemFour>
-        <GridItemEight className="space-y-5">
-          <FeedSelector
-            stats={currentProfile?.stats as any}
-            feedType={feedType}
-            setFeedType={setFeedType as Dispatch<string>}
-          />
-          {(feedType === "FEED" || feedType === "REPLIES" || feedType === "MEDIA") && (
-            <Feed profile={currentProfile as any} type={feedType} />
-          )}
-        </GridItemEight>
-      </GridLayout>
+      <Details profile={currentProfile as any} />
+
+      <FeedSelector
+        stats={currentProfile?.stats as any}
+        feedType={feedType}
+        setFeedType={setFeedType as Dispatch<string>}
+      />
+      {(feedType === "FEED" || feedType === "REPLIES" || feedType === "MEDIA") && (
+        <Feed profile={currentProfile as any} type={feedType} />
+      )}
     </>
   );
 };
