@@ -20,9 +20,10 @@ import { FollowMetrics } from "./FollowMetrics";
 
 interface Props {
   profile: Profile;
+  isSidebar: boolean;
 }
 
-export const Details: FC<Props> = ({ profile }) => {
+export const Details: FC<Props> = ({ profile, isSidebar = false }) => {
   const currentProfile = useProfileStore((state) => state.currentProfile);
   const [following, setFollowing] = useState(profile?.isFollowedByMe);
 
@@ -37,15 +38,19 @@ export const Details: FC<Props> = ({ profile }) => {
 
   return (
     <div className='px-5 mb-4 space-y-5 sm:px-0'>
-      <div className='relative -mt-24 w-32 h-32 sm:-mt-32 sm:w-52 sm:h-52'>
-        <img
-          src={getAvatar(profile)}
-          className='w-32 h-32 bg-gray-200 rounded-xl ring-8 ring-gray-50 sm:w-52 sm:h-52 dark:bg-gray-700 dark:ring-black'
-          height={128}
-          width={128}
-          alt={profile?.handle}
-        />
-      </div>
+      {
+        !isSidebar ? (
+          <div className='relative -mt-24 w-32 h-32 sm:-mt-32 sm:w-52 sm:h-52'>
+            <img
+              src={getAvatar(profile)}
+              className='w-32 h-32 bg-gray-200 rounded-xl ring-8 ring-gray-50 sm:w-52 sm:h-52 dark:bg-gray-700 dark:ring-black'
+              height={128}
+              width={128}
+              alt={profile?.handle}
+            />
+        </div>
+        ) : null
+      }
       <div className='py-2 space-y-1'>
         <div className='flex gap-1.5 items-center text-2xl font-bold'>
           <div className='truncate'>{profile?.name ?? profile?.handle}</div>

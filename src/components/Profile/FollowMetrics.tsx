@@ -15,8 +15,6 @@ export const FollowMetrics: FC<Props> = ({ profile }) => {
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showFollowersModal, setShowFollowersModal] = useState(false);
 
-  console.log(profile)
-
   return (
     <div className="flex gap-8">
       <button type="button" className="text-left" onClick={() => setShowFollowingModal(!showFollowingModal)}>

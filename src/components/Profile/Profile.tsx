@@ -8,8 +8,11 @@ import { FeedSelector } from "./FeedSelector";
 import { Feed } from "../Profile/Feed";
 
 type FeedType = "FEED" | "REPLIES" | "MEDIA";
+interface Props {
+  isSidebar: boolean
+}
 
-export const Profile: FC = () => {
+export const Profile: FC<Props> = ({ isSidebar = false }) => {
   const [feedType, setFeedType] = useState<FeedType>("FEED");
 
   // State & Dependencies
@@ -17,14 +20,19 @@ export const Profile: FC = () => {
 
   return (
     <>
-      <Cover
-        cover={
-          currentProfile?.coverPicture?.__typename === "MediaSet"
-            ? currentProfile?.coverPicture?.original?.url
-            : `${STATIC_ASSETS}/patterns/2.svg`
-        }
-      />
-      <Details profile={currentProfile as any} />
+      {
+        !isSidebar ? (
+          <Cover
+            cover={
+              currentProfile?.coverPicture?.__typename === "MediaSet"
+                ? currentProfile?.coverPicture?.original?.url
+                : `${STATIC_ASSETS}/patterns/2.svg`
+            }
+          />
+        ) : null
+      }
+
+      <Details profile={currentProfile as any} isSidebar={true} />
 
       <FeedSelector
         stats={currentProfile?.stats as any}

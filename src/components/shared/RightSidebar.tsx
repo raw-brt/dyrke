@@ -92,7 +92,7 @@ export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen 
             {
               sidebarContents.whatToShow === "ownProfile" && (
                 <div className='h-0 flex-1 overflow-y-auto'>
-                  <Profile />
+                  <Profile isSidebar={true} />
                 </div>
               )
             }

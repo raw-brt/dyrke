@@ -1,5 +1,10 @@
-import { Profile, PublicationMainFocus, PublicationTypes, useProfileFeedQuery } from "../../generated/types";
-import type { FC } from "react";
+import {
+  Profile,
+  PublicationMainFocus,
+  PublicationTypes,
+  useProfileFeedQuery,
+} from "../../generated/types";
+import { FC, useState } from "react";
 import { useProfileStore } from "src/store/profiles";
 import { MAINNET_API_URL, SCROLL_THRESHOLD } from "src/config/constants";
 import { useAuthStore } from "src/store/auth";
@@ -20,6 +25,7 @@ interface Props {
 }
 
 export const Feed: FC<Props> = ({ profile, type }) => {
+  const [cursor, setCursor] = useState(null);
   const accessToken = useAuthStore((state) => state.authState.accessToken);
   const currentProfile = useProfileStore((state) => state.currentProfile);
 
@@ -43,7 +49,13 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       : null;
 
   // TODO: Control pagination
-  const request = { publicationTypes, metadata, profileId: profile?.id, limit: 10 };
+  const request = {
+    publicationTypes,
+    metadata,
+    profileId: profile?.id,
+    limit: 10,
+    cursor: cursor,
+  };
   const reactionRequest = currentProfile ? { profileId: currentProfile?.id } : null;
   const profileId = currentProfile?.id ?? null;
 
@@ -54,16 +66,31 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       reactionRequest,
       profileId,
     },
+    {
+      keepPreviousData: true,
+      // onSuccess: (data) => {
+      //   if (
+      //     data?.publications?.pageInfo?.next &&
+      //     data?.publications?.items?.length !== data?.publications?.pageInfo?.totalCount
+      //   ) {
+      //     setCursor(data?.publications?.pageInfo?.next);
+      //   }
+      // },
+    },
   );
 
   // TODO: Update
   const loadMore = async () => {
-    return;
+    console.log("entra");
+    // if (profileFeed.isFetching || profileFeed.isLoading) return;
+    await profileFeed.refetch();
   };
 
   const publications = profileFeed?.data?.publications?.items;
   const pageInfo = profileFeed?.data?.publications?.pageInfo;
   const hasMore = pageInfo?.next && publications?.length !== pageInfo.totalCount;
+
+  console.log(publications);
 
   if (profileFeed.isFetching) return <PublicationsSkeleton />;
 
@@ -72,17 +99,17 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       <Empty
         message={
           <div>
-            <span className="mr-1 font-bold">@{profile?.handle}</span>
+            <span className='mr-1 font-bold'>@{profile?.handle}</span>
             <span>doesn’t {type.toLowerCase()}ed yet!</span>
           </div>
         }
-        icon={<RectangleStackIcon className="w-8 h-8 text-primary-500" />}
+        icon={<RectangleStackIcon className='w-8 h-8 text-primary-500' />}
       />
     );
-  };
+  }
 
   if (profileFeed.error) {
-    return <ErrorMessage title="Failed to load profile feed" error={profileFeed?.error} />
+    return <ErrorMessage title='Failed to load profile feed' error={profileFeed?.error} />;
   }
 
   return (
@@ -93,16 +120,14 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       next={loadMore}
       loader={<InfiniteLoader />}
     >
-      <Card className="divide-y-[1px] divide-gray-700/80">
-        {
-          publications?.map((publication, index: number) => (
-            <SinglePublication 
-              key={`${publication.id}_${index}`}
-              publication={publication as DyrkePublication}
-              showThread={type !== "MEDIA"}
-            />
-          ))
-        }
+      <Card className='divide-y-[1px] divide-gray-700/80'>
+        {publications?.map((publication, index: number) => (
+          <SinglePublication
+            key={`${publication.id}_${index}`}
+            publication={publication as DyrkePublication}
+            showThread={type !== "MEDIA"}
+          />
+        ))}
       </Card>
     </InfiniteScroll>
   );
