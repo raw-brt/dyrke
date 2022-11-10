@@ -4,7 +4,8 @@ import {
   PublicationTypes,
   useProfileFeedQuery,
 } from "../../generated/types";
-import { FC, useState } from "react";
+import { useState } from "react";
+import type {FC, Dispatch, SetStateAction } from "react";
 import { useProfileStore } from "src/store/profiles";
 import { MAINNET_API_URL, SCROLL_THRESHOLD } from "src/config/constants";
 import { useAuthStore } from "src/store/auth";
@@ -16,8 +17,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { InfiniteLoader } from "../UI/InfiniteLoader";
 import { Card } from "../UI/Card";
 import { SinglePublication } from "../Publication/SinglePublication";
-import { getAuthProperties } from "src/lib/getFetchOptions";
 import { DyrkePublication } from "src/generated/dyrketypes";
+import { getAuthProperties } from "@lib/getFetchOptions";
 
 interface Props {
   profile: Profile;
@@ -26,6 +27,7 @@ interface Props {
 
 export const Feed: FC<Props> = ({ profile, type }) => {
   const [cursor, setCursor] = useState(null);
+  const [feedPublications, setFeedPublications] = useState<unknown[]>([]);
   const accessToken = useAuthStore((state) => state.authState.accessToken);
   const currentProfile = useProfileStore((state) => state.currentProfile);
 
@@ -67,23 +69,19 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       profileId,
     },
     {
-      keepPreviousData: true,
+      onSuccess: (data) => setFeedPublications([...feedPublications as [any], data?.publications?.items])
     },
   );
+
+  console.log("Feedpublications: ", feedPublications)
 
   const publications = profileFeed?.data?.publications?.items;
   const pageInfo = profileFeed?.data?.publications?.pageInfo;
   const hasMore = pageInfo?.next && publications?.length !== pageInfo.totalCount;
 
   const loadMore = () => {
-    // Update query request to refetch automatically
-    // if (profileFeed.isFetching || profileFeed.isLoading) return;
-
-    // If there are more elements to fetch, update request variables to fetch them automatically
     if (hasMore) setCursor(profileFeed?.data?.publications?.pageInfo?.next);
   };
-
-  console.log(profileFeed)
 
   if (profileFeed.isFetching) return <PublicationsSkeleton />;
 
@@ -115,12 +113,14 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       scrollableTarget="scrollableDiv"
     >
       <Card className='divide-y-[1px] divide-gray-700/80'>
-        {profileFeed?.data?.publications?.items?.map((publication, index: number) => (
-          <SinglePublication
+        {feedPublications?.map((page: any) => (
+          page.map((publication: DyrkePublication, index: number) => (
+            <SinglePublication
             key={`${publication.id}_${index}`}
             publication={publication as DyrkePublication}
             showThread={type !== "MEDIA"}
           />
+          ))
         ))}
       </Card>
     </InfiniteScroll>
