@@ -17,7 +17,7 @@ const PublicationBody: FC<Props> = ({ publication }) => {
   const showMore = publication?.metadata?.content?.length > 450 && location.pathname !== "/posts/[id]";
 
   return (
-    <div className="break-words">
+    <div className="break-words text-neutral-100">
       <Markup
         className={clsx(
           { "line-clamp-5": showMore },
@@ -27,7 +27,7 @@ const PublicationBody: FC<Props> = ({ publication }) => {
         {publication?.metadata?.content}
       </Markup>
       {showMore && (
-        <div className="mt-4 text-sm text-gray-500 font-bold flex items-center space-x-1">
+        <div className="mt-4 text-sm text-gray-400 font-bold flex items-center space-x-1">
           <EyeIcon className="h-4 w-4" />
           <Link to={`/posts/${publication?.id}`}>Show more</Link>
         </div>

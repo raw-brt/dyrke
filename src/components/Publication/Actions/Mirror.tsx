@@ -30,10 +30,10 @@ const Mirror: FC<Props> = ({ publication, isFullPublication }) => {
 
   return (
     <motion.button whileTap={{ scale: 0.9 }} onClick={() => showUnderDevelopmentTooltip()} aria-label="Mirror">
-      <span className={clsx(mirrored ? "text-success-500" : "text-primary-500", "flex items-center space-x-1")}>
+      <span className={clsx(mirrored ? "text-primary-500" : "text-success-300", "flex items-center space-x-1")}>
         <span
           className={clsx(
-            mirrored ? "hover:bg-green-300" : "hover:bg-brand-300",
+            mirrored ? "hover:bg-primary-300" : "hover:bg-success-300",
             "p-1.5 rounded-full hover:bg-opacity-20"
           )}
         >

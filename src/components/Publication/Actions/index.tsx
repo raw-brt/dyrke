@@ -1,5 +1,3 @@
-
-
 import clsx from "clsx";
 import type { FC } from "react";
 import { DyrkePublication } from "../../../generated/dyrketypes";
@@ -17,7 +15,11 @@ interface Props {
   electedMirror?: ElectedMirror;
 }
 
-const PublicationActions: FC<Props> = ({ publication, electedMirror, isFullPublication = false }) => {
+const PublicationActions: FC<Props> = ({
+  publication,
+  electedMirror,
+  isFullPublication = false,
+}) => {
   const currentProfile = useProfileStore((state) => state.currentProfile);
   const collectModuleType = publication?.collectModule.__typename;
   const canMirror = currentProfile ? publication?.canMirror?.result : true;
@@ -26,7 +28,7 @@ const PublicationActions: FC<Props> = ({ publication, electedMirror, isFullPubli
     <span
       className={clsx(
         { "justify-between": isFullPublication },
-        "flex gap-6 items-center pt-3 -ml-2 text-gray-500 sm:gap-8"
+        "flex gap-6 items-center pt-3 -ml-2 text-gray-400 sm:gap-8",
       )}
       onClick={(event) => {
         event.stopPropagation();

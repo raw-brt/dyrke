@@ -43,7 +43,7 @@ export const SinglePublication: FC<Props> = ({
     : publication?.createdAt;
 
   return (
-    <article className="hover:bg-gray-700 cursor-pointer first:rounded-t-xl last:rounded-b-xl p-5">
+    <article className="hover:bg-gray-700 cursor-pointer first:rounded-t-xl last:rounded-b-xl py-5">
       {
         feedItem ? (
           <EventType 
@@ -59,11 +59,11 @@ export const SinglePublication: FC<Props> = ({
           />
         )
       }
-      <div className="flex justify-between pb-4 space-x-1.5">
+      <div className="flex justify-between pb-4 space-x-1.5 px-4 text-gray-100 font-semibold">
         <span onClick={(event) => event.stopPropagation()}>
           <UserProfile profile={profile ?? publication?.collectedBy?.defaultProfile} />
         </span>
-        <span className="text-xs text-gray-500">
+        <span className="text-xs text-gray-400">
           {dayjs(new Date(timestamp)).fromNow()}
         </span>
       </div>

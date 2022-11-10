@@ -47,7 +47,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
             !outline && !light && variant === "danger",
           "text-primary hover:bg-primary-100 focus:ring-primary-400 focus:ring-offset-2":
             outline && !light && variant === "primary",
-          "text-gray-500 hover:bg-gray-100 focus:ring-gray-400 focus:ring-offset-2":
+          "text-gray-100 hover:text-gray-900 hover:bg-gray-100 focus:ring-gray-400 focus:ring-offset-2 border border-gray-100":
             outline && !light && variant === "secondary",
           "text-green-500 hover:bg-green-100 focus:ring-green-400 focus:ring-offset-2":
             outline && !light && variant === "success",
@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
           "text-red-500 hover:bg-red-100 focus:ring-red-400 focus:ring-offset-2":
             outline && !light && variant === "danger",
           "border-none !shadow-none text-gray-500": light,
-          "px-2 py-1": size === "sm",
+          "px-2 py-1 text-sm": size === "sm",
           "px-3 py-1.5": size === "md",
           "px-4 py-2": size === "lg",
           "flex items-center space-x-1.5": icon && children,

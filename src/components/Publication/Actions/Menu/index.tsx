@@ -21,8 +21,8 @@ const PublicationMenu: FC<Props> = ({ publication, isFullPublication }) => {
     <Menu as="div">
       {({ open }) => (
         <>
-          <Menu.Button className="p-1.5 rounded-full hover:bg-gray-300 hover:bg-opacity-20" aria-label="More">
-            <EllipsisHorizontalIcon className={clsx("text-gray-500 dark:text-gray-300", iconClassName)} />
+          <Menu.Button className="p-1.5 rounded-full hover:bg-gray-300 hover:bg-opacity-20 group" aria-label="More">
+            <EllipsisHorizontalIcon className={clsx("text-gray-400 group-hover:text-gray-100", iconClassName)} />
           </Menu.Button>
           <Transition
             show={open}

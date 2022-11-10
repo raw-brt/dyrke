@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import type { FC } from "react";
 import { motion } from "framer-motion";
 import { Tooltip } from "@components/UI/Tooltip";
-import { RectangleGroupIcon as RectangleGroupIconSolid } from "@heroicons/react/24/solid";
-import { RectangleGroupIcon } from "@heroicons/react/24/outline";
+import { RectangleStackIcon as RectangleStackSolid } from "@heroicons/react/24/solid";
+import { RectangleStackIcon } from "@heroicons/react/24/outline";
 import nFormatter from "@lib/nFormatter";
 import { Modal } from "@components/UI/Modal";
 import humanize from "@lib/humanize";
@@ -46,9 +46,9 @@ const Collect: FC<Props> = ({ publication, isFullPublication, electedMirror }) =
               withDelay
             >
               {hasCollected ? (
-                <RectangleGroupIconSolid className={iconClassName} />
+                <RectangleStackSolid className={iconClassName} />
               ) : (
-                <RectangleGroupIcon className={iconClassName} />
+                <RectangleStackIcon className={iconClassName} />
               )}
             </Tooltip>
           </span>

@@ -19,11 +19,11 @@ export const FollowMetrics: FC<Props> = ({ profile }) => {
     <div className="flex gap-8">
       <button type="button" className="text-left" onClick={() => setShowFollowingModal(!showFollowingModal)}>
         <div className="text-xl">{humanize(profile?.stats?.totalFollowing)}</div>
-        <div className="text-gray-500">Following</div>
+        <div className="text-gray-400">Following</div>
       </button>
       <button type="button" className="text-left" onClick={() => setShowFollowersModal(!showFollowersModal)}>
         <div className="text-xl">{humanize(profile?.stats?.totalFollowers)}</div>
-        <div className="text-gray-500">Followers</div>
+        <div className="text-gray-400">Followers</div>
       </button>
       <Modal
         title="Following"

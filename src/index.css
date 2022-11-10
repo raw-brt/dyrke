@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  @apply overflow-y-scroll;
-}
-
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -20,4 +16,8 @@ h1, h2, h3, h4, h5, h6 {
   @apply animate-pulse;
   @apply bg-gray-300;
   @apply dark:bg-gray-600;
+}
+
+.hide-scrollbars::-webkit-scrollbar {
+  display: none;
 }

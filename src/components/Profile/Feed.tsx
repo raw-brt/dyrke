@@ -68,29 +68,22 @@ export const Feed: FC<Props> = ({ profile, type }) => {
     },
     {
       keepPreviousData: true,
-      // onSuccess: (data) => {
-      //   if (
-      //     data?.publications?.pageInfo?.next &&
-      //     data?.publications?.items?.length !== data?.publications?.pageInfo?.totalCount
-      //   ) {
-      //     setCursor(data?.publications?.pageInfo?.next);
-      //   }
-      // },
     },
   );
-
-  // TODO: Update
-  const loadMore = async () => {
-    console.log("entra");
-    // if (profileFeed.isFetching || profileFeed.isLoading) return;
-    await profileFeed.refetch();
-  };
 
   const publications = profileFeed?.data?.publications?.items;
   const pageInfo = profileFeed?.data?.publications?.pageInfo;
   const hasMore = pageInfo?.next && publications?.length !== pageInfo.totalCount;
 
-  console.log(publications);
+  const loadMore = () => {
+    // Update query request to refetch automatically
+    // if (profileFeed.isFetching || profileFeed.isLoading) return;
+
+    // If there are more elements to fetch, update request variables to fetch them automatically
+    if (hasMore) setCursor(profileFeed?.data?.publications?.pageInfo?.next);
+  };
+
+  console.log(profileFeed)
 
   if (profileFeed.isFetching) return <PublicationsSkeleton />;
 
@@ -113,15 +106,16 @@ export const Feed: FC<Props> = ({ profile, type }) => {
   }
 
   return (
+    <div id="scrollableDiv" style={{ height: "600px", overflow: "auto" }}>
     <InfiniteScroll
       dataLength={publications?.length ?? 0}
-      scrollThreshold={SCROLL_THRESHOLD}
       hasMore={hasMore}
       next={loadMore}
       loader={<InfiniteLoader />}
+      scrollableTarget="scrollableDiv"
     >
       <Card className='divide-y-[1px] divide-gray-700/80'>
-        {publications?.map((publication, index: number) => (
+        {profileFeed?.data?.publications?.items?.map((publication, index: number) => (
           <SinglePublication
             key={`${publication.id}_${index}`}
             publication={publication as DyrkePublication}
@@ -130,5 +124,6 @@ export const Feed: FC<Props> = ({ profile, type }) => {
         ))}
       </Card>
     </InfiniteScroll>
+    </div>
   );
 };
