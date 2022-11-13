@@ -20,6 +20,9 @@ export const DEFAULT_COLLECT_TOKEN = getEnvConfig().defaultCollectToken;
 
 export const IS_MAINNET = API_URL === MAINNET_API_URL;
 
+// Lens graph
+const SUBGRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/rtomas/lens-subgraph";
+
 // Application
 export const APP_NAME = "dyrke";
 export const DESCRIPTION =

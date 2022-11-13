@@ -1,0 +1,1789 @@
+schema {
+  query: Query
+  subscription: Subscription
+}
+
+"Marks the GraphQL type as indexable entity.  Each type that should be an entity is required to be annotated with this directive."
+directive @entity on OBJECT
+
+"Defined a Subgraph ID for an object type"
+directive @subgraphId(id: String!) on OBJECT
+
+"creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API."
+directive @derivedFrom(field: String!) on FIELD_DEFINITION
+
+type Account {
+  id: ID!
+  """Address"""
+  address: Bytes!
+  """Default Profile"""
+  defaultProfile: Profile
+  """List of Id profiles(String)"""
+  profilesIds: [String!]!
+  """List of Profiles that own this account"""
+  profiles(skip: Int = 0, first: Int = 100, orderBy: Profile_orderBy, orderDirection: OrderDirection, where: Profile_filter): [Profile!]
+  """List of Followings Profiles"""
+  following(skip: Int = 0, first: Int = 100, orderBy: Profile_orderBy, orderDirection: OrderDirection, where: Profile_filter): [Profile!]!
+  """List of Following profiles"""
+  totalFollowings: BigInt!
+}
+
+input Account_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  address: Bytes
+  address_not: Bytes
+  address_in: [Bytes!]
+  address_not_in: [Bytes!]
+  address_contains: Bytes
+  address_not_contains: Bytes
+  defaultProfile: String
+  defaultProfile_not: String
+  defaultProfile_gt: String
+  defaultProfile_lt: String
+  defaultProfile_gte: String
+  defaultProfile_lte: String
+  defaultProfile_in: [String!]
+  defaultProfile_not_in: [String!]
+  defaultProfile_contains: String
+  defaultProfile_contains_nocase: String
+  defaultProfile_not_contains: String
+  defaultProfile_not_contains_nocase: String
+  defaultProfile_starts_with: String
+  defaultProfile_starts_with_nocase: String
+  defaultProfile_not_starts_with: String
+  defaultProfile_not_starts_with_nocase: String
+  defaultProfile_ends_with: String
+  defaultProfile_ends_with_nocase: String
+  defaultProfile_not_ends_with: String
+  defaultProfile_not_ends_with_nocase: String
+  defaultProfile_: Profile_filter
+  profilesIds: [String!]
+  profilesIds_not: [String!]
+  profilesIds_contains: [String!]
+  profilesIds_contains_nocase: [String!]
+  profilesIds_not_contains: [String!]
+  profilesIds_not_contains_nocase: [String!]
+  profiles_: Profile_filter
+  following: [String!]
+  following_not: [String!]
+  following_contains: [String!]
+  following_contains_nocase: [String!]
+  following_not_contains: [String!]
+  following_not_contains_nocase: [String!]
+  following_: Profile_filter
+  totalFollowings: BigInt
+  totalFollowings_not: BigInt
+  totalFollowings_gt: BigInt
+  totalFollowings_lt: BigInt
+  totalFollowings_gte: BigInt
+  totalFollowings_lte: BigInt
+  totalFollowings_in: [BigInt!]
+  totalFollowings_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Account_orderBy {
+  id
+  address
+  defaultProfile
+  profilesIds
+  profiles
+  following
+  totalFollowings
+}
+
+scalar BigDecimal
+
+scalar BigInt
+
+input BlockChangedFilter {
+  number_gte: Int!
+}
+
+input Block_height {
+  hash: Bytes
+  number: Int
+  number_gte: Int
+}
+
+scalar Bytes
+
+type Comment implements Publication {
+  id: ID!
+  """Profile that created the post"""
+  fromProfile: Profile!
+  """Publication Id"""
+  pubId: BigInt!
+  referenceModule: Bytes!
+  referenceModuleReturnData: Bytes
+  """URI of the post content"""
+  contentURI: String!
+  profileIdPointed: BigInt!
+  pubIdPointed: BigInt!
+  collectModule: Bytes
+  collectModuleReturnData: Bytes
+  """Date of creation"""
+  timestamp: BigInt!
+}
+
+input Comment_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  fromProfile: String
+  fromProfile_not: String
+  fromProfile_gt: String
+  fromProfile_lt: String
+  fromProfile_gte: String
+  fromProfile_lte: String
+  fromProfile_in: [String!]
+  fromProfile_not_in: [String!]
+  fromProfile_contains: String
+  fromProfile_contains_nocase: String
+  fromProfile_not_contains: String
+  fromProfile_not_contains_nocase: String
+  fromProfile_starts_with: String
+  fromProfile_starts_with_nocase: String
+  fromProfile_not_starts_with: String
+  fromProfile_not_starts_with_nocase: String
+  fromProfile_ends_with: String
+  fromProfile_ends_with_nocase: String
+  fromProfile_not_ends_with: String
+  fromProfile_not_ends_with_nocase: String
+  fromProfile_: Profile_filter
+  pubId: BigInt
+  pubId_not: BigInt
+  pubId_gt: BigInt
+  pubId_lt: BigInt
+  pubId_gte: BigInt
+  pubId_lte: BigInt
+  pubId_in: [BigInt!]
+  pubId_not_in: [BigInt!]
+  referenceModule: Bytes
+  referenceModule_not: Bytes
+  referenceModule_in: [Bytes!]
+  referenceModule_not_in: [Bytes!]
+  referenceModule_contains: Bytes
+  referenceModule_not_contains: Bytes
+  referenceModuleReturnData: Bytes
+  referenceModuleReturnData_not: Bytes
+  referenceModuleReturnData_in: [Bytes!]
+  referenceModuleReturnData_not_in: [Bytes!]
+  referenceModuleReturnData_contains: Bytes
+  referenceModuleReturnData_not_contains: Bytes
+  contentURI: String
+  contentURI_not: String
+  contentURI_gt: String
+  contentURI_lt: String
+  contentURI_gte: String
+  contentURI_lte: String
+  contentURI_in: [String!]
+  contentURI_not_in: [String!]
+  contentURI_contains: String
+  contentURI_contains_nocase: String
+  contentURI_not_contains: String
+  contentURI_not_contains_nocase: String
+  contentURI_starts_with: String
+  contentURI_starts_with_nocase: String
+  contentURI_not_starts_with: String
+  contentURI_not_starts_with_nocase: String
+  contentURI_ends_with: String
+  contentURI_ends_with_nocase: String
+  contentURI_not_ends_with: String
+  contentURI_not_ends_with_nocase: String
+  profileIdPointed: BigInt
+  profileIdPointed_not: BigInt
+  profileIdPointed_gt: BigInt
+  profileIdPointed_lt: BigInt
+  profileIdPointed_gte: BigInt
+  profileIdPointed_lte: BigInt
+  profileIdPointed_in: [BigInt!]
+  profileIdPointed_not_in: [BigInt!]
+  pubIdPointed: BigInt
+  pubIdPointed_not: BigInt
+  pubIdPointed_gt: BigInt
+  pubIdPointed_lt: BigInt
+  pubIdPointed_gte: BigInt
+  pubIdPointed_lte: BigInt
+  pubIdPointed_in: [BigInt!]
+  pubIdPointed_not_in: [BigInt!]
+  collectModule: Bytes
+  collectModule_not: Bytes
+  collectModule_in: [Bytes!]
+  collectModule_not_in: [Bytes!]
+  collectModule_contains: Bytes
+  collectModule_not_contains: Bytes
+  collectModuleReturnData: Bytes
+  collectModuleReturnData_not: Bytes
+  collectModuleReturnData_in: [Bytes!]
+  collectModuleReturnData_not_in: [Bytes!]
+  collectModuleReturnData_contains: Bytes
+  collectModuleReturnData_not_contains: Bytes
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Comment_orderBy {
+  id
+  fromProfile
+  pubId
+  referenceModule
+  referenceModuleReturnData
+  contentURI
+  profileIdPointed
+  pubIdPointed
+  collectModule
+  collectModuleReturnData
+  timestamp
+}
+
+type Creator {
+  id: ID!
+  """Address"""
+  address: Bytes!
+  """Account Address is whitelisted"""
+  isWhitelisted: Boolean!
+  """Date last modify Address"""
+  lastUpdated: BigInt!
+}
+
+input Creator_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  address: Bytes
+  address_not: Bytes
+  address_in: [Bytes!]
+  address_not_in: [Bytes!]
+  address_contains: Bytes
+  address_not_contains: Bytes
+  isWhitelisted: Boolean
+  isWhitelisted_not: Boolean
+  isWhitelisted_in: [Boolean!]
+  isWhitelisted_not_in: [Boolean!]
+  lastUpdated: BigInt
+  lastUpdated_not: BigInt
+  lastUpdated_gt: BigInt
+  lastUpdated_lt: BigInt
+  lastUpdated_gte: BigInt
+  lastUpdated_lte: BigInt
+  lastUpdated_in: [BigInt!]
+  lastUpdated_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Creator_orderBy {
+  id
+  address
+  isWhitelisted
+  lastUpdated
+}
+
+type Follow {
+  id: ID!
+  """Follower Account. """
+  fromAccount: Account
+  fromProfileSTR: String
+  """Array of profiles that are followed"""
+  toProfile(skip: Int = 0, first: Int = 100, orderBy: Profile_orderBy, orderDirection: OrderDirection, where: Profile_filter): [Profile!]
+  """Date from when the follow initiated"""
+  timestamp: BigInt!
+}
+
+type FollowNFTTransferred {
+  id: ID!
+  profileId: BigInt
+  followNFTID: BigInt
+  from: Bytes
+  to: Bytes
+  timestamp: BigInt
+  data: String
+}
+
+input FollowNFTTransferred_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  profileId: BigInt
+  profileId_not: BigInt
+  profileId_gt: BigInt
+  profileId_lt: BigInt
+  profileId_gte: BigInt
+  profileId_lte: BigInt
+  profileId_in: [BigInt!]
+  profileId_not_in: [BigInt!]
+  followNFTID: BigInt
+  followNFTID_not: BigInt
+  followNFTID_gt: BigInt
+  followNFTID_lt: BigInt
+  followNFTID_gte: BigInt
+  followNFTID_lte: BigInt
+  followNFTID_in: [BigInt!]
+  followNFTID_not_in: [BigInt!]
+  from: Bytes
+  from_not: Bytes
+  from_in: [Bytes!]
+  from_not_in: [Bytes!]
+  from_contains: Bytes
+  from_not_contains: Bytes
+  to: Bytes
+  to_not: Bytes
+  to_in: [Bytes!]
+  to_not_in: [Bytes!]
+  to_contains: Bytes
+  to_not_contains: Bytes
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  data: String
+  data_not: String
+  data_gt: String
+  data_lt: String
+  data_gte: String
+  data_lte: String
+  data_in: [String!]
+  data_not_in: [String!]
+  data_contains: String
+  data_contains_nocase: String
+  data_not_contains: String
+  data_not_contains_nocase: String
+  data_starts_with: String
+  data_starts_with_nocase: String
+  data_not_starts_with: String
+  data_not_starts_with_nocase: String
+  data_ends_with: String
+  data_ends_with_nocase: String
+  data_not_ends_with: String
+  data_not_ends_with_nocase: String
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum FollowNFTTransferred_orderBy {
+  id
+  profileId
+  followNFTID
+  from
+  to
+  timestamp
+  data
+}
+
+input Follow_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  fromAccount: String
+  fromAccount_not: String
+  fromAccount_gt: String
+  fromAccount_lt: String
+  fromAccount_gte: String
+  fromAccount_lte: String
+  fromAccount_in: [String!]
+  fromAccount_not_in: [String!]
+  fromAccount_contains: String
+  fromAccount_contains_nocase: String
+  fromAccount_not_contains: String
+  fromAccount_not_contains_nocase: String
+  fromAccount_starts_with: String
+  fromAccount_starts_with_nocase: String
+  fromAccount_not_starts_with: String
+  fromAccount_not_starts_with_nocase: String
+  fromAccount_ends_with: String
+  fromAccount_ends_with_nocase: String
+  fromAccount_not_ends_with: String
+  fromAccount_not_ends_with_nocase: String
+  fromAccount_: Account_filter
+  fromProfileSTR: String
+  fromProfileSTR_not: String
+  fromProfileSTR_gt: String
+  fromProfileSTR_lt: String
+  fromProfileSTR_gte: String
+  fromProfileSTR_lte: String
+  fromProfileSTR_in: [String!]
+  fromProfileSTR_not_in: [String!]
+  fromProfileSTR_contains: String
+  fromProfileSTR_contains_nocase: String
+  fromProfileSTR_not_contains: String
+  fromProfileSTR_not_contains_nocase: String
+  fromProfileSTR_starts_with: String
+  fromProfileSTR_starts_with_nocase: String
+  fromProfileSTR_not_starts_with: String
+  fromProfileSTR_not_starts_with_nocase: String
+  fromProfileSTR_ends_with: String
+  fromProfileSTR_ends_with_nocase: String
+  fromProfileSTR_not_ends_with: String
+  fromProfileSTR_not_ends_with_nocase: String
+  toProfile: [String!]
+  toProfile_not: [String!]
+  toProfile_contains: [String!]
+  toProfile_contains_nocase: [String!]
+  toProfile_not_contains: [String!]
+  toProfile_not_contains_nocase: [String!]
+  toProfile_: Profile_filter
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Follow_orderBy {
+  id
+  fromAccount
+  fromProfileSTR
+  toProfile
+  timestamp
+}
+
+type Mirror implements Publication {
+  id: ID!
+  """Profile that created the post"""
+  fromProfile: Profile!
+  """Publication Id"""
+  pubId: BigInt!
+  referenceModule: Bytes!
+  referenceModuleReturnData: Bytes
+  profileIdPointed: BigInt!
+  pubIdPointed: BigInt!
+  """Date of creation"""
+  timestamp: BigInt!
+}
+
+input Mirror_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  fromProfile: String
+  fromProfile_not: String
+  fromProfile_gt: String
+  fromProfile_lt: String
+  fromProfile_gte: String
+  fromProfile_lte: String
+  fromProfile_in: [String!]
+  fromProfile_not_in: [String!]
+  fromProfile_contains: String
+  fromProfile_contains_nocase: String
+  fromProfile_not_contains: String
+  fromProfile_not_contains_nocase: String
+  fromProfile_starts_with: String
+  fromProfile_starts_with_nocase: String
+  fromProfile_not_starts_with: String
+  fromProfile_not_starts_with_nocase: String
+  fromProfile_ends_with: String
+  fromProfile_ends_with_nocase: String
+  fromProfile_not_ends_with: String
+  fromProfile_not_ends_with_nocase: String
+  fromProfile_: Profile_filter
+  pubId: BigInt
+  pubId_not: BigInt
+  pubId_gt: BigInt
+  pubId_lt: BigInt
+  pubId_gte: BigInt
+  pubId_lte: BigInt
+  pubId_in: [BigInt!]
+  pubId_not_in: [BigInt!]
+  referenceModule: Bytes
+  referenceModule_not: Bytes
+  referenceModule_in: [Bytes!]
+  referenceModule_not_in: [Bytes!]
+  referenceModule_contains: Bytes
+  referenceModule_not_contains: Bytes
+  referenceModuleReturnData: Bytes
+  referenceModuleReturnData_not: Bytes
+  referenceModuleReturnData_in: [Bytes!]
+  referenceModuleReturnData_not_in: [Bytes!]
+  referenceModuleReturnData_contains: Bytes
+  referenceModuleReturnData_not_contains: Bytes
+  profileIdPointed: BigInt
+  profileIdPointed_not: BigInt
+  profileIdPointed_gt: BigInt
+  profileIdPointed_lt: BigInt
+  profileIdPointed_gte: BigInt
+  profileIdPointed_lte: BigInt
+  profileIdPointed_in: [BigInt!]
+  profileIdPointed_not_in: [BigInt!]
+  pubIdPointed: BigInt
+  pubIdPointed_not: BigInt
+  pubIdPointed_gt: BigInt
+  pubIdPointed_lt: BigInt
+  pubIdPointed_gte: BigInt
+  pubIdPointed_lte: BigInt
+  pubIdPointed_in: [BigInt!]
+  pubIdPointed_not_in: [BigInt!]
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Mirror_orderBy {
+  id
+  fromProfile
+  pubId
+  referenceModule
+  referenceModuleReturnData
+  profileIdPointed
+  pubIdPointed
+  timestamp
+}
+
+"""Defines the order direction, either ascending or descending"""
+enum OrderDirection {
+  asc
+  desc
+}
+
+type Post implements Publication {
+  id: ID!
+  """Profile that created the post"""
+  fromProfile: Profile!
+  """Publication Id"""
+  pubId: BigInt!
+  referenceModule: Bytes!
+  referenceModuleReturnData: Bytes
+  """URI of the post content"""
+  contentURI: String!
+  collectModule: Bytes!
+  collectModuleReturnData: Bytes
+  """Date of creation"""
+  timestamp: BigInt!
+}
+
+input Post_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  fromProfile: String
+  fromProfile_not: String
+  fromProfile_gt: String
+  fromProfile_lt: String
+  fromProfile_gte: String
+  fromProfile_lte: String
+  fromProfile_in: [String!]
+  fromProfile_not_in: [String!]
+  fromProfile_contains: String
+  fromProfile_contains_nocase: String
+  fromProfile_not_contains: String
+  fromProfile_not_contains_nocase: String
+  fromProfile_starts_with: String
+  fromProfile_starts_with_nocase: String
+  fromProfile_not_starts_with: String
+  fromProfile_not_starts_with_nocase: String
+  fromProfile_ends_with: String
+  fromProfile_ends_with_nocase: String
+  fromProfile_not_ends_with: String
+  fromProfile_not_ends_with_nocase: String
+  fromProfile_: Profile_filter
+  pubId: BigInt
+  pubId_not: BigInt
+  pubId_gt: BigInt
+  pubId_lt: BigInt
+  pubId_gte: BigInt
+  pubId_lte: BigInt
+  pubId_in: [BigInt!]
+  pubId_not_in: [BigInt!]
+  referenceModule: Bytes
+  referenceModule_not: Bytes
+  referenceModule_in: [Bytes!]
+  referenceModule_not_in: [Bytes!]
+  referenceModule_contains: Bytes
+  referenceModule_not_contains: Bytes
+  referenceModuleReturnData: Bytes
+  referenceModuleReturnData_not: Bytes
+  referenceModuleReturnData_in: [Bytes!]
+  referenceModuleReturnData_not_in: [Bytes!]
+  referenceModuleReturnData_contains: Bytes
+  referenceModuleReturnData_not_contains: Bytes
+  contentURI: String
+  contentURI_not: String
+  contentURI_gt: String
+  contentURI_lt: String
+  contentURI_gte: String
+  contentURI_lte: String
+  contentURI_in: [String!]
+  contentURI_not_in: [String!]
+  contentURI_contains: String
+  contentURI_contains_nocase: String
+  contentURI_not_contains: String
+  contentURI_not_contains_nocase: String
+  contentURI_starts_with: String
+  contentURI_starts_with_nocase: String
+  contentURI_not_starts_with: String
+  contentURI_not_starts_with_nocase: String
+  contentURI_ends_with: String
+  contentURI_ends_with_nocase: String
+  contentURI_not_ends_with: String
+  contentURI_not_ends_with_nocase: String
+  collectModule: Bytes
+  collectModule_not: Bytes
+  collectModule_in: [Bytes!]
+  collectModule_not_in: [Bytes!]
+  collectModule_contains: Bytes
+  collectModule_not_contains: Bytes
+  collectModuleReturnData: Bytes
+  collectModuleReturnData_not: Bytes
+  collectModuleReturnData_in: [Bytes!]
+  collectModuleReturnData_not_in: [Bytes!]
+  collectModuleReturnData_contains: Bytes
+  collectModuleReturnData_not_contains: Bytes
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Post_orderBy {
+  id
+  fromProfile
+  pubId
+  referenceModule
+  referenceModuleReturnData
+  contentURI
+  collectModule
+  collectModuleReturnData
+  timestamp
+}
+
+type Profile {
+  id: ID!
+  """Number of profile"""
+  profileId: BigInt!
+  """Address from the creator profile"""
+  creator: Creator!
+  """Address from the owner creator profile"""
+  owner: Account!
+  """User attempting to follow the profile should be issued a Follow NFT"""
+  followNFT: Bytes
+  """IPFS has the follow data"""
+  followNFTURI: String
+  """Nickname of the profile"""
+  handle: String
+  """URI image of the profile"""
+  imageURI: String
+  """Date created profile"""
+  createdAt: BigInt
+  """Follow Module Address"""
+  followModule: Bytes
+  """Follow Module Return Data"""
+  followModuleReturnData: Bytes
+  """
+  Dispatcher address allowed to post, comment, mirror, set follow module and change the profile picture on behalf of the owner.
+  """
+  dispatcher: Bytes
+  """Last Date modify profile"""
+  lastUpdated: BigInt!
+  """Total mirrors"""
+  totalMirrors: BigInt!
+  """Total posts"""
+  totalPosts: BigInt!
+  """Total comments"""
+  totalComments: BigInt!
+  """Total Followers"""
+  totalFollowers: BigInt!
+  """Total Following From owner Account"""
+  totalFollowings: BigInt!
+  """List of followers Account"""
+  followers(skip: Int = 0, first: Int = 100, orderBy: Account_orderBy, orderDirection: OrderDirection, where: Account_filter): [Account!]!
+  """List of following Profiles"""
+  followings(skip: Int = 0, first: Int = 100, orderBy: Profile_orderBy, orderDirection: OrderDirection, where: Profile_filter): [Profile!]!
+  """List of comments"""
+  comments(skip: Int = 0, first: Int = 100, orderBy: Comment_orderBy, orderDirection: OrderDirection, where: Comment_filter): [Comment!]
+  """List of post"""
+  posts(skip: Int = 0, first: Int = 100, orderBy: Post_orderBy, orderDirection: OrderDirection, where: Post_filter): [Post!]
+  """List of Mirrors"""
+  mirrors(skip: Int = 0, first: Int = 100, orderBy: Mirror_orderBy, orderDirection: OrderDirection, where: Mirror_filter): [Mirror!]
+}
+
+input Profile_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  profileId: BigInt
+  profileId_not: BigInt
+  profileId_gt: BigInt
+  profileId_lt: BigInt
+  profileId_gte: BigInt
+  profileId_lte: BigInt
+  profileId_in: [BigInt!]
+  profileId_not_in: [BigInt!]
+  creator: String
+  creator_not: String
+  creator_gt: String
+  creator_lt: String
+  creator_gte: String
+  creator_lte: String
+  creator_in: [String!]
+  creator_not_in: [String!]
+  creator_contains: String
+  creator_contains_nocase: String
+  creator_not_contains: String
+  creator_not_contains_nocase: String
+  creator_starts_with: String
+  creator_starts_with_nocase: String
+  creator_not_starts_with: String
+  creator_not_starts_with_nocase: String
+  creator_ends_with: String
+  creator_ends_with_nocase: String
+  creator_not_ends_with: String
+  creator_not_ends_with_nocase: String
+  creator_: Creator_filter
+  owner: String
+  owner_not: String
+  owner_gt: String
+  owner_lt: String
+  owner_gte: String
+  owner_lte: String
+  owner_in: [String!]
+  owner_not_in: [String!]
+  owner_contains: String
+  owner_contains_nocase: String
+  owner_not_contains: String
+  owner_not_contains_nocase: String
+  owner_starts_with: String
+  owner_starts_with_nocase: String
+  owner_not_starts_with: String
+  owner_not_starts_with_nocase: String
+  owner_ends_with: String
+  owner_ends_with_nocase: String
+  owner_not_ends_with: String
+  owner_not_ends_with_nocase: String
+  owner_: Account_filter
+  followNFT: Bytes
+  followNFT_not: Bytes
+  followNFT_in: [Bytes!]
+  followNFT_not_in: [Bytes!]
+  followNFT_contains: Bytes
+  followNFT_not_contains: Bytes
+  followNFTURI: String
+  followNFTURI_not: String
+  followNFTURI_gt: String
+  followNFTURI_lt: String
+  followNFTURI_gte: String
+  followNFTURI_lte: String
+  followNFTURI_in: [String!]
+  followNFTURI_not_in: [String!]
+  followNFTURI_contains: String
+  followNFTURI_contains_nocase: String
+  followNFTURI_not_contains: String
+  followNFTURI_not_contains_nocase: String
+  followNFTURI_starts_with: String
+  followNFTURI_starts_with_nocase: String
+  followNFTURI_not_starts_with: String
+  followNFTURI_not_starts_with_nocase: String
+  followNFTURI_ends_with: String
+  followNFTURI_ends_with_nocase: String
+  followNFTURI_not_ends_with: String
+  followNFTURI_not_ends_with_nocase: String
+  handle: String
+  handle_not: String
+  handle_gt: String
+  handle_lt: String
+  handle_gte: String
+  handle_lte: String
+  handle_in: [String!]
+  handle_not_in: [String!]
+  handle_contains: String
+  handle_contains_nocase: String
+  handle_not_contains: String
+  handle_not_contains_nocase: String
+  handle_starts_with: String
+  handle_starts_with_nocase: String
+  handle_not_starts_with: String
+  handle_not_starts_with_nocase: String
+  handle_ends_with: String
+  handle_ends_with_nocase: String
+  handle_not_ends_with: String
+  handle_not_ends_with_nocase: String
+  imageURI: String
+  imageURI_not: String
+  imageURI_gt: String
+  imageURI_lt: String
+  imageURI_gte: String
+  imageURI_lte: String
+  imageURI_in: [String!]
+  imageURI_not_in: [String!]
+  imageURI_contains: String
+  imageURI_contains_nocase: String
+  imageURI_not_contains: String
+  imageURI_not_contains_nocase: String
+  imageURI_starts_with: String
+  imageURI_starts_with_nocase: String
+  imageURI_not_starts_with: String
+  imageURI_not_starts_with_nocase: String
+  imageURI_ends_with: String
+  imageURI_ends_with_nocase: String
+  imageURI_not_ends_with: String
+  imageURI_not_ends_with_nocase: String
+  createdAt: BigInt
+  createdAt_not: BigInt
+  createdAt_gt: BigInt
+  createdAt_lt: BigInt
+  createdAt_gte: BigInt
+  createdAt_lte: BigInt
+  createdAt_in: [BigInt!]
+  createdAt_not_in: [BigInt!]
+  followModule: Bytes
+  followModule_not: Bytes
+  followModule_in: [Bytes!]
+  followModule_not_in: [Bytes!]
+  followModule_contains: Bytes
+  followModule_not_contains: Bytes
+  followModuleReturnData: Bytes
+  followModuleReturnData_not: Bytes
+  followModuleReturnData_in: [Bytes!]
+  followModuleReturnData_not_in: [Bytes!]
+  followModuleReturnData_contains: Bytes
+  followModuleReturnData_not_contains: Bytes
+  dispatcher: Bytes
+  dispatcher_not: Bytes
+  dispatcher_in: [Bytes!]
+  dispatcher_not_in: [Bytes!]
+  dispatcher_contains: Bytes
+  dispatcher_not_contains: Bytes
+  lastUpdated: BigInt
+  lastUpdated_not: BigInt
+  lastUpdated_gt: BigInt
+  lastUpdated_lt: BigInt
+  lastUpdated_gte: BigInt
+  lastUpdated_lte: BigInt
+  lastUpdated_in: [BigInt!]
+  lastUpdated_not_in: [BigInt!]
+  totalMirrors: BigInt
+  totalMirrors_not: BigInt
+  totalMirrors_gt: BigInt
+  totalMirrors_lt: BigInt
+  totalMirrors_gte: BigInt
+  totalMirrors_lte: BigInt
+  totalMirrors_in: [BigInt!]
+  totalMirrors_not_in: [BigInt!]
+  totalPosts: BigInt
+  totalPosts_not: BigInt
+  totalPosts_gt: BigInt
+  totalPosts_lt: BigInt
+  totalPosts_gte: BigInt
+  totalPosts_lte: BigInt
+  totalPosts_in: [BigInt!]
+  totalPosts_not_in: [BigInt!]
+  totalComments: BigInt
+  totalComments_not: BigInt
+  totalComments_gt: BigInt
+  totalComments_lt: BigInt
+  totalComments_gte: BigInt
+  totalComments_lte: BigInt
+  totalComments_in: [BigInt!]
+  totalComments_not_in: [BigInt!]
+  totalFollowers: BigInt
+  totalFollowers_not: BigInt
+  totalFollowers_gt: BigInt
+  totalFollowers_lt: BigInt
+  totalFollowers_gte: BigInt
+  totalFollowers_lte: BigInt
+  totalFollowers_in: [BigInt!]
+  totalFollowers_not_in: [BigInt!]
+  totalFollowings: BigInt
+  totalFollowings_not: BigInt
+  totalFollowings_gt: BigInt
+  totalFollowings_lt: BigInt
+  totalFollowings_gte: BigInt
+  totalFollowings_lte: BigInt
+  totalFollowings_in: [BigInt!]
+  totalFollowings_not_in: [BigInt!]
+  followers: [String!]
+  followers_not: [String!]
+  followers_contains: [String!]
+  followers_contains_nocase: [String!]
+  followers_not_contains: [String!]
+  followers_not_contains_nocase: [String!]
+  followers_: Account_filter
+  followings: [String!]
+  followings_not: [String!]
+  followings_contains: [String!]
+  followings_contains_nocase: [String!]
+  followings_not_contains: [String!]
+  followings_not_contains_nocase: [String!]
+  followings_: Profile_filter
+  comments_: Comment_filter
+  posts_: Post_filter
+  mirrors_: Mirror_filter
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Profile_orderBy {
+  id
+  profileId
+  creator
+  owner
+  followNFT
+  followNFTURI
+  handle
+  imageURI
+  createdAt
+  followModule
+  followModuleReturnData
+  dispatcher
+  lastUpdated
+  totalMirrors
+  totalPosts
+  totalComments
+  totalFollowers
+  totalFollowings
+  followers
+  followings
+  comments
+  posts
+  mirrors
+}
+
+interface Publication {
+  id: ID!
+  """Profile that created the publication"""
+  fromProfile: Profile!
+  """Publication Id"""
+  pubId: BigInt!
+  referenceModule: Bytes!
+  referenceModuleReturnData: Bytes
+  """Date of creation"""
+  timestamp: BigInt!
+}
+
+input Publication_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  fromProfile: String
+  fromProfile_not: String
+  fromProfile_gt: String
+  fromProfile_lt: String
+  fromProfile_gte: String
+  fromProfile_lte: String
+  fromProfile_in: [String!]
+  fromProfile_not_in: [String!]
+  fromProfile_contains: String
+  fromProfile_contains_nocase: String
+  fromProfile_not_contains: String
+  fromProfile_not_contains_nocase: String
+  fromProfile_starts_with: String
+  fromProfile_starts_with_nocase: String
+  fromProfile_not_starts_with: String
+  fromProfile_not_starts_with_nocase: String
+  fromProfile_ends_with: String
+  fromProfile_ends_with_nocase: String
+  fromProfile_not_ends_with: String
+  fromProfile_not_ends_with_nocase: String
+  fromProfile_: Profile_filter
+  pubId: BigInt
+  pubId_not: BigInt
+  pubId_gt: BigInt
+  pubId_lt: BigInt
+  pubId_gte: BigInt
+  pubId_lte: BigInt
+  pubId_in: [BigInt!]
+  pubId_not_in: [BigInt!]
+  referenceModule: Bytes
+  referenceModule_not: Bytes
+  referenceModule_in: [Bytes!]
+  referenceModule_not_in: [Bytes!]
+  referenceModule_contains: Bytes
+  referenceModule_not_contains: Bytes
+  referenceModuleReturnData: Bytes
+  referenceModuleReturnData_not: Bytes
+  referenceModuleReturnData_in: [Bytes!]
+  referenceModuleReturnData_not_in: [Bytes!]
+  referenceModuleReturnData_contains: Bytes
+  referenceModuleReturnData_not_contains: Bytes
+  timestamp: BigInt
+  timestamp_not: BigInt
+  timestamp_gt: BigInt
+  timestamp_lt: BigInt
+  timestamp_gte: BigInt
+  timestamp_lte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Publication_orderBy {
+  id
+  fromProfile
+  pubId
+  referenceModule
+  referenceModuleReturnData
+  timestamp
+}
+
+type Query {
+  stat(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Stat
+  stats(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Stat_orderBy
+    orderDirection: OrderDirection
+    where: Stat_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Stat!]!
+  profile(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Profile
+  profiles(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Profile_orderBy
+    orderDirection: OrderDirection
+    where: Profile_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Profile!]!
+  account(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Account
+  accounts(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Account_orderBy
+    orderDirection: OrderDirection
+    where: Account_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Account!]!
+  creator(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Creator
+  creators(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Creator_orderBy
+    orderDirection: OrderDirection
+    where: Creator_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Creator!]!
+  post(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Post
+  posts(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Post_orderBy
+    orderDirection: OrderDirection
+    where: Post_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Post!]!
+  mirror(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Mirror
+  mirrors(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Mirror_orderBy
+    orderDirection: OrderDirection
+    where: Mirror_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Mirror!]!
+  comment(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Comment
+  comments(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Comment_orderBy
+    orderDirection: OrderDirection
+    where: Comment_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Comment!]!
+  follow(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Follow
+  follows(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Follow_orderBy
+    orderDirection: OrderDirection
+    where: Follow_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Follow!]!
+  followNFTTransferred(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): FollowNFTTransferred
+  followNFTTransferreds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: FollowNFTTransferred_orderBy
+    orderDirection: OrderDirection
+    where: FollowNFTTransferred_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [FollowNFTTransferred!]!
+  publication(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Publication
+  publications(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Publication_orderBy
+    orderDirection: OrderDirection
+    where: Publication_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Publication!]!
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
+}
+
+type Stat {
+  id: ID!
+  """Total profiles"""
+  totalProfiles: BigInt!
+  """Total accounts"""
+  totalAccounts: BigInt!
+  """Total Post"""
+  totalPosts: BigInt!
+  """Total Comments"""
+  totalComments: BigInt!
+  """Total Mirrors"""
+  totalMirror: BigInt!
+  """Total Publicactions"""
+  totalPublications: BigInt!
+  """Last Comment created"""
+  lastCommentCreatedAt: BigInt
+  """Last Post created"""
+  lastPostCreatedAt: BigInt
+  """Last Mirror created"""
+  lastMirrorCreatedAt: BigInt
+  """Last Profile created"""
+  lastProfileCreated: BigInt
+}
+
+input Stat_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  totalProfiles: BigInt
+  totalProfiles_not: BigInt
+  totalProfiles_gt: BigInt
+  totalProfiles_lt: BigInt
+  totalProfiles_gte: BigInt
+  totalProfiles_lte: BigInt
+  totalProfiles_in: [BigInt!]
+  totalProfiles_not_in: [BigInt!]
+  totalAccounts: BigInt
+  totalAccounts_not: BigInt
+  totalAccounts_gt: BigInt
+  totalAccounts_lt: BigInt
+  totalAccounts_gte: BigInt
+  totalAccounts_lte: BigInt
+  totalAccounts_in: [BigInt!]
+  totalAccounts_not_in: [BigInt!]
+  totalPosts: BigInt
+  totalPosts_not: BigInt
+  totalPosts_gt: BigInt
+  totalPosts_lt: BigInt
+  totalPosts_gte: BigInt
+  totalPosts_lte: BigInt
+  totalPosts_in: [BigInt!]
+  totalPosts_not_in: [BigInt!]
+  totalComments: BigInt
+  totalComments_not: BigInt
+  totalComments_gt: BigInt
+  totalComments_lt: BigInt
+  totalComments_gte: BigInt
+  totalComments_lte: BigInt
+  totalComments_in: [BigInt!]
+  totalComments_not_in: [BigInt!]
+  totalMirror: BigInt
+  totalMirror_not: BigInt
+  totalMirror_gt: BigInt
+  totalMirror_lt: BigInt
+  totalMirror_gte: BigInt
+  totalMirror_lte: BigInt
+  totalMirror_in: [BigInt!]
+  totalMirror_not_in: [BigInt!]
+  totalPublications: BigInt
+  totalPublications_not: BigInt
+  totalPublications_gt: BigInt
+  totalPublications_lt: BigInt
+  totalPublications_gte: BigInt
+  totalPublications_lte: BigInt
+  totalPublications_in: [BigInt!]
+  totalPublications_not_in: [BigInt!]
+  lastCommentCreatedAt: BigInt
+  lastCommentCreatedAt_not: BigInt
+  lastCommentCreatedAt_gt: BigInt
+  lastCommentCreatedAt_lt: BigInt
+  lastCommentCreatedAt_gte: BigInt
+  lastCommentCreatedAt_lte: BigInt
+  lastCommentCreatedAt_in: [BigInt!]
+  lastCommentCreatedAt_not_in: [BigInt!]
+  lastPostCreatedAt: BigInt
+  lastPostCreatedAt_not: BigInt
+  lastPostCreatedAt_gt: BigInt
+  lastPostCreatedAt_lt: BigInt
+  lastPostCreatedAt_gte: BigInt
+  lastPostCreatedAt_lte: BigInt
+  lastPostCreatedAt_in: [BigInt!]
+  lastPostCreatedAt_not_in: [BigInt!]
+  lastMirrorCreatedAt: BigInt
+  lastMirrorCreatedAt_not: BigInt
+  lastMirrorCreatedAt_gt: BigInt
+  lastMirrorCreatedAt_lt: BigInt
+  lastMirrorCreatedAt_gte: BigInt
+  lastMirrorCreatedAt_lte: BigInt
+  lastMirrorCreatedAt_in: [BigInt!]
+  lastMirrorCreatedAt_not_in: [BigInt!]
+  lastProfileCreated: BigInt
+  lastProfileCreated_not: BigInt
+  lastProfileCreated_gt: BigInt
+  lastProfileCreated_lt: BigInt
+  lastProfileCreated_gte: BigInt
+  lastProfileCreated_lte: BigInt
+  lastProfileCreated_in: [BigInt!]
+  lastProfileCreated_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum Stat_orderBy {
+  id
+  totalProfiles
+  totalAccounts
+  totalPosts
+  totalComments
+  totalMirror
+  totalPublications
+  lastCommentCreatedAt
+  lastPostCreatedAt
+  lastMirrorCreatedAt
+  lastProfileCreated
+}
+
+type Subscription {
+  stat(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Stat
+  stats(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Stat_orderBy
+    orderDirection: OrderDirection
+    where: Stat_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Stat!]!
+  profile(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Profile
+  profiles(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Profile_orderBy
+    orderDirection: OrderDirection
+    where: Profile_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Profile!]!
+  account(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Account
+  accounts(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Account_orderBy
+    orderDirection: OrderDirection
+    where: Account_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Account!]!
+  creator(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Creator
+  creators(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Creator_orderBy
+    orderDirection: OrderDirection
+    where: Creator_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Creator!]!
+  post(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Post
+  posts(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Post_orderBy
+    orderDirection: OrderDirection
+    where: Post_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Post!]!
+  mirror(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Mirror
+  mirrors(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Mirror_orderBy
+    orderDirection: OrderDirection
+    where: Mirror_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Mirror!]!
+  comment(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Comment
+  comments(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Comment_orderBy
+    orderDirection: OrderDirection
+    where: Comment_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Comment!]!
+  follow(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Follow
+  follows(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Follow_orderBy
+    orderDirection: OrderDirection
+    where: Follow_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Follow!]!
+  followNFTTransferred(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): FollowNFTTransferred
+  followNFTTransferreds(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: FollowNFTTransferred_orderBy
+    orderDirection: OrderDirection
+    where: FollowNFTTransferred_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [FollowNFTTransferred!]!
+  publication(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Publication
+  publications(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Publication_orderBy
+    orderDirection: OrderDirection
+    where: Publication_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Publication!]!
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
+}
+
+type _Block_ {
+  """The hash of the block"""
+  hash: Bytes
+  """The block number"""
+  number: Int!
+  """Integer representation of the timestamp stored in blocks for the chain"""
+  timestamp: Int
+}
+
+"""The type for the top-level _meta field"""
+type _Meta_ {
+  """
+  Information about a specific subgraph block. The hash of the block
+  will be null if the _meta field has a block constraint that asks for
+  a block number. It will be filled if the _meta field has no block constraint
+  and therefore asks for the latest  block
+  
+  """
+  block: _Block_!
+  """The deployment ID"""
+  deployment: String!
+  """If `true`, the subgraph encountered indexing errors at some past block"""
+  hasIndexingErrors: Boolean!
+}
+
+enum _SubgraphErrorPolicy_ {
+  """Data will be returned even if the subgraph has indexing errors"""
+  allow
+  """
+  If the subgraph has indexing errors, data will be omitted. The default.
+  """
+  deny
+}

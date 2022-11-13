@@ -13,6 +13,7 @@ interface ProfilesState {
   setUserSigNonce: (userSigNonce: number) => void;
   setCurrentProfileId: (currentProfileId: string | null) => void;
   setCurrentProfileHandle: (currentProfileHandle: string | null) => void;
+  clearProfile: () => void;
 };
 
 export const useProfileStore = create<ProfilesState>((set) => ({
@@ -27,5 +28,5 @@ export const useProfileStore = create<ProfilesState>((set) => ({
   setUserSigNonce: (userSigNonce) => set(() => ({ userSigNonce })),
   setCurrentProfileId: (currentProfileId) => set(() => ({ currentProfileId })),
   setCurrentProfileHandle: (currentProfileHandle) => set(() => ({ currentProfileHandle })),
-  clearAuth: () => set({}, true)
+  clearProfile: () => set({}, true)
 }));

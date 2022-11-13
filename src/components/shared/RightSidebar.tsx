@@ -19,7 +19,7 @@ export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen 
   const { currentProfile } = useProfileStore((state) => state);
   const currentProfileHandle = useProfileStore((state) => state.currentProfileHandle);
 
-  // Profile image
+  // Profile image (Improve)
   const currentProfileImage =
     currentProfile?.picture?.__typename === "MediaSet"
       ? currentProfile?.picture?.original?.url
@@ -89,7 +89,7 @@ export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen 
                 </div>
               </div>
               {sidebarContents.whatToShow === "ownProfile" && (
-                <div className='h-full flex-1 px-5'>
+                <div className='flex flex-col justify-start items-start h-full flex-1 px-5'>
                   <ProfileSidebar />
                 </div>
               )}

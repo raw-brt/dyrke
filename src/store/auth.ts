@@ -4,11 +4,13 @@ type AuthData = { accessToken: string, refreshToken: string };
 
 interface AuthState {
   authState: AuthData
-  setAuthState: (authState: AuthData) => void
+  setAuthState: (authState: AuthData) => void,
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-  authState: {accessToken: "", refreshToken: ""},
+  authState: {
+    accessToken: "", 
+    refreshToken: "",
+  },
   setAuthState: (authState) => set(() => ({ authState })),
-  clearAuth: () => set({}, true)
 }));

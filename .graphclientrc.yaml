@@ -1,0 +1,8 @@
+sources:
+  - name: lens-subgraph
+    handler:
+      graphql:
+        endpoint: https://api.thegraph.com/subgraphs/name/rtomas/lens-subgraph
+
+documents:
+  - ./src/graphql/TestQuery.graphql

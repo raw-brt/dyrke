@@ -23,6 +23,18 @@ const config: CodegenConfig = {
         dedupeFragments: true,
       },
     },
+    "src/generated/subgraphtypes.ts": {
+      plugins: [
+        "typescript",
+        "typescript-operations",
+        "typescript-react-query",
+        "typescript-resolvers",
+      ],
+      config: {
+        fetcher: "fetch",
+        dedupeFragments: true,
+      },
+    }
   },
 };
 

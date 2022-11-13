@@ -4,6 +4,7 @@ import { Layout } from "./components/Layout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Custom404 } from "./routes/404";
 import { Login } from "./routes/Login/Login";
+import { Performance } from "./routes/Performance/Performance";
 import { useProfileStore } from "./store/profiles";
 
 const App: FC = () => {
@@ -24,7 +25,7 @@ const App: FC = () => {
         />
         <Route path="login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="performance" element={<p>Home</p>} />
+          <Route path="performance" element={<Performance />} />
         </Route>
         <Route path='*' element={<Custom404 />} />
       </Routes>

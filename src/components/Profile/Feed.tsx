@@ -69,6 +69,7 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       profileId,
     },
     {
+      refetchOnWindowFocus: false,
       onSuccess: (data) => setFeedPublications([...feedPublications as [any], data?.publications?.items])
     },
   );
@@ -83,7 +84,7 @@ export const Feed: FC<Props> = ({ profile, type }) => {
     if (hasMore) setCursor(profileFeed?.data?.publications?.pageInfo?.next);
   };
 
-  if (profileFeed.isFetching) return <PublicationsSkeleton />;
+  // if (profileFeed.isFetching) return <PublicationsSkeleton />;
 
   if (publications?.length === 0) {
     return (
@@ -104,26 +105,27 @@ export const Feed: FC<Props> = ({ profile, type }) => {
   }
 
   return (
-    <div id="scrollableDiv" style={{ height: "600px", overflow: "auto" }}>
-    <InfiniteScroll
-      dataLength={publications?.length ?? 0}
-      hasMore={hasMore}
-      next={loadMore}
-      loader={<InfiniteLoader />}
-      scrollableTarget="scrollableDiv"
-    >
-      <Card className='divide-y-[1px] divide-gray-700/80'>
-        {feedPublications?.map((page: any) => (
-          page.map((publication: DyrkePublication, index: number) => (
-            <SinglePublication
-            key={`${publication.id}_${index}`}
-            publication={publication as DyrkePublication}
-            showThread={type !== "MEDIA"}
-          />
-          ))
-        ))}
-      </Card>
-    </InfiniteScroll>
+    <div id="scrollableDiv" style={{ height: "50%", overflow: "auto" }}>
+      <InfiniteScroll
+        dataLength={publications?.length ?? 0}
+        hasMore={hasMore}
+        next={loadMore}
+        loader={<InfiniteLoader />}
+        scrollableTarget="scrollableDiv"
+      >
+        <Card className='divide-y-[1px] divide-gray-700/80'>
+          {feedPublications?.map((page: any) => (
+            page.map((publication: DyrkePublication, index: number) => (
+              <SinglePublication
+              key={`${publication.id}_${index}`}
+              publication={publication as DyrkePublication}
+              showThread={type !== "MEDIA"}
+            />
+            ))
+          ))}
+        </Card>
+        {profileFeed?.isFetching && <PublicationsSkeleton />}
+      </InfiniteScroll>
     </div>
   );
 };

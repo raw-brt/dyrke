@@ -10,7 +10,7 @@ interface LayoutProps {
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
-  const accessToken = useAuthStore((state) => state.authState.accessToken);
+  const accessToken = useAuthStore((state) => state?.authState?.accessToken);
 
   return location.pathname === "/login" || accessToken.length === 0 ? (
     <UnauthLayout>{children}</UnauthLayout>

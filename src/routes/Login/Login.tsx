@@ -31,7 +31,7 @@ export const Login: FC = () => {
                   <ExclamationCircleIcon className='w-6 mr-2 text-primary-500' />
                 )}
                 <h1 className='text-2xl font-bold text-gray-100'>
-                  {chain?.id === CHAIN_ID ? "Login to dyrke" : "Wrong network"}
+                  {chain && chain?.id !== CHAIN_ID ? "Wrong network" : "Login to dyrke"}
                 </h1>
               </div>
 
