@@ -1,41 +1,35 @@
-import type { FC } from "react";
-import { ethers } from "ethers";
-import { useBlockNumber, useConnect, useContract } from "wagmi";
-import { LENSHUB_PROXY } from "src/config/constants";
-import { LensHubProxy } from "@abis/LensHubProxy";
+import { FC, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getBuiltGraphSDK } from "../../.graphclient/index";
+import { Metric, Period } from "@generated/dyrketypes";
+import { Header } from "@components/Performance/Header";
+import { useProfileStore } from "src/store/profiles";
+import { Chart } from "@components/Performance/Chart";
 
 const sdk = getBuiltGraphSDK();
 
 export const Performance: FC = () => {
+  const [metric, setMetric] = useState<Metric>("Followers");
+  const [period, setPeriod] = useState<Period>("Month");
 
-  // const { data } = useBlockNumber()
-  // const connect = useConnect();
+  const currentProfile = useProfileStore((state) => state.currentProfile);
 
-  // const lensHubContract = useContract({
-  //   address: LENSHUB_PROXY,
-  //   abi: LensHubProxy
-  // });
+  console.log(currentProfile)
 
-  // const getEvent = async () => {
-  //   const events = lensHubContract?.queryFilter("ProfileCreated")
-  //   return events;
-  // }
-
-  // const events = getEvent();
-
-  // console.log("events: ", events)
-
-  // console.log(lensHubContract?.filters)
-
-  const result = useQuery(["TestQuery"], () => sdk.TestQuery());
+  const result = useQuery(["TestQuery"], () => sdk.TestQuery(), { refetchOnWindowFocus: false });
 
   console.log(result)
 
   return (
-    <div>
-      <p className="text-gray-100">Performance</p>
-    </div>
+    <section className="w-auto h-full mx-10 my-8 flex flex-col justify-start items-start space-y-10">
+      <Header 
+        metric={metric}
+        setMetric={setMetric}
+        period={period}
+        setPeriod={setPeriod}
+        value={currentProfile?.stats.totalFollowers}
+      />
+      <Chart metric={metric} period={period} />
+    </section>
   );
 };
