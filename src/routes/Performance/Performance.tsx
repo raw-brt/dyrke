@@ -5,7 +5,7 @@ import { Metric, Period } from "@generated/dyrketypes";
 import { Header } from "@components/Performance/Header";
 import { useProfileStore } from "src/store/profiles";
 import { Chart } from "@components/Performance/Chart";
-import { getPeriodInterval } from "@components/Utils/Performance/getPeriodInterval";
+import { getIntervalUnits } from "@lib/getIntervalUnits";
 
 const sdk = getBuiltGraphSDK();
 
@@ -15,13 +15,9 @@ export const Performance: FC = () => {
 
   const currentProfile = useProfileStore((state) => state.currentProfile);
 
-  console.log(currentProfile)
-
   const result = useQuery(["TestQuery"], () => sdk.TestQuery(), { refetchOnWindowFocus: false });
 
-  console.log(result)
-
-  const testHelper = getPeriodInterval("Year");
+  const testHelper = getIntervalUnits("Week");
   console.log(testHelper)
 
   return (
