@@ -49,8 +49,8 @@ const data = [
 
 export const Chart: FC<Props> = ({ period, metric }) => {
   return (
-    <div className="w-full h-full">
-      <ResponsiveContainer width="100%" height="70%">
+    <div className="w-full h-96">
+      <ResponsiveContainer width="100%" height="100%">
         <LineChart
           width={500}
           height={300}

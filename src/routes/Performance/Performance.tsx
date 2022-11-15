@@ -6,12 +6,13 @@ import { Header } from "@components/Performance/Header";
 import { useProfileStore } from "src/store/profiles";
 import { Chart } from "@components/Performance/Chart";
 import { getIntervalUnits } from "@lib/getIntervalUnits";
+import { MetricCard } from "@components/Performance/MetricCard";
 
 const sdk = getBuiltGraphSDK();
 
 export const Performance: FC = () => {
   const [metric, setMetric] = useState<Metric>("Followers");
-  const [period, setPeriod] = useState<Period>("Month");
+  const [period, setPeriod] = useState<Period>("30 days");
 
   const currentProfile = useProfileStore((state) => state.currentProfile);
 
@@ -21,7 +22,7 @@ export const Performance: FC = () => {
   console.log(testHelper)
 
   return (
-    <section className="w-auto h-full mx-10 my-8 flex flex-col justify-start items-start space-y-10">
+    <>
       <Header 
         metric={metric}
         setMetric={setMetric}
@@ -30,6 +31,21 @@ export const Performance: FC = () => {
         value={currentProfile?.stats.totalFollowers}
       />
       <Chart metric={metric} period={period} />
-    </section>
+      <div className="w-full h-auto flex flex-col justify-start items-start">
+        <h2 className="w-full text-left text-3xl font-bold text-gray-100 mt-10">
+          {
+            period === "Today" ? "Today" : `Last ${period}`
+          }
+        </h2>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 my-10">
+          <MetricCard
+            metricTitle="PUBLICATIONS"
+            metricValue={356}
+            kpiTitle="AVERAGE ENG."
+            kpiValue={0.57}
+          />
+        </div>
+      </div>
+    </>
   );
 };

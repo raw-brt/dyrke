@@ -1,5 +1,7 @@
 /* eslint-disable prefer-const */
+import { Period } from "@generated/dyrketypes";
 import dayjs  from "dayjs";
+
 /**
  * @desc Returns time units for a given interval
  * @param period desired time interval selected in chart
@@ -10,8 +12,6 @@ interface TimeInterval {
   start: number,
   end: number
 }
-
-type Period = "Year" | "90 days" | "30 days" | "Week" | "Today";
 
 // Constants
 const WEEK_IN_SECONDS = 7 * 24 * 60 * 60;

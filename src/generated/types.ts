@@ -8,7 +8,12 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 
-function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, query: string, variables?: TVariables) {
+function fetcher<TData, TVariables>(
+  endpoint: string,
+  requestInit: RequestInit,
+  query: string,
+  variables?: TVariables,
+) {
   return async (): Promise<TData> => {
     const res = await fetch(endpoint, {
       method: "POST",
@@ -25,7 +30,7 @@ function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, 
     }
 
     return json.data;
-  }
+  };
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -175,7 +180,7 @@ export type ClaimHandleRequest = {
 export enum ClaimStatus {
   AlreadyClaimed = "ALREADY_CLAIMED",
   ClaimFailed = "CLAIM_FAILED",
-  NotClaimed = "NOT_CLAIMED"
+  NotClaimed = "NOT_CLAIMED",
 }
 
 export type ClaimableHandles = {
@@ -184,7 +189,14 @@ export type ClaimableHandles = {
   reservedHandles: Array<ReservedClaimableHandle>;
 };
 
-export type CollectModule = FeeCollectModuleSettings | FreeCollectModuleSettings | LimitedFeeCollectModuleSettings | LimitedTimedFeeCollectModuleSettings | RevertCollectModuleSettings | TimedFeeCollectModuleSettings | UnknownCollectModuleSettings;
+export type CollectModule =
+  | FeeCollectModuleSettings
+  | FreeCollectModuleSettings
+  | LimitedFeeCollectModuleSettings
+  | LimitedTimedFeeCollectModuleSettings
+  | RevertCollectModuleSettings
+  | TimedFeeCollectModuleSettings
+  | UnknownCollectModuleSettings;
 
 export type CollectModuleParams = {
   /** The collect fee collect module */
@@ -211,7 +223,7 @@ export enum CollectModules {
   LimitedTimedFeeCollectModule = "LimitedTimedFeeCollectModule",
   RevertCollectModule = "RevertCollectModule",
   TimedFeeCollectModule = "TimedFeeCollectModule",
-  UnknownCollectModule = "UnknownCollectModule"
+  UnknownCollectModule = "UnknownCollectModule",
 }
 
 export type CollectProxyAction = {
@@ -264,24 +276,20 @@ export type Comment = {
   stats: PublicationStats;
 };
 
-
 /** The social comment */
 export type CommentCanCommentArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
 };
-
 
 /** The social comment */
 export type CommentCanMirrorArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
 };
 
-
 /** The social comment */
 export type CommentMirrorsArgs = {
   by?: InputMaybe<Scalars["ProfileId"]>;
 };
-
 
 /** The social comment */
 export type CommentReactionArgs = {
@@ -839,7 +847,7 @@ export type CreateUnfollowBroadcastItemResult = {
 
 /** The custom filters types */
 export enum CustomFiltersTypes {
-  Gardeners = "GARDENERS"
+  Gardeners = "GARDENERS",
 }
 
 export type DefaultProfileRequest = {
@@ -1071,7 +1079,7 @@ export enum FeedEventItemType {
   Mirror = "MIRROR",
   Post = "POST",
   ReactionComment = "REACTION_COMMENT",
-  ReactionPost = "REACTION_POST"
+  ReactionPost = "REACTION_POST",
 }
 
 export type FeedHighlightsRequest = {
@@ -1118,7 +1126,11 @@ export type Follow = {
   profile: Scalars["ProfileId"];
 };
 
-export type FollowModule = FeeFollowModuleSettings | ProfileFollowModuleSettings | RevertFollowModuleSettings | UnknownFollowModuleSettings;
+export type FollowModule =
+  | FeeFollowModuleSettings
+  | ProfileFollowModuleSettings
+  | RevertFollowModuleSettings
+  | UnknownFollowModuleSettings;
 
 export type FollowModuleParams = {
   /** The follower fee follower module */
@@ -1147,7 +1159,7 @@ export enum FollowModules {
   FeeFollowModule = "FeeFollowModule",
   ProfileFollowModule = "ProfileFollowModule",
   RevertFollowModule = "RevertFollowModule",
-  UnknownFollowModule = "UnknownFollowModule"
+  UnknownFollowModule = "UnknownFollowModule",
 }
 
 export type FollowOnlyReferenceModuleSettings = {
@@ -1506,18 +1518,15 @@ export type Mirror = {
   stats: PublicationStats;
 };
 
-
 /** The social mirror */
 export type MirrorCanCommentArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
 };
 
-
 /** The social mirror */
 export type MirrorCanMirrorArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
 };
-
 
 /** The social mirror */
 export type MirrorReactionArgs = {
@@ -1587,165 +1596,135 @@ export type Mutation = {
   reportPublication?: Maybe<Scalars["Void"]>;
 };
 
-
 export type MutationAchArgs = {
   request: AchRequest;
 };
-
 
 export type MutationAddReactionArgs = {
   request: ReactionRequest;
 };
 
-
 export type MutationAuthenticateArgs = {
   request: SignedAuthChallenge;
 };
-
 
 export type MutationBroadcastArgs = {
   request: BroadcastRequest;
 };
 
-
 export type MutationClaimArgs = {
   request: ClaimHandleRequest;
 };
-
 
 export type MutationCreateBurnProfileTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: BurnProfileRequest;
 };
 
-
 export type MutationCreateCollectTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreateCollectRequest;
 };
-
 
 export type MutationCreateCommentTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreatePublicCommentRequest;
 };
 
-
 export type MutationCreateCommentViaDispatcherArgs = {
   request: CreatePublicCommentRequest;
 };
-
 
 export type MutationCreateFollowTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: FollowRequest;
 };
 
-
 export type MutationCreateMirrorTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreateMirrorRequest;
 };
 
-
 export type MutationCreateMirrorViaDispatcherArgs = {
   request: CreateMirrorRequest;
 };
-
 
 export type MutationCreatePostTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreatePublicPostRequest;
 };
 
-
 export type MutationCreatePostViaDispatcherArgs = {
   request: CreatePublicPostRequest;
 };
 
-
 export type MutationCreateProfileArgs = {
   request: CreateProfileRequest;
 };
-
 
 export type MutationCreateSetDefaultProfileTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreateSetDefaultProfileRequest;
 };
 
-
 export type MutationCreateSetDispatcherTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: SetDispatcherRequest;
 };
-
 
 export type MutationCreateSetFollowModuleTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreateSetFollowModuleRequest;
 };
 
-
 export type MutationCreateSetFollowNftUriTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreateSetFollowNftUriRequest;
 };
-
 
 export type MutationCreateSetProfileImageUriTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: UpdateProfileImageRequest;
 };
 
-
 export type MutationCreateSetProfileImageUriViaDispatcherArgs = {
   request: UpdateProfileImageRequest;
 };
-
 
 export type MutationCreateSetProfileMetadataTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreatePublicSetProfileMetadataUriRequest;
 };
 
-
 export type MutationCreateSetProfileMetadataViaDispatcherArgs = {
   request: CreatePublicSetProfileMetadataUriRequest;
 };
-
 
 export type MutationCreateToggleFollowTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: CreateToggleFollowRequest;
 };
 
-
 export type MutationCreateUnfollowTypedDataArgs = {
   options?: InputMaybe<TypedDataOptions>;
   request: UnfollowRequest;
 };
 
-
 export type MutationHidePublicationArgs = {
   request: HidePublicationRequest;
 };
-
 
 export type MutationProxyActionArgs = {
   request: ProxyActionRequest;
 };
 
-
 export type MutationRefreshArgs = {
   request: RefreshRequest;
 };
 
-
 export type MutationRemoveReactionArgs = {
   request: ReactionRequest;
 };
-
 
 export type MutationReportPublicationArgs = {
   request: ReportPublicationRequest;
@@ -1916,7 +1895,13 @@ export type NftOwnershipChallengeResult = {
   timeout: Scalars["TimestampScalar"];
 };
 
-export type Notification = NewCollectNotification | NewCommentNotification | NewFollowerNotification | NewMentionNotification | NewMirrorNotification | NewReactionNotification;
+export type Notification =
+  | NewCollectNotification
+  | NewCommentNotification
+  | NewFollowerNotification
+  | NewMentionNotification
+  | NewMirrorNotification
+  | NewReactionNotification;
 
 export type NotificationRequest = {
   cursor?: InputMaybe<Scalars["Cursor"]>;
@@ -1943,7 +1928,7 @@ export enum NotificationTypes {
   MirroredComment = "MIRRORED_COMMENT",
   MirroredPost = "MIRRORED_POST",
   ReactionComment = "REACTION_COMMENT",
-  ReactionPost = "REACTION_POST"
+  ReactionPost = "REACTION_POST",
 }
 
 export type OnChainIdentity = {
@@ -2102,24 +2087,20 @@ export type Post = {
   stats: PublicationStats;
 };
 
-
 /** The social post */
 export type PostCanCommentArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
 };
-
 
 /** The social post */
 export type PostCanMirrorArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
 };
 
-
 /** The social post */
 export type PostMirrorsArgs = {
   by?: InputMaybe<Scalars["ProfileId"]>;
 };
-
 
 /** The social post */
 export type PostReactionArgs = {
@@ -2162,7 +2143,6 @@ export type Profile = {
   /** Profile stats */
   stats: ProfileStats;
 };
-
 
 /** The Profile */
 export type ProfileIsFollowingArgs = {
@@ -2256,7 +2236,7 @@ export enum ProfileSortCriteria {
   MostFollowers = "MOST_FOLLOWERS",
   MostMirrors = "MOST_MIRRORS",
   MostPosts = "MOST_POSTS",
-  MostPublication = "MOST_PUBLICATION"
+  MostPublication = "MOST_PUBLICATION",
 }
 
 /** The Profile Stats */
@@ -2283,24 +2263,20 @@ export type ProfileStats = {
   totalPublications: Scalars["Int"];
 };
 
-
 /** The Profile Stats */
 export type ProfileStatsCommentsTotalArgs = {
   forSources: Array<Scalars["Sources"]>;
 };
-
 
 /** The Profile Stats */
 export type ProfileStatsMirrorsTotalArgs = {
   forSources: Array<Scalars["Sources"]>;
 };
 
-
 /** The Profile Stats */
 export type ProfileStatsPostsTotalArgs = {
   forSources: Array<Scalars["Sources"]>;
 };
-
 
 /** The Profile Stats */
 export type ProfileStatsPublicationsTotalArgs = {
@@ -2330,13 +2306,16 @@ export type ProxyActionStatusResult = {
   txId: Scalars["TxId"];
 };
 
-export type ProxyActionStatusResultUnion = ProxyActionError | ProxyActionQueued | ProxyActionStatusResult;
+export type ProxyActionStatusResultUnion =
+  | ProxyActionError
+  | ProxyActionQueued
+  | ProxyActionStatusResult;
 
 /** The proxy action status */
 export enum ProxyActionStatusTypes {
   Complete = "COMPLETE",
   Minting = "MINTING",
-  Transferring = "TRANSFERRING"
+  Transferring = "TRANSFERRING",
 }
 
 export type Publication = Comment | Mirror | Post;
@@ -2345,7 +2324,7 @@ export type Publication = Comment | Mirror | Post;
 export enum PublicationContentWarning {
   Nsfw = "NSFW",
   Sensitive = "SENSITIVE",
-  Spoiler = "SPOILER"
+  Spoiler = "SPOILER",
 }
 
 export type PublicationForSale = Comment | Post;
@@ -2358,7 +2337,7 @@ export enum PublicationMainFocus {
   Image = "IMAGE",
   Link = "LINK",
   TextOnly = "TEXT_ONLY",
-  Video = "VIDEO"
+  Video = "VIDEO",
 }
 
 /** Publication metadata content waring filters */
@@ -2371,7 +2350,7 @@ export type PublicationMetadataContentWarningFilter = {
 export enum PublicationMetadataDisplayTypes {
   Date = "date",
   Number = "number",
-  String = "string"
+  String = "string",
 }
 
 /** Publication metadata filters */
@@ -2406,7 +2385,7 @@ export enum PublicationMetadataStatusType {
   MetadataValidationFailed = "METADATA_VALIDATION_FAILED",
   NotFound = "NOT_FOUND",
   Pending = "PENDING",
-  Success = "SUCCESS"
+  Success = "SUCCESS",
 }
 
 /** Publication metadata tag filter */
@@ -2509,7 +2488,7 @@ export type PublicationQueryRequest = {
 /** Publication reporting fraud subreason */
 export enum PublicationReportingFraudSubreason {
   Impersonation = "IMPERSONATION",
-  Scam = "SCAM"
+  Scam = "SCAM",
 }
 
 /** Publication reporting illegal subreason */
@@ -2518,7 +2497,7 @@ export enum PublicationReportingIllegalSubreason {
   DirectThreat = "DIRECT_THREAT",
   HumanAbuse = "HUMAN_ABUSE",
   ThreatIndividual = "THREAT_INDIVIDUAL",
-  Violence = "VIOLENCE"
+  Violence = "VIOLENCE",
 }
 
 /** Publication reporting reason */
@@ -2526,13 +2505,13 @@ export enum PublicationReportingReason {
   Fraud = "FRAUD",
   Illegal = "ILLEGAL",
   Sensitive = "SENSITIVE",
-  Spam = "SPAM"
+  Spam = "SPAM",
 }
 
 /** Publication reporting sensitive subreason */
 export enum PublicationReportingSensitiveSubreason {
   Nsfw = "NSFW",
-  Offensive = "OFFENSIVE"
+  Offensive = "OFFENSIVE",
 }
 
 /** Publication reporting spam subreason */
@@ -2543,7 +2522,7 @@ export enum PublicationReportingSpamSubreason {
   MisuseHashtags = "MISUSE_HASHTAGS",
   Repetitive = "REPETITIVE",
   SomethingElse = "SOMETHING_ELSE",
-  Unrelated = "UNRELATED"
+  Unrelated = "UNRELATED",
 }
 
 /** The social comment */
@@ -2578,7 +2557,7 @@ export enum PublicationSortCriteria {
   Latest = "LATEST",
   TopCollected = "TOP_COLLECTED",
   TopCommented = "TOP_COMMENTED",
-  TopMirrored = "TOP_MIRRORED"
+  TopMirrored = "TOP_MIRRORED",
 }
 
 /** The publication stats */
@@ -2599,7 +2578,6 @@ export type PublicationStats = {
   totalUpvotes: Scalars["Int"];
 };
 
-
 /** The publication stats */
 export type PublicationStatsCommentsTotalArgs = {
   forSources: Array<Scalars["Sources"]>;
@@ -2609,7 +2587,7 @@ export type PublicationStatsCommentsTotalArgs = {
 export enum PublicationTypes {
   Comment = "COMMENT",
   Mirror = "MIRROR",
-  Post = "POST"
+  Post = "POST",
 }
 
 export type PublicationValidateMetadataResult = {
@@ -2694,211 +2672,169 @@ export type Query = {
   whoReactedPublication: PaginatedWhoReactedResult;
 };
 
-
 export type QueryAllPublicationsTagsArgs = {
   request: AllPublicationsTagsRequest;
 };
-
 
 export type QueryApprovedModuleAllowanceAmountArgs = {
   request: ApprovedModuleAllowanceAmountRequest;
 };
 
-
 export type QueryChallengeArgs = {
   request: ChallengeRequest;
 };
-
 
 export type QueryDefaultProfileArgs = {
   request: DefaultProfileRequest;
 };
 
-
 export type QueryDoesFollowArgs = {
   request: DoesFollowRequest;
 };
-
 
 export type QueryExploreProfilesArgs = {
   request: ExploreProfilesRequest;
 };
 
-
 export type QueryExplorePublicationsArgs = {
   request: ExplorePublicationRequest;
 };
-
 
 export type QueryFeedArgs = {
   request: FeedRequest;
 };
 
-
 export type QueryFeedHighlightsArgs = {
   request: FeedHighlightsRequest;
 };
-
 
 export type QueryFollowerNftOwnedTokenIdsArgs = {
   request: FollowerNftOwnedTokenIdsRequest;
 };
 
-
 export type QueryFollowersArgs = {
   request: FollowersRequest;
 };
-
 
 export type QueryFollowingArgs = {
   request: FollowingRequest;
 };
 
-
 export type QueryGenerateModuleCurrencyApprovalDataArgs = {
   request: GenerateModuleCurrencyApprovalDataRequest;
 };
-
 
 export type QueryGlobalProtocolStatsArgs = {
   request?: InputMaybe<GlobalProtocolStatsRequest>;
 };
 
-
 export type QueryHasTxHashBeenIndexedArgs = {
   request: HasTxHashBeenIndexedRequest;
 };
-
 
 export type QueryInternalPublicationFilterArgs = {
   request: InternalPublicationsFilterRequest;
 };
 
-
 export type QueryMutualFollowersProfilesArgs = {
   request: MutualFollowersProfilesQueryRequest;
 };
-
 
 export type QueryNftOwnershipChallengeArgs = {
   request: NftOwnershipChallengeRequest;
 };
 
-
 export type QueryNftsArgs = {
   request: NfTsRequest;
 };
-
 
 export type QueryNotificationsArgs = {
   request: NotificationRequest;
 };
 
-
 export type QueryPendingApprovalFollowsArgs = {
   request: PendingApprovalFollowsRequest;
 };
-
 
 export type QueryProfileArgs = {
   request: SingleProfileQueryRequest;
 };
 
-
 export type QueryProfileFollowModuleBeenRedeemedArgs = {
   request: ProfileFollowModuleBeenRedeemedRequest;
 };
-
 
 export type QueryProfileFollowRevenueArgs = {
   request: ProfileFollowRevenueQueryRequest;
 };
 
-
 export type QueryProfileOnChainIdentityArgs = {
   request: ProfileOnChainIdentityRequest;
 };
-
 
 export type QueryProfilePublicationRevenueArgs = {
   request: ProfilePublicationRevenueQueryRequest;
 };
 
-
 export type QueryProfilePublicationsForSaleArgs = {
   request: ProfilePublicationsForSaleRequest;
 };
-
 
 export type QueryProfilesArgs = {
   request: ProfileQueryRequest;
 };
 
-
 export type QueryProxyActionStatusArgs = {
   proxyActionId: Scalars["ProxyActionId"];
 };
-
 
 export type QueryPublicationArgs = {
   request: PublicationQueryRequest;
 };
 
-
 export type QueryPublicationMetadataStatusArgs = {
   request: GetPublicationMetadataStatusRequest;
 };
-
 
 export type QueryPublicationRevenueArgs = {
   request: PublicationRevenueQueryRequest;
 };
 
-
 export type QueryPublicationsArgs = {
   request: PublicationsQueryRequest;
 };
-
 
 export type QueryRecommendedProfilesArgs = {
   options?: InputMaybe<RecommendedProfileOptions>;
 };
 
-
 export type QueryRelArgs = {
   request: RelRequest;
 };
-
 
 export type QuerySearchArgs = {
   request: SearchQueryRequest;
 };
 
-
 export type QueryTimelineArgs = {
   request: TimelineRequest;
 };
-
 
 export type QueryTxIdToTxHashArgs = {
   txId: Scalars["TxId"];
 };
 
-
 export type QueryValidatePublicationMetadataArgs = {
   request: ValidatePublicationMetadataRequest;
 };
-
 
 export type QueryVerifyArgs = {
   request: VerifyRequest;
 };
 
-
 export type QueryWhoCollectedPublicationArgs = {
   request: WhoCollectedPublicationRequest;
 };
-
 
 export type QueryWhoReactedPublicationArgs = {
   request: WhoReactedPublicationRequest;
@@ -2928,7 +2864,7 @@ export type ReactionRequest = {
 /** Reaction types */
 export enum ReactionTypes {
   Downvote = "DOWNVOTE",
-  Upvote = "UPVOTE"
+  Upvote = "UPVOTE",
 }
 
 export type RecommendedProfileOptions = {
@@ -2938,7 +2874,10 @@ export type RecommendedProfileOptions = {
   shuffle?: InputMaybe<Scalars["Boolean"]>;
 };
 
-export type ReferenceModule = DegreesOfSeparationReferenceModuleSettings | FollowOnlyReferenceModuleSettings | UnknownReferenceModuleSettings;
+export type ReferenceModule =
+  | DegreesOfSeparationReferenceModuleSettings
+  | FollowOnlyReferenceModuleSettings
+  | UnknownReferenceModuleSettings;
 
 export type ReferenceModuleParams = {
   /** The degrees of seperation reference module */
@@ -2953,7 +2892,7 @@ export type ReferenceModuleParams = {
 export enum ReferenceModules {
   DegreesOfSeparationReferenceModule = "DegreesOfSeparationReferenceModule",
   FollowerOnlyReferenceModule = "FollowerOnlyReferenceModule",
-  UnknownReferenceModule = "UnknownReferenceModule"
+  UnknownReferenceModule = "UnknownReferenceModule",
 }
 
 /** The refresh request */
@@ -2978,7 +2917,7 @@ export enum RelayErrorReasons {
   HandleTaken = "HANDLE_TAKEN",
   NotAllowed = "NOT_ALLOWED",
   Rejected = "REJECTED",
-  WrongWalletSigned = "WRONG_WALLET_SIGNED"
+  WrongWalletSigned = "WRONG_WALLET_SIGNED",
 }
 
 export type RelayResult = RelayError | RelayerResult;
@@ -3046,7 +2985,7 @@ export type SearchQueryRequest = {
 /** Search request types */
 export enum SearchRequestTypes {
   Profile = "PROFILE",
-  Publication = "PUBLICATION"
+  Publication = "PUBLICATION",
 }
 
 export type SearchResult = ProfileSearchResult | PublicationSearchResult;
@@ -3151,7 +3090,7 @@ export type TagResult = {
 /** The publications tags sort criteria */
 export enum TagSortCriteria {
   Alphabetical = "ALPHABETICAL",
-  MostPopular = "MOST_POPULAR"
+  MostPopular = "MOST_POPULAR",
 }
 
 export type TimedFeeCollectModuleParams = {
@@ -3200,7 +3139,7 @@ export enum TimelineType {
   CollectPost = "COLLECT_POST",
   Comment = "COMMENT",
   Mirror = "MIRROR",
-  Post = "POST"
+  Post = "POST",
 }
 
 export type TransactionError = {
@@ -3211,7 +3150,7 @@ export type TransactionError = {
 
 /** Transaction error reason */
 export enum TransactionErrorReasons {
-  Reverted = "REVERTED"
+  Reverted = "REVERTED",
 }
 
 export type TransactionIndexedResult = {
@@ -3369,69 +3308,2299 @@ export type WorldcoinIdentity = {
   isHuman: Scalars["Boolean"];
 };
 
-type CollectModuleFields_FeeCollectModuleSettings_Fragment = { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } };
+type CollectModuleFields_FeeCollectModuleSettings_Fragment = {
+  __typename?: "FeeCollectModuleSettings";
+  type: CollectModules;
+  recipient: any;
+  referralFee: number;
+  contractAddress: any;
+  followerOnly: boolean;
+  amount: {
+    __typename?: "ModuleFeeAmount";
+    value: string;
+    asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+  };
+};
 
-type CollectModuleFields_FreeCollectModuleSettings_Fragment = { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean };
+type CollectModuleFields_FreeCollectModuleSettings_Fragment = {
+  __typename?: "FreeCollectModuleSettings";
+  type: CollectModules;
+  contractAddress: any;
+  followerOnly: boolean;
+};
 
-type CollectModuleFields_LimitedFeeCollectModuleSettings_Fragment = { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } };
+type CollectModuleFields_LimitedFeeCollectModuleSettings_Fragment = {
+  __typename?: "LimitedFeeCollectModuleSettings";
+  type: CollectModules;
+  collectLimit: string;
+  recipient: any;
+  referralFee: number;
+  contractAddress: any;
+  followerOnly: boolean;
+  amount: {
+    __typename?: "ModuleFeeAmount";
+    value: string;
+    asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+  };
+};
 
-type CollectModuleFields_LimitedTimedFeeCollectModuleSettings_Fragment = { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } };
+type CollectModuleFields_LimitedTimedFeeCollectModuleSettings_Fragment = {
+  __typename?: "LimitedTimedFeeCollectModuleSettings";
+  type: CollectModules;
+  collectLimit: string;
+  recipient: any;
+  endTimestamp: any;
+  referralFee: number;
+  contractAddress: any;
+  followerOnly: boolean;
+  amount: {
+    __typename?: "ModuleFeeAmount";
+    value: string;
+    asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+  };
+};
 
-type CollectModuleFields_RevertCollectModuleSettings_Fragment = { __typename?: "RevertCollectModuleSettings" };
+type CollectModuleFields_RevertCollectModuleSettings_Fragment = {
+  __typename?: "RevertCollectModuleSettings";
+};
 
-type CollectModuleFields_TimedFeeCollectModuleSettings_Fragment = { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } };
+type CollectModuleFields_TimedFeeCollectModuleSettings_Fragment = {
+  __typename?: "TimedFeeCollectModuleSettings";
+  type: CollectModules;
+  recipient: any;
+  endTimestamp: any;
+  referralFee: number;
+  contractAddress: any;
+  followerOnly: boolean;
+  amount: {
+    __typename?: "ModuleFeeAmount";
+    value: string;
+    asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+  };
+};
 
-type CollectModuleFields_UnknownCollectModuleSettings_Fragment = { __typename?: "UnknownCollectModuleSettings" };
+type CollectModuleFields_UnknownCollectModuleSettings_Fragment = {
+  __typename?: "UnknownCollectModuleSettings";
+};
 
-export type CollectModuleFieldsFragment = CollectModuleFields_FeeCollectModuleSettings_Fragment | CollectModuleFields_FreeCollectModuleSettings_Fragment | CollectModuleFields_LimitedFeeCollectModuleSettings_Fragment | CollectModuleFields_LimitedTimedFeeCollectModuleSettings_Fragment | CollectModuleFields_RevertCollectModuleSettings_Fragment | CollectModuleFields_TimedFeeCollectModuleSettings_Fragment | CollectModuleFields_UnknownCollectModuleSettings_Fragment;
+export type CollectModuleFieldsFragment =
+  | CollectModuleFields_FeeCollectModuleSettings_Fragment
+  | CollectModuleFields_FreeCollectModuleSettings_Fragment
+  | CollectModuleFields_LimitedFeeCollectModuleSettings_Fragment
+  | CollectModuleFields_LimitedTimedFeeCollectModuleSettings_Fragment
+  | CollectModuleFields_RevertCollectModuleSettings_Fragment
+  | CollectModuleFields_TimedFeeCollectModuleSettings_Fragment
+  | CollectModuleFields_UnknownCollectModuleSettings_Fragment;
 
-export type CommentFieldsFragment = { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, commentOn?: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", handle: any } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, mainPost: { __typename?: "Mirror", id: any, reaction?: ReactionTypes | null, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, mirrorOf: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } } | { __typename?: "Mirror", id: any, reaction?: ReactionTypes | null, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, mirrorOf: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } | null };
+export type CommentFieldsFragment = {
+  __typename?: "Comment";
+  id: any;
+  reaction?: ReactionTypes | null;
+  mirrors: Array<any>;
+  hasCollectedByMe: boolean;
+  hidden: boolean;
+  createdAt: any;
+  appId?: any | null;
+  profile: {
+    __typename?: "Profile";
+    id: any;
+    name?: string | null;
+    handle: any;
+    bio?: string | null;
+    ownedBy: any;
+    attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+    picture?:
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage"; uri: any }
+      | null;
+    coverPicture?:
+      | {
+          __typename: "MediaSet";
+          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+        }
+      | {
+          __typename: "NftImage";
+          contractAddress: any;
+          tokenId: string;
+          uri: any;
+          verified: boolean;
+        }
+      | null;
+    followModule?:
+      | { __typename: "FeeFollowModuleSettings" }
+      | { __typename: "ProfileFollowModuleSettings" }
+      | { __typename: "RevertFollowModuleSettings" }
+      | { __typename: "UnknownFollowModuleSettings" }
+      | null;
+  };
+  canComment: { __typename?: "CanCommentResponse"; result: boolean };
+  canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+  collectedBy?: {
+    __typename?: "Wallet";
+    address: any;
+    defaultProfile?: {
+      __typename?: "Profile";
+      id: any;
+      name?: string | null;
+      handle: any;
+      bio?: string | null;
+      ownedBy: any;
+      attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+      picture?:
+        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename: "NftImage"; uri: any }
+        | null;
+      coverPicture?:
+        | {
+            __typename: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }
+        | {
+            __typename: "NftImage";
+            contractAddress: any;
+            tokenId: string;
+            uri: any;
+            verified: boolean;
+          }
+        | null;
+      followModule?:
+        | { __typename: "FeeFollowModuleSettings" }
+        | { __typename: "ProfileFollowModuleSettings" }
+        | { __typename: "RevertFollowModuleSettings" }
+        | { __typename: "UnknownFollowModuleSettings" }
+        | null;
+    } | null;
+  } | null;
+  collectModule:
+    | {
+        __typename?: "FeeCollectModuleSettings";
+        type: CollectModules;
+        recipient: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | {
+        __typename?: "FreeCollectModuleSettings";
+        type: CollectModules;
+        contractAddress: any;
+        followerOnly: boolean;
+      }
+    | {
+        __typename?: "LimitedFeeCollectModuleSettings";
+        type: CollectModules;
+        collectLimit: string;
+        recipient: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | {
+        __typename?: "LimitedTimedFeeCollectModuleSettings";
+        type: CollectModules;
+        collectLimit: string;
+        recipient: any;
+        endTimestamp: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | { __typename?: "RevertCollectModuleSettings" }
+    | {
+        __typename?: "TimedFeeCollectModuleSettings";
+        type: CollectModules;
+        recipient: any;
+        endTimestamp: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | { __typename?: "UnknownCollectModuleSettings" };
+  stats: {
+    __typename?: "PublicationStats";
+    totalUpvotes: number;
+    totalAmountOfMirrors: number;
+    totalAmountOfCollects: number;
+    totalAmountOfComments: number;
+  };
+  metadata: {
+    __typename?: "MetadataOutput";
+    name?: string | null;
+    description?: any | null;
+    content?: any | null;
+    image?: any | null;
+    attributes: Array<{
+      __typename?: "MetadataAttributeOutput";
+      traitType?: string | null;
+      value?: string | null;
+    }>;
+    cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+    media: Array<{
+      __typename?: "MediaSet";
+      original: { __typename?: "Media"; url: any; mimeType?: any | null };
+    }>;
+  };
+  commentOn?:
+    | {
+        __typename?: "Comment";
+        id: any;
+        reaction?: ReactionTypes | null;
+        mirrors: Array<any>;
+        hasCollectedByMe: boolean;
+        hidden: boolean;
+        createdAt: any;
+        profile: {
+          __typename?: "Profile";
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+          picture?:
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
+            | null;
+          coverPicture?:
+            | {
+                __typename: "MediaSet";
+                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+              }
+            | {
+                __typename: "NftImage";
+                contractAddress: any;
+                tokenId: string;
+                uri: any;
+                verified: boolean;
+              }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        };
+        canComment: { __typename?: "CanCommentResponse"; result: boolean };
+        canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+        collectedBy?: {
+          __typename?: "Wallet";
+          address: any;
+          defaultProfile?: { __typename?: "Profile"; handle: any } | null;
+        } | null;
+        collectModule:
+          | {
+              __typename?: "FeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "FreeCollectModuleSettings";
+              type: CollectModules;
+              contractAddress: any;
+              followerOnly: boolean;
+            }
+          | {
+              __typename?: "LimitedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "LimitedTimedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "RevertCollectModuleSettings" }
+          | {
+              __typename?: "TimedFeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "UnknownCollectModuleSettings" };
+        metadata: {
+          __typename?: "MetadataOutput";
+          name?: string | null;
+          description?: any | null;
+          content?: any | null;
+          image?: any | null;
+          attributes: Array<{
+            __typename?: "MetadataAttributeOutput";
+            traitType?: string | null;
+            value?: string | null;
+          }>;
+          cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+          media: Array<{
+            __typename?: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }>;
+        };
+        stats: {
+          __typename?: "PublicationStats";
+          totalUpvotes: number;
+          totalAmountOfMirrors: number;
+          totalAmountOfCollects: number;
+          totalAmountOfComments: number;
+        };
+        mainPost:
+          | {
+              __typename?: "Mirror";
+              id: any;
+              reaction?: ReactionTypes | null;
+              hidden: boolean;
+              createdAt: any;
+              appId?: any | null;
+              profile: {
+                __typename?: "Profile";
+                id: any;
+                name?: string | null;
+                handle: any;
+                bio?: string | null;
+                ownedBy: any;
+                attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+                picture?:
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
+                  | null;
+                coverPicture?:
+                  | {
+                      __typename: "MediaSet";
+                      original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                    }
+                  | {
+                      __typename: "NftImage";
+                      contractAddress: any;
+                      tokenId: string;
+                      uri: any;
+                      verified: boolean;
+                    }
+                  | null;
+                followModule?:
+                  | { __typename: "FeeFollowModuleSettings" }
+                  | { __typename: "ProfileFollowModuleSettings" }
+                  | { __typename: "RevertFollowModuleSettings" }
+                  | { __typename: "UnknownFollowModuleSettings" }
+                  | null;
+              };
+              canComment: { __typename?: "CanCommentResponse"; result: boolean };
+              canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+              collectModule:
+                | {
+                    __typename?: "FeeCollectModuleSettings";
+                    type: CollectModules;
+                    recipient: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | {
+                    __typename?: "FreeCollectModuleSettings";
+                    type: CollectModules;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                  }
+                | {
+                    __typename?: "LimitedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    collectLimit: string;
+                    recipient: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | {
+                    __typename?: "LimitedTimedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    collectLimit: string;
+                    recipient: any;
+                    endTimestamp: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | { __typename?: "RevertCollectModuleSettings" }
+                | {
+                    __typename?: "TimedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    recipient: any;
+                    endTimestamp: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | { __typename?: "UnknownCollectModuleSettings" };
+              stats: {
+                __typename?: "PublicationStats";
+                totalUpvotes: number;
+                totalAmountOfMirrors: number;
+                totalAmountOfCollects: number;
+                totalAmountOfComments: number;
+              };
+              metadata: {
+                __typename?: "MetadataOutput";
+                name?: string | null;
+                description?: any | null;
+                content?: any | null;
+                image?: any | null;
+                attributes: Array<{
+                  __typename?: "MetadataAttributeOutput";
+                  traitType?: string | null;
+                  value?: string | null;
+                }>;
+                cover?: {
+                  __typename?: "MediaSet";
+                  original: { __typename?: "Media"; url: any };
+                } | null;
+                media: Array<{
+                  __typename?: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }>;
+              };
+              mirrorOf:
+                | {
+                    __typename?: "Comment";
+                    id: any;
+                    reaction?: ReactionTypes | null;
+                    mirrors: Array<any>;
+                    createdAt: any;
+                    profile: {
+                      __typename?: "Profile";
+                      id: any;
+                      name?: string | null;
+                      handle: any;
+                      bio?: string | null;
+                      ownedBy: any;
+                      attributes?: Array<{
+                        __typename?: "Attribute";
+                        key: string;
+                        value: string;
+                      }> | null;
+                      picture?:
+                        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                        | { __typename: "NftImage"; uri: any }
+                        | null;
+                      coverPicture?:
+                        | {
+                            __typename: "MediaSet";
+                            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                          }
+                        | {
+                            __typename: "NftImage";
+                            contractAddress: any;
+                            tokenId: string;
+                            uri: any;
+                            verified: boolean;
+                          }
+                        | null;
+                      followModule?:
+                        | { __typename: "FeeFollowModuleSettings" }
+                        | { __typename: "ProfileFollowModuleSettings" }
+                        | { __typename: "RevertFollowModuleSettings" }
+                        | { __typename: "UnknownFollowModuleSettings" }
+                        | null;
+                    };
+                    canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                    canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                    stats: {
+                      __typename?: "PublicationStats";
+                      totalUpvotes: number;
+                      totalAmountOfMirrors: number;
+                      totalAmountOfCollects: number;
+                      totalAmountOfComments: number;
+                    };
+                  }
+                | {
+                    __typename?: "Post";
+                    id: any;
+                    reaction?: ReactionTypes | null;
+                    mirrors: Array<any>;
+                    hasCollectedByMe: boolean;
+                    hidden: boolean;
+                    createdAt: any;
+                    appId?: any | null;
+                    profile: {
+                      __typename?: "Profile";
+                      id: any;
+                      name?: string | null;
+                      handle: any;
+                      bio?: string | null;
+                      ownedBy: any;
+                      attributes?: Array<{
+                        __typename?: "Attribute";
+                        key: string;
+                        value: string;
+                      }> | null;
+                      picture?:
+                        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                        | { __typename: "NftImage"; uri: any }
+                        | null;
+                      coverPicture?:
+                        | {
+                            __typename: "MediaSet";
+                            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                          }
+                        | {
+                            __typename: "NftImage";
+                            contractAddress: any;
+                            tokenId: string;
+                            uri: any;
+                            verified: boolean;
+                          }
+                        | null;
+                      followModule?:
+                        | { __typename: "FeeFollowModuleSettings" }
+                        | { __typename: "ProfileFollowModuleSettings" }
+                        | { __typename: "RevertFollowModuleSettings" }
+                        | { __typename: "UnknownFollowModuleSettings" }
+                        | null;
+                    };
+                    canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                    canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                    collectedBy?: {
+                      __typename?: "Wallet";
+                      address: any;
+                      defaultProfile?: {
+                        __typename?: "Profile";
+                        id: any;
+                        name?: string | null;
+                        handle: any;
+                        bio?: string | null;
+                        ownedBy: any;
+                        attributes?: Array<{
+                          __typename?: "Attribute";
+                          key: string;
+                          value: string;
+                        }> | null;
+                        picture?:
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
+                          | null;
+                        coverPicture?:
+                          | {
+                              __typename: "MediaSet";
+                              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                            }
+                          | {
+                              __typename: "NftImage";
+                              contractAddress: any;
+                              tokenId: string;
+                              uri: any;
+                              verified: boolean;
+                            }
+                          | null;
+                        followModule?:
+                          | { __typename: "FeeFollowModuleSettings" }
+                          | { __typename: "ProfileFollowModuleSettings" }
+                          | { __typename: "RevertFollowModuleSettings" }
+                          | { __typename: "UnknownFollowModuleSettings" }
+                          | null;
+                      } | null;
+                    } | null;
+                    collectModule:
+                      | {
+                          __typename?: "FeeCollectModuleSettings";
+                          type: CollectModules;
+                          recipient: any;
+                          referralFee: number;
+                          contractAddress: any;
+                          followerOnly: boolean;
+                          amount: {
+                            __typename?: "ModuleFeeAmount";
+                            value: string;
+                            asset: {
+                              __typename?: "Erc20";
+                              symbol: string;
+                              decimals: number;
+                              address: any;
+                            };
+                          };
+                        }
+                      | {
+                          __typename?: "FreeCollectModuleSettings";
+                          type: CollectModules;
+                          contractAddress: any;
+                          followerOnly: boolean;
+                        }
+                      | {
+                          __typename?: "LimitedFeeCollectModuleSettings";
+                          type: CollectModules;
+                          collectLimit: string;
+                          recipient: any;
+                          referralFee: number;
+                          contractAddress: any;
+                          followerOnly: boolean;
+                          amount: {
+                            __typename?: "ModuleFeeAmount";
+                            value: string;
+                            asset: {
+                              __typename?: "Erc20";
+                              symbol: string;
+                              decimals: number;
+                              address: any;
+                            };
+                          };
+                        }
+                      | {
+                          __typename?: "LimitedTimedFeeCollectModuleSettings";
+                          type: CollectModules;
+                          collectLimit: string;
+                          recipient: any;
+                          endTimestamp: any;
+                          referralFee: number;
+                          contractAddress: any;
+                          followerOnly: boolean;
+                          amount: {
+                            __typename?: "ModuleFeeAmount";
+                            value: string;
+                            asset: {
+                              __typename?: "Erc20";
+                              symbol: string;
+                              decimals: number;
+                              address: any;
+                            };
+                          };
+                        }
+                      | { __typename?: "RevertCollectModuleSettings" }
+                      | {
+                          __typename?: "TimedFeeCollectModuleSettings";
+                          type: CollectModules;
+                          recipient: any;
+                          endTimestamp: any;
+                          referralFee: number;
+                          contractAddress: any;
+                          followerOnly: boolean;
+                          amount: {
+                            __typename?: "ModuleFeeAmount";
+                            value: string;
+                            asset: {
+                              __typename?: "Erc20";
+                              symbol: string;
+                              decimals: number;
+                              address: any;
+                            };
+                          };
+                        }
+                      | { __typename?: "UnknownCollectModuleSettings" };
+                    stats: {
+                      __typename?: "PublicationStats";
+                      totalUpvotes: number;
+                      totalAmountOfMirrors: number;
+                      totalAmountOfCollects: number;
+                      totalAmountOfComments: number;
+                    };
+                    metadata: {
+                      __typename?: "MetadataOutput";
+                      name?: string | null;
+                      description?: any | null;
+                      content?: any | null;
+                      image?: any | null;
+                      attributes: Array<{
+                        __typename?: "MetadataAttributeOutput";
+                        traitType?: string | null;
+                        value?: string | null;
+                      }>;
+                      cover?: {
+                        __typename?: "MediaSet";
+                        original: { __typename?: "Media"; url: any };
+                      } | null;
+                      media: Array<{
+                        __typename?: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }>;
+                    };
+                  };
+            }
+          | {
+              __typename?: "Post";
+              id: any;
+              reaction?: ReactionTypes | null;
+              mirrors: Array<any>;
+              hasCollectedByMe: boolean;
+              hidden: boolean;
+              createdAt: any;
+              appId?: any | null;
+              profile: {
+                __typename?: "Profile";
+                id: any;
+                name?: string | null;
+                handle: any;
+                bio?: string | null;
+                ownedBy: any;
+                attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+                picture?:
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
+                  | null;
+                coverPicture?:
+                  | {
+                      __typename: "MediaSet";
+                      original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                    }
+                  | {
+                      __typename: "NftImage";
+                      contractAddress: any;
+                      tokenId: string;
+                      uri: any;
+                      verified: boolean;
+                    }
+                  | null;
+                followModule?:
+                  | { __typename: "FeeFollowModuleSettings" }
+                  | { __typename: "ProfileFollowModuleSettings" }
+                  | { __typename: "RevertFollowModuleSettings" }
+                  | { __typename: "UnknownFollowModuleSettings" }
+                  | null;
+              };
+              canComment: { __typename?: "CanCommentResponse"; result: boolean };
+              canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+              collectedBy?: {
+                __typename?: "Wallet";
+                address: any;
+                defaultProfile?: {
+                  __typename?: "Profile";
+                  id: any;
+                  name?: string | null;
+                  handle: any;
+                  bio?: string | null;
+                  ownedBy: any;
+                  attributes?: Array<{
+                    __typename?: "Attribute";
+                    key: string;
+                    value: string;
+                  }> | null;
+                  picture?:
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
+                    | null;
+                  coverPicture?:
+                    | {
+                        __typename: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }
+                    | {
+                        __typename: "NftImage";
+                        contractAddress: any;
+                        tokenId: string;
+                        uri: any;
+                        verified: boolean;
+                      }
+                    | null;
+                  followModule?:
+                    | { __typename: "FeeFollowModuleSettings" }
+                    | { __typename: "ProfileFollowModuleSettings" }
+                    | { __typename: "RevertFollowModuleSettings" }
+                    | { __typename: "UnknownFollowModuleSettings" }
+                    | null;
+                } | null;
+              } | null;
+              collectModule:
+                | {
+                    __typename?: "FeeCollectModuleSettings";
+                    type: CollectModules;
+                    recipient: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | {
+                    __typename?: "FreeCollectModuleSettings";
+                    type: CollectModules;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                  }
+                | {
+                    __typename?: "LimitedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    collectLimit: string;
+                    recipient: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | {
+                    __typename?: "LimitedTimedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    collectLimit: string;
+                    recipient: any;
+                    endTimestamp: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | { __typename?: "RevertCollectModuleSettings" }
+                | {
+                    __typename?: "TimedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    recipient: any;
+                    endTimestamp: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | { __typename?: "UnknownCollectModuleSettings" };
+              stats: {
+                __typename?: "PublicationStats";
+                totalUpvotes: number;
+                totalAmountOfMirrors: number;
+                totalAmountOfCollects: number;
+                totalAmountOfComments: number;
+              };
+              metadata: {
+                __typename?: "MetadataOutput";
+                name?: string | null;
+                description?: any | null;
+                content?: any | null;
+                image?: any | null;
+                attributes: Array<{
+                  __typename?: "MetadataAttributeOutput";
+                  traitType?: string | null;
+                  value?: string | null;
+                }>;
+                cover?: {
+                  __typename?: "MediaSet";
+                  original: { __typename?: "Media"; url: any };
+                } | null;
+                media: Array<{
+                  __typename?: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }>;
+              };
+            };
+      }
+    | {
+        __typename?: "Mirror";
+        id: any;
+        reaction?: ReactionTypes | null;
+        hidden: boolean;
+        createdAt: any;
+        appId?: any | null;
+        profile: {
+          __typename?: "Profile";
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+          picture?:
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
+            | null;
+          coverPicture?:
+            | {
+                __typename: "MediaSet";
+                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+              }
+            | {
+                __typename: "NftImage";
+                contractAddress: any;
+                tokenId: string;
+                uri: any;
+                verified: boolean;
+              }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        };
+        canComment: { __typename?: "CanCommentResponse"; result: boolean };
+        canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+        collectModule:
+          | {
+              __typename?: "FeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "FreeCollectModuleSettings";
+              type: CollectModules;
+              contractAddress: any;
+              followerOnly: boolean;
+            }
+          | {
+              __typename?: "LimitedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "LimitedTimedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "RevertCollectModuleSettings" }
+          | {
+              __typename?: "TimedFeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "UnknownCollectModuleSettings" };
+        stats: {
+          __typename?: "PublicationStats";
+          totalUpvotes: number;
+          totalAmountOfMirrors: number;
+          totalAmountOfCollects: number;
+          totalAmountOfComments: number;
+        };
+        metadata: {
+          __typename?: "MetadataOutput";
+          name?: string | null;
+          description?: any | null;
+          content?: any | null;
+          image?: any | null;
+          attributes: Array<{
+            __typename?: "MetadataAttributeOutput";
+            traitType?: string | null;
+            value?: string | null;
+          }>;
+          cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+          media: Array<{
+            __typename?: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }>;
+        };
+        mirrorOf:
+          | {
+              __typename?: "Comment";
+              id: any;
+              reaction?: ReactionTypes | null;
+              mirrors: Array<any>;
+              createdAt: any;
+              profile: {
+                __typename?: "Profile";
+                id: any;
+                name?: string | null;
+                handle: any;
+                bio?: string | null;
+                ownedBy: any;
+                attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+                picture?:
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
+                  | null;
+                coverPicture?:
+                  | {
+                      __typename: "MediaSet";
+                      original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                    }
+                  | {
+                      __typename: "NftImage";
+                      contractAddress: any;
+                      tokenId: string;
+                      uri: any;
+                      verified: boolean;
+                    }
+                  | null;
+                followModule?:
+                  | { __typename: "FeeFollowModuleSettings" }
+                  | { __typename: "ProfileFollowModuleSettings" }
+                  | { __typename: "RevertFollowModuleSettings" }
+                  | { __typename: "UnknownFollowModuleSettings" }
+                  | null;
+              };
+              canComment: { __typename?: "CanCommentResponse"; result: boolean };
+              canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+              stats: {
+                __typename?: "PublicationStats";
+                totalUpvotes: number;
+                totalAmountOfMirrors: number;
+                totalAmountOfCollects: number;
+                totalAmountOfComments: number;
+              };
+            }
+          | {
+              __typename?: "Post";
+              id: any;
+              reaction?: ReactionTypes | null;
+              mirrors: Array<any>;
+              hasCollectedByMe: boolean;
+              hidden: boolean;
+              createdAt: any;
+              appId?: any | null;
+              profile: {
+                __typename?: "Profile";
+                id: any;
+                name?: string | null;
+                handle: any;
+                bio?: string | null;
+                ownedBy: any;
+                attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+                picture?:
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
+                  | null;
+                coverPicture?:
+                  | {
+                      __typename: "MediaSet";
+                      original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                    }
+                  | {
+                      __typename: "NftImage";
+                      contractAddress: any;
+                      tokenId: string;
+                      uri: any;
+                      verified: boolean;
+                    }
+                  | null;
+                followModule?:
+                  | { __typename: "FeeFollowModuleSettings" }
+                  | { __typename: "ProfileFollowModuleSettings" }
+                  | { __typename: "RevertFollowModuleSettings" }
+                  | { __typename: "UnknownFollowModuleSettings" }
+                  | null;
+              };
+              canComment: { __typename?: "CanCommentResponse"; result: boolean };
+              canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+              collectedBy?: {
+                __typename?: "Wallet";
+                address: any;
+                defaultProfile?: {
+                  __typename?: "Profile";
+                  id: any;
+                  name?: string | null;
+                  handle: any;
+                  bio?: string | null;
+                  ownedBy: any;
+                  attributes?: Array<{
+                    __typename?: "Attribute";
+                    key: string;
+                    value: string;
+                  }> | null;
+                  picture?:
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
+                    | null;
+                  coverPicture?:
+                    | {
+                        __typename: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }
+                    | {
+                        __typename: "NftImage";
+                        contractAddress: any;
+                        tokenId: string;
+                        uri: any;
+                        verified: boolean;
+                      }
+                    | null;
+                  followModule?:
+                    | { __typename: "FeeFollowModuleSettings" }
+                    | { __typename: "ProfileFollowModuleSettings" }
+                    | { __typename: "RevertFollowModuleSettings" }
+                    | { __typename: "UnknownFollowModuleSettings" }
+                    | null;
+                } | null;
+              } | null;
+              collectModule:
+                | {
+                    __typename?: "FeeCollectModuleSettings";
+                    type: CollectModules;
+                    recipient: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | {
+                    __typename?: "FreeCollectModuleSettings";
+                    type: CollectModules;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                  }
+                | {
+                    __typename?: "LimitedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    collectLimit: string;
+                    recipient: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | {
+                    __typename?: "LimitedTimedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    collectLimit: string;
+                    recipient: any;
+                    endTimestamp: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | { __typename?: "RevertCollectModuleSettings" }
+                | {
+                    __typename?: "TimedFeeCollectModuleSettings";
+                    type: CollectModules;
+                    recipient: any;
+                    endTimestamp: any;
+                    referralFee: number;
+                    contractAddress: any;
+                    followerOnly: boolean;
+                    amount: {
+                      __typename?: "ModuleFeeAmount";
+                      value: string;
+                      asset: {
+                        __typename?: "Erc20";
+                        symbol: string;
+                        decimals: number;
+                        address: any;
+                      };
+                    };
+                  }
+                | { __typename?: "UnknownCollectModuleSettings" };
+              stats: {
+                __typename?: "PublicationStats";
+                totalUpvotes: number;
+                totalAmountOfMirrors: number;
+                totalAmountOfCollects: number;
+                totalAmountOfComments: number;
+              };
+              metadata: {
+                __typename?: "MetadataOutput";
+                name?: string | null;
+                description?: any | null;
+                content?: any | null;
+                image?: any | null;
+                attributes: Array<{
+                  __typename?: "MetadataAttributeOutput";
+                  traitType?: string | null;
+                  value?: string | null;
+                }>;
+                cover?: {
+                  __typename?: "MediaSet";
+                  original: { __typename?: "Media"; url: any };
+                } | null;
+                media: Array<{
+                  __typename?: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }>;
+              };
+            };
+      }
+    | {
+        __typename?: "Post";
+        id: any;
+        reaction?: ReactionTypes | null;
+        mirrors: Array<any>;
+        hasCollectedByMe: boolean;
+        hidden: boolean;
+        createdAt: any;
+        appId?: any | null;
+        profile: {
+          __typename?: "Profile";
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+          picture?:
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
+            | null;
+          coverPicture?:
+            | {
+                __typename: "MediaSet";
+                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+              }
+            | {
+                __typename: "NftImage";
+                contractAddress: any;
+                tokenId: string;
+                uri: any;
+                verified: boolean;
+              }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        };
+        canComment: { __typename?: "CanCommentResponse"; result: boolean };
+        canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+        collectedBy?: {
+          __typename?: "Wallet";
+          address: any;
+          defaultProfile?: {
+            __typename?: "Profile";
+            id: any;
+            name?: string | null;
+            handle: any;
+            bio?: string | null;
+            ownedBy: any;
+            attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+            picture?:
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
+              | null;
+            coverPicture?:
+              | {
+                  __typename: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }
+              | {
+                  __typename: "NftImage";
+                  contractAddress: any;
+                  tokenId: string;
+                  uri: any;
+                  verified: boolean;
+                }
+              | null;
+            followModule?:
+              | { __typename: "FeeFollowModuleSettings" }
+              | { __typename: "ProfileFollowModuleSettings" }
+              | { __typename: "RevertFollowModuleSettings" }
+              | { __typename: "UnknownFollowModuleSettings" }
+              | null;
+          } | null;
+        } | null;
+        collectModule:
+          | {
+              __typename?: "FeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "FreeCollectModuleSettings";
+              type: CollectModules;
+              contractAddress: any;
+              followerOnly: boolean;
+            }
+          | {
+              __typename?: "LimitedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "LimitedTimedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "RevertCollectModuleSettings" }
+          | {
+              __typename?: "TimedFeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "UnknownCollectModuleSettings" };
+        stats: {
+          __typename?: "PublicationStats";
+          totalUpvotes: number;
+          totalAmountOfMirrors: number;
+          totalAmountOfCollects: number;
+          totalAmountOfComments: number;
+        };
+        metadata: {
+          __typename?: "MetadataOutput";
+          name?: string | null;
+          description?: any | null;
+          content?: any | null;
+          image?: any | null;
+          attributes: Array<{
+            __typename?: "MetadataAttributeOutput";
+            traitType?: string | null;
+            value?: string | null;
+          }>;
+          cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+          media: Array<{
+            __typename?: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }>;
+        };
+      }
+    | null;
+};
 
-export type MetadataFieldsFragment = { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> };
+export type MetadataFieldsFragment = {
+  __typename?: "MetadataOutput";
+  name?: string | null;
+  description?: any | null;
+  content?: any | null;
+  image?: any | null;
+  attributes: Array<{
+    __typename?: "MetadataAttributeOutput";
+    traitType?: string | null;
+    value?: string | null;
+  }>;
+  cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+  media: Array<{
+    __typename?: "MediaSet";
+    original: { __typename?: "Media"; url: any; mimeType?: any | null };
+  }>;
+};
 
-export type MirrorFieldsFragment = { __typename?: "Mirror", id: any, reaction?: ReactionTypes | null, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, mirrorOf: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } };
+export type MirrorFieldsFragment = {
+  __typename?: "Mirror";
+  id: any;
+  reaction?: ReactionTypes | null;
+  hidden: boolean;
+  createdAt: any;
+  appId?: any | null;
+  profile: {
+    __typename?: "Profile";
+    id: any;
+    name?: string | null;
+    handle: any;
+    bio?: string | null;
+    ownedBy: any;
+    attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+    picture?:
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage"; uri: any }
+      | null;
+    coverPicture?:
+      | {
+          __typename: "MediaSet";
+          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+        }
+      | {
+          __typename: "NftImage";
+          contractAddress: any;
+          tokenId: string;
+          uri: any;
+          verified: boolean;
+        }
+      | null;
+    followModule?:
+      | { __typename: "FeeFollowModuleSettings" }
+      | { __typename: "ProfileFollowModuleSettings" }
+      | { __typename: "RevertFollowModuleSettings" }
+      | { __typename: "UnknownFollowModuleSettings" }
+      | null;
+  };
+  canComment: { __typename?: "CanCommentResponse"; result: boolean };
+  canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+  collectModule:
+    | {
+        __typename?: "FeeCollectModuleSettings";
+        type: CollectModules;
+        recipient: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | {
+        __typename?: "FreeCollectModuleSettings";
+        type: CollectModules;
+        contractAddress: any;
+        followerOnly: boolean;
+      }
+    | {
+        __typename?: "LimitedFeeCollectModuleSettings";
+        type: CollectModules;
+        collectLimit: string;
+        recipient: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | {
+        __typename?: "LimitedTimedFeeCollectModuleSettings";
+        type: CollectModules;
+        collectLimit: string;
+        recipient: any;
+        endTimestamp: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | { __typename?: "RevertCollectModuleSettings" }
+    | {
+        __typename?: "TimedFeeCollectModuleSettings";
+        type: CollectModules;
+        recipient: any;
+        endTimestamp: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | { __typename?: "UnknownCollectModuleSettings" };
+  stats: {
+    __typename?: "PublicationStats";
+    totalUpvotes: number;
+    totalAmountOfMirrors: number;
+    totalAmountOfCollects: number;
+    totalAmountOfComments: number;
+  };
+  metadata: {
+    __typename?: "MetadataOutput";
+    name?: string | null;
+    description?: any | null;
+    content?: any | null;
+    image?: any | null;
+    attributes: Array<{
+      __typename?: "MetadataAttributeOutput";
+      traitType?: string | null;
+      value?: string | null;
+    }>;
+    cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+    media: Array<{
+      __typename?: "MediaSet";
+      original: { __typename?: "Media"; url: any; mimeType?: any | null };
+    }>;
+  };
+  mirrorOf:
+    | {
+        __typename?: "Comment";
+        id: any;
+        reaction?: ReactionTypes | null;
+        mirrors: Array<any>;
+        createdAt: any;
+        profile: {
+          __typename?: "Profile";
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+          picture?:
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
+            | null;
+          coverPicture?:
+            | {
+                __typename: "MediaSet";
+                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+              }
+            | {
+                __typename: "NftImage";
+                contractAddress: any;
+                tokenId: string;
+                uri: any;
+                verified: boolean;
+              }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        };
+        canComment: { __typename?: "CanCommentResponse"; result: boolean };
+        canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+        stats: {
+          __typename?: "PublicationStats";
+          totalUpvotes: number;
+          totalAmountOfMirrors: number;
+          totalAmountOfCollects: number;
+          totalAmountOfComments: number;
+        };
+      }
+    | {
+        __typename?: "Post";
+        id: any;
+        reaction?: ReactionTypes | null;
+        mirrors: Array<any>;
+        hasCollectedByMe: boolean;
+        hidden: boolean;
+        createdAt: any;
+        appId?: any | null;
+        profile: {
+          __typename?: "Profile";
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+          picture?:
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
+            | null;
+          coverPicture?:
+            | {
+                __typename: "MediaSet";
+                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+              }
+            | {
+                __typename: "NftImage";
+                contractAddress: any;
+                tokenId: string;
+                uri: any;
+                verified: boolean;
+              }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        };
+        canComment: { __typename?: "CanCommentResponse"; result: boolean };
+        canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+        collectedBy?: {
+          __typename?: "Wallet";
+          address: any;
+          defaultProfile?: {
+            __typename?: "Profile";
+            id: any;
+            name?: string | null;
+            handle: any;
+            bio?: string | null;
+            ownedBy: any;
+            attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+            picture?:
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
+              | null;
+            coverPicture?:
+              | {
+                  __typename: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }
+              | {
+                  __typename: "NftImage";
+                  contractAddress: any;
+                  tokenId: string;
+                  uri: any;
+                  verified: boolean;
+                }
+              | null;
+            followModule?:
+              | { __typename: "FeeFollowModuleSettings" }
+              | { __typename: "ProfileFollowModuleSettings" }
+              | { __typename: "RevertFollowModuleSettings" }
+              | { __typename: "UnknownFollowModuleSettings" }
+              | null;
+          } | null;
+        } | null;
+        collectModule:
+          | {
+              __typename?: "FeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "FreeCollectModuleSettings";
+              type: CollectModules;
+              contractAddress: any;
+              followerOnly: boolean;
+            }
+          | {
+              __typename?: "LimitedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | {
+              __typename?: "LimitedTimedFeeCollectModuleSettings";
+              type: CollectModules;
+              collectLimit: string;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "RevertCollectModuleSettings" }
+          | {
+              __typename?: "TimedFeeCollectModuleSettings";
+              type: CollectModules;
+              recipient: any;
+              endTimestamp: any;
+              referralFee: number;
+              contractAddress: any;
+              followerOnly: boolean;
+              amount: {
+                __typename?: "ModuleFeeAmount";
+                value: string;
+                asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+              };
+            }
+          | { __typename?: "UnknownCollectModuleSettings" };
+        stats: {
+          __typename?: "PublicationStats";
+          totalUpvotes: number;
+          totalAmountOfMirrors: number;
+          totalAmountOfCollects: number;
+          totalAmountOfComments: number;
+        };
+        metadata: {
+          __typename?: "MetadataOutput";
+          name?: string | null;
+          description?: any | null;
+          content?: any | null;
+          image?: any | null;
+          attributes: Array<{
+            __typename?: "MetadataAttributeOutput";
+            traitType?: string | null;
+            value?: string | null;
+          }>;
+          cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+          media: Array<{
+            __typename?: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }>;
+        };
+      };
+};
 
-export type PostFieldsFragment = { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } };
+export type PostFieldsFragment = {
+  __typename?: "Post";
+  id: any;
+  reaction?: ReactionTypes | null;
+  mirrors: Array<any>;
+  hasCollectedByMe: boolean;
+  hidden: boolean;
+  createdAt: any;
+  appId?: any | null;
+  profile: {
+    __typename?: "Profile";
+    id: any;
+    name?: string | null;
+    handle: any;
+    bio?: string | null;
+    ownedBy: any;
+    attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+    picture?:
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage"; uri: any }
+      | null;
+    coverPicture?:
+      | {
+          __typename: "MediaSet";
+          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+        }
+      | {
+          __typename: "NftImage";
+          contractAddress: any;
+          tokenId: string;
+          uri: any;
+          verified: boolean;
+        }
+      | null;
+    followModule?:
+      | { __typename: "FeeFollowModuleSettings" }
+      | { __typename: "ProfileFollowModuleSettings" }
+      | { __typename: "RevertFollowModuleSettings" }
+      | { __typename: "UnknownFollowModuleSettings" }
+      | null;
+  };
+  canComment: { __typename?: "CanCommentResponse"; result: boolean };
+  canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+  collectedBy?: {
+    __typename?: "Wallet";
+    address: any;
+    defaultProfile?: {
+      __typename?: "Profile";
+      id: any;
+      name?: string | null;
+      handle: any;
+      bio?: string | null;
+      ownedBy: any;
+      attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+      picture?:
+        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename: "NftImage"; uri: any }
+        | null;
+      coverPicture?:
+        | {
+            __typename: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }
+        | {
+            __typename: "NftImage";
+            contractAddress: any;
+            tokenId: string;
+            uri: any;
+            verified: boolean;
+          }
+        | null;
+      followModule?:
+        | { __typename: "FeeFollowModuleSettings" }
+        | { __typename: "ProfileFollowModuleSettings" }
+        | { __typename: "RevertFollowModuleSettings" }
+        | { __typename: "UnknownFollowModuleSettings" }
+        | null;
+    } | null;
+  } | null;
+  collectModule:
+    | {
+        __typename?: "FeeCollectModuleSettings";
+        type: CollectModules;
+        recipient: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | {
+        __typename?: "FreeCollectModuleSettings";
+        type: CollectModules;
+        contractAddress: any;
+        followerOnly: boolean;
+      }
+    | {
+        __typename?: "LimitedFeeCollectModuleSettings";
+        type: CollectModules;
+        collectLimit: string;
+        recipient: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | {
+        __typename?: "LimitedTimedFeeCollectModuleSettings";
+        type: CollectModules;
+        collectLimit: string;
+        recipient: any;
+        endTimestamp: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | { __typename?: "RevertCollectModuleSettings" }
+    | {
+        __typename?: "TimedFeeCollectModuleSettings";
+        type: CollectModules;
+        recipient: any;
+        endTimestamp: any;
+        referralFee: number;
+        contractAddress: any;
+        followerOnly: boolean;
+        amount: {
+          __typename?: "ModuleFeeAmount";
+          value: string;
+          asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+        };
+      }
+    | { __typename?: "UnknownCollectModuleSettings" };
+  stats: {
+    __typename?: "PublicationStats";
+    totalUpvotes: number;
+    totalAmountOfMirrors: number;
+    totalAmountOfCollects: number;
+    totalAmountOfComments: number;
+  };
+  metadata: {
+    __typename?: "MetadataOutput";
+    name?: string | null;
+    description?: any | null;
+    content?: any | null;
+    image?: any | null;
+    attributes: Array<{
+      __typename?: "MetadataAttributeOutput";
+      traitType?: string | null;
+      value?: string | null;
+    }>;
+    cover?: { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } } | null;
+    media: Array<{
+      __typename?: "MediaSet";
+      original: { __typename?: "Media"; url: any; mimeType?: any | null };
+    }>;
+  };
+};
 
-export type ProfileFieldsFragment = { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null };
+export type ProfileFieldsFragment = {
+  __typename?: "Profile";
+  id: any;
+  name?: string | null;
+  handle: any;
+  bio?: string | null;
+  ownedBy: any;
+  attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+  picture?:
+    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+    | { __typename: "NftImage"; uri: any }
+    | null;
+  coverPicture?:
+    | {
+        __typename: "MediaSet";
+        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+      }
+    | { __typename: "NftImage"; contractAddress: any; tokenId: string; uri: any; verified: boolean }
+    | null;
+  followModule?:
+    | { __typename: "FeeFollowModuleSettings" }
+    | { __typename: "ProfileFollowModuleSettings" }
+    | { __typename: "RevertFollowModuleSettings" }
+    | { __typename: "UnknownFollowModuleSettings" }
+    | null;
+};
 
-export type StatsFieldsFragment = { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number };
+export type StatsFieldsFragment = {
+  __typename?: "PublicationStats";
+  totalUpvotes: number;
+  totalAmountOfMirrors: number;
+  totalAmountOfCollects: number;
+  totalAmountOfComments: number;
+};
 
 export type AuthenticateMutationVariables = Exact<{
   request: SignedAuthChallenge;
 }>;
 
-
-export type AuthenticateMutation = { __typename?: "Mutation", authenticate: { __typename?: "AuthenticationResult", accessToken: any, refreshToken: any } };
+export type AuthenticateMutation = {
+  __typename?: "Mutation";
+  authenticate: { __typename?: "AuthenticationResult"; accessToken: any; refreshToken: any };
+};
 
 export type ChallengeQueryVariables = Exact<{
   request: ChallengeRequest;
 }>;
 
-
-export type ChallengeQuery = { __typename?: "Query", challenge: { __typename?: "AuthChallengeResult", text: string } };
+export type ChallengeQuery = {
+  __typename?: "Query";
+  challenge: { __typename?: "AuthChallengeResult"; text: string };
+};
 
 export type FollowersQueryVariables = Exact<{
   request: FollowersRequest;
 }>;
 
-
-export type FollowersQuery = { __typename?: "Query", followers: { __typename?: "PaginatedFollowersResult", items: Array<{ __typename?: "Follower", totalAmountOfTimesFollowed: number, wallet: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", isFollowedByMe: boolean, id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } }>, pageInfo: { __typename?: "PaginatedResultInfo", next?: any | null, totalCount?: number | null } } };
+export type FollowersQuery = {
+  __typename?: "Query";
+  followers: {
+    __typename?: "PaginatedFollowersResult";
+    items: Array<{
+      __typename?: "Follower";
+      totalAmountOfTimesFollowed: number;
+      wallet: {
+        __typename?: "Wallet";
+        address: any;
+        defaultProfile?: {
+          __typename?: "Profile";
+          isFollowedByMe: boolean;
+          id: any;
+          name?: string | null;
+          handle: any;
+          bio?: string | null;
+          ownedBy: any;
+          attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+          picture?:
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
+            | null;
+          coverPicture?:
+            | {
+                __typename: "MediaSet";
+                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+              }
+            | {
+                __typename: "NftImage";
+                contractAddress: any;
+                tokenId: string;
+                uri: any;
+                verified: boolean;
+              }
+            | null;
+          followModule?:
+            | { __typename: "FeeFollowModuleSettings" }
+            | { __typename: "ProfileFollowModuleSettings" }
+            | { __typename: "RevertFollowModuleSettings" }
+            | { __typename: "UnknownFollowModuleSettings" }
+            | null;
+        } | null;
+      };
+    }>;
+    pageInfo: { __typename?: "PaginatedResultInfo"; next?: any | null; totalCount?: number | null };
+  };
+};
 
 export type FollowingQueryVariables = Exact<{
   request: FollowingRequest;
 }>;
 
-
-export type FollowingQuery = { __typename?: "Query", following: { __typename?: "PaginatedFollowingResult", items: Array<{ __typename?: "Following", totalAmountOfTimesFollowing: number, profile: { __typename?: "Profile", isFollowedByMe: boolean, id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } }>, pageInfo: { __typename?: "PaginatedResultInfo", next?: any | null, totalCount?: number | null } } };
+export type FollowingQuery = {
+  __typename?: "Query";
+  following: {
+    __typename?: "PaginatedFollowingResult";
+    items: Array<{
+      __typename?: "Following";
+      totalAmountOfTimesFollowing: number;
+      profile: {
+        __typename?: "Profile";
+        isFollowedByMe: boolean;
+        id: any;
+        name?: string | null;
+        handle: any;
+        bio?: string | null;
+        ownedBy: any;
+        attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+        picture?:
+          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+          | { __typename: "NftImage"; uri: any }
+          | null;
+        coverPicture?:
+          | {
+              __typename: "MediaSet";
+              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+            }
+          | {
+              __typename: "NftImage";
+              contractAddress: any;
+              tokenId: string;
+              uri: any;
+              verified: boolean;
+            }
+          | null;
+        followModule?:
+          | { __typename: "FeeFollowModuleSettings" }
+          | { __typename: "ProfileFollowModuleSettings" }
+          | { __typename: "RevertFollowModuleSettings" }
+          | { __typename: "UnknownFollowModuleSettings" }
+          | null;
+      };
+    }>;
+    pageInfo: { __typename?: "PaginatedResultInfo"; next?: any | null; totalCount?: number | null };
+  };
+};
 
 export type ProfileQueryVariables = Exact<{
   request: SingleProfileQueryRequest;
   who?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
-
-export type ProfileQuery = { __typename?: "Query", profile?: { __typename: "Profile", id: any, handle: any, ownedBy: any, name?: string | null, bio?: string | null, metadata?: any | null, followNftAddress?: any | null, isFollowedByMe: boolean, isFollowing: boolean, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, dispatcher?: { __typename?: "Dispatcher", canUseRelay: boolean } | null, onChainIdentity: { __typename?: "OnChainIdentity", proofOfHumanity: boolean, sybilDotOrg: { __typename?: "SybilDotOrgIdentity", verified: boolean, source: { __typename?: "SybilDotOrgIdentitySource", twitter: { __typename?: "SybilDotOrgTwitterIdentity", handle?: string | null } } }, ens?: { __typename?: "EnsOnChainIdentity", name?: any | null } | null, worldcoin: { __typename?: "WorldcoinIdentity", isHuman: boolean } }, stats: { __typename?: "ProfileStats", totalFollowers: number, totalFollowing: number, totalPosts: number, totalComments: number, totalMirrors: number }, picture?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename?: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage" } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null };
+export type ProfileQuery = {
+  __typename?: "Query";
+  profile?: {
+    __typename: "Profile";
+    id: any;
+    handle: any;
+    ownedBy: any;
+    name?: string | null;
+    bio?: string | null;
+    metadata?: any | null;
+    followNftAddress?: any | null;
+    isFollowedByMe: boolean;
+    isFollowing: boolean;
+    attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+    dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
+    onChainIdentity: {
+      __typename?: "OnChainIdentity";
+      proofOfHumanity: boolean;
+      sybilDotOrg: {
+        __typename?: "SybilDotOrgIdentity";
+        verified: boolean;
+        source: {
+          __typename?: "SybilDotOrgIdentitySource";
+          twitter: { __typename?: "SybilDotOrgTwitterIdentity"; handle?: string | null };
+        };
+      };
+      ens?: { __typename?: "EnsOnChainIdentity"; name?: any | null } | null;
+      worldcoin: { __typename?: "WorldcoinIdentity"; isHuman: boolean };
+    };
+    stats: {
+      __typename?: "ProfileStats";
+      totalFollowers: number;
+      totalFollowing: number;
+      totalPosts: number;
+      totalComments: number;
+      totalMirrors: number;
+    };
+    picture?:
+      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename?: "NftImage"; uri: any }
+      | null;
+    coverPicture?:
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage" }
+      | null;
+    followModule?:
+      | { __typename: "FeeFollowModuleSettings" }
+      | { __typename: "ProfileFollowModuleSettings" }
+      | { __typename: "RevertFollowModuleSettings" }
+      | { __typename: "UnknownFollowModuleSettings" }
+      | null;
+  } | null;
+};
 
 export type ProfileFeedQueryVariables = Exact<{
   request: PublicationsQueryRequest;
@@ -3439,15 +5608,2209 @@ export type ProfileFeedQueryVariables = Exact<{
   profileId?: InputMaybe<Scalars["ProfileId"]>;
 }>;
 
-
-export type ProfileFeedQuery = { __typename?: "Query", publications: { __typename?: "PaginatedPublicationResult", items: Array<{ __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, commentOn?: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", handle: any } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, mainPost: { __typename?: "Mirror", id: any, reaction?: ReactionTypes | null, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, mirrorOf: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } } | { __typename?: "Mirror", id: any, reaction?: ReactionTypes | null, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, mirrorOf: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } | null } | { __typename?: "Mirror", id: any, reaction?: ReactionTypes | null, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> }, mirrorOf: { __typename?: "Comment", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, createdAt: any, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } } } | { __typename?: "Post", id: any, reaction?: ReactionTypes | null, mirrors: Array<any>, hasCollectedByMe: boolean, hidden: boolean, createdAt: any, appId?: any | null, profile: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }, canComment: { __typename?: "CanCommentResponse", result: boolean }, canMirror: { __typename?: "CanMirrorResponse", result: boolean }, collectedBy?: { __typename?: "Wallet", address: any, defaultProfile?: { __typename?: "Profile", id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null } | null } | null, collectModule: { __typename?: "FeeCollectModuleSettings", type: CollectModules, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "FreeCollectModuleSettings", type: CollectModules, contractAddress: any, followerOnly: boolean } | { __typename?: "LimitedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "LimitedTimedFeeCollectModuleSettings", type: CollectModules, collectLimit: string, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "RevertCollectModuleSettings" } | { __typename?: "TimedFeeCollectModuleSettings", type: CollectModules, recipient: any, endTimestamp: any, referralFee: number, contractAddress: any, followerOnly: boolean, amount: { __typename?: "ModuleFeeAmount", value: string, asset: { __typename?: "Erc20", symbol: string, decimals: number, address: any } } } | { __typename?: "UnknownCollectModuleSettings" }, stats: { __typename?: "PublicationStats", totalUpvotes: number, totalAmountOfMirrors: number, totalAmountOfCollects: number, totalAmountOfComments: number }, metadata: { __typename?: "MetadataOutput", name?: string | null, description?: any | null, content?: any | null, image?: any | null, attributes: Array<{ __typename?: "MetadataAttributeOutput", traitType?: string | null, value?: string | null }>, cover?: { __typename?: "MediaSet", original: { __typename?: "Media", url: any } } | null, media: Array<{ __typename?: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } }> } }>, pageInfo: { __typename?: "PaginatedResultInfo", totalCount?: number | null, next?: any | null } } };
+export type ProfileFeedQuery = {
+  __typename?: "Query";
+  publications: {
+    __typename?: "PaginatedPublicationResult";
+    items: Array<
+      | {
+          __typename?: "Comment";
+          id: any;
+          reaction?: ReactionTypes | null;
+          mirrors: Array<any>;
+          hasCollectedByMe: boolean;
+          hidden: boolean;
+          createdAt: any;
+          appId?: any | null;
+          profile: {
+            __typename?: "Profile";
+            id: any;
+            name?: string | null;
+            handle: any;
+            bio?: string | null;
+            ownedBy: any;
+            attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+            picture?:
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
+              | null;
+            coverPicture?:
+              | {
+                  __typename: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }
+              | {
+                  __typename: "NftImage";
+                  contractAddress: any;
+                  tokenId: string;
+                  uri: any;
+                  verified: boolean;
+                }
+              | null;
+            followModule?:
+              | { __typename: "FeeFollowModuleSettings" }
+              | { __typename: "ProfileFollowModuleSettings" }
+              | { __typename: "RevertFollowModuleSettings" }
+              | { __typename: "UnknownFollowModuleSettings" }
+              | null;
+          };
+          canComment: { __typename?: "CanCommentResponse"; result: boolean };
+          canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+          collectedBy?: {
+            __typename?: "Wallet";
+            address: any;
+            defaultProfile?: {
+              __typename?: "Profile";
+              id: any;
+              name?: string | null;
+              handle: any;
+              bio?: string | null;
+              ownedBy: any;
+              attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+              picture?:
+                | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                | { __typename: "NftImage"; uri: any }
+                | null;
+              coverPicture?:
+                | {
+                    __typename: "MediaSet";
+                    original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                  }
+                | {
+                    __typename: "NftImage";
+                    contractAddress: any;
+                    tokenId: string;
+                    uri: any;
+                    verified: boolean;
+                  }
+                | null;
+              followModule?:
+                | { __typename: "FeeFollowModuleSettings" }
+                | { __typename: "ProfileFollowModuleSettings" }
+                | { __typename: "RevertFollowModuleSettings" }
+                | { __typename: "UnknownFollowModuleSettings" }
+                | null;
+            } | null;
+          } | null;
+          collectModule:
+            | {
+                __typename?: "FeeCollectModuleSettings";
+                type: CollectModules;
+                recipient: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | {
+                __typename?: "FreeCollectModuleSettings";
+                type: CollectModules;
+                contractAddress: any;
+                followerOnly: boolean;
+              }
+            | {
+                __typename?: "LimitedFeeCollectModuleSettings";
+                type: CollectModules;
+                collectLimit: string;
+                recipient: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | {
+                __typename?: "LimitedTimedFeeCollectModuleSettings";
+                type: CollectModules;
+                collectLimit: string;
+                recipient: any;
+                endTimestamp: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | { __typename?: "RevertCollectModuleSettings" }
+            | {
+                __typename?: "TimedFeeCollectModuleSettings";
+                type: CollectModules;
+                recipient: any;
+                endTimestamp: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | { __typename?: "UnknownCollectModuleSettings" };
+          stats: {
+            __typename?: "PublicationStats";
+            totalUpvotes: number;
+            totalAmountOfMirrors: number;
+            totalAmountOfCollects: number;
+            totalAmountOfComments: number;
+          };
+          metadata: {
+            __typename?: "MetadataOutput";
+            name?: string | null;
+            description?: any | null;
+            content?: any | null;
+            image?: any | null;
+            attributes: Array<{
+              __typename?: "MetadataAttributeOutput";
+              traitType?: string | null;
+              value?: string | null;
+            }>;
+            cover?: {
+              __typename?: "MediaSet";
+              original: { __typename?: "Media"; url: any };
+            } | null;
+            media: Array<{
+              __typename?: "MediaSet";
+              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+            }>;
+          };
+          commentOn?:
+            | {
+                __typename?: "Comment";
+                id: any;
+                reaction?: ReactionTypes | null;
+                mirrors: Array<any>;
+                hasCollectedByMe: boolean;
+                hidden: boolean;
+                createdAt: any;
+                profile: {
+                  __typename?: "Profile";
+                  id: any;
+                  name?: string | null;
+                  handle: any;
+                  bio?: string | null;
+                  ownedBy: any;
+                  attributes?: Array<{
+                    __typename?: "Attribute";
+                    key: string;
+                    value: string;
+                  }> | null;
+                  picture?:
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
+                    | null;
+                  coverPicture?:
+                    | {
+                        __typename: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }
+                    | {
+                        __typename: "NftImage";
+                        contractAddress: any;
+                        tokenId: string;
+                        uri: any;
+                        verified: boolean;
+                      }
+                    | null;
+                  followModule?:
+                    | { __typename: "FeeFollowModuleSettings" }
+                    | { __typename: "ProfileFollowModuleSettings" }
+                    | { __typename: "RevertFollowModuleSettings" }
+                    | { __typename: "UnknownFollowModuleSettings" }
+                    | null;
+                };
+                canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                collectedBy?: {
+                  __typename?: "Wallet";
+                  address: any;
+                  defaultProfile?: { __typename?: "Profile"; handle: any } | null;
+                } | null;
+                collectModule:
+                  | {
+                      __typename?: "FeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "FreeCollectModuleSettings";
+                      type: CollectModules;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                    }
+                  | {
+                      __typename?: "LimitedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "LimitedTimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "RevertCollectModuleSettings" }
+                  | {
+                      __typename?: "TimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "UnknownCollectModuleSettings" };
+                metadata: {
+                  __typename?: "MetadataOutput";
+                  name?: string | null;
+                  description?: any | null;
+                  content?: any | null;
+                  image?: any | null;
+                  attributes: Array<{
+                    __typename?: "MetadataAttributeOutput";
+                    traitType?: string | null;
+                    value?: string | null;
+                  }>;
+                  cover?: {
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any };
+                  } | null;
+                  media: Array<{
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                  }>;
+                };
+                stats: {
+                  __typename?: "PublicationStats";
+                  totalUpvotes: number;
+                  totalAmountOfMirrors: number;
+                  totalAmountOfCollects: number;
+                  totalAmountOfComments: number;
+                };
+                mainPost:
+                  | {
+                      __typename?: "Mirror";
+                      id: any;
+                      reaction?: ReactionTypes | null;
+                      hidden: boolean;
+                      createdAt: any;
+                      appId?: any | null;
+                      profile: {
+                        __typename?: "Profile";
+                        id: any;
+                        name?: string | null;
+                        handle: any;
+                        bio?: string | null;
+                        ownedBy: any;
+                        attributes?: Array<{
+                          __typename?: "Attribute";
+                          key: string;
+                          value: string;
+                        }> | null;
+                        picture?:
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
+                          | null;
+                        coverPicture?:
+                          | {
+                              __typename: "MediaSet";
+                              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                            }
+                          | {
+                              __typename: "NftImage";
+                              contractAddress: any;
+                              tokenId: string;
+                              uri: any;
+                              verified: boolean;
+                            }
+                          | null;
+                        followModule?:
+                          | { __typename: "FeeFollowModuleSettings" }
+                          | { __typename: "ProfileFollowModuleSettings" }
+                          | { __typename: "RevertFollowModuleSettings" }
+                          | { __typename: "UnknownFollowModuleSettings" }
+                          | null;
+                      };
+                      canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                      canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                      collectModule:
+                        | {
+                            __typename?: "FeeCollectModuleSettings";
+                            type: CollectModules;
+                            recipient: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | {
+                            __typename?: "FreeCollectModuleSettings";
+                            type: CollectModules;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                          }
+                        | {
+                            __typename?: "LimitedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            collectLimit: string;
+                            recipient: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | {
+                            __typename?: "LimitedTimedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            collectLimit: string;
+                            recipient: any;
+                            endTimestamp: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | { __typename?: "RevertCollectModuleSettings" }
+                        | {
+                            __typename?: "TimedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            recipient: any;
+                            endTimestamp: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | { __typename?: "UnknownCollectModuleSettings" };
+                      stats: {
+                        __typename?: "PublicationStats";
+                        totalUpvotes: number;
+                        totalAmountOfMirrors: number;
+                        totalAmountOfCollects: number;
+                        totalAmountOfComments: number;
+                      };
+                      metadata: {
+                        __typename?: "MetadataOutput";
+                        name?: string | null;
+                        description?: any | null;
+                        content?: any | null;
+                        image?: any | null;
+                        attributes: Array<{
+                          __typename?: "MetadataAttributeOutput";
+                          traitType?: string | null;
+                          value?: string | null;
+                        }>;
+                        cover?: {
+                          __typename?: "MediaSet";
+                          original: { __typename?: "Media"; url: any };
+                        } | null;
+                        media: Array<{
+                          __typename?: "MediaSet";
+                          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                        }>;
+                      };
+                      mirrorOf:
+                        | {
+                            __typename?: "Comment";
+                            id: any;
+                            reaction?: ReactionTypes | null;
+                            mirrors: Array<any>;
+                            createdAt: any;
+                            profile: {
+                              __typename?: "Profile";
+                              id: any;
+                              name?: string | null;
+                              handle: any;
+                              bio?: string | null;
+                              ownedBy: any;
+                              attributes?: Array<{
+                                __typename?: "Attribute";
+                                key: string;
+                                value: string;
+                              }> | null;
+                              picture?:
+                                | {
+                                    __typename: "MediaSet";
+                                    original: { __typename?: "Media"; url: any };
+                                  }
+                                | { __typename: "NftImage"; uri: any }
+                                | null;
+                              coverPicture?:
+                                | {
+                                    __typename: "MediaSet";
+                                    original: {
+                                      __typename?: "Media";
+                                      url: any;
+                                      mimeType?: any | null;
+                                    };
+                                  }
+                                | {
+                                    __typename: "NftImage";
+                                    contractAddress: any;
+                                    tokenId: string;
+                                    uri: any;
+                                    verified: boolean;
+                                  }
+                                | null;
+                              followModule?:
+                                | { __typename: "FeeFollowModuleSettings" }
+                                | { __typename: "ProfileFollowModuleSettings" }
+                                | { __typename: "RevertFollowModuleSettings" }
+                                | { __typename: "UnknownFollowModuleSettings" }
+                                | null;
+                            };
+                            canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                            canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                            stats: {
+                              __typename?: "PublicationStats";
+                              totalUpvotes: number;
+                              totalAmountOfMirrors: number;
+                              totalAmountOfCollects: number;
+                              totalAmountOfComments: number;
+                            };
+                          }
+                        | {
+                            __typename?: "Post";
+                            id: any;
+                            reaction?: ReactionTypes | null;
+                            mirrors: Array<any>;
+                            hasCollectedByMe: boolean;
+                            hidden: boolean;
+                            createdAt: any;
+                            appId?: any | null;
+                            profile: {
+                              __typename?: "Profile";
+                              id: any;
+                              name?: string | null;
+                              handle: any;
+                              bio?: string | null;
+                              ownedBy: any;
+                              attributes?: Array<{
+                                __typename?: "Attribute";
+                                key: string;
+                                value: string;
+                              }> | null;
+                              picture?:
+                                | {
+                                    __typename: "MediaSet";
+                                    original: { __typename?: "Media"; url: any };
+                                  }
+                                | { __typename: "NftImage"; uri: any }
+                                | null;
+                              coverPicture?:
+                                | {
+                                    __typename: "MediaSet";
+                                    original: {
+                                      __typename?: "Media";
+                                      url: any;
+                                      mimeType?: any | null;
+                                    };
+                                  }
+                                | {
+                                    __typename: "NftImage";
+                                    contractAddress: any;
+                                    tokenId: string;
+                                    uri: any;
+                                    verified: boolean;
+                                  }
+                                | null;
+                              followModule?:
+                                | { __typename: "FeeFollowModuleSettings" }
+                                | { __typename: "ProfileFollowModuleSettings" }
+                                | { __typename: "RevertFollowModuleSettings" }
+                                | { __typename: "UnknownFollowModuleSettings" }
+                                | null;
+                            };
+                            canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                            canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                            collectedBy?: {
+                              __typename?: "Wallet";
+                              address: any;
+                              defaultProfile?: {
+                                __typename?: "Profile";
+                                id: any;
+                                name?: string | null;
+                                handle: any;
+                                bio?: string | null;
+                                ownedBy: any;
+                                attributes?: Array<{
+                                  __typename?: "Attribute";
+                                  key: string;
+                                  value: string;
+                                }> | null;
+                                picture?:
+                                  | {
+                                      __typename: "MediaSet";
+                                      original: { __typename?: "Media"; url: any };
+                                    }
+                                  | { __typename: "NftImage"; uri: any }
+                                  | null;
+                                coverPicture?:
+                                  | {
+                                      __typename: "MediaSet";
+                                      original: {
+                                        __typename?: "Media";
+                                        url: any;
+                                        mimeType?: any | null;
+                                      };
+                                    }
+                                  | {
+                                      __typename: "NftImage";
+                                      contractAddress: any;
+                                      tokenId: string;
+                                      uri: any;
+                                      verified: boolean;
+                                    }
+                                  | null;
+                                followModule?:
+                                  | { __typename: "FeeFollowModuleSettings" }
+                                  | { __typename: "ProfileFollowModuleSettings" }
+                                  | { __typename: "RevertFollowModuleSettings" }
+                                  | { __typename: "UnknownFollowModuleSettings" }
+                                  | null;
+                              } | null;
+                            } | null;
+                            collectModule:
+                              | {
+                                  __typename?: "FeeCollectModuleSettings";
+                                  type: CollectModules;
+                                  recipient: any;
+                                  referralFee: number;
+                                  contractAddress: any;
+                                  followerOnly: boolean;
+                                  amount: {
+                                    __typename?: "ModuleFeeAmount";
+                                    value: string;
+                                    asset: {
+                                      __typename?: "Erc20";
+                                      symbol: string;
+                                      decimals: number;
+                                      address: any;
+                                    };
+                                  };
+                                }
+                              | {
+                                  __typename?: "FreeCollectModuleSettings";
+                                  type: CollectModules;
+                                  contractAddress: any;
+                                  followerOnly: boolean;
+                                }
+                              | {
+                                  __typename?: "LimitedFeeCollectModuleSettings";
+                                  type: CollectModules;
+                                  collectLimit: string;
+                                  recipient: any;
+                                  referralFee: number;
+                                  contractAddress: any;
+                                  followerOnly: boolean;
+                                  amount: {
+                                    __typename?: "ModuleFeeAmount";
+                                    value: string;
+                                    asset: {
+                                      __typename?: "Erc20";
+                                      symbol: string;
+                                      decimals: number;
+                                      address: any;
+                                    };
+                                  };
+                                }
+                              | {
+                                  __typename?: "LimitedTimedFeeCollectModuleSettings";
+                                  type: CollectModules;
+                                  collectLimit: string;
+                                  recipient: any;
+                                  endTimestamp: any;
+                                  referralFee: number;
+                                  contractAddress: any;
+                                  followerOnly: boolean;
+                                  amount: {
+                                    __typename?: "ModuleFeeAmount";
+                                    value: string;
+                                    asset: {
+                                      __typename?: "Erc20";
+                                      symbol: string;
+                                      decimals: number;
+                                      address: any;
+                                    };
+                                  };
+                                }
+                              | { __typename?: "RevertCollectModuleSettings" }
+                              | {
+                                  __typename?: "TimedFeeCollectModuleSettings";
+                                  type: CollectModules;
+                                  recipient: any;
+                                  endTimestamp: any;
+                                  referralFee: number;
+                                  contractAddress: any;
+                                  followerOnly: boolean;
+                                  amount: {
+                                    __typename?: "ModuleFeeAmount";
+                                    value: string;
+                                    asset: {
+                                      __typename?: "Erc20";
+                                      symbol: string;
+                                      decimals: number;
+                                      address: any;
+                                    };
+                                  };
+                                }
+                              | { __typename?: "UnknownCollectModuleSettings" };
+                            stats: {
+                              __typename?: "PublicationStats";
+                              totalUpvotes: number;
+                              totalAmountOfMirrors: number;
+                              totalAmountOfCollects: number;
+                              totalAmountOfComments: number;
+                            };
+                            metadata: {
+                              __typename?: "MetadataOutput";
+                              name?: string | null;
+                              description?: any | null;
+                              content?: any | null;
+                              image?: any | null;
+                              attributes: Array<{
+                                __typename?: "MetadataAttributeOutput";
+                                traitType?: string | null;
+                                value?: string | null;
+                              }>;
+                              cover?: {
+                                __typename?: "MediaSet";
+                                original: { __typename?: "Media"; url: any };
+                              } | null;
+                              media: Array<{
+                                __typename?: "MediaSet";
+                                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                              }>;
+                            };
+                          };
+                    }
+                  | {
+                      __typename?: "Post";
+                      id: any;
+                      reaction?: ReactionTypes | null;
+                      mirrors: Array<any>;
+                      hasCollectedByMe: boolean;
+                      hidden: boolean;
+                      createdAt: any;
+                      appId?: any | null;
+                      profile: {
+                        __typename?: "Profile";
+                        id: any;
+                        name?: string | null;
+                        handle: any;
+                        bio?: string | null;
+                        ownedBy: any;
+                        attributes?: Array<{
+                          __typename?: "Attribute";
+                          key: string;
+                          value: string;
+                        }> | null;
+                        picture?:
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
+                          | null;
+                        coverPicture?:
+                          | {
+                              __typename: "MediaSet";
+                              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                            }
+                          | {
+                              __typename: "NftImage";
+                              contractAddress: any;
+                              tokenId: string;
+                              uri: any;
+                              verified: boolean;
+                            }
+                          | null;
+                        followModule?:
+                          | { __typename: "FeeFollowModuleSettings" }
+                          | { __typename: "ProfileFollowModuleSettings" }
+                          | { __typename: "RevertFollowModuleSettings" }
+                          | { __typename: "UnknownFollowModuleSettings" }
+                          | null;
+                      };
+                      canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                      canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                      collectedBy?: {
+                        __typename?: "Wallet";
+                        address: any;
+                        defaultProfile?: {
+                          __typename?: "Profile";
+                          id: any;
+                          name?: string | null;
+                          handle: any;
+                          bio?: string | null;
+                          ownedBy: any;
+                          attributes?: Array<{
+                            __typename?: "Attribute";
+                            key: string;
+                            value: string;
+                          }> | null;
+                          picture?:
+                            | {
+                                __typename: "MediaSet";
+                                original: { __typename?: "Media"; url: any };
+                              }
+                            | { __typename: "NftImage"; uri: any }
+                            | null;
+                          coverPicture?:
+                            | {
+                                __typename: "MediaSet";
+                                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                              }
+                            | {
+                                __typename: "NftImage";
+                                contractAddress: any;
+                                tokenId: string;
+                                uri: any;
+                                verified: boolean;
+                              }
+                            | null;
+                          followModule?:
+                            | { __typename: "FeeFollowModuleSettings" }
+                            | { __typename: "ProfileFollowModuleSettings" }
+                            | { __typename: "RevertFollowModuleSettings" }
+                            | { __typename: "UnknownFollowModuleSettings" }
+                            | null;
+                        } | null;
+                      } | null;
+                      collectModule:
+                        | {
+                            __typename?: "FeeCollectModuleSettings";
+                            type: CollectModules;
+                            recipient: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | {
+                            __typename?: "FreeCollectModuleSettings";
+                            type: CollectModules;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                          }
+                        | {
+                            __typename?: "LimitedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            collectLimit: string;
+                            recipient: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | {
+                            __typename?: "LimitedTimedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            collectLimit: string;
+                            recipient: any;
+                            endTimestamp: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | { __typename?: "RevertCollectModuleSettings" }
+                        | {
+                            __typename?: "TimedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            recipient: any;
+                            endTimestamp: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | { __typename?: "UnknownCollectModuleSettings" };
+                      stats: {
+                        __typename?: "PublicationStats";
+                        totalUpvotes: number;
+                        totalAmountOfMirrors: number;
+                        totalAmountOfCollects: number;
+                        totalAmountOfComments: number;
+                      };
+                      metadata: {
+                        __typename?: "MetadataOutput";
+                        name?: string | null;
+                        description?: any | null;
+                        content?: any | null;
+                        image?: any | null;
+                        attributes: Array<{
+                          __typename?: "MetadataAttributeOutput";
+                          traitType?: string | null;
+                          value?: string | null;
+                        }>;
+                        cover?: {
+                          __typename?: "MediaSet";
+                          original: { __typename?: "Media"; url: any };
+                        } | null;
+                        media: Array<{
+                          __typename?: "MediaSet";
+                          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                        }>;
+                      };
+                    };
+              }
+            | {
+                __typename?: "Mirror";
+                id: any;
+                reaction?: ReactionTypes | null;
+                hidden: boolean;
+                createdAt: any;
+                appId?: any | null;
+                profile: {
+                  __typename?: "Profile";
+                  id: any;
+                  name?: string | null;
+                  handle: any;
+                  bio?: string | null;
+                  ownedBy: any;
+                  attributes?: Array<{
+                    __typename?: "Attribute";
+                    key: string;
+                    value: string;
+                  }> | null;
+                  picture?:
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
+                    | null;
+                  coverPicture?:
+                    | {
+                        __typename: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }
+                    | {
+                        __typename: "NftImage";
+                        contractAddress: any;
+                        tokenId: string;
+                        uri: any;
+                        verified: boolean;
+                      }
+                    | null;
+                  followModule?:
+                    | { __typename: "FeeFollowModuleSettings" }
+                    | { __typename: "ProfileFollowModuleSettings" }
+                    | { __typename: "RevertFollowModuleSettings" }
+                    | { __typename: "UnknownFollowModuleSettings" }
+                    | null;
+                };
+                canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                collectModule:
+                  | {
+                      __typename?: "FeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "FreeCollectModuleSettings";
+                      type: CollectModules;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                    }
+                  | {
+                      __typename?: "LimitedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "LimitedTimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "RevertCollectModuleSettings" }
+                  | {
+                      __typename?: "TimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "UnknownCollectModuleSettings" };
+                stats: {
+                  __typename?: "PublicationStats";
+                  totalUpvotes: number;
+                  totalAmountOfMirrors: number;
+                  totalAmountOfCollects: number;
+                  totalAmountOfComments: number;
+                };
+                metadata: {
+                  __typename?: "MetadataOutput";
+                  name?: string | null;
+                  description?: any | null;
+                  content?: any | null;
+                  image?: any | null;
+                  attributes: Array<{
+                    __typename?: "MetadataAttributeOutput";
+                    traitType?: string | null;
+                    value?: string | null;
+                  }>;
+                  cover?: {
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any };
+                  } | null;
+                  media: Array<{
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                  }>;
+                };
+                mirrorOf:
+                  | {
+                      __typename?: "Comment";
+                      id: any;
+                      reaction?: ReactionTypes | null;
+                      mirrors: Array<any>;
+                      createdAt: any;
+                      profile: {
+                        __typename?: "Profile";
+                        id: any;
+                        name?: string | null;
+                        handle: any;
+                        bio?: string | null;
+                        ownedBy: any;
+                        attributes?: Array<{
+                          __typename?: "Attribute";
+                          key: string;
+                          value: string;
+                        }> | null;
+                        picture?:
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
+                          | null;
+                        coverPicture?:
+                          | {
+                              __typename: "MediaSet";
+                              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                            }
+                          | {
+                              __typename: "NftImage";
+                              contractAddress: any;
+                              tokenId: string;
+                              uri: any;
+                              verified: boolean;
+                            }
+                          | null;
+                        followModule?:
+                          | { __typename: "FeeFollowModuleSettings" }
+                          | { __typename: "ProfileFollowModuleSettings" }
+                          | { __typename: "RevertFollowModuleSettings" }
+                          | { __typename: "UnknownFollowModuleSettings" }
+                          | null;
+                      };
+                      canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                      canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                      stats: {
+                        __typename?: "PublicationStats";
+                        totalUpvotes: number;
+                        totalAmountOfMirrors: number;
+                        totalAmountOfCollects: number;
+                        totalAmountOfComments: number;
+                      };
+                    }
+                  | {
+                      __typename?: "Post";
+                      id: any;
+                      reaction?: ReactionTypes | null;
+                      mirrors: Array<any>;
+                      hasCollectedByMe: boolean;
+                      hidden: boolean;
+                      createdAt: any;
+                      appId?: any | null;
+                      profile: {
+                        __typename?: "Profile";
+                        id: any;
+                        name?: string | null;
+                        handle: any;
+                        bio?: string | null;
+                        ownedBy: any;
+                        attributes?: Array<{
+                          __typename?: "Attribute";
+                          key: string;
+                          value: string;
+                        }> | null;
+                        picture?:
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
+                          | null;
+                        coverPicture?:
+                          | {
+                              __typename: "MediaSet";
+                              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                            }
+                          | {
+                              __typename: "NftImage";
+                              contractAddress: any;
+                              tokenId: string;
+                              uri: any;
+                              verified: boolean;
+                            }
+                          | null;
+                        followModule?:
+                          | { __typename: "FeeFollowModuleSettings" }
+                          | { __typename: "ProfileFollowModuleSettings" }
+                          | { __typename: "RevertFollowModuleSettings" }
+                          | { __typename: "UnknownFollowModuleSettings" }
+                          | null;
+                      };
+                      canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                      canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                      collectedBy?: {
+                        __typename?: "Wallet";
+                        address: any;
+                        defaultProfile?: {
+                          __typename?: "Profile";
+                          id: any;
+                          name?: string | null;
+                          handle: any;
+                          bio?: string | null;
+                          ownedBy: any;
+                          attributes?: Array<{
+                            __typename?: "Attribute";
+                            key: string;
+                            value: string;
+                          }> | null;
+                          picture?:
+                            | {
+                                __typename: "MediaSet";
+                                original: { __typename?: "Media"; url: any };
+                              }
+                            | { __typename: "NftImage"; uri: any }
+                            | null;
+                          coverPicture?:
+                            | {
+                                __typename: "MediaSet";
+                                original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                              }
+                            | {
+                                __typename: "NftImage";
+                                contractAddress: any;
+                                tokenId: string;
+                                uri: any;
+                                verified: boolean;
+                              }
+                            | null;
+                          followModule?:
+                            | { __typename: "FeeFollowModuleSettings" }
+                            | { __typename: "ProfileFollowModuleSettings" }
+                            | { __typename: "RevertFollowModuleSettings" }
+                            | { __typename: "UnknownFollowModuleSettings" }
+                            | null;
+                        } | null;
+                      } | null;
+                      collectModule:
+                        | {
+                            __typename?: "FeeCollectModuleSettings";
+                            type: CollectModules;
+                            recipient: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | {
+                            __typename?: "FreeCollectModuleSettings";
+                            type: CollectModules;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                          }
+                        | {
+                            __typename?: "LimitedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            collectLimit: string;
+                            recipient: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | {
+                            __typename?: "LimitedTimedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            collectLimit: string;
+                            recipient: any;
+                            endTimestamp: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | { __typename?: "RevertCollectModuleSettings" }
+                        | {
+                            __typename?: "TimedFeeCollectModuleSettings";
+                            type: CollectModules;
+                            recipient: any;
+                            endTimestamp: any;
+                            referralFee: number;
+                            contractAddress: any;
+                            followerOnly: boolean;
+                            amount: {
+                              __typename?: "ModuleFeeAmount";
+                              value: string;
+                              asset: {
+                                __typename?: "Erc20";
+                                symbol: string;
+                                decimals: number;
+                                address: any;
+                              };
+                            };
+                          }
+                        | { __typename?: "UnknownCollectModuleSettings" };
+                      stats: {
+                        __typename?: "PublicationStats";
+                        totalUpvotes: number;
+                        totalAmountOfMirrors: number;
+                        totalAmountOfCollects: number;
+                        totalAmountOfComments: number;
+                      };
+                      metadata: {
+                        __typename?: "MetadataOutput";
+                        name?: string | null;
+                        description?: any | null;
+                        content?: any | null;
+                        image?: any | null;
+                        attributes: Array<{
+                          __typename?: "MetadataAttributeOutput";
+                          traitType?: string | null;
+                          value?: string | null;
+                        }>;
+                        cover?: {
+                          __typename?: "MediaSet";
+                          original: { __typename?: "Media"; url: any };
+                        } | null;
+                        media: Array<{
+                          __typename?: "MediaSet";
+                          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                        }>;
+                      };
+                    };
+              }
+            | {
+                __typename?: "Post";
+                id: any;
+                reaction?: ReactionTypes | null;
+                mirrors: Array<any>;
+                hasCollectedByMe: boolean;
+                hidden: boolean;
+                createdAt: any;
+                appId?: any | null;
+                profile: {
+                  __typename?: "Profile";
+                  id: any;
+                  name?: string | null;
+                  handle: any;
+                  bio?: string | null;
+                  ownedBy: any;
+                  attributes?: Array<{
+                    __typename?: "Attribute";
+                    key: string;
+                    value: string;
+                  }> | null;
+                  picture?:
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
+                    | null;
+                  coverPicture?:
+                    | {
+                        __typename: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }
+                    | {
+                        __typename: "NftImage";
+                        contractAddress: any;
+                        tokenId: string;
+                        uri: any;
+                        verified: boolean;
+                      }
+                    | null;
+                  followModule?:
+                    | { __typename: "FeeFollowModuleSettings" }
+                    | { __typename: "ProfileFollowModuleSettings" }
+                    | { __typename: "RevertFollowModuleSettings" }
+                    | { __typename: "UnknownFollowModuleSettings" }
+                    | null;
+                };
+                canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                collectedBy?: {
+                  __typename?: "Wallet";
+                  address: any;
+                  defaultProfile?: {
+                    __typename?: "Profile";
+                    id: any;
+                    name?: string | null;
+                    handle: any;
+                    bio?: string | null;
+                    ownedBy: any;
+                    attributes?: Array<{
+                      __typename?: "Attribute";
+                      key: string;
+                      value: string;
+                    }> | null;
+                    picture?:
+                      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                      | { __typename: "NftImage"; uri: any }
+                      | null;
+                    coverPicture?:
+                      | {
+                          __typename: "MediaSet";
+                          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                        }
+                      | {
+                          __typename: "NftImage";
+                          contractAddress: any;
+                          tokenId: string;
+                          uri: any;
+                          verified: boolean;
+                        }
+                      | null;
+                    followModule?:
+                      | { __typename: "FeeFollowModuleSettings" }
+                      | { __typename: "ProfileFollowModuleSettings" }
+                      | { __typename: "RevertFollowModuleSettings" }
+                      | { __typename: "UnknownFollowModuleSettings" }
+                      | null;
+                  } | null;
+                } | null;
+                collectModule:
+                  | {
+                      __typename?: "FeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "FreeCollectModuleSettings";
+                      type: CollectModules;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                    }
+                  | {
+                      __typename?: "LimitedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "LimitedTimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "RevertCollectModuleSettings" }
+                  | {
+                      __typename?: "TimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "UnknownCollectModuleSettings" };
+                stats: {
+                  __typename?: "PublicationStats";
+                  totalUpvotes: number;
+                  totalAmountOfMirrors: number;
+                  totalAmountOfCollects: number;
+                  totalAmountOfComments: number;
+                };
+                metadata: {
+                  __typename?: "MetadataOutput";
+                  name?: string | null;
+                  description?: any | null;
+                  content?: any | null;
+                  image?: any | null;
+                  attributes: Array<{
+                    __typename?: "MetadataAttributeOutput";
+                    traitType?: string | null;
+                    value?: string | null;
+                  }>;
+                  cover?: {
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any };
+                  } | null;
+                  media: Array<{
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                  }>;
+                };
+              }
+            | null;
+        }
+      | {
+          __typename?: "Mirror";
+          id: any;
+          reaction?: ReactionTypes | null;
+          hidden: boolean;
+          createdAt: any;
+          appId?: any | null;
+          profile: {
+            __typename?: "Profile";
+            id: any;
+            name?: string | null;
+            handle: any;
+            bio?: string | null;
+            ownedBy: any;
+            attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+            picture?:
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
+              | null;
+            coverPicture?:
+              | {
+                  __typename: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }
+              | {
+                  __typename: "NftImage";
+                  contractAddress: any;
+                  tokenId: string;
+                  uri: any;
+                  verified: boolean;
+                }
+              | null;
+            followModule?:
+              | { __typename: "FeeFollowModuleSettings" }
+              | { __typename: "ProfileFollowModuleSettings" }
+              | { __typename: "RevertFollowModuleSettings" }
+              | { __typename: "UnknownFollowModuleSettings" }
+              | null;
+          };
+          canComment: { __typename?: "CanCommentResponse"; result: boolean };
+          canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+          collectModule:
+            | {
+                __typename?: "FeeCollectModuleSettings";
+                type: CollectModules;
+                recipient: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | {
+                __typename?: "FreeCollectModuleSettings";
+                type: CollectModules;
+                contractAddress: any;
+                followerOnly: boolean;
+              }
+            | {
+                __typename?: "LimitedFeeCollectModuleSettings";
+                type: CollectModules;
+                collectLimit: string;
+                recipient: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | {
+                __typename?: "LimitedTimedFeeCollectModuleSettings";
+                type: CollectModules;
+                collectLimit: string;
+                recipient: any;
+                endTimestamp: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | { __typename?: "RevertCollectModuleSettings" }
+            | {
+                __typename?: "TimedFeeCollectModuleSettings";
+                type: CollectModules;
+                recipient: any;
+                endTimestamp: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | { __typename?: "UnknownCollectModuleSettings" };
+          stats: {
+            __typename?: "PublicationStats";
+            totalUpvotes: number;
+            totalAmountOfMirrors: number;
+            totalAmountOfCollects: number;
+            totalAmountOfComments: number;
+          };
+          metadata: {
+            __typename?: "MetadataOutput";
+            name?: string | null;
+            description?: any | null;
+            content?: any | null;
+            image?: any | null;
+            attributes: Array<{
+              __typename?: "MetadataAttributeOutput";
+              traitType?: string | null;
+              value?: string | null;
+            }>;
+            cover?: {
+              __typename?: "MediaSet";
+              original: { __typename?: "Media"; url: any };
+            } | null;
+            media: Array<{
+              __typename?: "MediaSet";
+              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+            }>;
+          };
+          mirrorOf:
+            | {
+                __typename?: "Comment";
+                id: any;
+                reaction?: ReactionTypes | null;
+                mirrors: Array<any>;
+                createdAt: any;
+                profile: {
+                  __typename?: "Profile";
+                  id: any;
+                  name?: string | null;
+                  handle: any;
+                  bio?: string | null;
+                  ownedBy: any;
+                  attributes?: Array<{
+                    __typename?: "Attribute";
+                    key: string;
+                    value: string;
+                  }> | null;
+                  picture?:
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
+                    | null;
+                  coverPicture?:
+                    | {
+                        __typename: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }
+                    | {
+                        __typename: "NftImage";
+                        contractAddress: any;
+                        tokenId: string;
+                        uri: any;
+                        verified: boolean;
+                      }
+                    | null;
+                  followModule?:
+                    | { __typename: "FeeFollowModuleSettings" }
+                    | { __typename: "ProfileFollowModuleSettings" }
+                    | { __typename: "RevertFollowModuleSettings" }
+                    | { __typename: "UnknownFollowModuleSettings" }
+                    | null;
+                };
+                canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                stats: {
+                  __typename?: "PublicationStats";
+                  totalUpvotes: number;
+                  totalAmountOfMirrors: number;
+                  totalAmountOfCollects: number;
+                  totalAmountOfComments: number;
+                };
+              }
+            | {
+                __typename?: "Post";
+                id: any;
+                reaction?: ReactionTypes | null;
+                mirrors: Array<any>;
+                hasCollectedByMe: boolean;
+                hidden: boolean;
+                createdAt: any;
+                appId?: any | null;
+                profile: {
+                  __typename?: "Profile";
+                  id: any;
+                  name?: string | null;
+                  handle: any;
+                  bio?: string | null;
+                  ownedBy: any;
+                  attributes?: Array<{
+                    __typename?: "Attribute";
+                    key: string;
+                    value: string;
+                  }> | null;
+                  picture?:
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
+                    | null;
+                  coverPicture?:
+                    | {
+                        __typename: "MediaSet";
+                        original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                      }
+                    | {
+                        __typename: "NftImage";
+                        contractAddress: any;
+                        tokenId: string;
+                        uri: any;
+                        verified: boolean;
+                      }
+                    | null;
+                  followModule?:
+                    | { __typename: "FeeFollowModuleSettings" }
+                    | { __typename: "ProfileFollowModuleSettings" }
+                    | { __typename: "RevertFollowModuleSettings" }
+                    | { __typename: "UnknownFollowModuleSettings" }
+                    | null;
+                };
+                canComment: { __typename?: "CanCommentResponse"; result: boolean };
+                canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+                collectedBy?: {
+                  __typename?: "Wallet";
+                  address: any;
+                  defaultProfile?: {
+                    __typename?: "Profile";
+                    id: any;
+                    name?: string | null;
+                    handle: any;
+                    bio?: string | null;
+                    ownedBy: any;
+                    attributes?: Array<{
+                      __typename?: "Attribute";
+                      key: string;
+                      value: string;
+                    }> | null;
+                    picture?:
+                      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                      | { __typename: "NftImage"; uri: any }
+                      | null;
+                    coverPicture?:
+                      | {
+                          __typename: "MediaSet";
+                          original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                        }
+                      | {
+                          __typename: "NftImage";
+                          contractAddress: any;
+                          tokenId: string;
+                          uri: any;
+                          verified: boolean;
+                        }
+                      | null;
+                    followModule?:
+                      | { __typename: "FeeFollowModuleSettings" }
+                      | { __typename: "ProfileFollowModuleSettings" }
+                      | { __typename: "RevertFollowModuleSettings" }
+                      | { __typename: "UnknownFollowModuleSettings" }
+                      | null;
+                  } | null;
+                } | null;
+                collectModule:
+                  | {
+                      __typename?: "FeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "FreeCollectModuleSettings";
+                      type: CollectModules;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                    }
+                  | {
+                      __typename?: "LimitedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | {
+                      __typename?: "LimitedTimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      collectLimit: string;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "RevertCollectModuleSettings" }
+                  | {
+                      __typename?: "TimedFeeCollectModuleSettings";
+                      type: CollectModules;
+                      recipient: any;
+                      endTimestamp: any;
+                      referralFee: number;
+                      contractAddress: any;
+                      followerOnly: boolean;
+                      amount: {
+                        __typename?: "ModuleFeeAmount";
+                        value: string;
+                        asset: {
+                          __typename?: "Erc20";
+                          symbol: string;
+                          decimals: number;
+                          address: any;
+                        };
+                      };
+                    }
+                  | { __typename?: "UnknownCollectModuleSettings" };
+                stats: {
+                  __typename?: "PublicationStats";
+                  totalUpvotes: number;
+                  totalAmountOfMirrors: number;
+                  totalAmountOfCollects: number;
+                  totalAmountOfComments: number;
+                };
+                metadata: {
+                  __typename?: "MetadataOutput";
+                  name?: string | null;
+                  description?: any | null;
+                  content?: any | null;
+                  image?: any | null;
+                  attributes: Array<{
+                    __typename?: "MetadataAttributeOutput";
+                    traitType?: string | null;
+                    value?: string | null;
+                  }>;
+                  cover?: {
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any };
+                  } | null;
+                  media: Array<{
+                    __typename?: "MediaSet";
+                    original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                  }>;
+                };
+              };
+        }
+      | {
+          __typename?: "Post";
+          id: any;
+          reaction?: ReactionTypes | null;
+          mirrors: Array<any>;
+          hasCollectedByMe: boolean;
+          hidden: boolean;
+          createdAt: any;
+          appId?: any | null;
+          profile: {
+            __typename?: "Profile";
+            id: any;
+            name?: string | null;
+            handle: any;
+            bio?: string | null;
+            ownedBy: any;
+            attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+            picture?:
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
+              | null;
+            coverPicture?:
+              | {
+                  __typename: "MediaSet";
+                  original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                }
+              | {
+                  __typename: "NftImage";
+                  contractAddress: any;
+                  tokenId: string;
+                  uri: any;
+                  verified: boolean;
+                }
+              | null;
+            followModule?:
+              | { __typename: "FeeFollowModuleSettings" }
+              | { __typename: "ProfileFollowModuleSettings" }
+              | { __typename: "RevertFollowModuleSettings" }
+              | { __typename: "UnknownFollowModuleSettings" }
+              | null;
+          };
+          canComment: { __typename?: "CanCommentResponse"; result: boolean };
+          canMirror: { __typename?: "CanMirrorResponse"; result: boolean };
+          collectedBy?: {
+            __typename?: "Wallet";
+            address: any;
+            defaultProfile?: {
+              __typename?: "Profile";
+              id: any;
+              name?: string | null;
+              handle: any;
+              bio?: string | null;
+              ownedBy: any;
+              attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+              picture?:
+                | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                | { __typename: "NftImage"; uri: any }
+                | null;
+              coverPicture?:
+                | {
+                    __typename: "MediaSet";
+                    original: { __typename?: "Media"; url: any; mimeType?: any | null };
+                  }
+                | {
+                    __typename: "NftImage";
+                    contractAddress: any;
+                    tokenId: string;
+                    uri: any;
+                    verified: boolean;
+                  }
+                | null;
+              followModule?:
+                | { __typename: "FeeFollowModuleSettings" }
+                | { __typename: "ProfileFollowModuleSettings" }
+                | { __typename: "RevertFollowModuleSettings" }
+                | { __typename: "UnknownFollowModuleSettings" }
+                | null;
+            } | null;
+          } | null;
+          collectModule:
+            | {
+                __typename?: "FeeCollectModuleSettings";
+                type: CollectModules;
+                recipient: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | {
+                __typename?: "FreeCollectModuleSettings";
+                type: CollectModules;
+                contractAddress: any;
+                followerOnly: boolean;
+              }
+            | {
+                __typename?: "LimitedFeeCollectModuleSettings";
+                type: CollectModules;
+                collectLimit: string;
+                recipient: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | {
+                __typename?: "LimitedTimedFeeCollectModuleSettings";
+                type: CollectModules;
+                collectLimit: string;
+                recipient: any;
+                endTimestamp: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | { __typename?: "RevertCollectModuleSettings" }
+            | {
+                __typename?: "TimedFeeCollectModuleSettings";
+                type: CollectModules;
+                recipient: any;
+                endTimestamp: any;
+                referralFee: number;
+                contractAddress: any;
+                followerOnly: boolean;
+                amount: {
+                  __typename?: "ModuleFeeAmount";
+                  value: string;
+                  asset: { __typename?: "Erc20"; symbol: string; decimals: number; address: any };
+                };
+              }
+            | { __typename?: "UnknownCollectModuleSettings" };
+          stats: {
+            __typename?: "PublicationStats";
+            totalUpvotes: number;
+            totalAmountOfMirrors: number;
+            totalAmountOfCollects: number;
+            totalAmountOfComments: number;
+          };
+          metadata: {
+            __typename?: "MetadataOutput";
+            name?: string | null;
+            description?: any | null;
+            content?: any | null;
+            image?: any | null;
+            attributes: Array<{
+              __typename?: "MetadataAttributeOutput";
+              traitType?: string | null;
+              value?: string | null;
+            }>;
+            cover?: {
+              __typename?: "MediaSet";
+              original: { __typename?: "Media"; url: any };
+            } | null;
+            media: Array<{
+              __typename?: "MediaSet";
+              original: { __typename?: "Media"; url: any; mimeType?: any | null };
+            }>;
+          };
+        }
+    >;
+    pageInfo: { __typename?: "PaginatedResultInfo"; totalCount?: number | null; next?: any | null };
+  };
+};
 
 export type UserProfilesQueryVariables = Exact<{
   ownedBy?: InputMaybe<Array<Scalars["EthereumAddress"]> | Scalars["EthereumAddress"]>;
 }>;
 
-
-export type UserProfilesQuery = { __typename?: "Query", profiles: { __typename?: "PaginatedProfileResult", items: Array<{ __typename?: "Profile", isDefault: boolean, id: any, name?: string | null, handle: any, bio?: string | null, ownedBy: any, stats: { __typename?: "ProfileStats", totalFollowing: number, totalFollowers: number }, dispatcher?: { __typename?: "Dispatcher", canUseRelay: boolean } | null, attributes?: Array<{ __typename?: "Attribute", key: string, value: string }> | null, picture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any } } | { __typename: "NftImage", uri: any } | null, coverPicture?: { __typename: "MediaSet", original: { __typename?: "Media", url: any, mimeType?: any | null } } | { __typename: "NftImage", contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, followModule?: { __typename: "FeeFollowModuleSettings" } | { __typename: "ProfileFollowModuleSettings" } | { __typename: "RevertFollowModuleSettings" } | { __typename: "UnknownFollowModuleSettings" } | null }> }, userSigNonces: { __typename?: "UserSigNonces", lensHubOnChainSigNonce: any } };
+export type UserProfilesQuery = {
+  __typename?: "Query";
+  profiles: {
+    __typename?: "PaginatedProfileResult";
+    items: Array<{
+      __typename?: "Profile";
+      isDefault: boolean;
+      id: any;
+      name?: string | null;
+      handle: any;
+      bio?: string | null;
+      ownedBy: any;
+      stats: { __typename?: "ProfileStats"; totalFollowing: number; totalFollowers: number };
+      dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
+      attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
+      picture?:
+        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename: "NftImage"; uri: any }
+        | null;
+      coverPicture?:
+        | {
+            __typename: "MediaSet";
+            original: { __typename?: "Media"; url: any; mimeType?: any | null };
+          }
+        | {
+            __typename: "NftImage";
+            contractAddress: any;
+            tokenId: string;
+            uri: any;
+            verified: boolean;
+          }
+        | null;
+      followModule?:
+        | { __typename: "FeeFollowModuleSettings" }
+        | { __typename: "ProfileFollowModuleSettings" }
+        | { __typename: "RevertFollowModuleSettings" }
+        | { __typename: "UnknownFollowModuleSettings" }
+        | null;
+    }>;
+  };
+  userSigNonces: { __typename?: "UserSigNonces"; lensHubOnChainSigNonce: any };
+};
 
 export const ProfileFieldsFragmentDoc = `
     fragment ProfileFields on Profile {
@@ -3772,18 +8135,26 @@ export const AuthenticateDocument = `
   }
 }
     `;
-export const useAuthenticateMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      options?: UseMutationOptions<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>
-    ) =>
-    useMutation<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>(
-      ["Authenticate"],
-      (variables?: AuthenticateMutationVariables) => fetcher<AuthenticateMutation, AuthenticateMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, AuthenticateDocument, variables)(),
-      options
-    );
+export const useAuthenticateMutation = <TError = unknown, TContext = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  options?: UseMutationOptions<
+    AuthenticateMutation,
+    TError,
+    AuthenticateMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>(
+    ["Authenticate"],
+    (variables?: AuthenticateMutationVariables) =>
+      fetcher<AuthenticateMutation, AuthenticateMutationVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        AuthenticateDocument,
+        variables,
+      )(),
+    options,
+  );
 export const ChallengeDocument = `
     query Challenge($request: ChallengeRequest!) {
   challenge(request: $request) {
@@ -3791,19 +8162,21 @@ export const ChallengeDocument = `
   }
 }
     `;
-export const useChallengeQuery = <
-      TData = ChallengeQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: ChallengeQueryVariables,
-      options?: UseQueryOptions<ChallengeQuery, TError, TData>
-    ) =>
-    useQuery<ChallengeQuery, TError, TData>(
-      ["Challenge", variables],
-      fetcher<ChallengeQuery, ChallengeQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, ChallengeDocument, variables),
-      options
-    );
+export const useChallengeQuery = <TData = ChallengeQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: ChallengeQueryVariables,
+  options?: UseQueryOptions<ChallengeQuery, TError, TData>,
+) =>
+  useQuery<ChallengeQuery, TError, TData>(
+    ["Challenge", variables],
+    fetcher<ChallengeQuery, ChallengeQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      ChallengeDocument,
+      variables,
+    ),
+    options,
+  );
 export const FollowersDocument = `
     query Followers($request: FollowersRequest!) {
   followers(request: $request) {
@@ -3824,19 +8197,21 @@ export const FollowersDocument = `
   }
 }
     ${ProfileFieldsFragmentDoc}`;
-export const useFollowersQuery = <
-      TData = FollowersQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: FollowersQueryVariables,
-      options?: UseQueryOptions<FollowersQuery, TError, TData>
-    ) =>
-    useQuery<FollowersQuery, TError, TData>(
-      ["Followers", variables],
-      fetcher<FollowersQuery, FollowersQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FollowersDocument, variables),
-      options
-    );
+export const useFollowersQuery = <TData = FollowersQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: FollowersQueryVariables,
+  options?: UseQueryOptions<FollowersQuery, TError, TData>,
+) =>
+  useQuery<FollowersQuery, TError, TData>(
+    ["Followers", variables],
+    fetcher<FollowersQuery, FollowersQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      FollowersDocument,
+      variables,
+    ),
+    options,
+  );
 export const FollowingDocument = `
     query Following($request: FollowingRequest!) {
   following(request: $request) {
@@ -3854,19 +8229,21 @@ export const FollowingDocument = `
   }
 }
     ${ProfileFieldsFragmentDoc}`;
-export const useFollowingQuery = <
-      TData = FollowingQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: FollowingQueryVariables,
-      options?: UseQueryOptions<FollowingQuery, TError, TData>
-    ) =>
-    useQuery<FollowingQuery, TError, TData>(
-      ["Following", variables],
-      fetcher<FollowingQuery, FollowingQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FollowingDocument, variables),
-      options
-    );
+export const useFollowingQuery = <TData = FollowingQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: FollowingQueryVariables,
+  options?: UseQueryOptions<FollowingQuery, TError, TData>,
+) =>
+  useQuery<FollowingQuery, TError, TData>(
+    ["Following", variables],
+    fetcher<FollowingQuery, FollowingQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      FollowingDocument,
+      variables,
+    ),
+    options,
+  );
 export const ProfileDocument = `
     query Profile($request: SingleProfileQueryRequest!, $who: ProfileId) {
   profile(request: $request) {
@@ -3935,19 +8312,21 @@ export const ProfileDocument = `
   }
 }
     `;
-export const useProfileQuery = <
-      TData = ProfileQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: ProfileQueryVariables,
-      options?: UseQueryOptions<ProfileQuery, TError, TData>
-    ) =>
-    useQuery<ProfileQuery, TError, TData>(
-      ["Profile", variables],
-      fetcher<ProfileQuery, ProfileQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, ProfileDocument, variables),
-      options
-    );
+export const useProfileQuery = <TData = ProfileQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: ProfileQueryVariables,
+  options?: UseQueryOptions<ProfileQuery, TError, TData>,
+) =>
+  useQuery<ProfileQuery, TError, TData>(
+    ["Profile", variables],
+    fetcher<ProfileQuery, ProfileQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      ProfileDocument,
+      variables,
+    ),
+    options,
+  );
 export const ProfileFeedDocument = `
     query ProfileFeed($request: PublicationsQueryRequest!, $reactionRequest: ReactionFieldResolverRequest, $profileId: ProfileId) {
   publications(request: $request) {
@@ -3975,19 +8354,21 @@ ${StatsFieldsFragmentDoc}
 ${MetadataFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
 ${MirrorFieldsFragmentDoc}`;
-export const useProfileFeedQuery = <
-      TData = ProfileFeedQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: ProfileFeedQueryVariables,
-      options?: UseQueryOptions<ProfileFeedQuery, TError, TData>
-    ) =>
-    useQuery<ProfileFeedQuery, TError, TData>(
-      ["ProfileFeed", variables],
-      fetcher<ProfileFeedQuery, ProfileFeedQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, ProfileFeedDocument, variables),
-      options
-    );
+export const useProfileFeedQuery = <TData = ProfileFeedQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: ProfileFeedQueryVariables,
+  options?: UseQueryOptions<ProfileFeedQuery, TError, TData>,
+) =>
+  useQuery<ProfileFeedQuery, TError, TData>(
+    ["ProfileFeed", variables],
+    fetcher<ProfileFeedQuery, ProfileFeedQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      ProfileFeedDocument,
+      variables,
+    ),
+    options,
+  );
 export const UserProfilesDocument = `
     query UserProfiles($ownedBy: [EthereumAddress!]) {
   profiles(request: {ownedBy: $ownedBy}) {
@@ -4008,51 +8389,59 @@ export const UserProfilesDocument = `
   }
 }
     ${ProfileFieldsFragmentDoc}`;
-export const useUserProfilesQuery = <
-      TData = UserProfilesQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables?: UserProfilesQueryVariables,
-      options?: UseQueryOptions<UserProfilesQuery, TError, TData>
-    ) =>
-    useQuery<UserProfilesQuery, TError, TData>(
-      variables === undefined ? ["UserProfiles"] : ["UserProfiles", variables],
-      fetcher<UserProfilesQuery, UserProfilesQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UserProfilesDocument, variables),
-      options
-    );
-
+export const useUserProfilesQuery = <TData = UserProfilesQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables?: UserProfilesQueryVariables,
+  options?: UseQueryOptions<UserProfilesQuery, TError, TData>,
+) =>
+  useQuery<UserProfilesQuery, TError, TData>(
+    variables === undefined ? ["UserProfiles"] : ["UserProfiles", variables],
+    fetcher<UserProfilesQuery, UserProfilesQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      UserProfilesDocument,
+      variables,
+    ),
+    options,
+  );
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> {
   subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
   resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
@@ -4066,17 +8455,27 @@ export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, 
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> =
   | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -4085,7 +8484,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -4109,13 +8508,27 @@ export type ResolversTypes = {
   ClaimHandleRequest: ClaimHandleRequest;
   ClaimStatus: ClaimStatus;
   ClaimableHandles: ResolverTypeWrapper<ClaimableHandles>;
-  CollectModule: ResolversTypes["FeeCollectModuleSettings"] | ResolversTypes["FreeCollectModuleSettings"] | ResolversTypes["LimitedFeeCollectModuleSettings"] | ResolversTypes["LimitedTimedFeeCollectModuleSettings"] | ResolversTypes["RevertCollectModuleSettings"] | ResolversTypes["TimedFeeCollectModuleSettings"] | ResolversTypes["UnknownCollectModuleSettings"];
+  CollectModule:
+    | ResolversTypes["FeeCollectModuleSettings"]
+    | ResolversTypes["FreeCollectModuleSettings"]
+    | ResolversTypes["LimitedFeeCollectModuleSettings"]
+    | ResolversTypes["LimitedTimedFeeCollectModuleSettings"]
+    | ResolversTypes["RevertCollectModuleSettings"]
+    | ResolversTypes["TimedFeeCollectModuleSettings"]
+    | ResolversTypes["UnknownCollectModuleSettings"];
   CollectModuleData: ResolverTypeWrapper<Scalars["CollectModuleData"]>;
   CollectModuleParams: CollectModuleParams;
   CollectModules: CollectModules;
   CollectProxyAction: CollectProxyAction;
   CollectedEvent: ResolverTypeWrapper<CollectedEvent>;
-  Comment: ResolverTypeWrapper<Omit<Comment, "collectModule" | "commentOn" | "mainPost" | "referenceModule"> & { collectModule: ResolversTypes["CollectModule"], commentOn?: Maybe<ResolversTypes["Publication"]>, mainPost: ResolversTypes["MainPostReference"], referenceModule?: Maybe<ResolversTypes["ReferenceModule"]> }>;
+  Comment: ResolverTypeWrapper<
+    Omit<Comment, "collectModule" | "commentOn" | "mainPost" | "referenceModule"> & {
+      collectModule: ResolversTypes["CollectModule"];
+      commentOn?: Maybe<ResolversTypes["Publication"]>;
+      mainPost: ResolversTypes["MainPostReference"];
+      referenceModule?: Maybe<ResolversTypes["ReferenceModule"]>;
+    }
+  >;
   ContractAddress: ResolverTypeWrapper<Scalars["ContractAddress"]>;
   CreateBurnEIP712TypedData: ResolverTypeWrapper<CreateBurnEip712TypedData>;
   CreateBurnEIP712TypedDataTypes: ResolverTypeWrapper<CreateBurnEip712TypedDataTypes>;
@@ -4200,7 +8613,9 @@ export type ResolversTypes = {
   ExploreProfileResult: ResolverTypeWrapper<ExploreProfileResult>;
   ExploreProfilesRequest: ExploreProfilesRequest;
   ExplorePublicationRequest: ExplorePublicationRequest;
-  ExplorePublicationResult: ResolverTypeWrapper<Omit<ExplorePublicationResult, "items"> & { items: Array<ResolversTypes["Publication"]> }>;
+  ExplorePublicationResult: ResolverTypeWrapper<
+    Omit<ExplorePublicationResult, "items"> & { items: Array<ResolversTypes["Publication"]> }
+  >;
   FeeCollectModuleParams: FeeCollectModuleParams;
   FeeCollectModuleSettings: ResolverTypeWrapper<FeeCollectModuleSettings>;
   FeeFollowModuleParams: FeeFollowModuleParams;
@@ -4213,7 +8628,11 @@ export type ResolversTypes = {
   FeedRequest: FeedRequest;
   Float: ResolverTypeWrapper<Scalars["Float"]>;
   Follow: Follow;
-  FollowModule: ResolversTypes["FeeFollowModuleSettings"] | ResolversTypes["ProfileFollowModuleSettings"] | ResolversTypes["RevertFollowModuleSettings"] | ResolversTypes["UnknownFollowModuleSettings"];
+  FollowModule:
+    | ResolversTypes["FeeFollowModuleSettings"]
+    | ResolversTypes["ProfileFollowModuleSettings"]
+    | ResolversTypes["RevertFollowModuleSettings"]
+    | ResolversTypes["UnknownFollowModuleSettings"];
   FollowModuleData: ResolverTypeWrapper<Scalars["FollowModuleData"]>;
   FollowModuleParams: FollowModuleParams;
   FollowModuleRedeemParams: FollowModuleRedeemParams;
@@ -4263,7 +8682,13 @@ export type ResolversTypes = {
   MetadataAttributeOutput: ResolverTypeWrapper<MetadataAttributeOutput>;
   MetadataOutput: ResolverTypeWrapper<MetadataOutput>;
   MimeType: ResolverTypeWrapper<Scalars["MimeType"]>;
-  Mirror: ResolverTypeWrapper<Omit<Mirror, "collectModule" | "mirrorOf" | "referenceModule"> & { collectModule: ResolversTypes["CollectModule"], mirrorOf: ResolversTypes["MirrorablePublication"], referenceModule?: Maybe<ResolversTypes["ReferenceModule"]> }>;
+  Mirror: ResolverTypeWrapper<
+    Omit<Mirror, "collectModule" | "mirrorOf" | "referenceModule"> & {
+      collectModule: ResolversTypes["CollectModule"];
+      mirrorOf: ResolversTypes["MirrorablePublication"];
+      referenceModule?: Maybe<ResolversTypes["ReferenceModule"]>;
+    }
+  >;
   MirrorEvent: ResolverTypeWrapper<MirrorEvent>;
   MirrorablePublication: ResolversTypes["Comment"] | ResolversTypes["Post"];
   ModuleFeeAmount: ResolverTypeWrapper<ModuleFeeAmount>;
@@ -4276,19 +8701,39 @@ export type ResolversTypes = {
   NFTData: NftData;
   NFTsRequest: NfTsRequest;
   NFTsResult: ResolverTypeWrapper<NfTsResult>;
-  NewCollectNotification: ResolverTypeWrapper<Omit<NewCollectNotification, "collectedPublication"> & { collectedPublication: ResolversTypes["Publication"] }>;
+  NewCollectNotification: ResolverTypeWrapper<
+    Omit<NewCollectNotification, "collectedPublication"> & {
+      collectedPublication: ResolversTypes["Publication"];
+    }
+  >;
   NewCommentNotification: ResolverTypeWrapper<NewCommentNotification>;
   NewFollowerNotification: ResolverTypeWrapper<NewFollowerNotification>;
-  NewMentionNotification: ResolverTypeWrapper<Omit<NewMentionNotification, "mentionPublication"> & { mentionPublication: ResolversTypes["MentionPublication"] }>;
-  NewMirrorNotification: ResolverTypeWrapper<Omit<NewMirrorNotification, "publication"> & { publication: ResolversTypes["MirrorablePublication"] }>;
-  NewReactionNotification: ResolverTypeWrapper<Omit<NewReactionNotification, "publication"> & { publication: ResolversTypes["Publication"] }>;
+  NewMentionNotification: ResolverTypeWrapper<
+    Omit<NewMentionNotification, "mentionPublication"> & {
+      mentionPublication: ResolversTypes["MentionPublication"];
+    }
+  >;
+  NewMirrorNotification: ResolverTypeWrapper<
+    Omit<NewMirrorNotification, "publication"> & {
+      publication: ResolversTypes["MirrorablePublication"];
+    }
+  >;
+  NewReactionNotification: ResolverTypeWrapper<
+    Omit<NewReactionNotification, "publication"> & { publication: ResolversTypes["Publication"] }
+  >;
   NftImage: ResolverTypeWrapper<NftImage>;
   NftOwnershipChallenge: NftOwnershipChallenge;
   NftOwnershipChallengeRequest: NftOwnershipChallengeRequest;
   NftOwnershipChallengeResult: ResolverTypeWrapper<NftOwnershipChallengeResult>;
   NftOwnershipId: ResolverTypeWrapper<Scalars["NftOwnershipId"]>;
   Nonce: ResolverTypeWrapper<Scalars["Nonce"]>;
-  Notification: ResolversTypes["NewCollectNotification"] | ResolversTypes["NewCommentNotification"] | ResolversTypes["NewFollowerNotification"] | ResolversTypes["NewMentionNotification"] | ResolversTypes["NewMirrorNotification"] | ResolversTypes["NewReactionNotification"];
+  Notification:
+    | ResolversTypes["NewCollectNotification"]
+    | ResolversTypes["NewCommentNotification"]
+    | ResolversTypes["NewFollowerNotification"]
+    | ResolversTypes["NewMentionNotification"]
+    | ResolversTypes["NewMirrorNotification"]
+    | ResolversTypes["NewReactionNotification"];
   NotificationId: ResolverTypeWrapper<Scalars["NotificationId"]>;
   NotificationRequest: NotificationRequest;
   NotificationTypes: NotificationTypes;
@@ -4298,18 +8743,39 @@ export type ResolversTypes = {
   PaginatedFeedResult: ResolverTypeWrapper<PaginatedFeedResult>;
   PaginatedFollowersResult: ResolverTypeWrapper<PaginatedFollowersResult>;
   PaginatedFollowingResult: ResolverTypeWrapper<PaginatedFollowingResult>;
-  PaginatedNotificationResult: ResolverTypeWrapper<Omit<PaginatedNotificationResult, "items"> & { items: Array<ResolversTypes["Notification"]> }>;
-  PaginatedProfilePublicationsForSaleResult: ResolverTypeWrapper<Omit<PaginatedProfilePublicationsForSaleResult, "items"> & { items: Array<ResolversTypes["PublicationForSale"]> }>;
+  PaginatedNotificationResult: ResolverTypeWrapper<
+    Omit<PaginatedNotificationResult, "items"> & { items: Array<ResolversTypes["Notification"]> }
+  >;
+  PaginatedProfilePublicationsForSaleResult: ResolverTypeWrapper<
+    Omit<PaginatedProfilePublicationsForSaleResult, "items"> & {
+      items: Array<ResolversTypes["PublicationForSale"]>;
+    }
+  >;
   PaginatedProfileResult: ResolverTypeWrapper<PaginatedProfileResult>;
-  PaginatedPublicationResult: ResolverTypeWrapper<Omit<PaginatedPublicationResult, "items"> & { items: Array<ResolversTypes["Publication"]> }>;
+  PaginatedPublicationResult: ResolverTypeWrapper<
+    Omit<PaginatedPublicationResult, "items"> & { items: Array<ResolversTypes["Publication"]> }
+  >;
   PaginatedResultInfo: ResolverTypeWrapper<PaginatedResultInfo>;
-  PaginatedTimelineResult: ResolverTypeWrapper<Omit<PaginatedTimelineResult, "items"> & { items: Array<ResolversTypes["Publication"]> }>;
+  PaginatedTimelineResult: ResolverTypeWrapper<
+    Omit<PaginatedTimelineResult, "items"> & { items: Array<ResolversTypes["Publication"]> }
+  >;
   PaginatedWhoCollectedResult: ResolverTypeWrapper<PaginatedWhoCollectedResult>;
   PaginatedWhoReactedResult: ResolverTypeWrapper<PaginatedWhoReactedResult>;
   PendingApprovalFollowsRequest: PendingApprovalFollowsRequest;
   PendingApproveFollowsResult: ResolverTypeWrapper<PendingApproveFollowsResult>;
-  Post: ResolverTypeWrapper<Omit<Post, "collectModule" | "referenceModule"> & { collectModule: ResolversTypes["CollectModule"], referenceModule?: Maybe<ResolversTypes["ReferenceModule"]> }>;
-  Profile: ResolverTypeWrapper<Omit<Profile, "coverPicture" | "followModule" | "picture"> & { coverPicture?: Maybe<ResolversTypes["ProfileMedia"]>, followModule?: Maybe<ResolversTypes["FollowModule"]>, picture?: Maybe<ResolversTypes["ProfileMedia"]> }>;
+  Post: ResolverTypeWrapper<
+    Omit<Post, "collectModule" | "referenceModule"> & {
+      collectModule: ResolversTypes["CollectModule"];
+      referenceModule?: Maybe<ResolversTypes["ReferenceModule"]>;
+    }
+  >;
+  Profile: ResolverTypeWrapper<
+    Omit<Profile, "coverPicture" | "followModule" | "picture"> & {
+      coverPicture?: Maybe<ResolversTypes["ProfileMedia"]>;
+      followModule?: Maybe<ResolversTypes["FollowModule"]>;
+      picture?: Maybe<ResolversTypes["ProfileMedia"]>;
+    }
+  >;
   ProfileFollowModuleBeenRedeemedRequest: ProfileFollowModuleBeenRedeemedRequest;
   ProfileFollowModuleRedeemParams: ProfileFollowModuleRedeemParams;
   ProfileFollowModuleSettings: ResolverTypeWrapper<ProfileFollowModuleSettings>;
@@ -4329,7 +8795,10 @@ export type ResolversTypes = {
   ProxyActionQueued: ResolverTypeWrapper<ProxyActionQueued>;
   ProxyActionRequest: ProxyActionRequest;
   ProxyActionStatusResult: ResolverTypeWrapper<ProxyActionStatusResult>;
-  ProxyActionStatusResultUnion: ResolversTypes["ProxyActionError"] | ResolversTypes["ProxyActionQueued"] | ResolversTypes["ProxyActionStatusResult"];
+  ProxyActionStatusResultUnion:
+    | ResolversTypes["ProxyActionError"]
+    | ResolversTypes["ProxyActionQueued"]
+    | ResolversTypes["ProxyActionStatusResult"];
   ProxyActionStatusTypes: ProxyActionStatusTypes;
   Publication: ResolversTypes["Comment"] | ResolversTypes["Mirror"] | ResolversTypes["Post"];
   PublicationContentWarning: PublicationContentWarning;
@@ -4351,9 +8820,15 @@ export type ResolversTypes = {
   PublicationReportingReason: PublicationReportingReason;
   PublicationReportingSensitiveSubreason: PublicationReportingSensitiveSubreason;
   PublicationReportingSpamSubreason: PublicationReportingSpamSubreason;
-  PublicationRevenue: ResolverTypeWrapper<Omit<PublicationRevenue, "publication"> & { publication: ResolversTypes["Publication"] }>;
+  PublicationRevenue: ResolverTypeWrapper<
+    Omit<PublicationRevenue, "publication"> & { publication: ResolversTypes["Publication"] }
+  >;
   PublicationRevenueQueryRequest: PublicationRevenueQueryRequest;
-  PublicationSearchResult: ResolverTypeWrapper<Omit<PublicationSearchResult, "items"> & { items: Array<ResolversTypes["PublicationSearchResultItem"]> }>;
+  PublicationSearchResult: ResolverTypeWrapper<
+    Omit<PublicationSearchResult, "items"> & {
+      items: Array<ResolversTypes["PublicationSearchResultItem"]>;
+    }
+  >;
   PublicationSearchResultItem: ResolversTypes["Comment"] | ResolversTypes["Post"];
   PublicationSignatureContextInput: PublicationSignatureContextInput;
   PublicationSortCriteria: PublicationSortCriteria;
@@ -4370,7 +8845,10 @@ export type ResolversTypes = {
   ReactionRequest: ReactionRequest;
   ReactionTypes: ReactionTypes;
   RecommendedProfileOptions: RecommendedProfileOptions;
-  ReferenceModule: ResolversTypes["DegreesOfSeparationReferenceModuleSettings"] | ResolversTypes["FollowOnlyReferenceModuleSettings"] | ResolversTypes["UnknownReferenceModuleSettings"];
+  ReferenceModule:
+    | ResolversTypes["DegreesOfSeparationReferenceModuleSettings"]
+    | ResolversTypes["FollowOnlyReferenceModuleSettings"]
+    | ResolversTypes["UnknownReferenceModuleSettings"];
   ReferenceModuleData: ResolverTypeWrapper<Scalars["ReferenceModuleData"]>;
   ReferenceModuleParams: ReferenceModuleParams;
   ReferenceModules: ReferenceModules;
@@ -4416,7 +8894,9 @@ export type ResolversTypes = {
   TransactionErrorReasons: TransactionErrorReasons;
   TransactionIndexedResult: ResolverTypeWrapper<TransactionIndexedResult>;
   TransactionReceipt: ResolverTypeWrapper<TransactionReceipt>;
-  TransactionResult: ResolversTypes["TransactionError"] | ResolversTypes["TransactionIndexedResult"];
+  TransactionResult:
+    | ResolversTypes["TransactionError"]
+    | ResolversTypes["TransactionIndexedResult"];
   TxHash: ResolverTypeWrapper<Scalars["TxHash"]>;
   TxId: ResolverTypeWrapper<Scalars["TxId"]>;
   TypedDataOptions: TypedDataOptions;
@@ -4462,12 +8942,24 @@ export type ResolversParentTypes = {
   ChallengeRequest: ChallengeRequest;
   ClaimHandleRequest: ClaimHandleRequest;
   ClaimableHandles: ClaimableHandles;
-  CollectModule: ResolversParentTypes["FeeCollectModuleSettings"] | ResolversParentTypes["FreeCollectModuleSettings"] | ResolversParentTypes["LimitedFeeCollectModuleSettings"] | ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"] | ResolversParentTypes["RevertCollectModuleSettings"] | ResolversParentTypes["TimedFeeCollectModuleSettings"] | ResolversParentTypes["UnknownCollectModuleSettings"];
+  CollectModule:
+    | ResolversParentTypes["FeeCollectModuleSettings"]
+    | ResolversParentTypes["FreeCollectModuleSettings"]
+    | ResolversParentTypes["LimitedFeeCollectModuleSettings"]
+    | ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"]
+    | ResolversParentTypes["RevertCollectModuleSettings"]
+    | ResolversParentTypes["TimedFeeCollectModuleSettings"]
+    | ResolversParentTypes["UnknownCollectModuleSettings"];
   CollectModuleData: Scalars["CollectModuleData"];
   CollectModuleParams: CollectModuleParams;
   CollectProxyAction: CollectProxyAction;
   CollectedEvent: CollectedEvent;
-  Comment: Omit<Comment, "collectModule" | "commentOn" | "mainPost" | "referenceModule"> & { collectModule: ResolversParentTypes["CollectModule"], commentOn?: Maybe<ResolversParentTypes["Publication"]>, mainPost: ResolversParentTypes["MainPostReference"], referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]> };
+  Comment: Omit<Comment, "collectModule" | "commentOn" | "mainPost" | "referenceModule"> & {
+    collectModule: ResolversParentTypes["CollectModule"];
+    commentOn?: Maybe<ResolversParentTypes["Publication"]>;
+    mainPost: ResolversParentTypes["MainPostReference"];
+    referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]>;
+  };
   ContractAddress: Scalars["ContractAddress"];
   CreateBurnEIP712TypedData: CreateBurnEip712TypedData;
   CreateBurnEIP712TypedDataTypes: CreateBurnEip712TypedDataTypes;
@@ -4551,7 +9043,9 @@ export type ResolversParentTypes = {
   ExploreProfileResult: ExploreProfileResult;
   ExploreProfilesRequest: ExploreProfilesRequest;
   ExplorePublicationRequest: ExplorePublicationRequest;
-  ExplorePublicationResult: Omit<ExplorePublicationResult, "items"> & { items: Array<ResolversParentTypes["Publication"]> };
+  ExplorePublicationResult: Omit<ExplorePublicationResult, "items"> & {
+    items: Array<ResolversParentTypes["Publication"]>;
+  };
   FeeCollectModuleParams: FeeCollectModuleParams;
   FeeCollectModuleSettings: FeeCollectModuleSettings;
   FeeFollowModuleParams: FeeFollowModuleParams;
@@ -4563,7 +9057,11 @@ export type ResolversParentTypes = {
   FeedRequest: FeedRequest;
   Float: Scalars["Float"];
   Follow: Follow;
-  FollowModule: ResolversParentTypes["FeeFollowModuleSettings"] | ResolversParentTypes["ProfileFollowModuleSettings"] | ResolversParentTypes["RevertFollowModuleSettings"] | ResolversParentTypes["UnknownFollowModuleSettings"];
+  FollowModule:
+    | ResolversParentTypes["FeeFollowModuleSettings"]
+    | ResolversParentTypes["ProfileFollowModuleSettings"]
+    | ResolversParentTypes["RevertFollowModuleSettings"]
+    | ResolversParentTypes["UnknownFollowModuleSettings"];
   FollowModuleData: Scalars["FollowModuleData"];
   FollowModuleParams: FollowModuleParams;
   FollowModuleRedeemParams: FollowModuleRedeemParams;
@@ -4612,7 +9110,11 @@ export type ResolversParentTypes = {
   MetadataAttributeOutput: MetadataAttributeOutput;
   MetadataOutput: MetadataOutput;
   MimeType: Scalars["MimeType"];
-  Mirror: Omit<Mirror, "collectModule" | "mirrorOf" | "referenceModule"> & { collectModule: ResolversParentTypes["CollectModule"], mirrorOf: ResolversParentTypes["MirrorablePublication"], referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]> };
+  Mirror: Omit<Mirror, "collectModule" | "mirrorOf" | "referenceModule"> & {
+    collectModule: ResolversParentTypes["CollectModule"];
+    mirrorOf: ResolversParentTypes["MirrorablePublication"];
+    referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]>;
+  };
   MirrorEvent: MirrorEvent;
   MirrorablePublication: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
   ModuleFeeAmount: ModuleFeeAmount;
@@ -4625,19 +9127,33 @@ export type ResolversParentTypes = {
   NFTData: NftData;
   NFTsRequest: NfTsRequest;
   NFTsResult: NfTsResult;
-  NewCollectNotification: Omit<NewCollectNotification, "collectedPublication"> & { collectedPublication: ResolversParentTypes["Publication"] };
+  NewCollectNotification: Omit<NewCollectNotification, "collectedPublication"> & {
+    collectedPublication: ResolversParentTypes["Publication"];
+  };
   NewCommentNotification: NewCommentNotification;
   NewFollowerNotification: NewFollowerNotification;
-  NewMentionNotification: Omit<NewMentionNotification, "mentionPublication"> & { mentionPublication: ResolversParentTypes["MentionPublication"] };
-  NewMirrorNotification: Omit<NewMirrorNotification, "publication"> & { publication: ResolversParentTypes["MirrorablePublication"] };
-  NewReactionNotification: Omit<NewReactionNotification, "publication"> & { publication: ResolversParentTypes["Publication"] };
+  NewMentionNotification: Omit<NewMentionNotification, "mentionPublication"> & {
+    mentionPublication: ResolversParentTypes["MentionPublication"];
+  };
+  NewMirrorNotification: Omit<NewMirrorNotification, "publication"> & {
+    publication: ResolversParentTypes["MirrorablePublication"];
+  };
+  NewReactionNotification: Omit<NewReactionNotification, "publication"> & {
+    publication: ResolversParentTypes["Publication"];
+  };
   NftImage: NftImage;
   NftOwnershipChallenge: NftOwnershipChallenge;
   NftOwnershipChallengeRequest: NftOwnershipChallengeRequest;
   NftOwnershipChallengeResult: NftOwnershipChallengeResult;
   NftOwnershipId: Scalars["NftOwnershipId"];
   Nonce: Scalars["Nonce"];
-  Notification: ResolversParentTypes["NewCollectNotification"] | ResolversParentTypes["NewCommentNotification"] | ResolversParentTypes["NewFollowerNotification"] | ResolversParentTypes["NewMentionNotification"] | ResolversParentTypes["NewMirrorNotification"] | ResolversParentTypes["NewReactionNotification"];
+  Notification:
+    | ResolversParentTypes["NewCollectNotification"]
+    | ResolversParentTypes["NewCommentNotification"]
+    | ResolversParentTypes["NewFollowerNotification"]
+    | ResolversParentTypes["NewMentionNotification"]
+    | ResolversParentTypes["NewMirrorNotification"]
+    | ResolversParentTypes["NewReactionNotification"];
   NotificationId: Scalars["NotificationId"];
   NotificationRequest: NotificationRequest;
   OnChainIdentity: OnChainIdentity;
@@ -4646,18 +9162,34 @@ export type ResolversParentTypes = {
   PaginatedFeedResult: PaginatedFeedResult;
   PaginatedFollowersResult: PaginatedFollowersResult;
   PaginatedFollowingResult: PaginatedFollowingResult;
-  PaginatedNotificationResult: Omit<PaginatedNotificationResult, "items"> & { items: Array<ResolversParentTypes["Notification"]> };
-  PaginatedProfilePublicationsForSaleResult: Omit<PaginatedProfilePublicationsForSaleResult, "items"> & { items: Array<ResolversParentTypes["PublicationForSale"]> };
+  PaginatedNotificationResult: Omit<PaginatedNotificationResult, "items"> & {
+    items: Array<ResolversParentTypes["Notification"]>;
+  };
+  PaginatedProfilePublicationsForSaleResult: Omit<
+    PaginatedProfilePublicationsForSaleResult,
+    "items"
+  > & { items: Array<ResolversParentTypes["PublicationForSale"]> };
   PaginatedProfileResult: PaginatedProfileResult;
-  PaginatedPublicationResult: Omit<PaginatedPublicationResult, "items"> & { items: Array<ResolversParentTypes["Publication"]> };
+  PaginatedPublicationResult: Omit<PaginatedPublicationResult, "items"> & {
+    items: Array<ResolversParentTypes["Publication"]>;
+  };
   PaginatedResultInfo: PaginatedResultInfo;
-  PaginatedTimelineResult: Omit<PaginatedTimelineResult, "items"> & { items: Array<ResolversParentTypes["Publication"]> };
+  PaginatedTimelineResult: Omit<PaginatedTimelineResult, "items"> & {
+    items: Array<ResolversParentTypes["Publication"]>;
+  };
   PaginatedWhoCollectedResult: PaginatedWhoCollectedResult;
   PaginatedWhoReactedResult: PaginatedWhoReactedResult;
   PendingApprovalFollowsRequest: PendingApprovalFollowsRequest;
   PendingApproveFollowsResult: PendingApproveFollowsResult;
-  Post: Omit<Post, "collectModule" | "referenceModule"> & { collectModule: ResolversParentTypes["CollectModule"], referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]> };
-  Profile: Omit<Profile, "coverPicture" | "followModule" | "picture"> & { coverPicture?: Maybe<ResolversParentTypes["ProfileMedia"]>, followModule?: Maybe<ResolversParentTypes["FollowModule"]>, picture?: Maybe<ResolversParentTypes["ProfileMedia"]> };
+  Post: Omit<Post, "collectModule" | "referenceModule"> & {
+    collectModule: ResolversParentTypes["CollectModule"];
+    referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]>;
+  };
+  Profile: Omit<Profile, "coverPicture" | "followModule" | "picture"> & {
+    coverPicture?: Maybe<ResolversParentTypes["ProfileMedia"]>;
+    followModule?: Maybe<ResolversParentTypes["FollowModule"]>;
+    picture?: Maybe<ResolversParentTypes["ProfileMedia"]>;
+  };
   ProfileFollowModuleBeenRedeemedRequest: ProfileFollowModuleBeenRedeemedRequest;
   ProfileFollowModuleRedeemParams: ProfileFollowModuleRedeemParams;
   ProfileFollowModuleSettings: ProfileFollowModuleSettings;
@@ -4676,8 +9208,14 @@ export type ResolversParentTypes = {
   ProxyActionQueued: ProxyActionQueued;
   ProxyActionRequest: ProxyActionRequest;
   ProxyActionStatusResult: ProxyActionStatusResult;
-  ProxyActionStatusResultUnion: ResolversParentTypes["ProxyActionError"] | ResolversParentTypes["ProxyActionQueued"] | ResolversParentTypes["ProxyActionStatusResult"];
-  Publication: ResolversParentTypes["Comment"] | ResolversParentTypes["Mirror"] | ResolversParentTypes["Post"];
+  ProxyActionStatusResultUnion:
+    | ResolversParentTypes["ProxyActionError"]
+    | ResolversParentTypes["ProxyActionQueued"]
+    | ResolversParentTypes["ProxyActionStatusResult"];
+  Publication:
+    | ResolversParentTypes["Comment"]
+    | ResolversParentTypes["Mirror"]
+    | ResolversParentTypes["Post"];
   PublicationForSale: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
   PublicationId: Scalars["PublicationId"];
   PublicationMetadataContentWarningFilter: PublicationMetadataContentWarningFilter;
@@ -4688,9 +9226,13 @@ export type ResolversParentTypes = {
   PublicationMetadataV1Input: PublicationMetadataV1Input;
   PublicationMetadataV2Input: PublicationMetadataV2Input;
   PublicationQueryRequest: PublicationQueryRequest;
-  PublicationRevenue: Omit<PublicationRevenue, "publication"> & { publication: ResolversParentTypes["Publication"] };
+  PublicationRevenue: Omit<PublicationRevenue, "publication"> & {
+    publication: ResolversParentTypes["Publication"];
+  };
   PublicationRevenueQueryRequest: PublicationRevenueQueryRequest;
-  PublicationSearchResult: Omit<PublicationSearchResult, "items"> & { items: Array<ResolversParentTypes["PublicationSearchResultItem"]> };
+  PublicationSearchResult: Omit<PublicationSearchResult, "items"> & {
+    items: Array<ResolversParentTypes["PublicationSearchResultItem"]>;
+  };
   PublicationSearchResultItem: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
   PublicationSignatureContextInput: PublicationSignatureContextInput;
   PublicationStats: PublicationStats;
@@ -4704,7 +9246,10 @@ export type ResolversParentTypes = {
   ReactionId: Scalars["ReactionId"];
   ReactionRequest: ReactionRequest;
   RecommendedProfileOptions: RecommendedProfileOptions;
-  ReferenceModule: ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"] | ResolversParentTypes["FollowOnlyReferenceModuleSettings"] | ResolversParentTypes["UnknownReferenceModuleSettings"];
+  ReferenceModule:
+    | ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"]
+    | ResolversParentTypes["FollowOnlyReferenceModuleSettings"]
+    | ResolversParentTypes["UnknownReferenceModuleSettings"];
   ReferenceModuleData: Scalars["ReferenceModuleData"];
   ReferenceModuleParams: ReferenceModuleParams;
   RefreshRequest: RefreshRequest;
@@ -4720,7 +9265,9 @@ export type ResolversParentTypes = {
   RevertFollowModuleSettings: RevertFollowModuleSettings;
   Search: Scalars["Search"];
   SearchQueryRequest: SearchQueryRequest;
-  SearchResult: ResolversParentTypes["ProfileSearchResult"] | ResolversParentTypes["PublicationSearchResult"];
+  SearchResult:
+    | ResolversParentTypes["ProfileSearchResult"]
+    | ResolversParentTypes["PublicationSearchResult"];
   SensitiveReasonInputParams: SensitiveReasonInputParams;
   SetDefaultProfileBroadcastItemResult: SetDefaultProfileBroadcastItemResult;
   SetDefaultProfileEIP712TypedData: SetDefaultProfileEip712TypedData;
@@ -4744,7 +9291,9 @@ export type ResolversParentTypes = {
   TransactionError: TransactionError;
   TransactionIndexedResult: TransactionIndexedResult;
   TransactionReceipt: TransactionReceipt;
-  TransactionResult: ResolversParentTypes["TransactionError"] | ResolversParentTypes["TransactionIndexedResult"];
+  TransactionResult:
+    | ResolversParentTypes["TransactionError"]
+    | ResolversParentTypes["TransactionIndexedResult"];
   TxHash: Scalars["TxHash"];
   TxId: Scalars["TxId"];
   TypedDataOptions: TypedDataOptions;
@@ -4770,7 +9319,10 @@ export type ResolversParentTypes = {
   WorldcoinIdentity: WorldcoinIdentity;
 };
 
-export type ApprovedAllowanceAmountResolvers<ContextType = any, ParentType extends ResolversParentTypes["ApprovedAllowanceAmount"] = ResolversParentTypes["ApprovedAllowanceAmount"]> = {
+export type ApprovedAllowanceAmountResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ApprovedAllowanceAmount"] = ResolversParentTypes["ApprovedAllowanceAmount"],
+> = {
   allowance?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   currency?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
@@ -4778,7 +9330,10 @@ export type ApprovedAllowanceAmountResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type AttributeResolvers<ContextType = any, ParentType extends ResolversParentTypes["Attribute"] = ResolversParentTypes["Attribute"]> = {
+export type AttributeResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Attribute"] = ResolversParentTypes["Attribute"],
+> = {
   displayType?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   key?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   traitType?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
@@ -4786,63 +9341,115 @@ export type AttributeResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type AuthChallengeResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["AuthChallengeResult"] = ResolversParentTypes["AuthChallengeResult"]> = {
+export type AuthChallengeResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AuthChallengeResult"] = ResolversParentTypes["AuthChallengeResult"],
+> = {
   text?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type AuthenticationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["AuthenticationResult"] = ResolversParentTypes["AuthenticationResult"]> = {
+export type AuthenticationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AuthenticationResult"] = ResolversParentTypes["AuthenticationResult"],
+> = {
   accessToken?: Resolver<ResolversTypes["Jwt"], ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes["Jwt"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface BlockchainDataScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["BlockchainData"], any> {
+export interface BlockchainDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["BlockchainData"], any> {
   name: "BlockchainData";
 }
 
-export interface BroadcastIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["BroadcastId"], any> {
+export interface BroadcastIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["BroadcastId"], any> {
   name: "BroadcastId";
 }
 
-export type CanCommentResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes["CanCommentResponse"] = ResolversParentTypes["CanCommentResponse"]> = {
+export type CanCommentResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CanCommentResponse"] = ResolversParentTypes["CanCommentResponse"],
+> = {
   result?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CanMirrorResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes["CanMirrorResponse"] = ResolversParentTypes["CanMirrorResponse"]> = {
+export type CanMirrorResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CanMirrorResponse"] = ResolversParentTypes["CanMirrorResponse"],
+> = {
   result?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface ChainIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["ChainId"], any> {
+export interface ChainIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ChainId"], any> {
   name: "ChainId";
 }
 
-export type ClaimableHandlesResolvers<ContextType = any, ParentType extends ResolversParentTypes["ClaimableHandles"] = ResolversParentTypes["ClaimableHandles"]> = {
+export type ClaimableHandlesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ClaimableHandles"] = ResolversParentTypes["ClaimableHandles"],
+> = {
   canClaimFreeTextHandle?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  reservedHandles?: Resolver<Array<ResolversTypes["ReservedClaimableHandle"]>, ParentType, ContextType>;
+  reservedHandles?: Resolver<
+    Array<ResolversTypes["ReservedClaimableHandle"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CollectModuleResolvers<ContextType = any, ParentType extends ResolversParentTypes["CollectModule"] = ResolversParentTypes["CollectModule"]> = {
-  __resolveType: TypeResolveFn<"FeeCollectModuleSettings" | "FreeCollectModuleSettings" | "LimitedFeeCollectModuleSettings" | "LimitedTimedFeeCollectModuleSettings" | "RevertCollectModuleSettings" | "TimedFeeCollectModuleSettings" | "UnknownCollectModuleSettings", ParentType, ContextType>;
+export type CollectModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CollectModule"] = ResolversParentTypes["CollectModule"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "FeeCollectModuleSettings"
+    | "FreeCollectModuleSettings"
+    | "LimitedFeeCollectModuleSettings"
+    | "LimitedTimedFeeCollectModuleSettings"
+    | "RevertCollectModuleSettings"
+    | "TimedFeeCollectModuleSettings"
+    | "UnknownCollectModuleSettings",
+    ParentType,
+    ContextType
+  >;
 };
 
-export interface CollectModuleDataScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["CollectModuleData"], any> {
+export interface CollectModuleDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["CollectModuleData"], any> {
   name: "CollectModuleData";
 }
 
-export type CollectedEventResolvers<ContextType = any, ParentType extends ResolversParentTypes["CollectedEvent"] = ResolversParentTypes["CollectedEvent"]> = {
+export type CollectedEventResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CollectedEvent"] = ResolversParentTypes["CollectedEvent"],
+> = {
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes["Comment"] = ResolversParentTypes["Comment"]> = {
+export type CommentResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Comment"] = ResolversParentTypes["Comment"],
+> = {
   appId?: Resolver<Maybe<ResolversTypes["Sources"]>, ParentType, ContextType>;
-  canComment?: Resolver<ResolversTypes["CanCommentResponse"], ParentType, ContextType, Partial<CommentCanCommentArgs>>;
-  canMirror?: Resolver<ResolversTypes["CanMirrorResponse"], ParentType, ContextType, Partial<CommentCanMirrorArgs>>;
+  canComment?: Resolver<
+    ResolversTypes["CanCommentResponse"],
+    ParentType,
+    ContextType,
+    Partial<CommentCanCommentArgs>
+  >;
+  canMirror?: Resolver<
+    ResolversTypes["CanMirrorResponse"],
+    ParentType,
+    ContextType,
+    Partial<CommentCanMirrorArgs>
+  >;
   collectModule?: Resolver<ResolversTypes["CollectModule"], ParentType, ContextType>;
   collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
   collectedBy?: Resolver<Maybe<ResolversTypes["Wallet"]>, ParentType, ContextType>;
@@ -4854,65 +9461,100 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
   mainPost?: Resolver<ResolversTypes["MainPostReference"], ParentType, ContextType>;
   metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
-  mirrors?: Resolver<Array<ResolversTypes["InternalPublicationId"]>, ParentType, ContextType, Partial<CommentMirrorsArgs>>;
+  mirrors?: Resolver<
+    Array<ResolversTypes["InternalPublicationId"]>,
+    ParentType,
+    ContextType,
+    Partial<CommentMirrorsArgs>
+  >;
   onChainContentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
-  reaction?: Resolver<Maybe<ResolversTypes["ReactionTypes"]>, ParentType, ContextType, Partial<CommentReactionArgs>>;
+  reaction?: Resolver<
+    Maybe<ResolversTypes["ReactionTypes"]>,
+    ParentType,
+    ContextType,
+    Partial<CommentReactionArgs>
+  >;
   referenceModule?: Resolver<Maybe<ResolversTypes["ReferenceModule"]>, ParentType, ContextType>;
   stats?: Resolver<ResolversTypes["PublicationStats"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface ContractAddressScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["ContractAddress"], any> {
+export interface ContractAddressScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ContractAddress"], any> {
   name: "ContractAddress";
 }
 
-export type CreateBurnEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateBurnEIP712TypedData"] = ResolversParentTypes["CreateBurnEIP712TypedData"]> = {
+export type CreateBurnEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnEIP712TypedData"] = ResolversParentTypes["CreateBurnEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
   types?: Resolver<ResolversTypes["CreateBurnEIP712TypedDataTypes"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["CreateBurnEIP712TypedDataValue"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateBurnEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateBurnEIP712TypedDataTypes"] = ResolversParentTypes["CreateBurnEIP712TypedDataTypes"]> = {
+export type CreateBurnEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnEIP712TypedDataTypes"] = ResolversParentTypes["CreateBurnEIP712TypedDataTypes"],
+> = {
   BurnWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateBurnEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateBurnEIP712TypedDataValue"] = ResolversParentTypes["CreateBurnEIP712TypedDataValue"]> = {
+export type CreateBurnEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnEIP712TypedDataValue"] = ResolversParentTypes["CreateBurnEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
   tokenId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateBurnProfileBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateBurnProfileBroadcastItemResult"] = ResolversParentTypes["CreateBurnProfileBroadcastItemResult"]> = {
+export type CreateBurnProfileBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateBurnProfileBroadcastItemResult"] = ResolversParentTypes["CreateBurnProfileBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["CreateBurnEIP712TypedData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCollectBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCollectBroadcastItemResult"] = ResolversParentTypes["CreateCollectBroadcastItemResult"]> = {
+export type CreateCollectBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectBroadcastItemResult"] = ResolversParentTypes["CreateCollectBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["CreateCollectEIP712TypedData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCollectEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCollectEIP712TypedData"] = ResolversParentTypes["CreateCollectEIP712TypedData"]> = {
+export type CreateCollectEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectEIP712TypedData"] = ResolversParentTypes["CreateCollectEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
   types?: Resolver<ResolversTypes["CreateCollectEIP712TypedDataTypes"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["CreateCollectEIP712TypedDataValue"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCollectEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCollectEIP712TypedDataTypes"] = ResolversParentTypes["CreateCollectEIP712TypedDataTypes"]> = {
+export type CreateCollectEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectEIP712TypedDataTypes"] = ResolversParentTypes["CreateCollectEIP712TypedDataTypes"],
+> = {
   CollectWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCollectEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCollectEIP712TypedDataValue"] = ResolversParentTypes["CreateCollectEIP712TypedDataValue"]> = {
+export type CreateCollectEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCollectEIP712TypedDataValue"] = ResolversParentTypes["CreateCollectEIP712TypedDataValue"],
+> = {
   data?: Resolver<ResolversTypes["BlockchainData"], ParentType, ContextType>;
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
@@ -4921,26 +9563,38 @@ export type CreateCollectEip712TypedDataValueResolvers<ContextType = any, Parent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCommentBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCommentBroadcastItemResult"] = ResolversParentTypes["CreateCommentBroadcastItemResult"]> = {
+export type CreateCommentBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentBroadcastItemResult"] = ResolversParentTypes["CreateCommentBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["CreateCommentEIP712TypedData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCommentEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCommentEIP712TypedData"] = ResolversParentTypes["CreateCommentEIP712TypedData"]> = {
+export type CreateCommentEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentEIP712TypedData"] = ResolversParentTypes["CreateCommentEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
   types?: Resolver<ResolversTypes["CreateCommentEIP712TypedDataTypes"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["CreateCommentEIP712TypedDataValue"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCommentEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCommentEIP712TypedDataTypes"] = ResolversParentTypes["CreateCommentEIP712TypedDataTypes"]> = {
+export type CreateCommentEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentEIP712TypedDataTypes"] = ResolversParentTypes["CreateCommentEIP712TypedDataTypes"],
+> = {
   CommentWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateCommentEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateCommentEIP712TypedDataValue"] = ResolversParentTypes["CreateCommentEIP712TypedDataValue"]> = {
+export type CreateCommentEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateCommentEIP712TypedDataValue"] = ResolversParentTypes["CreateCommentEIP712TypedDataValue"],
+> = {
   collectModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   collectModuleInitData?: Resolver<ResolversTypes["CollectModuleData"], ParentType, ContextType>;
   contentURI?: Resolver<ResolversTypes["PublicationUrl"], ParentType, ContextType>;
@@ -4951,30 +9605,46 @@ export type CreateCommentEip712TypedDataValueResolvers<ContextType = any, Parent
   pubIdPointed?: Resolver<ResolversTypes["PublicationId"], ParentType, ContextType>;
   referenceModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   referenceModuleData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
-  referenceModuleInitData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
+  referenceModuleInitData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateFollowBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateFollowBroadcastItemResult"] = ResolversParentTypes["CreateFollowBroadcastItemResult"]> = {
+export type CreateFollowBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowBroadcastItemResult"] = ResolversParentTypes["CreateFollowBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["CreateFollowEIP712TypedData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateFollowEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateFollowEIP712TypedData"] = ResolversParentTypes["CreateFollowEIP712TypedData"]> = {
+export type CreateFollowEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowEIP712TypedData"] = ResolversParentTypes["CreateFollowEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
   types?: Resolver<ResolversTypes["CreateFollowEIP712TypedDataTypes"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["CreateFollowEIP712TypedDataValue"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateFollowEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateFollowEIP712TypedDataTypes"] = ResolversParentTypes["CreateFollowEIP712TypedDataTypes"]> = {
+export type CreateFollowEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowEIP712TypedDataTypes"] = ResolversParentTypes["CreateFollowEIP712TypedDataTypes"],
+> = {
   FollowWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateFollowEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateFollowEIP712TypedDataValue"] = ResolversParentTypes["CreateFollowEIP712TypedDataValue"]> = {
+export type CreateFollowEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateFollowEIP712TypedDataValue"] = ResolversParentTypes["CreateFollowEIP712TypedDataValue"],
+> = {
   datas?: Resolver<Array<ResolversTypes["BlockchainData"]>, ParentType, ContextType>;
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
@@ -4982,30 +9652,43 @@ export type CreateFollowEip712TypedDataValueResolvers<ContextType = any, ParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface CreateHandleScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["CreateHandle"], any> {
+export interface CreateHandleScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["CreateHandle"], any> {
   name: "CreateHandle";
 }
 
-export type CreateMirrorBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateMirrorBroadcastItemResult"] = ResolversParentTypes["CreateMirrorBroadcastItemResult"]> = {
+export type CreateMirrorBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorBroadcastItemResult"] = ResolversParentTypes["CreateMirrorBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["CreateMirrorEIP712TypedData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateMirrorEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedData"] = ResolversParentTypes["CreateMirrorEIP712TypedData"]> = {
+export type CreateMirrorEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedData"] = ResolversParentTypes["CreateMirrorEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
   types?: Resolver<ResolversTypes["CreateMirrorEIP712TypedDataTypes"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["CreateMirrorEIP712TypedDataValue"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateMirrorEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedDataTypes"] = ResolversParentTypes["CreateMirrorEIP712TypedDataTypes"]> = {
+export type CreateMirrorEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedDataTypes"] = ResolversParentTypes["CreateMirrorEIP712TypedDataTypes"],
+> = {
   MirrorWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateMirrorEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedDataValue"] = ResolversParentTypes["CreateMirrorEIP712TypedDataValue"]> = {
+export type CreateMirrorEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateMirrorEIP712TypedDataValue"] = ResolversParentTypes["CreateMirrorEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
   profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
@@ -5013,30 +9696,46 @@ export type CreateMirrorEip712TypedDataValueResolvers<ContextType = any, ParentT
   pubIdPointed?: Resolver<ResolversTypes["PublicationId"], ParentType, ContextType>;
   referenceModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   referenceModuleData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
-  referenceModuleInitData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
+  referenceModuleInitData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreatePostBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreatePostBroadcastItemResult"] = ResolversParentTypes["CreatePostBroadcastItemResult"]> = {
+export type CreatePostBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostBroadcastItemResult"] = ResolversParentTypes["CreatePostBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["CreatePostEIP712TypedData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreatePostEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreatePostEIP712TypedData"] = ResolversParentTypes["CreatePostEIP712TypedData"]> = {
+export type CreatePostEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostEIP712TypedData"] = ResolversParentTypes["CreatePostEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
   types?: Resolver<ResolversTypes["CreatePostEIP712TypedDataTypes"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["CreatePostEIP712TypedDataValue"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreatePostEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreatePostEIP712TypedDataTypes"] = ResolversParentTypes["CreatePostEIP712TypedDataTypes"]> = {
+export type CreatePostEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostEIP712TypedDataTypes"] = ResolversParentTypes["CreatePostEIP712TypedDataTypes"],
+> = {
   PostWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreatePostEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreatePostEIP712TypedDataValue"] = ResolversParentTypes["CreatePostEIP712TypedDataValue"]> = {
+export type CreatePostEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreatePostEIP712TypedDataValue"] = ResolversParentTypes["CreatePostEIP712TypedDataValue"],
+> = {
   collectModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   collectModuleInitData?: Resolver<ResolversTypes["CollectModuleData"], ParentType, ContextType>;
   contentURI?: Resolver<ResolversTypes["PublicationUrl"], ParentType, ContextType>;
@@ -5044,30 +9743,62 @@ export type CreatePostEip712TypedDataValueResolvers<ContextType = any, ParentTyp
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
   profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
   referenceModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
-  referenceModuleInitData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
+  referenceModuleInitData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetDispatcherBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetDispatcherBroadcastItemResult"] = ResolversParentTypes["CreateSetDispatcherBroadcastItemResult"]> = {
+export type CreateSetDispatcherBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherBroadcastItemResult"] = ResolversParentTypes["CreateSetDispatcherBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
-  typedData?: Resolver<ResolversTypes["CreateSetDispatcherEIP712TypedData"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetDispatcherEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetDispatcherEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedData"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedData"]> = {
+export type CreateSetDispatcherEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedData"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
-  types?: Resolver<ResolversTypes["CreateSetDispatcherEIP712TypedDataTypes"], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes["CreateSetDispatcherEIP712TypedDataValue"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetDispatcherEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetDispatcherEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetDispatcherEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedDataTypes"]> = {
-  SetDispatcherWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+export type CreateSetDispatcherEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedDataTypes"],
+> = {
+  SetDispatcherWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetDispatcherEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedDataValue"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedDataValue"]> = {
+export type CreateSetDispatcherEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetDispatcherEIP712TypedDataValue"] = ResolversParentTypes["CreateSetDispatcherEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   dispatcher?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
@@ -5075,26 +9806,54 @@ export type CreateSetDispatcherEip712TypedDataValueResolvers<ContextType = any, 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowModuleBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowModuleBroadcastItemResult"] = ResolversParentTypes["CreateSetFollowModuleBroadcastItemResult"]> = {
+export type CreateSetFollowModuleBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleBroadcastItemResult"] = ResolversParentTypes["CreateSetFollowModuleBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
-  typedData?: Resolver<ResolversTypes["CreateSetFollowModuleEIP712TypedData"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetFollowModuleEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowModuleEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedData"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedData"]> = {
+export type CreateSetFollowModuleEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedData"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
-  types?: Resolver<ResolversTypes["CreateSetFollowModuleEIP712TypedDataTypes"], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes["CreateSetFollowModuleEIP712TypedDataValue"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetFollowModuleEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetFollowModuleEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowModuleEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataTypes"]> = {
-  SetFollowModuleWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+export type CreateSetFollowModuleEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataTypes"],
+> = {
+  SetFollowModuleWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowModuleEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataValue"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataValue"]> = {
+export type CreateSetFollowModuleEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataValue"] = ResolversParentTypes["CreateSetFollowModuleEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   followModule?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   followModuleInitData?: Resolver<ResolversTypes["FollowModuleData"], ParentType, ContextType>;
@@ -5103,26 +9862,54 @@ export type CreateSetFollowModuleEip712TypedDataValueResolvers<ContextType = any
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowNftUriBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowNFTUriBroadcastItemResult"] = ResolversParentTypes["CreateSetFollowNFTUriBroadcastItemResult"]> = {
+export type CreateSetFollowNftUriBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriBroadcastItemResult"] = ResolversParentTypes["CreateSetFollowNFTUriBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
-  typedData?: Resolver<ResolversTypes["CreateSetFollowNFTUriEIP712TypedData"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowNftUriEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedData"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedData"]> = {
+export type CreateSetFollowNftUriEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedData"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
-  types?: Resolver<ResolversTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes["CreateSetFollowNFTUriEIP712TypedDataValue"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowNftUriEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"]> = {
-  SetFollowNFTURIWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+export type CreateSetFollowNftUriEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataTypes"],
+> = {
+  SetFollowNFTURIWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetFollowNftUriEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataValue"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataValue"]> = {
+export type CreateSetFollowNftUriEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataValue"] = ResolversParentTypes["CreateSetFollowNFTUriEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   followNFTURI?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
@@ -5130,26 +9917,54 @@ export type CreateSetFollowNftUriEip712TypedDataValueResolvers<ContextType = any
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileImageUriBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileImageUriBroadcastItemResult"] = ResolversParentTypes["CreateSetProfileImageUriBroadcastItemResult"]> = {
+export type CreateSetProfileImageUriBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriBroadcastItemResult"] = ResolversParentTypes["CreateSetProfileImageUriBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
-  typedData?: Resolver<ResolversTypes["CreateSetProfileImageUriEIP712TypedData"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileImageUriEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedData"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedData"]> = {
+export type CreateSetProfileImageUriEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedData"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
-  types?: Resolver<ResolversTypes["CreateSetProfileImageUriEIP712TypedDataTypes"], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes["CreateSetProfileImageUriEIP712TypedDataValue"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileImageUriEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataTypes"]> = {
-  SetProfileImageURIWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+export type CreateSetProfileImageUriEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataTypes"],
+> = {
+  SetProfileImageURIWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileImageUriEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataValue"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataValue"]> = {
+export type CreateSetProfileImageUriEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataValue"] = ResolversParentTypes["CreateSetProfileImageUriEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   imageURI?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
@@ -5157,26 +9972,54 @@ export type CreateSetProfileImageUriEip712TypedDataValueResolvers<ContextType = 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileMetadataUriBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIBroadcastItemResult"] = ResolversParentTypes["CreateSetProfileMetadataURIBroadcastItemResult"]> = {
+export type CreateSetProfileMetadataUriBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIBroadcastItemResult"] = ResolversParentTypes["CreateSetProfileMetadataURIBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
-  typedData?: Resolver<ResolversTypes["CreateSetProfileMetadataURIEIP712TypedData"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileMetadataUrieip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedData"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedData"]> = {
+export type CreateSetProfileMetadataUrieip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedData"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
-  types?: Resolver<ResolversTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileMetadataUrieip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"]> = {
-  SetProfileMetadataURIWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+export type CreateSetProfileMetadataUrieip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataTypes"],
+> = {
+  SetProfileMetadataURIWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateSetProfileMetadataUrieip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"]> = {
+export type CreateSetProfileMetadataUrieip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"] = ResolversParentTypes["CreateSetProfileMetadataURIEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   metadata?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
@@ -5184,26 +10027,54 @@ export type CreateSetProfileMetadataUrieip712TypedDataValueResolvers<ContextType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateToggleFollowBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateToggleFollowBroadcastItemResult"] = ResolversParentTypes["CreateToggleFollowBroadcastItemResult"]> = {
+export type CreateToggleFollowBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowBroadcastItemResult"] = ResolversParentTypes["CreateToggleFollowBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
-  typedData?: Resolver<ResolversTypes["CreateToggleFollowEIP712TypedData"], ParentType, ContextType>;
+  typedData?: Resolver<
+    ResolversTypes["CreateToggleFollowEIP712TypedData"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateToggleFollowEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedData"] = ResolversParentTypes["CreateToggleFollowEIP712TypedData"]> = {
+export type CreateToggleFollowEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedData"] = ResolversParentTypes["CreateToggleFollowEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
-  types?: Resolver<ResolversTypes["CreateToggleFollowEIP712TypedDataTypes"], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes["CreateToggleFollowEIP712TypedDataValue"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["CreateToggleFollowEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["CreateToggleFollowEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateToggleFollowEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedDataTypes"] = ResolversParentTypes["CreateToggleFollowEIP712TypedDataTypes"]> = {
-  ToggleFollowWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+export type CreateToggleFollowEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedDataTypes"] = ResolversParentTypes["CreateToggleFollowEIP712TypedDataTypes"],
+> = {
+  ToggleFollowWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateToggleFollowEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedDataValue"] = ResolversParentTypes["CreateToggleFollowEIP712TypedDataValue"]> = {
+export type CreateToggleFollowEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateToggleFollowEIP712TypedDataValue"] = ResolversParentTypes["CreateToggleFollowEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   enables?: Resolver<Array<ResolversTypes["Boolean"]>, ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
@@ -5211,7 +10082,10 @@ export type CreateToggleFollowEip712TypedDataValueResolvers<ContextType = any, P
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CreateUnfollowBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["CreateUnfollowBroadcastItemResult"] = ResolversParentTypes["CreateUnfollowBroadcastItemResult"]> = {
+export type CreateUnfollowBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CreateUnfollowBroadcastItemResult"] = ResolversParentTypes["CreateUnfollowBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["CreateBurnEIP712TypedData"], ParentType, ContextType>;
@@ -5222,11 +10096,15 @@ export interface CursorScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
   name: "Cursor";
 }
 
-export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
   name: "DateTime";
 }
 
-export type DegreesOfSeparationReferenceModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"] = ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"]> = {
+export type DegreesOfSeparationReferenceModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"] = ResolversParentTypes["DegreesOfSeparationReferenceModuleSettings"],
+> = {
   commentsRestricted?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   degreesOfSeparation?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -5235,13 +10113,19 @@ export type DegreesOfSeparationReferenceModuleSettingsResolvers<ContextType = an
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DispatcherResolvers<ContextType = any, ParentType extends ResolversParentTypes["Dispatcher"] = ResolversParentTypes["Dispatcher"]> = {
+export type DispatcherResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Dispatcher"] = ResolversParentTypes["Dispatcher"],
+> = {
   address?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
   canUseRelay?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DoesFollowResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes["DoesFollowResponse"] = ResolversParentTypes["DoesFollowResponse"]> = {
+export type DoesFollowResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["DoesFollowResponse"] = ResolversParentTypes["DoesFollowResponse"],
+> = {
   followerAddress?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
   follows?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   isFinalisedOnChain?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
@@ -5249,7 +10133,10 @@ export type DoesFollowResponseResolvers<ContextType = any, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Eip712TypedDataDomainResolvers<ContextType = any, ParentType extends ResolversParentTypes["EIP712TypedDataDomain"] = ResolversParentTypes["EIP712TypedDataDomain"]> = {
+export type Eip712TypedDataDomainResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EIP712TypedDataDomain"] = ResolversParentTypes["EIP712TypedDataDomain"],
+> = {
   chainId?: Resolver<ResolversTypes["ChainId"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   verifyingContract?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
@@ -5257,20 +10144,29 @@ export type Eip712TypedDataDomainResolvers<ContextType = any, ParentType extends
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Eip712TypedDataFieldResolvers<ContextType = any, ParentType extends ResolversParentTypes["EIP712TypedDataField"] = ResolversParentTypes["EIP712TypedDataField"]> = {
+export type Eip712TypedDataFieldResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EIP712TypedDataField"] = ResolversParentTypes["EIP712TypedDataField"],
+> = {
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ElectedMirrorResolvers<ContextType = any, ParentType extends ResolversParentTypes["ElectedMirror"] = ResolversParentTypes["ElectedMirror"]> = {
+export type ElectedMirrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ElectedMirror"] = ResolversParentTypes["ElectedMirror"],
+> = {
   mirrorId?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type EnabledModuleResolvers<ContextType = any, ParentType extends ResolversParentTypes["EnabledModule"] = ResolversParentTypes["EnabledModule"]> = {
+export type EnabledModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EnabledModule"] = ResolversParentTypes["EnabledModule"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   inputParams?: Resolver<Array<ResolversTypes["ModuleInfo"]>, ParentType, ContextType>;
   moduleName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -5279,7 +10175,10 @@ export type EnabledModuleResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type EnabledModulesResolvers<ContextType = any, ParentType extends ResolversParentTypes["EnabledModules"] = ResolversParentTypes["EnabledModules"]> = {
+export type EnabledModulesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EnabledModules"] = ResolversParentTypes["EnabledModules"],
+> = {
   collectModules?: Resolver<Array<ResolversTypes["EnabledModule"]>, ParentType, ContextType>;
   followModules?: Resolver<Array<ResolversTypes["EnabledModule"]>, ParentType, ContextType>;
   referenceModules?: Resolver<Array<ResolversTypes["EnabledModule"]>, ParentType, ContextType>;
@@ -5290,12 +10189,18 @@ export interface EnsScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
   name: "Ens";
 }
 
-export type EnsOnChainIdentityResolvers<ContextType = any, ParentType extends ResolversParentTypes["EnsOnChainIdentity"] = ResolversParentTypes["EnsOnChainIdentity"]> = {
+export type EnsOnChainIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EnsOnChainIdentity"] = ResolversParentTypes["EnsOnChainIdentity"],
+> = {
   name?: Resolver<Maybe<ResolversTypes["Ens"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc20Resolvers<ContextType = any, ParentType extends ResolversParentTypes["Erc20"] = ResolversParentTypes["Erc20"]> = {
+export type Erc20Resolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Erc20"] = ResolversParentTypes["Erc20"],
+> = {
   address?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   decimals?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -5303,29 +10208,42 @@ export type Erc20Resolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Erc20AmountResolvers<ContextType = any, ParentType extends ResolversParentTypes["Erc20Amount"] = ResolversParentTypes["Erc20Amount"]> = {
+export type Erc20AmountResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Erc20Amount"] = ResolversParentTypes["Erc20Amount"],
+> = {
   asset?: Resolver<ResolversTypes["Erc20"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface EthereumAddressScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["EthereumAddress"], any> {
+export interface EthereumAddressScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["EthereumAddress"], any> {
   name: "EthereumAddress";
 }
 
-export type ExploreProfileResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["ExploreProfileResult"] = ResolversParentTypes["ExploreProfileResult"]> = {
+export type ExploreProfileResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ExploreProfileResult"] = ResolversParentTypes["ExploreProfileResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ExplorePublicationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["ExplorePublicationResult"] = ResolversParentTypes["ExplorePublicationResult"]> = {
+export type ExplorePublicationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ExplorePublicationResult"] = ResolversParentTypes["ExplorePublicationResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Publication"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FeeCollectModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["FeeCollectModuleSettings"] = ResolversParentTypes["FeeCollectModuleSettings"]> = {
+export type FeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeeCollectModuleSettings"] = ResolversParentTypes["FeeCollectModuleSettings"],
+> = {
   amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   followerOnly?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
@@ -5335,7 +10253,10 @@ export type FeeCollectModuleSettingsResolvers<ContextType = any, ParentType exte
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FeeFollowModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["FeeFollowModuleSettings"] = ResolversParentTypes["FeeFollowModuleSettings"]> = {
+export type FeeFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeeFollowModuleSettings"] = ResolversParentTypes["FeeFollowModuleSettings"],
+> = {
   amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   recipient?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
@@ -5343,7 +10264,10 @@ export type FeeFollowModuleSettingsResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FeedItemResolvers<ContextType = any, ParentType extends ResolversParentTypes["FeedItem"] = ResolversParentTypes["FeedItem"]> = {
+export type FeedItemResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeedItem"] = ResolversParentTypes["FeedItem"],
+> = {
   collects?: Resolver<Array<ResolversTypes["CollectedEvent"]>, ParentType, ContextType>;
   comments?: Resolver<Maybe<Array<ResolversTypes["Comment"]>>, ParentType, ContextType>;
   electedMirror?: Resolver<Maybe<ResolversTypes["ElectedMirror"]>, ParentType, ContextType>;
@@ -5353,62 +10277,100 @@ export type FeedItemResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FeedItemRootResolvers<ContextType = any, ParentType extends ResolversParentTypes["FeedItemRoot"] = ResolversParentTypes["FeedItemRoot"]> = {
+export type FeedItemRootResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FeedItemRoot"] = ResolversParentTypes["FeedItemRoot"],
+> = {
   __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
 };
 
-export type FollowModuleResolvers<ContextType = any, ParentType extends ResolversParentTypes["FollowModule"] = ResolversParentTypes["FollowModule"]> = {
-  __resolveType: TypeResolveFn<"FeeFollowModuleSettings" | "ProfileFollowModuleSettings" | "RevertFollowModuleSettings" | "UnknownFollowModuleSettings", ParentType, ContextType>;
+export type FollowModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowModule"] = ResolversParentTypes["FollowModule"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "FeeFollowModuleSettings"
+    | "ProfileFollowModuleSettings"
+    | "RevertFollowModuleSettings"
+    | "UnknownFollowModuleSettings",
+    ParentType,
+    ContextType
+  >;
 };
 
-export interface FollowModuleDataScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["FollowModuleData"], any> {
+export interface FollowModuleDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["FollowModuleData"], any> {
   name: "FollowModuleData";
 }
 
-export type FollowOnlyReferenceModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["FollowOnlyReferenceModuleSettings"] = ResolversParentTypes["FollowOnlyReferenceModuleSettings"]> = {
+export type FollowOnlyReferenceModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowOnlyReferenceModuleSettings"] = ResolversParentTypes["FollowOnlyReferenceModuleSettings"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["ReferenceModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FollowRevenueResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["FollowRevenueResult"] = ResolversParentTypes["FollowRevenueResult"]> = {
+export type FollowRevenueResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowRevenueResult"] = ResolversParentTypes["FollowRevenueResult"],
+> = {
   revenues?: Resolver<Array<ResolversTypes["RevenueAggregate"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FollowerResolvers<ContextType = any, ParentType extends ResolversParentTypes["Follower"] = ResolversParentTypes["Follower"]> = {
+export type FollowerResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Follower"] = ResolversParentTypes["Follower"],
+> = {
   totalAmountOfTimesFollowed?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   wallet?: Resolver<ResolversTypes["Wallet"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FollowerNftOwnedTokenIdsResolvers<ContextType = any, ParentType extends ResolversParentTypes["FollowerNftOwnedTokenIds"] = ResolversParentTypes["FollowerNftOwnedTokenIds"]> = {
+export type FollowerNftOwnedTokenIdsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowerNftOwnedTokenIds"] = ResolversParentTypes["FollowerNftOwnedTokenIds"],
+> = {
   followerNftAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   tokensIds?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FollowingResolvers<ContextType = any, ParentType extends ResolversParentTypes["Following"] = ResolversParentTypes["Following"]> = {
+export type FollowingResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Following"] = ResolversParentTypes["Following"],
+> = {
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
   totalAmountOfTimesFollowing?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FreeCollectModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["FreeCollectModuleSettings"] = ResolversParentTypes["FreeCollectModuleSettings"]> = {
+export type FreeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FreeCollectModuleSettings"] = ResolversParentTypes["FreeCollectModuleSettings"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   followerOnly?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GenerateModuleCurrencyApprovalResolvers<ContextType = any, ParentType extends ResolversParentTypes["GenerateModuleCurrencyApproval"] = ResolversParentTypes["GenerateModuleCurrencyApproval"]> = {
+export type GenerateModuleCurrencyApprovalResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["GenerateModuleCurrencyApproval"] = ResolversParentTypes["GenerateModuleCurrencyApproval"],
+> = {
   data?: Resolver<ResolversTypes["BlockchainData"], ParentType, ContextType>;
   from?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
   to?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GlobalProtocolStatsResolvers<ContextType = any, ParentType extends ResolversParentTypes["GlobalProtocolStats"] = ResolversParentTypes["GlobalProtocolStats"]> = {
+export type GlobalProtocolStatsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["GlobalProtocolStats"] = ResolversParentTypes["GlobalProtocolStats"],
+> = {
   totalBurntProfiles?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   totalCollects?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   totalComments?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -5424,11 +10386,13 @@ export interface HandleScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
   name: "Handle";
 }
 
-export interface HandleClaimIdScalarScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["HandleClaimIdScalar"], any> {
+export interface HandleClaimIdScalarScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["HandleClaimIdScalar"], any> {
   name: "HandleClaimIdScalar";
 }
 
-export interface InternalPublicationIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["InternalPublicationId"], any> {
+export interface InternalPublicationIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["InternalPublicationId"], any> {
   name: "InternalPublicationId";
 }
 
@@ -5436,11 +10400,15 @@ export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
   name: "Jwt";
 }
 
-export interface LimitScalarScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["LimitScalar"], any> {
+export interface LimitScalarScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["LimitScalar"], any> {
   name: "LimitScalar";
 }
 
-export type LimitedFeeCollectModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["LimitedFeeCollectModuleSettings"] = ResolversParentTypes["LimitedFeeCollectModuleSettings"]> = {
+export type LimitedFeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["LimitedFeeCollectModuleSettings"] = ResolversParentTypes["LimitedFeeCollectModuleSettings"],
+> = {
   amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
   collectLimit?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
@@ -5451,7 +10419,10 @@ export type LimitedFeeCollectModuleSettingsResolvers<ContextType = any, ParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type LimitedTimedFeeCollectModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"] = ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"]> = {
+export type LimitedTimedFeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"] = ResolversParentTypes["LimitedTimedFeeCollectModuleSettings"],
+> = {
   amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
   collectLimit?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
@@ -5467,7 +10438,10 @@ export interface LocaleScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
   name: "Locale";
 }
 
-export type LogResolvers<ContextType = any, ParentType extends ResolversParentTypes["Log"] = ResolversParentTypes["Log"]> = {
+export type LogResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Log"] = ResolversParentTypes["Log"],
+> = {
   address?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   blockHash?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   blockNumber?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -5480,15 +10454,22 @@ export type LogResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MainPostReferenceResolvers<ContextType = any, ParentType extends ResolversParentTypes["MainPostReference"] = ResolversParentTypes["MainPostReference"]> = {
+export type MainPostReferenceResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MainPostReference"] = ResolversParentTypes["MainPostReference"],
+> = {
   __resolveType: TypeResolveFn<"Mirror" | "Post", ParentType, ContextType>;
 };
 
-export interface MarkdownScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Markdown"], any> {
+export interface MarkdownScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["Markdown"], any> {
   name: "Markdown";
 }
 
-export type MediaResolvers<ContextType = any, ParentType extends ResolversParentTypes["Media"] = ResolversParentTypes["Media"]> = {
+export type MediaResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Media"] = ResolversParentTypes["Media"],
+> = {
   altTag?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   cover?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   height?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
@@ -5499,29 +10480,49 @@ export type MediaResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MediaSetResolvers<ContextType = any, ParentType extends ResolversParentTypes["MediaSet"] = ResolversParentTypes["MediaSet"]> = {
+export type MediaSetResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MediaSet"] = ResolversParentTypes["MediaSet"],
+> = {
   medium?: Resolver<Maybe<ResolversTypes["Media"]>, ParentType, ContextType>;
   original?: Resolver<ResolversTypes["Media"], ParentType, ContextType>;
   small?: Resolver<Maybe<ResolversTypes["Media"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MentionPublicationResolvers<ContextType = any, ParentType extends ResolversParentTypes["MentionPublication"] = ResolversParentTypes["MentionPublication"]> = {
+export type MentionPublicationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MentionPublication"] = ResolversParentTypes["MentionPublication"],
+> = {
   __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
 };
 
-export type MetadataAttributeOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes["MetadataAttributeOutput"] = ResolversParentTypes["MetadataAttributeOutput"]> = {
-  displayType?: Resolver<Maybe<ResolversTypes["PublicationMetadataDisplayTypes"]>, ParentType, ContextType>;
+export type MetadataAttributeOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MetadataAttributeOutput"] = ResolversParentTypes["MetadataAttributeOutput"],
+> = {
+  displayType?: Resolver<
+    Maybe<ResolversTypes["PublicationMetadataDisplayTypes"]>,
+    ParentType,
+    ContextType
+  >;
   traitType?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MetadataOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes["MetadataOutput"] = ResolversParentTypes["MetadataOutput"]> = {
+export type MetadataOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MetadataOutput"] = ResolversParentTypes["MetadataOutput"],
+> = {
   animatedUrl?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
   attributes?: Resolver<Array<ResolversTypes["MetadataAttributeOutput"]>, ParentType, ContextType>;
   content?: Resolver<Maybe<ResolversTypes["Markdown"]>, ParentType, ContextType>;
-  contentWarning?: Resolver<Maybe<ResolversTypes["PublicationContentWarning"]>, ParentType, ContextType>;
+  contentWarning?: Resolver<
+    Maybe<ResolversTypes["PublicationContentWarning"]>,
+    ParentType,
+    ContextType
+  >;
   cover?: Resolver<Maybe<ResolversTypes["MediaSet"]>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes["Markdown"]>, ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
@@ -5533,14 +10534,28 @@ export type MetadataOutputResolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface MimeTypeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["MimeType"], any> {
+export interface MimeTypeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["MimeType"], any> {
   name: "MimeType";
 }
 
-export type MirrorResolvers<ContextType = any, ParentType extends ResolversParentTypes["Mirror"] = ResolversParentTypes["Mirror"]> = {
+export type MirrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Mirror"] = ResolversParentTypes["Mirror"],
+> = {
   appId?: Resolver<Maybe<ResolversTypes["Sources"]>, ParentType, ContextType>;
-  canComment?: Resolver<ResolversTypes["CanCommentResponse"], ParentType, ContextType, Partial<MirrorCanCommentArgs>>;
-  canMirror?: Resolver<ResolversTypes["CanMirrorResponse"], ParentType, ContextType, Partial<MirrorCanMirrorArgs>>;
+  canComment?: Resolver<
+    ResolversTypes["CanCommentResponse"],
+    ParentType,
+    ContextType,
+    Partial<MirrorCanCommentArgs>
+  >;
+  canMirror?: Resolver<
+    ResolversTypes["CanMirrorResponse"],
+    ParentType,
+    ContextType,
+    Partial<MirrorCanMirrorArgs>
+  >;
   collectModule?: Resolver<ResolversTypes["CollectModule"], ParentType, ContextType>;
   collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
@@ -5551,68 +10566,241 @@ export type MirrorResolvers<ContextType = any, ParentType extends ResolversParen
   mirrorOf?: Resolver<ResolversTypes["MirrorablePublication"], ParentType, ContextType>;
   onChainContentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
-  reaction?: Resolver<Maybe<ResolversTypes["ReactionTypes"]>, ParentType, ContextType, Partial<MirrorReactionArgs>>;
+  reaction?: Resolver<
+    Maybe<ResolversTypes["ReactionTypes"]>,
+    ParentType,
+    ContextType,
+    Partial<MirrorReactionArgs>
+  >;
   referenceModule?: Resolver<Maybe<ResolversTypes["ReferenceModule"]>, ParentType, ContextType>;
   stats?: Resolver<ResolversTypes["PublicationStats"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MirrorEventResolvers<ContextType = any, ParentType extends ResolversParentTypes["MirrorEvent"] = ResolversParentTypes["MirrorEvent"]> = {
+export type MirrorEventResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MirrorEvent"] = ResolversParentTypes["MirrorEvent"],
+> = {
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MirrorablePublicationResolvers<ContextType = any, ParentType extends ResolversParentTypes["MirrorablePublication"] = ResolversParentTypes["MirrorablePublication"]> = {
+export type MirrorablePublicationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MirrorablePublication"] = ResolversParentTypes["MirrorablePublication"],
+> = {
   __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
 };
 
-export type ModuleFeeAmountResolvers<ContextType = any, ParentType extends ResolversParentTypes["ModuleFeeAmount"] = ResolversParentTypes["ModuleFeeAmount"]> = {
+export type ModuleFeeAmountResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ModuleFeeAmount"] = ResolversParentTypes["ModuleFeeAmount"],
+> = {
   asset?: Resolver<ResolversTypes["Erc20"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ModuleInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes["ModuleInfo"] = ResolversParentTypes["ModuleInfo"]> = {
+export type ModuleInfoResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ModuleInfo"] = ResolversParentTypes["ModuleInfo"],
+> = {
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]> = {
-  ach?: Resolver<Maybe<ResolversTypes["Void"]>, ParentType, ContextType, RequireFields<MutationAchArgs, "request">>;
-  addReaction?: Resolver<Maybe<ResolversTypes["Void"]>, ParentType, ContextType, RequireFields<MutationAddReactionArgs, "request">>;
-  authenticate?: Resolver<ResolversTypes["AuthenticationResult"], ParentType, ContextType, RequireFields<MutationAuthenticateArgs, "request">>;
-  broadcast?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationBroadcastArgs, "request">>;
-  claim?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationClaimArgs, "request">>;
-  createBurnProfileTypedData?: Resolver<ResolversTypes["CreateBurnProfileBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateBurnProfileTypedDataArgs, "request">>;
-  createCollectTypedData?: Resolver<ResolversTypes["CreateCollectBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateCollectTypedDataArgs, "request">>;
-  createCommentTypedData?: Resolver<ResolversTypes["CreateCommentBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateCommentTypedDataArgs, "request">>;
-  createCommentViaDispatcher?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationCreateCommentViaDispatcherArgs, "request">>;
-  createFollowTypedData?: Resolver<ResolversTypes["CreateFollowBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateFollowTypedDataArgs, "request">>;
-  createMirrorTypedData?: Resolver<ResolversTypes["CreateMirrorBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateMirrorTypedDataArgs, "request">>;
-  createMirrorViaDispatcher?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationCreateMirrorViaDispatcherArgs, "request">>;
-  createPostTypedData?: Resolver<ResolversTypes["CreatePostBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreatePostTypedDataArgs, "request">>;
-  createPostViaDispatcher?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationCreatePostViaDispatcherArgs, "request">>;
-  createProfile?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationCreateProfileArgs, "request">>;
-  createSetDefaultProfileTypedData?: Resolver<ResolversTypes["SetDefaultProfileBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateSetDefaultProfileTypedDataArgs, "request">>;
-  createSetDispatcherTypedData?: Resolver<ResolversTypes["CreateSetDispatcherBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateSetDispatcherTypedDataArgs, "request">>;
-  createSetFollowModuleTypedData?: Resolver<ResolversTypes["CreateSetFollowModuleBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateSetFollowModuleTypedDataArgs, "request">>;
-  createSetFollowNFTUriTypedData?: Resolver<ResolversTypes["CreateSetFollowNFTUriBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateSetFollowNftUriTypedDataArgs, "request">>;
-  createSetProfileImageURITypedData?: Resolver<ResolversTypes["CreateSetProfileImageUriBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateSetProfileImageUriTypedDataArgs, "request">>;
-  createSetProfileImageURIViaDispatcher?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationCreateSetProfileImageUriViaDispatcherArgs, "request">>;
-  createSetProfileMetadataTypedData?: Resolver<ResolversTypes["CreateSetProfileMetadataURIBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateSetProfileMetadataTypedDataArgs, "request">>;
-  createSetProfileMetadataViaDispatcher?: Resolver<ResolversTypes["RelayResult"], ParentType, ContextType, RequireFields<MutationCreateSetProfileMetadataViaDispatcherArgs, "request">>;
-  createToggleFollowTypedData?: Resolver<ResolversTypes["CreateToggleFollowBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateToggleFollowTypedDataArgs, "request">>;
-  createUnfollowTypedData?: Resolver<ResolversTypes["CreateUnfollowBroadcastItemResult"], ParentType, ContextType, RequireFields<MutationCreateUnfollowTypedDataArgs, "request">>;
-  hidePublication?: Resolver<Maybe<ResolversTypes["Void"]>, ParentType, ContextType, RequireFields<MutationHidePublicationArgs, "request">>;
-  proxyAction?: Resolver<ResolversTypes["ProxyActionId"], ParentType, ContextType, RequireFields<MutationProxyActionArgs, "request">>;
-  refresh?: Resolver<ResolversTypes["AuthenticationResult"], ParentType, ContextType, RequireFields<MutationRefreshArgs, "request">>;
-  removeReaction?: Resolver<Maybe<ResolversTypes["Void"]>, ParentType, ContextType, RequireFields<MutationRemoveReactionArgs, "request">>;
-  reportPublication?: Resolver<Maybe<ResolversTypes["Void"]>, ParentType, ContextType, RequireFields<MutationReportPublicationArgs, "request">>;
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
+> = {
+  ach?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationAchArgs, "request">
+  >;
+  addReaction?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddReactionArgs, "request">
+  >;
+  authenticate?: Resolver<
+    ResolversTypes["AuthenticationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationAuthenticateArgs, "request">
+  >;
+  broadcast?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationBroadcastArgs, "request">
+  >;
+  claim?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationClaimArgs, "request">
+  >;
+  createBurnProfileTypedData?: Resolver<
+    ResolversTypes["CreateBurnProfileBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateBurnProfileTypedDataArgs, "request">
+  >;
+  createCollectTypedData?: Resolver<
+    ResolversTypes["CreateCollectBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCollectTypedDataArgs, "request">
+  >;
+  createCommentTypedData?: Resolver<
+    ResolversTypes["CreateCommentBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCommentTypedDataArgs, "request">
+  >;
+  createCommentViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCommentViaDispatcherArgs, "request">
+  >;
+  createFollowTypedData?: Resolver<
+    ResolversTypes["CreateFollowBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateFollowTypedDataArgs, "request">
+  >;
+  createMirrorTypedData?: Resolver<
+    ResolversTypes["CreateMirrorBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateMirrorTypedDataArgs, "request">
+  >;
+  createMirrorViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateMirrorViaDispatcherArgs, "request">
+  >;
+  createPostTypedData?: Resolver<
+    ResolversTypes["CreatePostBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreatePostTypedDataArgs, "request">
+  >;
+  createPostViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreatePostViaDispatcherArgs, "request">
+  >;
+  createProfile?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProfileArgs, "request">
+  >;
+  createSetDefaultProfileTypedData?: Resolver<
+    ResolversTypes["SetDefaultProfileBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetDefaultProfileTypedDataArgs, "request">
+  >;
+  createSetDispatcherTypedData?: Resolver<
+    ResolversTypes["CreateSetDispatcherBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetDispatcherTypedDataArgs, "request">
+  >;
+  createSetFollowModuleTypedData?: Resolver<
+    ResolversTypes["CreateSetFollowModuleBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetFollowModuleTypedDataArgs, "request">
+  >;
+  createSetFollowNFTUriTypedData?: Resolver<
+    ResolversTypes["CreateSetFollowNFTUriBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetFollowNftUriTypedDataArgs, "request">
+  >;
+  createSetProfileImageURITypedData?: Resolver<
+    ResolversTypes["CreateSetProfileImageUriBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileImageUriTypedDataArgs, "request">
+  >;
+  createSetProfileImageURIViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileImageUriViaDispatcherArgs, "request">
+  >;
+  createSetProfileMetadataTypedData?: Resolver<
+    ResolversTypes["CreateSetProfileMetadataURIBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileMetadataTypedDataArgs, "request">
+  >;
+  createSetProfileMetadataViaDispatcher?: Resolver<
+    ResolversTypes["RelayResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateSetProfileMetadataViaDispatcherArgs, "request">
+  >;
+  createToggleFollowTypedData?: Resolver<
+    ResolversTypes["CreateToggleFollowBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateToggleFollowTypedDataArgs, "request">
+  >;
+  createUnfollowTypedData?: Resolver<
+    ResolversTypes["CreateUnfollowBroadcastItemResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUnfollowTypedDataArgs, "request">
+  >;
+  hidePublication?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationHidePublicationArgs, "request">
+  >;
+  proxyAction?: Resolver<
+    ResolversTypes["ProxyActionId"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationProxyActionArgs, "request">
+  >;
+  refresh?: Resolver<
+    ResolversTypes["AuthenticationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRefreshArgs, "request">
+  >;
+  removeReaction?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveReactionArgs, "request">
+  >;
+  reportPublication?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationReportPublicationArgs, "request">
+  >;
 };
 
-export type NftResolvers<ContextType = any, ParentType extends ResolversParentTypes["NFT"] = ResolversParentTypes["NFT"]> = {
+export type NftResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NFT"] = ResolversParentTypes["NFT"],
+> = {
   chainId?: Resolver<ResolversTypes["ChainId"], ParentType, ContextType>;
   collectionName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   contentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -5628,20 +10816,29 @@ export type NftResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NftContentResolvers<ContextType = any, ParentType extends ResolversParentTypes["NFTContent"] = ResolversParentTypes["NFTContent"]> = {
+export type NftContentResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NFTContent"] = ResolversParentTypes["NFTContent"],
+> = {
   animatedUrl?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   metaType?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   uri?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NfTsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["NFTsResult"] = ResolversParentTypes["NFTsResult"]> = {
+export type NfTsResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NFTsResult"] = ResolversParentTypes["NFTsResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["NFT"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NewCollectNotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes["NewCollectNotification"] = ResolversParentTypes["NewCollectNotification"]> = {
+export type NewCollectNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewCollectNotification"] = ResolversParentTypes["NewCollectNotification"],
+> = {
   collectedPublication?: Resolver<ResolversTypes["Publication"], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
@@ -5649,7 +10846,10 @@ export type NewCollectNotificationResolvers<ContextType = any, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NewCommentNotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes["NewCommentNotification"] = ResolversParentTypes["NewCommentNotification"]> = {
+export type NewCommentNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewCommentNotification"] = ResolversParentTypes["NewCommentNotification"],
+> = {
   comment?: Resolver<ResolversTypes["Comment"], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
@@ -5657,7 +10857,10 @@ export type NewCommentNotificationResolvers<ContextType = any, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NewFollowerNotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes["NewFollowerNotification"] = ResolversParentTypes["NewFollowerNotification"]> = {
+export type NewFollowerNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewFollowerNotification"] = ResolversParentTypes["NewFollowerNotification"],
+> = {
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   isFollowedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
@@ -5665,14 +10868,20 @@ export type NewFollowerNotificationResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NewMentionNotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes["NewMentionNotification"] = ResolversParentTypes["NewMentionNotification"]> = {
+export type NewMentionNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewMentionNotification"] = ResolversParentTypes["NewMentionNotification"],
+> = {
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   mentionPublication?: Resolver<ResolversTypes["MentionPublication"], ParentType, ContextType>;
   notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NewMirrorNotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes["NewMirrorNotification"] = ResolversParentTypes["NewMirrorNotification"]> = {
+export type NewMirrorNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewMirrorNotification"] = ResolversParentTypes["NewMirrorNotification"],
+> = {
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
@@ -5680,7 +10889,10 @@ export type NewMirrorNotificationResolvers<ContextType = any, ParentType extends
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NewReactionNotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes["NewReactionNotification"] = ResolversParentTypes["NewReactionNotification"]> = {
+export type NewReactionNotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NewReactionNotification"] = ResolversParentTypes["NewReactionNotification"],
+> = {
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   notificationId?: Resolver<ResolversTypes["NotificationId"], ParentType, ContextType>;
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
@@ -5689,7 +10901,10 @@ export type NewReactionNotificationResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NftImageResolvers<ContextType = any, ParentType extends ResolversParentTypes["NftImage"] = ResolversParentTypes["NftImage"]> = {
+export type NftImageResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NftImage"] = ResolversParentTypes["NftImage"],
+> = {
   chainId?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   tokenId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -5698,14 +10913,18 @@ export type NftImageResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type NftOwnershipChallengeResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["NftOwnershipChallengeResult"] = ResolversParentTypes["NftOwnershipChallengeResult"]> = {
+export type NftOwnershipChallengeResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NftOwnershipChallengeResult"] = ResolversParentTypes["NftOwnershipChallengeResult"],
+> = {
   id?: Resolver<ResolversTypes["NftOwnershipId"], ParentType, ContextType>;
   text?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   timeout?: Resolver<ResolversTypes["TimestampScalar"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface NftOwnershipIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["NftOwnershipId"], any> {
+export interface NftOwnershipIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["NftOwnershipId"], any> {
   name: "NftOwnershipId";
 }
 
@@ -5713,15 +10932,31 @@ export interface NonceScalarConfig extends GraphQLScalarTypeConfig<ResolversType
   name: "Nonce";
 }
 
-export type NotificationResolvers<ContextType = any, ParentType extends ResolversParentTypes["Notification"] = ResolversParentTypes["Notification"]> = {
-  __resolveType: TypeResolveFn<"NewCollectNotification" | "NewCommentNotification" | "NewFollowerNotification" | "NewMentionNotification" | "NewMirrorNotification" | "NewReactionNotification", ParentType, ContextType>;
+export type NotificationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Notification"] = ResolversParentTypes["Notification"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "NewCollectNotification"
+    | "NewCommentNotification"
+    | "NewFollowerNotification"
+    | "NewMentionNotification"
+    | "NewMirrorNotification"
+    | "NewReactionNotification",
+    ParentType,
+    ContextType
+  >;
 };
 
-export interface NotificationIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["NotificationId"], any> {
+export interface NotificationIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["NotificationId"], any> {
   name: "NotificationId";
 }
 
-export type OnChainIdentityResolvers<ContextType = any, ParentType extends ResolversParentTypes["OnChainIdentity"] = ResolversParentTypes["OnChainIdentity"]> = {
+export type OnChainIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["OnChainIdentity"] = ResolversParentTypes["OnChainIdentity"],
+> = {
   ens?: Resolver<Maybe<ResolversTypes["EnsOnChainIdentity"]>, ParentType, ContextType>;
   proofOfHumanity?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   sybilDotOrg?: Resolver<ResolversTypes["SybilDotOrgIdentity"], ParentType, ContextType>;
@@ -5729,95 +10964,150 @@ export type OnChainIdentityResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type OwnerResolvers<ContextType = any, ParentType extends ResolversParentTypes["Owner"] = ResolversParentTypes["Owner"]> = {
+export type OwnerResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Owner"] = ResolversParentTypes["Owner"],
+> = {
   address?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
   amount?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedAllPublicationsTagsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedAllPublicationsTagsResult"] = ResolversParentTypes["PaginatedAllPublicationsTagsResult"]> = {
+export type PaginatedAllPublicationsTagsResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedAllPublicationsTagsResult"] = ResolversParentTypes["PaginatedAllPublicationsTagsResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["TagResult"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedFeedResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedFeedResult"] = ResolversParentTypes["PaginatedFeedResult"]> = {
+export type PaginatedFeedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedFeedResult"] = ResolversParentTypes["PaginatedFeedResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["FeedItem"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedFollowersResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedFollowersResult"] = ResolversParentTypes["PaginatedFollowersResult"]> = {
+export type PaginatedFollowersResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedFollowersResult"] = ResolversParentTypes["PaginatedFollowersResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Follower"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedFollowingResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedFollowingResult"] = ResolversParentTypes["PaginatedFollowingResult"]> = {
+export type PaginatedFollowingResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedFollowingResult"] = ResolversParentTypes["PaginatedFollowingResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Following"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedNotificationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedNotificationResult"] = ResolversParentTypes["PaginatedNotificationResult"]> = {
+export type PaginatedNotificationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedNotificationResult"] = ResolversParentTypes["PaginatedNotificationResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Notification"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedProfilePublicationsForSaleResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedProfilePublicationsForSaleResult"] = ResolversParentTypes["PaginatedProfilePublicationsForSaleResult"]> = {
+export type PaginatedProfilePublicationsForSaleResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedProfilePublicationsForSaleResult"] = ResolversParentTypes["PaginatedProfilePublicationsForSaleResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["PublicationForSale"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedProfileResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedProfileResult"] = ResolversParentTypes["PaginatedProfileResult"]> = {
+export type PaginatedProfileResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedProfileResult"] = ResolversParentTypes["PaginatedProfileResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedPublicationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedPublicationResult"] = ResolversParentTypes["PaginatedPublicationResult"]> = {
+export type PaginatedPublicationResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedPublicationResult"] = ResolversParentTypes["PaginatedPublicationResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Publication"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedResultInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedResultInfo"] = ResolversParentTypes["PaginatedResultInfo"]> = {
+export type PaginatedResultInfoResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedResultInfo"] = ResolversParentTypes["PaginatedResultInfo"],
+> = {
   next?: Resolver<Maybe<ResolversTypes["Cursor"]>, ParentType, ContextType>;
   prev?: Resolver<Maybe<ResolversTypes["Cursor"]>, ParentType, ContextType>;
   totalCount?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedTimelineResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedTimelineResult"] = ResolversParentTypes["PaginatedTimelineResult"]> = {
+export type PaginatedTimelineResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedTimelineResult"] = ResolversParentTypes["PaginatedTimelineResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Publication"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedWhoCollectedResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedWhoCollectedResult"] = ResolversParentTypes["PaginatedWhoCollectedResult"]> = {
+export type PaginatedWhoCollectedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedWhoCollectedResult"] = ResolversParentTypes["PaginatedWhoCollectedResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Wallet"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PaginatedWhoReactedResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PaginatedWhoReactedResult"] = ResolversParentTypes["PaginatedWhoReactedResult"]> = {
+export type PaginatedWhoReactedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PaginatedWhoReactedResult"] = ResolversParentTypes["PaginatedWhoReactedResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["WhoReactedResult"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PendingApproveFollowsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PendingApproveFollowsResult"] = ResolversParentTypes["PendingApproveFollowsResult"]> = {
+export type PendingApproveFollowsResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PendingApproveFollowsResult"] = ResolversParentTypes["PendingApproveFollowsResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes["Post"] = ResolversParentTypes["Post"]> = {
+export type PostResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Post"] = ResolversParentTypes["Post"],
+> = {
   appId?: Resolver<Maybe<ResolversTypes["Sources"]>, ParentType, ContextType>;
-  canComment?: Resolver<ResolversTypes["CanCommentResponse"], ParentType, ContextType, Partial<PostCanCommentArgs>>;
-  canMirror?: Resolver<ResolversTypes["CanMirrorResponse"], ParentType, ContextType, Partial<PostCanMirrorArgs>>;
+  canComment?: Resolver<
+    ResolversTypes["CanCommentResponse"],
+    ParentType,
+    ContextType,
+    Partial<PostCanCommentArgs>
+  >;
+  canMirror?: Resolver<
+    ResolversTypes["CanMirrorResponse"],
+    ParentType,
+    ContextType,
+    Partial<PostCanMirrorArgs>
+  >;
   collectModule?: Resolver<ResolversTypes["CollectModule"], ParentType, ContextType>;
   collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
   collectedBy?: Resolver<Maybe<ResolversTypes["Wallet"]>, ParentType, ContextType>;
@@ -5826,16 +11116,29 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
   hidden?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
   metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
-  mirrors?: Resolver<Array<ResolversTypes["InternalPublicationId"]>, ParentType, ContextType, Partial<PostMirrorsArgs>>;
+  mirrors?: Resolver<
+    Array<ResolversTypes["InternalPublicationId"]>,
+    ParentType,
+    ContextType,
+    Partial<PostMirrorsArgs>
+  >;
   onChainContentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
-  reaction?: Resolver<Maybe<ResolversTypes["ReactionTypes"]>, ParentType, ContextType, Partial<PostReactionArgs>>;
+  reaction?: Resolver<
+    Maybe<ResolversTypes["ReactionTypes"]>,
+    ParentType,
+    ContextType,
+    Partial<PostReactionArgs>
+  >;
   referenceModule?: Resolver<Maybe<ResolversTypes["ReferenceModule"]>, ParentType, ContextType>;
   stats?: Resolver<ResolversTypes["PublicationStats"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProfileResolvers<ContextType = any, ParentType extends ResolversParentTypes["Profile"] = ResolversParentTypes["Profile"]> = {
+export type ProfileResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Profile"] = ResolversParentTypes["Profile"],
+> = {
   attributes?: Resolver<Maybe<Array<ResolversTypes["Attribute"]>>, ParentType, ContextType>;
   bio?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   coverPicture?: Resolver<Maybe<ResolversTypes["ProfileMedia"]>, ParentType, ContextType>;
@@ -5846,7 +11149,12 @@ export type ProfileResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
   isDefault?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   isFollowedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  isFollowing?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType, Partial<ProfileIsFollowingArgs>>;
+  isFollowing?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    Partial<ProfileIsFollowingArgs>
+  >;
   metadata?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   onChainIdentity?: Resolver<ResolversTypes["OnChainIdentity"], ParentType, ContextType>;
@@ -5856,39 +11164,75 @@ export type ProfileResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProfileFollowModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProfileFollowModuleSettings"] = ResolversParentTypes["ProfileFollowModuleSettings"]> = {
+export type ProfileFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileFollowModuleSettings"] = ResolversParentTypes["ProfileFollowModuleSettings"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["FollowModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface ProfileIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["ProfileId"], any> {
+export interface ProfileIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ProfileId"], any> {
   name: "ProfileId";
 }
 
-export type ProfileMediaResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProfileMedia"] = ResolversParentTypes["ProfileMedia"]> = {
+export type ProfileMediaResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileMedia"] = ResolversParentTypes["ProfileMedia"],
+> = {
   __resolveType: TypeResolveFn<"MediaSet" | "NftImage", ParentType, ContextType>;
 };
 
-export type ProfilePublicationRevenueResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProfilePublicationRevenueResult"] = ResolversParentTypes["ProfilePublicationRevenueResult"]> = {
+export type ProfilePublicationRevenueResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfilePublicationRevenueResult"] = ResolversParentTypes["ProfilePublicationRevenueResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["PublicationRevenue"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProfileSearchResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProfileSearchResult"] = ResolversParentTypes["ProfileSearchResult"]> = {
+export type ProfileSearchResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileSearchResult"] = ResolversParentTypes["ProfileSearchResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["SearchRequestTypes"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProfileStatsResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProfileStats"] = ResolversParentTypes["ProfileStats"]> = {
-  commentsTotal?: Resolver<ResolversTypes["Int"], ParentType, ContextType, RequireFields<ProfileStatsCommentsTotalArgs, "forSources">>;
+export type ProfileStatsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileStats"] = ResolversParentTypes["ProfileStats"],
+> = {
+  commentsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsCommentsTotalArgs, "forSources">
+  >;
   id?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
-  mirrorsTotal?: Resolver<ResolversTypes["Int"], ParentType, ContextType, RequireFields<ProfileStatsMirrorsTotalArgs, "forSources">>;
-  postsTotal?: Resolver<ResolversTypes["Int"], ParentType, ContextType, RequireFields<ProfileStatsPostsTotalArgs, "forSources">>;
-  publicationsTotal?: Resolver<ResolversTypes["Int"], ParentType, ContextType, RequireFields<ProfileStatsPublicationsTotalArgs, "forSources">>;
+  mirrorsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsMirrorsTotalArgs, "forSources">
+  >;
+  postsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsPostsTotalArgs, "forSources">
+  >;
+  publicationsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<ProfileStatsPublicationsTotalArgs, "forSources">
+  >;
   totalCollects?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   totalComments?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   totalFollowers?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -5899,69 +11243,113 @@ export type ProfileStatsResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProxyActionErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProxyActionError"] = ResolversParentTypes["ProxyActionError"]> = {
+export type ProxyActionErrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionError"] = ResolversParentTypes["ProxyActionError"],
+> = {
   lastKnownTxId?: Resolver<Maybe<ResolversTypes["TxId"]>, ParentType, ContextType>;
   reason?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface ProxyActionIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["ProxyActionId"], any> {
+export interface ProxyActionIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ProxyActionId"], any> {
   name: "ProxyActionId";
 }
 
-export type ProxyActionQueuedResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProxyActionQueued"] = ResolversParentTypes["ProxyActionQueued"]> = {
+export type ProxyActionQueuedResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionQueued"] = ResolversParentTypes["ProxyActionQueued"],
+> = {
   queuedAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProxyActionStatusResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProxyActionStatusResult"] = ResolversParentTypes["ProxyActionStatusResult"]> = {
+export type ProxyActionStatusResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionStatusResult"] = ResolversParentTypes["ProxyActionStatusResult"],
+> = {
   status?: Resolver<ResolversTypes["ProxyActionStatusTypes"], ParentType, ContextType>;
   txHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
   txId?: Resolver<ResolversTypes["TxId"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProxyActionStatusResultUnionResolvers<ContextType = any, ParentType extends ResolversParentTypes["ProxyActionStatusResultUnion"] = ResolversParentTypes["ProxyActionStatusResultUnion"]> = {
-  __resolveType: TypeResolveFn<"ProxyActionError" | "ProxyActionQueued" | "ProxyActionStatusResult", ParentType, ContextType>;
+export type ProxyActionStatusResultUnionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProxyActionStatusResultUnion"] = ResolversParentTypes["ProxyActionStatusResultUnion"],
+> = {
+  __resolveType: TypeResolveFn<
+    "ProxyActionError" | "ProxyActionQueued" | "ProxyActionStatusResult",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type PublicationResolvers<ContextType = any, ParentType extends ResolversParentTypes["Publication"] = ResolversParentTypes["Publication"]> = {
+export type PublicationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Publication"] = ResolversParentTypes["Publication"],
+> = {
   __resolveType: TypeResolveFn<"Comment" | "Mirror" | "Post", ParentType, ContextType>;
 };
 
-export type PublicationForSaleResolvers<ContextType = any, ParentType extends ResolversParentTypes["PublicationForSale"] = ResolversParentTypes["PublicationForSale"]> = {
+export type PublicationForSaleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationForSale"] = ResolversParentTypes["PublicationForSale"],
+> = {
   __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
 };
 
-export interface PublicationIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["PublicationId"], any> {
+export interface PublicationIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["PublicationId"], any> {
   name: "PublicationId";
 }
 
-export type PublicationMetadataStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes["PublicationMetadataStatus"] = ResolversParentTypes["PublicationMetadataStatus"]> = {
+export type PublicationMetadataStatusResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationMetadataStatus"] = ResolversParentTypes["PublicationMetadataStatus"],
+> = {
   reason?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes["PublicationMetadataStatusType"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PublicationRevenueResolvers<ContextType = any, ParentType extends ResolversParentTypes["PublicationRevenue"] = ResolversParentTypes["PublicationRevenue"]> = {
+export type PublicationRevenueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationRevenue"] = ResolversParentTypes["PublicationRevenue"],
+> = {
   publication?: Resolver<ResolversTypes["Publication"], ParentType, ContextType>;
   revenue?: Resolver<ResolversTypes["RevenueAggregate"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PublicationSearchResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PublicationSearchResult"] = ResolversParentTypes["PublicationSearchResult"]> = {
+export type PublicationSearchResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationSearchResult"] = ResolversParentTypes["PublicationSearchResult"],
+> = {
   items?: Resolver<Array<ResolversTypes["PublicationSearchResultItem"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PaginatedResultInfo"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["SearchRequestTypes"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PublicationSearchResultItemResolvers<ContextType = any, ParentType extends ResolversParentTypes["PublicationSearchResultItem"] = ResolversParentTypes["PublicationSearchResultItem"]> = {
+export type PublicationSearchResultItemResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationSearchResultItem"] = ResolversParentTypes["PublicationSearchResultItem"],
+> = {
   __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
 };
 
-export type PublicationStatsResolvers<ContextType = any, ParentType extends ResolversParentTypes["PublicationStats"] = ResolversParentTypes["PublicationStats"]> = {
-  commentsTotal?: Resolver<ResolversTypes["Int"], ParentType, ContextType, RequireFields<PublicationStatsCommentsTotalArgs, "forSources">>;
+export type PublicationStatsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationStats"] = ResolversParentTypes["PublicationStats"],
+> = {
+  commentsTotal?: Resolver<
+    ResolversTypes["Int"],
+    ParentType,
+    ContextType,
+    RequireFields<PublicationStatsCommentsTotalArgs, "forSources">
+  >;
   id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
   totalAmountOfCollects?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   totalAmountOfComments?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
@@ -5971,107 +11359,351 @@ export type PublicationStatsResolvers<ContextType = any, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface PublicationTagScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["PublicationTag"], any> {
+export interface PublicationTagScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["PublicationTag"], any> {
   name: "PublicationTag";
 }
 
-export interface PublicationUrlScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["PublicationUrl"], any> {
+export interface PublicationUrlScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["PublicationUrl"], any> {
   name: "PublicationUrl";
 }
 
-export type PublicationValidateMetadataResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["PublicationValidateMetadataResult"] = ResolversParentTypes["PublicationValidateMetadataResult"]> = {
+export type PublicationValidateMetadataResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicationValidateMetadataResult"] = ResolversParentTypes["PublicationValidateMetadataResult"],
+> = {
   reason?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   valid?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]> = {
-  allPublicationsTags?: Resolver<ResolversTypes["PaginatedAllPublicationsTagsResult"], ParentType, ContextType, RequireFields<QueryAllPublicationsTagsArgs, "request">>;
-  approvedModuleAllowanceAmount?: Resolver<Array<ResolversTypes["ApprovedAllowanceAmount"]>, ParentType, ContextType, RequireFields<QueryApprovedModuleAllowanceAmountArgs, "request">>;
-  challenge?: Resolver<ResolversTypes["AuthChallengeResult"], ParentType, ContextType, RequireFields<QueryChallengeArgs, "request">>;
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
+> = {
+  allPublicationsTags?: Resolver<
+    ResolversTypes["PaginatedAllPublicationsTagsResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryAllPublicationsTagsArgs, "request">
+  >;
+  approvedModuleAllowanceAmount?: Resolver<
+    Array<ResolversTypes["ApprovedAllowanceAmount"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryApprovedModuleAllowanceAmountArgs, "request">
+  >;
+  challenge?: Resolver<
+    ResolversTypes["AuthChallengeResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryChallengeArgs, "request">
+  >;
   claimableHandles?: Resolver<ResolversTypes["ClaimableHandles"], ParentType, ContextType>;
   claimableStatus?: Resolver<ResolversTypes["ClaimStatus"], ParentType, ContextType>;
-  defaultProfile?: Resolver<Maybe<ResolversTypes["Profile"]>, ParentType, ContextType, RequireFields<QueryDefaultProfileArgs, "request">>;
-  doesFollow?: Resolver<Array<ResolversTypes["DoesFollowResponse"]>, ParentType, ContextType, RequireFields<QueryDoesFollowArgs, "request">>;
+  defaultProfile?: Resolver<
+    Maybe<ResolversTypes["Profile"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDefaultProfileArgs, "request">
+  >;
+  doesFollow?: Resolver<
+    Array<ResolversTypes["DoesFollowResponse"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryDoesFollowArgs, "request">
+  >;
   enabledModuleCurrencies?: Resolver<Array<ResolversTypes["Erc20"]>, ParentType, ContextType>;
   enabledModules?: Resolver<ResolversTypes["EnabledModules"], ParentType, ContextType>;
-  exploreProfiles?: Resolver<ResolversTypes["ExploreProfileResult"], ParentType, ContextType, RequireFields<QueryExploreProfilesArgs, "request">>;
-  explorePublications?: Resolver<ResolversTypes["ExplorePublicationResult"], ParentType, ContextType, RequireFields<QueryExplorePublicationsArgs, "request">>;
-  feed?: Resolver<ResolversTypes["PaginatedFeedResult"], ParentType, ContextType, RequireFields<QueryFeedArgs, "request">>;
-  feedHighlights?: Resolver<ResolversTypes["PaginatedTimelineResult"], ParentType, ContextType, RequireFields<QueryFeedHighlightsArgs, "request">>;
-  followerNftOwnedTokenIds?: Resolver<Maybe<ResolversTypes["FollowerNftOwnedTokenIds"]>, ParentType, ContextType, RequireFields<QueryFollowerNftOwnedTokenIdsArgs, "request">>;
-  followers?: Resolver<ResolversTypes["PaginatedFollowersResult"], ParentType, ContextType, RequireFields<QueryFollowersArgs, "request">>;
-  following?: Resolver<ResolversTypes["PaginatedFollowingResult"], ParentType, ContextType, RequireFields<QueryFollowingArgs, "request">>;
-  generateModuleCurrencyApprovalData?: Resolver<ResolversTypes["GenerateModuleCurrencyApproval"], ParentType, ContextType, RequireFields<QueryGenerateModuleCurrencyApprovalDataArgs, "request">>;
-  globalProtocolStats?: Resolver<ResolversTypes["GlobalProtocolStats"], ParentType, ContextType, Partial<QueryGlobalProtocolStatsArgs>>;
-  hasTxHashBeenIndexed?: Resolver<ResolversTypes["TransactionResult"], ParentType, ContextType, RequireFields<QueryHasTxHashBeenIndexedArgs, "request">>;
-  internalPublicationFilter?: Resolver<ResolversTypes["PaginatedPublicationResult"], ParentType, ContextType, RequireFields<QueryInternalPublicationFilterArgs, "request">>;
-  mutualFollowersProfiles?: Resolver<ResolversTypes["PaginatedProfileResult"], ParentType, ContextType, RequireFields<QueryMutualFollowersProfilesArgs, "request">>;
-  nftOwnershipChallenge?: Resolver<ResolversTypes["NftOwnershipChallengeResult"], ParentType, ContextType, RequireFields<QueryNftOwnershipChallengeArgs, "request">>;
-  nfts?: Resolver<ResolversTypes["NFTsResult"], ParentType, ContextType, RequireFields<QueryNftsArgs, "request">>;
-  notifications?: Resolver<ResolversTypes["PaginatedNotificationResult"], ParentType, ContextType, RequireFields<QueryNotificationsArgs, "request">>;
-  pendingApprovalFollows?: Resolver<ResolversTypes["PendingApproveFollowsResult"], ParentType, ContextType, RequireFields<QueryPendingApprovalFollowsArgs, "request">>;
+  exploreProfiles?: Resolver<
+    ResolversTypes["ExploreProfileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryExploreProfilesArgs, "request">
+  >;
+  explorePublications?: Resolver<
+    ResolversTypes["ExplorePublicationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryExplorePublicationsArgs, "request">
+  >;
+  feed?: Resolver<
+    ResolversTypes["PaginatedFeedResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFeedArgs, "request">
+  >;
+  feedHighlights?: Resolver<
+    ResolversTypes["PaginatedTimelineResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFeedHighlightsArgs, "request">
+  >;
+  followerNftOwnedTokenIds?: Resolver<
+    Maybe<ResolversTypes["FollowerNftOwnedTokenIds"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryFollowerNftOwnedTokenIdsArgs, "request">
+  >;
+  followers?: Resolver<
+    ResolversTypes["PaginatedFollowersResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFollowersArgs, "request">
+  >;
+  following?: Resolver<
+    ResolversTypes["PaginatedFollowingResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryFollowingArgs, "request">
+  >;
+  generateModuleCurrencyApprovalData?: Resolver<
+    ResolversTypes["GenerateModuleCurrencyApproval"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGenerateModuleCurrencyApprovalDataArgs, "request">
+  >;
+  globalProtocolStats?: Resolver<
+    ResolversTypes["GlobalProtocolStats"],
+    ParentType,
+    ContextType,
+    Partial<QueryGlobalProtocolStatsArgs>
+  >;
+  hasTxHashBeenIndexed?: Resolver<
+    ResolversTypes["TransactionResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryHasTxHashBeenIndexedArgs, "request">
+  >;
+  internalPublicationFilter?: Resolver<
+    ResolversTypes["PaginatedPublicationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryInternalPublicationFilterArgs, "request">
+  >;
+  mutualFollowersProfiles?: Resolver<
+    ResolversTypes["PaginatedProfileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryMutualFollowersProfilesArgs, "request">
+  >;
+  nftOwnershipChallenge?: Resolver<
+    ResolversTypes["NftOwnershipChallengeResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNftOwnershipChallengeArgs, "request">
+  >;
+  nfts?: Resolver<
+    ResolversTypes["NFTsResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNftsArgs, "request">
+  >;
+  notifications?: Resolver<
+    ResolversTypes["PaginatedNotificationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryNotificationsArgs, "request">
+  >;
+  pendingApprovalFollows?: Resolver<
+    ResolversTypes["PendingApproveFollowsResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPendingApprovalFollowsArgs, "request">
+  >;
   ping?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  profile?: Resolver<Maybe<ResolversTypes["Profile"]>, ParentType, ContextType, RequireFields<QueryProfileArgs, "request">>;
-  profileFollowModuleBeenRedeemed?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType, RequireFields<QueryProfileFollowModuleBeenRedeemedArgs, "request">>;
-  profileFollowRevenue?: Resolver<ResolversTypes["FollowRevenueResult"], ParentType, ContextType, RequireFields<QueryProfileFollowRevenueArgs, "request">>;
-  profileOnChainIdentity?: Resolver<Array<ResolversTypes["OnChainIdentity"]>, ParentType, ContextType, RequireFields<QueryProfileOnChainIdentityArgs, "request">>;
-  profilePublicationRevenue?: Resolver<ResolversTypes["ProfilePublicationRevenueResult"], ParentType, ContextType, RequireFields<QueryProfilePublicationRevenueArgs, "request">>;
-  profilePublicationsForSale?: Resolver<ResolversTypes["PaginatedProfilePublicationsForSaleResult"], ParentType, ContextType, RequireFields<QueryProfilePublicationsForSaleArgs, "request">>;
-  profiles?: Resolver<ResolversTypes["PaginatedProfileResult"], ParentType, ContextType, RequireFields<QueryProfilesArgs, "request">>;
-  proxyActionStatus?: Resolver<ResolversTypes["ProxyActionStatusResultUnion"], ParentType, ContextType, RequireFields<QueryProxyActionStatusArgs, "proxyActionId">>;
-  publication?: Resolver<Maybe<ResolversTypes["Publication"]>, ParentType, ContextType, RequireFields<QueryPublicationArgs, "request">>;
-  publicationMetadataStatus?: Resolver<ResolversTypes["PublicationMetadataStatus"], ParentType, ContextType, RequireFields<QueryPublicationMetadataStatusArgs, "request">>;
-  publicationRevenue?: Resolver<Maybe<ResolversTypes["PublicationRevenue"]>, ParentType, ContextType, RequireFields<QueryPublicationRevenueArgs, "request">>;
-  publications?: Resolver<ResolversTypes["PaginatedPublicationResult"], ParentType, ContextType, RequireFields<QueryPublicationsArgs, "request">>;
-  recommendedProfiles?: Resolver<Array<ResolversTypes["Profile"]>, ParentType, ContextType, Partial<QueryRecommendedProfilesArgs>>;
-  rel?: Resolver<Maybe<ResolversTypes["Void"]>, ParentType, ContextType, RequireFields<QueryRelArgs, "request">>;
-  search?: Resolver<ResolversTypes["SearchResult"], ParentType, ContextType, RequireFields<QuerySearchArgs, "request">>;
-  timeline?: Resolver<ResolversTypes["PaginatedTimelineResult"], ParentType, ContextType, RequireFields<QueryTimelineArgs, "request">>;
-  txIdToTxHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType, RequireFields<QueryTxIdToTxHashArgs, "txId">>;
+  profile?: Resolver<
+    Maybe<ResolversTypes["Profile"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileArgs, "request">
+  >;
+  profileFollowModuleBeenRedeemed?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileFollowModuleBeenRedeemedArgs, "request">
+  >;
+  profileFollowRevenue?: Resolver<
+    ResolversTypes["FollowRevenueResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileFollowRevenueArgs, "request">
+  >;
+  profileOnChainIdentity?: Resolver<
+    Array<ResolversTypes["OnChainIdentity"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfileOnChainIdentityArgs, "request">
+  >;
+  profilePublicationRevenue?: Resolver<
+    ResolversTypes["ProfilePublicationRevenueResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfilePublicationRevenueArgs, "request">
+  >;
+  profilePublicationsForSale?: Resolver<
+    ResolversTypes["PaginatedProfilePublicationsForSaleResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfilePublicationsForSaleArgs, "request">
+  >;
+  profiles?: Resolver<
+    ResolversTypes["PaginatedProfileResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProfilesArgs, "request">
+  >;
+  proxyActionStatus?: Resolver<
+    ResolversTypes["ProxyActionStatusResultUnion"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryProxyActionStatusArgs, "proxyActionId">
+  >;
+  publication?: Resolver<
+    Maybe<ResolversTypes["Publication"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationArgs, "request">
+  >;
+  publicationMetadataStatus?: Resolver<
+    ResolversTypes["PublicationMetadataStatus"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationMetadataStatusArgs, "request">
+  >;
+  publicationRevenue?: Resolver<
+    Maybe<ResolversTypes["PublicationRevenue"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationRevenueArgs, "request">
+  >;
+  publications?: Resolver<
+    ResolversTypes["PaginatedPublicationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryPublicationsArgs, "request">
+  >;
+  recommendedProfiles?: Resolver<
+    Array<ResolversTypes["Profile"]>,
+    ParentType,
+    ContextType,
+    Partial<QueryRecommendedProfilesArgs>
+  >;
+  rel?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryRelArgs, "request">
+  >;
+  search?: Resolver<
+    ResolversTypes["SearchResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QuerySearchArgs, "request">
+  >;
+  timeline?: Resolver<
+    ResolversTypes["PaginatedTimelineResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryTimelineArgs, "request">
+  >;
+  txIdToTxHash?: Resolver<
+    ResolversTypes["TxHash"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryTxIdToTxHashArgs, "txId">
+  >;
   unknownEnabledModules?: Resolver<ResolversTypes["EnabledModules"], ParentType, ContextType>;
   userSigNonces?: Resolver<ResolversTypes["UserSigNonces"], ParentType, ContextType>;
-  validatePublicationMetadata?: Resolver<ResolversTypes["PublicationValidateMetadataResult"], ParentType, ContextType, RequireFields<QueryValidatePublicationMetadataArgs, "request">>;
-  verify?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType, RequireFields<QueryVerifyArgs, "request">>;
-  whoCollectedPublication?: Resolver<ResolversTypes["PaginatedWhoCollectedResult"], ParentType, ContextType, RequireFields<QueryWhoCollectedPublicationArgs, "request">>;
-  whoReactedPublication?: Resolver<ResolversTypes["PaginatedWhoReactedResult"], ParentType, ContextType, RequireFields<QueryWhoReactedPublicationArgs, "request">>;
+  validatePublicationMetadata?: Resolver<
+    ResolversTypes["PublicationValidateMetadataResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryValidatePublicationMetadataArgs, "request">
+  >;
+  verify?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryVerifyArgs, "request">
+  >;
+  whoCollectedPublication?: Resolver<
+    ResolversTypes["PaginatedWhoCollectedResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryWhoCollectedPublicationArgs, "request">
+  >;
+  whoReactedPublication?: Resolver<
+    ResolversTypes["PaginatedWhoReactedResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryWhoReactedPublicationArgs, "request">
+  >;
 };
 
-export type ReactionEventResolvers<ContextType = any, ParentType extends ResolversParentTypes["ReactionEvent"] = ResolversParentTypes["ReactionEvent"]> = {
+export type ReactionEventResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ReactionEvent"] = ResolversParentTypes["ReactionEvent"],
+> = {
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
   reaction?: Resolver<ResolversTypes["ReactionTypes"], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface ReactionIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["ReactionId"], any> {
+export interface ReactionIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ReactionId"], any> {
   name: "ReactionId";
 }
 
-export type ReferenceModuleResolvers<ContextType = any, ParentType extends ResolversParentTypes["ReferenceModule"] = ResolversParentTypes["ReferenceModule"]> = {
-  __resolveType: TypeResolveFn<"DegreesOfSeparationReferenceModuleSettings" | "FollowOnlyReferenceModuleSettings" | "UnknownReferenceModuleSettings", ParentType, ContextType>;
+export type ReferenceModuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ReferenceModule"] = ResolversParentTypes["ReferenceModule"],
+> = {
+  __resolveType: TypeResolveFn<
+    | "DegreesOfSeparationReferenceModuleSettings"
+    | "FollowOnlyReferenceModuleSettings"
+    | "UnknownReferenceModuleSettings",
+    ParentType,
+    ContextType
+  >;
 };
 
-export interface ReferenceModuleDataScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["ReferenceModuleData"], any> {
+export interface ReferenceModuleDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ReferenceModuleData"], any> {
   name: "ReferenceModuleData";
 }
 
-export type RelayErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes["RelayError"] = ResolversParentTypes["RelayError"]> = {
+export type RelayErrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RelayError"] = ResolversParentTypes["RelayError"],
+> = {
   reason?: Resolver<ResolversTypes["RelayErrorReasons"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type RelayResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["RelayResult"] = ResolversParentTypes["RelayResult"]> = {
+export type RelayResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RelayResult"] = ResolversParentTypes["RelayResult"],
+> = {
   __resolveType: TypeResolveFn<"RelayError" | "RelayerResult", ParentType, ContextType>;
 };
 
-export type RelayerResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["RelayerResult"] = ResolversParentTypes["RelayerResult"]> = {
+export type RelayerResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RelayerResult"] = ResolversParentTypes["RelayerResult"],
+> = {
   txHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
   txId?: Resolver<ResolversTypes["TxId"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ReservedClaimableHandleResolvers<ContextType = any, ParentType extends ResolversParentTypes["ReservedClaimableHandle"] = ResolversParentTypes["ReservedClaimableHandle"]> = {
+export type ReservedClaimableHandleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ReservedClaimableHandle"] = ResolversParentTypes["ReservedClaimableHandle"],
+> = {
   expiry?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   handle?: Resolver<ResolversTypes["Handle"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["HandleClaimIdScalar"], ParentType, ContextType>;
@@ -6079,18 +11711,27 @@ export type ReservedClaimableHandleResolvers<ContextType = any, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type RevenueAggregateResolvers<ContextType = any, ParentType extends ResolversParentTypes["RevenueAggregate"] = ResolversParentTypes["RevenueAggregate"]> = {
+export type RevenueAggregateResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RevenueAggregate"] = ResolversParentTypes["RevenueAggregate"],
+> = {
   total?: Resolver<ResolversTypes["Erc20Amount"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type RevertCollectModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["RevertCollectModuleSettings"] = ResolversParentTypes["RevertCollectModuleSettings"]> = {
+export type RevertCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RevertCollectModuleSettings"] = ResolversParentTypes["RevertCollectModuleSettings"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type RevertFollowModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["RevertFollowModuleSettings"] = ResolversParentTypes["RevertFollowModuleSettings"]> = {
+export type RevertFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RevertFollowModuleSettings"] = ResolversParentTypes["RevertFollowModuleSettings"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["FollowModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -6100,30 +11741,61 @@ export interface SearchScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
   name: "Search";
 }
 
-export type SearchResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["SearchResult"] = ResolversParentTypes["SearchResult"]> = {
-  __resolveType: TypeResolveFn<"ProfileSearchResult" | "PublicationSearchResult", ParentType, ContextType>;
+export type SearchResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SearchResult"] = ResolversParentTypes["SearchResult"],
+> = {
+  __resolveType: TypeResolveFn<
+    "ProfileSearchResult" | "PublicationSearchResult",
+    ParentType,
+    ContextType
+  >;
 };
 
-export type SetDefaultProfileBroadcastItemResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["SetDefaultProfileBroadcastItemResult"] = ResolversParentTypes["SetDefaultProfileBroadcastItemResult"]> = {
+export type SetDefaultProfileBroadcastItemResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileBroadcastItemResult"] = ResolversParentTypes["SetDefaultProfileBroadcastItemResult"],
+> = {
   expiresAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["BroadcastId"], ParentType, ContextType>;
   typedData?: Resolver<ResolversTypes["SetDefaultProfileEIP712TypedData"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SetDefaultProfileEip712TypedDataResolvers<ContextType = any, ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedData"] = ResolversParentTypes["SetDefaultProfileEIP712TypedData"]> = {
+export type SetDefaultProfileEip712TypedDataResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedData"] = ResolversParentTypes["SetDefaultProfileEIP712TypedData"],
+> = {
   domain?: Resolver<ResolversTypes["EIP712TypedDataDomain"], ParentType, ContextType>;
-  types?: Resolver<ResolversTypes["SetDefaultProfileEIP712TypedDataTypes"], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes["SetDefaultProfileEIP712TypedDataValue"], ParentType, ContextType>;
+  types?: Resolver<
+    ResolversTypes["SetDefaultProfileEIP712TypedDataTypes"],
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    ResolversTypes["SetDefaultProfileEIP712TypedDataValue"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SetDefaultProfileEip712TypedDataTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedDataTypes"] = ResolversParentTypes["SetDefaultProfileEIP712TypedDataTypes"]> = {
-  SetDefaultProfileWithSig?: Resolver<Array<ResolversTypes["EIP712TypedDataField"]>, ParentType, ContextType>;
+export type SetDefaultProfileEip712TypedDataTypesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedDataTypes"] = ResolversParentTypes["SetDefaultProfileEIP712TypedDataTypes"],
+> = {
+  SetDefaultProfileWithSig?: Resolver<
+    Array<ResolversTypes["EIP712TypedDataField"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SetDefaultProfileEip712TypedDataValueResolvers<ContextType = any, ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedDataValue"] = ResolversParentTypes["SetDefaultProfileEIP712TypedDataValue"]> = {
+export type SetDefaultProfileEip712TypedDataValueResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetDefaultProfileEIP712TypedDataValue"] = ResolversParentTypes["SetDefaultProfileEIP712TypedDataValue"],
+> = {
   deadline?: Resolver<ResolversTypes["UnixTimestamp"], ParentType, ContextType>;
   nonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
   profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
@@ -6131,37 +11803,54 @@ export type SetDefaultProfileEip712TypedDataValueResolvers<ContextType = any, Pa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface SignatureScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Signature"], any> {
+export interface SignatureScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["Signature"], any> {
   name: "Signature";
 }
 
-export interface SourcesScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Sources"], any> {
+export interface SourcesScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["Sources"], any> {
   name: "Sources";
 }
 
-export type SybilDotOrgIdentityResolvers<ContextType = any, ParentType extends ResolversParentTypes["SybilDotOrgIdentity"] = ResolversParentTypes["SybilDotOrgIdentity"]> = {
+export type SybilDotOrgIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SybilDotOrgIdentity"] = ResolversParentTypes["SybilDotOrgIdentity"],
+> = {
   source?: Resolver<ResolversTypes["SybilDotOrgIdentitySource"], ParentType, ContextType>;
   verified?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SybilDotOrgIdentitySourceResolvers<ContextType = any, ParentType extends ResolversParentTypes["SybilDotOrgIdentitySource"] = ResolversParentTypes["SybilDotOrgIdentitySource"]> = {
+export type SybilDotOrgIdentitySourceResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SybilDotOrgIdentitySource"] = ResolversParentTypes["SybilDotOrgIdentitySource"],
+> = {
   twitter?: Resolver<ResolversTypes["SybilDotOrgTwitterIdentity"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SybilDotOrgTwitterIdentityResolvers<ContextType = any, ParentType extends ResolversParentTypes["SybilDotOrgTwitterIdentity"] = ResolversParentTypes["SybilDotOrgTwitterIdentity"]> = {
+export type SybilDotOrgTwitterIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SybilDotOrgTwitterIdentity"] = ResolversParentTypes["SybilDotOrgTwitterIdentity"],
+> = {
   handle?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TagResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["TagResult"] = ResolversParentTypes["TagResult"]> = {
+export type TagResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TagResult"] = ResolversParentTypes["TagResult"],
+> = {
   tag?: Resolver<ResolversTypes["PublicationTag"], ParentType, ContextType>;
   total?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TimedFeeCollectModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["TimedFeeCollectModuleSettings"] = ResolversParentTypes["TimedFeeCollectModuleSettings"]> = {
+export type TimedFeeCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TimedFeeCollectModuleSettings"] = ResolversParentTypes["TimedFeeCollectModuleSettings"],
+> = {
   amount?: Resolver<ResolversTypes["ModuleFeeAmount"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   endTimestamp?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
@@ -6172,25 +11861,39 @@ export type TimedFeeCollectModuleSettingsResolvers<ContextType = any, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export interface TimestampScalarScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["TimestampScalar"], any> {
+export interface TimestampScalarScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["TimestampScalar"], any> {
   name: "TimestampScalar";
 }
 
-export type TransactionErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes["TransactionError"] = ResolversParentTypes["TransactionError"]> = {
+export type TransactionErrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionError"] = ResolversParentTypes["TransactionError"],
+> = {
   reason?: Resolver<ResolversTypes["TransactionErrorReasons"], ParentType, ContextType>;
   txReceipt?: Resolver<Maybe<ResolversTypes["TransactionReceipt"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TransactionIndexedResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["TransactionIndexedResult"] = ResolversParentTypes["TransactionIndexedResult"]> = {
+export type TransactionIndexedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionIndexedResult"] = ResolversParentTypes["TransactionIndexedResult"],
+> = {
   indexed?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  metadataStatus?: Resolver<Maybe<ResolversTypes["PublicationMetadataStatus"]>, ParentType, ContextType>;
+  metadataStatus?: Resolver<
+    Maybe<ResolversTypes["PublicationMetadataStatus"]>,
+    ParentType,
+    ContextType
+  >;
   txHash?: Resolver<ResolversTypes["TxHash"], ParentType, ContextType>;
   txReceipt?: Resolver<Maybe<ResolversTypes["TransactionReceipt"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TransactionReceiptResolvers<ContextType = any, ParentType extends ResolversParentTypes["TransactionReceipt"] = ResolversParentTypes["TransactionReceipt"]> = {
+export type TransactionReceiptResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionReceipt"] = ResolversParentTypes["TransactionReceipt"],
+> = {
   blockHash?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   blockNumber?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   byzantium?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
@@ -6211,8 +11914,15 @@ export type TransactionReceiptResolvers<ContextType = any, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TransactionResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["TransactionResult"] = ResolversParentTypes["TransactionResult"]> = {
-  __resolveType: TypeResolveFn<"TransactionError" | "TransactionIndexedResult", ParentType, ContextType>;
+export type TransactionResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TransactionResult"] = ResolversParentTypes["TransactionResult"],
+> = {
+  __resolveType: TypeResolveFn<
+    "TransactionError" | "TransactionIndexedResult",
+    ParentType,
+    ContextType
+  >;
 };
 
 export interface TxHashScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["TxHash"], any> {
@@ -6223,27 +11933,41 @@ export interface TxIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: "TxId";
 }
 
-export interface UnixTimestampScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["UnixTimestamp"], any> {
+export interface UnixTimestampScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["UnixTimestamp"], any> {
   name: "UnixTimestamp";
 }
 
-export type UnknownCollectModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["UnknownCollectModuleSettings"] = ResolversParentTypes["UnknownCollectModuleSettings"]> = {
+export type UnknownCollectModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UnknownCollectModuleSettings"] = ResolversParentTypes["UnknownCollectModuleSettings"],
+> = {
   collectModuleReturnData?: Resolver<ResolversTypes["CollectModuleData"], ParentType, ContextType>;
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["CollectModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UnknownFollowModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["UnknownFollowModuleSettings"] = ResolversParentTypes["UnknownFollowModuleSettings"]> = {
+export type UnknownFollowModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UnknownFollowModuleSettings"] = ResolversParentTypes["UnknownFollowModuleSettings"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
   followModuleReturnData?: Resolver<ResolversTypes["FollowModuleData"], ParentType, ContextType>;
   type?: Resolver<ResolversTypes["FollowModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UnknownReferenceModuleSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes["UnknownReferenceModuleSettings"] = ResolversParentTypes["UnknownReferenceModuleSettings"]> = {
+export type UnknownReferenceModuleSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UnknownReferenceModuleSettings"] = ResolversParentTypes["UnknownReferenceModuleSettings"],
+> = {
   contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
-  referenceModuleReturnData?: Resolver<ResolversTypes["ReferenceModuleData"], ParentType, ContextType>;
+  referenceModuleReturnData?: Resolver<
+    ResolversTypes["ReferenceModuleData"],
+    ParentType,
+    ContextType
+  >;
   type?: Resolver<ResolversTypes["ReferenceModules"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -6252,7 +11976,10 @@ export interface UrlScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
   name: "Url";
 }
 
-export type UserSigNoncesResolvers<ContextType = any, ParentType extends ResolversParentTypes["UserSigNonces"] = ResolversParentTypes["UserSigNonces"]> = {
+export type UserSigNoncesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UserSigNonces"] = ResolversParentTypes["UserSigNonces"],
+> = {
   lensHubOnChainSigNonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
   peripheryOnChainSigNonce?: Resolver<ResolversTypes["Nonce"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -6262,13 +11989,19 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: "Void";
 }
 
-export type WalletResolvers<ContextType = any, ParentType extends ResolversParentTypes["Wallet"] = ResolversParentTypes["Wallet"]> = {
+export type WalletResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Wallet"] = ResolversParentTypes["Wallet"],
+> = {
   address?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
   defaultProfile?: Resolver<Maybe<ResolversTypes["Profile"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type WhoReactedResultResolvers<ContextType = any, ParentType extends ResolversParentTypes["WhoReactedResult"] = ResolversParentTypes["WhoReactedResult"]> = {
+export type WhoReactedResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["WhoReactedResult"] = ResolversParentTypes["WhoReactedResult"],
+> = {
   profile?: Resolver<ResolversTypes["Profile"], ParentType, ContextType>;
   reaction?: Resolver<ResolversTypes["ReactionTypes"], ParentType, ContextType>;
   reactionAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
@@ -6276,7 +12009,10 @@ export type WhoReactedResultResolvers<ContextType = any, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type WorldcoinIdentityResolvers<ContextType = any, ParentType extends ResolversParentTypes["WorldcoinIdentity"] = ResolversParentTypes["WorldcoinIdentity"]> = {
+export type WorldcoinIdentityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["WorldcoinIdentity"] = ResolversParentTypes["WorldcoinIdentity"],
+> = {
   isHuman?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -6498,4 +12234,3 @@ export type Resolvers<ContextType = any> = {
   WhoReactedResult?: WhoReactedResultResolvers<ContextType>;
   WorldcoinIdentity?: WorldcoinIdentityResolvers<ContextType>;
 };
-

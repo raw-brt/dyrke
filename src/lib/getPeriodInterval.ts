@@ -1,3 +1,4 @@
+import { Period } from "@generated/dyrketypes";
 import dayjs  from "dayjs";
 /**
  * @desc Returns a time interval in unix time to filter queries
@@ -5,7 +6,6 @@ import dayjs  from "dayjs";
  * @returns interval in unix format
  */
 
-type Period = "Year" | "90 days" | "30 days" | "Week" | "Today";
 type TimeInterval = { start: number, end: number };
 
 export const getPeriodInterval = (period: Period): TimeInterval => {

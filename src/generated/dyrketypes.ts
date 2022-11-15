@@ -6,7 +6,7 @@ import type {
 
 export type Metric = "Followers" | "Publications" | "Comments" | "Mirrors" | "Collects" | "Likes";
 
-export type Period = "Year" | "3 Months" | "Month" | "Week" | "Today"
+export type Period = "Year" | "90 days" | "30 days" | "Week" | "Today"
 
 export type DyrkePublication = Post & Mirror & Comment;
 
