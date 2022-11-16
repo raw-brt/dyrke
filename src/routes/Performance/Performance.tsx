@@ -15,7 +15,7 @@ const sdk = getBuiltGraphSDK();
 
 export const Performance: FC = () => {
   const [metric, setMetric] = useState<Metric>("Followers");
-  const [period, setPeriod] = useState<Period>("Year");
+  const [period, setPeriod] = useState<Period>("30 days");
   const userProfile = useProfileStore((state) => state.currentProfile);
   const userId = parseInt(userProfile?.id, 16).toString();
   const [lastUserId, setLastUserId] = useState("");
@@ -37,13 +37,15 @@ export const Performance: FC = () => {
     }),
     { 
       refetchOnWindowFocus: false,
+      staleTime: Infinity,
       onSuccess: (data) => {
         if (data.follows.length === 1000) {
           setFollows([...follows as [any], data.follows]);
           setLastUserId(data.follows[999].id);
         } else {
           setFollows([...follows as [any], data.follows]);
-          console.log(follows.length)
+          const flattened = follows.flat();
+          console.log(flattened.length)
         }
       }
      },
