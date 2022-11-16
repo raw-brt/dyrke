@@ -11,28 +11,28 @@ type TimeInterval = { start: number, end: number };
 export const getPeriodInterval = (period: Period): TimeInterval => {
   if (period === "Year") {
     return {
-      start: dayjs().unix(), 
-      end: dayjs().subtract(1, "year").unix()
+      start: dayjs().subtract(1, "year").unix(),
+      end: dayjs().unix(), 
     };
   } else if (period === "90 days") {
     return {
-      start: dayjs().unix(), 
-      end: dayjs().subtract(90, "day").unix()
+      start: dayjs().subtract(90, "day").unix(),
+      end: dayjs().unix()
     };
   } else if (period === "30 days") {
     return {
-      start: dayjs().unix(), 
-      end: dayjs().subtract(30, "day").unix()
+      start: dayjs().subtract(30, "day").unix(),
+      end: dayjs().unix()
     };
   } else if (period === "Week") {
     return {
-      start: dayjs().unix(), 
-      end: dayjs().subtract(7, "day").unix()
+      start: dayjs().subtract(7, "day").unix(),
+      end: dayjs().unix()
     };
   } else {
     return {
-      start: dayjs().unix(), 
-      end: dayjs().subtract(1, "day").unix()
+      start: dayjs().subtract(1, "day").unix(),
+      end: dayjs().unix()
     };
   }
 };

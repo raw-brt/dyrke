@@ -24,9 +24,9 @@ export const getIntervalUnits = (period: Period) => {
   if (period === "Year") {
 
     // Calculate one year from now
-    const startAndEnd = { 
-      start: dayjs().unix(), 
-      end: dayjs().subtract(1, "year").unix(),
+    const startAndEnd = {
+      start: dayjs().subtract(1, "year").unix(),
+      end: dayjs().unix(), 
      }
     
     // Build an array of objects with each timeinterval according to selected period
@@ -50,8 +50,8 @@ export const getIntervalUnits = (period: Period) => {
 
     // Calculate one year from now
     const startAndEnd = { 
-      start: dayjs().unix(), 
-      end: dayjs().subtract(90, "day").unix(),
+      start: dayjs().subtract(90, "day").unix(),
+      end: dayjs().unix()
      }
     
     // Build an array of objects with each timeinterval according to selected period
@@ -75,8 +75,8 @@ export const getIntervalUnits = (period: Period) => {
 
     // Calculate one year from now
     const startAndEnd = { 
-      start: dayjs().unix(), 
-      end: dayjs().subtract(30, "day").unix(),
+      start: dayjs().subtract(30, "day").unix(),
+      end: dayjs().unix()
      }
     
     // Build an array of objects with each timeinterval according to selected period
@@ -100,8 +100,8 @@ export const getIntervalUnits = (period: Period) => {
 
     // Calculate one year from now
     const startAndEnd = { 
-      start: dayjs().unix(), 
-      end: dayjs().subtract(7, "day").unix(),
+      start: dayjs().subtract(7, "day").unix(),
+      end: dayjs().unix()
      }
     
     // Build an array of objects with each timeinterval according to selected period
@@ -125,8 +125,8 @@ export const getIntervalUnits = (period: Period) => {
 
     // Calculate one year from now
     const startAndEnd = { 
-      start: dayjs().unix(), 
-      end: dayjs().subtract(1, "day").unix(),
+      start: dayjs().subtract(1, "day").unix(),
+      end: dayjs().unix()
      }
     
     // Build an array of objects with each timeinterval according to selected period

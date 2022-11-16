@@ -1,6 +1,0 @@
-query TestQuery {
-    publications(where: {fromProfile: "5", timestamp_gte: "1661176262"}) {
-      id
-      timestamp
-  }
-}

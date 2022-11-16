@@ -3,7 +3,7 @@
 import { InContextSdkMethod } from '@graphql-mesh/types';
 import { MeshContext } from '@graphql-mesh/runtime';
 
-export namespace LensSubgraphTypes {
+export namespace LensProtocolTypes {
   export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -25,16 +25,10 @@ export type Account = {
   id: Scalars['ID'];
   /** Address */
   address: Scalars['Bytes'];
-  /** Default Profile */
-  defaultProfile?: Maybe<Profile>;
-  /** List of Id profiles(String) */
-  profilesIds: Array<Scalars['String']>;
   /** List of Profiles that own this account */
-  profiles?: Maybe<Array<Profile>>;
+  profiles: Array<Profile>;
   /** List of Followings Profiles */
   following: Array<Profile>;
-  /** List of Following profiles */
-  totalFollowings: Scalars['BigInt'];
 };
 
 
@@ -70,33 +64,6 @@ export type Account_filter = {
   address_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   address_contains?: InputMaybe<Scalars['Bytes']>;
   address_not_contains?: InputMaybe<Scalars['Bytes']>;
-  defaultProfile?: InputMaybe<Scalars['String']>;
-  defaultProfile_not?: InputMaybe<Scalars['String']>;
-  defaultProfile_gt?: InputMaybe<Scalars['String']>;
-  defaultProfile_lt?: InputMaybe<Scalars['String']>;
-  defaultProfile_gte?: InputMaybe<Scalars['String']>;
-  defaultProfile_lte?: InputMaybe<Scalars['String']>;
-  defaultProfile_in?: InputMaybe<Array<Scalars['String']>>;
-  defaultProfile_not_in?: InputMaybe<Array<Scalars['String']>>;
-  defaultProfile_contains?: InputMaybe<Scalars['String']>;
-  defaultProfile_contains_nocase?: InputMaybe<Scalars['String']>;
-  defaultProfile_not_contains?: InputMaybe<Scalars['String']>;
-  defaultProfile_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  defaultProfile_starts_with?: InputMaybe<Scalars['String']>;
-  defaultProfile_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  defaultProfile_not_starts_with?: InputMaybe<Scalars['String']>;
-  defaultProfile_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  defaultProfile_ends_with?: InputMaybe<Scalars['String']>;
-  defaultProfile_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  defaultProfile_not_ends_with?: InputMaybe<Scalars['String']>;
-  defaultProfile_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  defaultProfile_?: InputMaybe<Profile_filter>;
-  profilesIds?: InputMaybe<Array<Scalars['String']>>;
-  profilesIds_not?: InputMaybe<Array<Scalars['String']>>;
-  profilesIds_contains?: InputMaybe<Array<Scalars['String']>>;
-  profilesIds_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
-  profilesIds_not_contains?: InputMaybe<Array<Scalars['String']>>;
-  profilesIds_not_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   profiles_?: InputMaybe<Profile_filter>;
   following?: InputMaybe<Array<Scalars['String']>>;
   following_not?: InputMaybe<Array<Scalars['String']>>;
@@ -105,14 +72,6 @@ export type Account_filter = {
   following_not_contains?: InputMaybe<Array<Scalars['String']>>;
   following_not_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
   following_?: InputMaybe<Profile_filter>;
-  totalFollowings?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_not?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_gt?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_lt?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_gte?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_lte?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalFollowings_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
 };
@@ -120,11 +79,8 @@ export type Account_filter = {
 export type Account_orderBy =
   | 'id'
   | 'address'
-  | 'defaultProfile'
-  | 'profilesIds'
   | 'profiles'
-  | 'following'
-  | 'totalFollowings';
+  | 'following';
 
 export type BlockChangedFilter = {
   number_gte: Scalars['Int'];
@@ -326,9 +282,8 @@ export type Creator_orderBy =
 
 export type Follow = {
   id: Scalars['ID'];
-  /** Follower Account.  */
-  fromAccount?: Maybe<Account>;
-  fromProfileSTR?: Maybe<Scalars['String']>;
+  /** Follower Account. (Why not ProfileId ?) */
+  fromProfile?: Maybe<Account>;
   /** Array of profiles that are followed */
   toProfile?: Maybe<Array<Profile>>;
   /** Date from when the follow initiated */
@@ -344,94 +299,6 @@ export type FollowtoProfileArgs = {
   where?: InputMaybe<Profile_filter>;
 };
 
-export type FollowNFTTransferred = {
-  id: Scalars['ID'];
-  profileId?: Maybe<Scalars['BigInt']>;
-  followNFTID?: Maybe<Scalars['BigInt']>;
-  from?: Maybe<Scalars['Bytes']>;
-  to?: Maybe<Scalars['Bytes']>;
-  timestamp?: Maybe<Scalars['BigInt']>;
-  data?: Maybe<Scalars['String']>;
-};
-
-export type FollowNFTTransferred_filter = {
-  id?: InputMaybe<Scalars['ID']>;
-  id_not?: InputMaybe<Scalars['ID']>;
-  id_gt?: InputMaybe<Scalars['ID']>;
-  id_lt?: InputMaybe<Scalars['ID']>;
-  id_gte?: InputMaybe<Scalars['ID']>;
-  id_lte?: InputMaybe<Scalars['ID']>;
-  id_in?: InputMaybe<Array<Scalars['ID']>>;
-  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  profileId?: InputMaybe<Scalars['BigInt']>;
-  profileId_not?: InputMaybe<Scalars['BigInt']>;
-  profileId_gt?: InputMaybe<Scalars['BigInt']>;
-  profileId_lt?: InputMaybe<Scalars['BigInt']>;
-  profileId_gte?: InputMaybe<Scalars['BigInt']>;
-  profileId_lte?: InputMaybe<Scalars['BigInt']>;
-  profileId_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  profileId_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  followNFTID?: InputMaybe<Scalars['BigInt']>;
-  followNFTID_not?: InputMaybe<Scalars['BigInt']>;
-  followNFTID_gt?: InputMaybe<Scalars['BigInt']>;
-  followNFTID_lt?: InputMaybe<Scalars['BigInt']>;
-  followNFTID_gte?: InputMaybe<Scalars['BigInt']>;
-  followNFTID_lte?: InputMaybe<Scalars['BigInt']>;
-  followNFTID_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  followNFTID_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  from?: InputMaybe<Scalars['Bytes']>;
-  from_not?: InputMaybe<Scalars['Bytes']>;
-  from_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  from_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  from_contains?: InputMaybe<Scalars['Bytes']>;
-  from_not_contains?: InputMaybe<Scalars['Bytes']>;
-  to?: InputMaybe<Scalars['Bytes']>;
-  to_not?: InputMaybe<Scalars['Bytes']>;
-  to_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  to_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  to_contains?: InputMaybe<Scalars['Bytes']>;
-  to_not_contains?: InputMaybe<Scalars['Bytes']>;
-  timestamp?: InputMaybe<Scalars['BigInt']>;
-  timestamp_not?: InputMaybe<Scalars['BigInt']>;
-  timestamp_gt?: InputMaybe<Scalars['BigInt']>;
-  timestamp_lt?: InputMaybe<Scalars['BigInt']>;
-  timestamp_gte?: InputMaybe<Scalars['BigInt']>;
-  timestamp_lte?: InputMaybe<Scalars['BigInt']>;
-  timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  data?: InputMaybe<Scalars['String']>;
-  data_not?: InputMaybe<Scalars['String']>;
-  data_gt?: InputMaybe<Scalars['String']>;
-  data_lt?: InputMaybe<Scalars['String']>;
-  data_gte?: InputMaybe<Scalars['String']>;
-  data_lte?: InputMaybe<Scalars['String']>;
-  data_in?: InputMaybe<Array<Scalars['String']>>;
-  data_not_in?: InputMaybe<Array<Scalars['String']>>;
-  data_contains?: InputMaybe<Scalars['String']>;
-  data_contains_nocase?: InputMaybe<Scalars['String']>;
-  data_not_contains?: InputMaybe<Scalars['String']>;
-  data_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  data_starts_with?: InputMaybe<Scalars['String']>;
-  data_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  data_not_starts_with?: InputMaybe<Scalars['String']>;
-  data_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  data_ends_with?: InputMaybe<Scalars['String']>;
-  data_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  data_not_ends_with?: InputMaybe<Scalars['String']>;
-  data_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  /** Filter for the block changed event. */
-  _change_block?: InputMaybe<BlockChangedFilter>;
-};
-
-export type FollowNFTTransferred_orderBy =
-  | 'id'
-  | 'profileId'
-  | 'followNFTID'
-  | 'from'
-  | 'to'
-  | 'timestamp'
-  | 'data';
-
 export type Follow_filter = {
   id?: InputMaybe<Scalars['ID']>;
   id_not?: InputMaybe<Scalars['ID']>;
@@ -441,47 +308,27 @@ export type Follow_filter = {
   id_lte?: InputMaybe<Scalars['ID']>;
   id_in?: InputMaybe<Array<Scalars['ID']>>;
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  fromAccount?: InputMaybe<Scalars['String']>;
-  fromAccount_not?: InputMaybe<Scalars['String']>;
-  fromAccount_gt?: InputMaybe<Scalars['String']>;
-  fromAccount_lt?: InputMaybe<Scalars['String']>;
-  fromAccount_gte?: InputMaybe<Scalars['String']>;
-  fromAccount_lte?: InputMaybe<Scalars['String']>;
-  fromAccount_in?: InputMaybe<Array<Scalars['String']>>;
-  fromAccount_not_in?: InputMaybe<Array<Scalars['String']>>;
-  fromAccount_contains?: InputMaybe<Scalars['String']>;
-  fromAccount_contains_nocase?: InputMaybe<Scalars['String']>;
-  fromAccount_not_contains?: InputMaybe<Scalars['String']>;
-  fromAccount_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  fromAccount_starts_with?: InputMaybe<Scalars['String']>;
-  fromAccount_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  fromAccount_not_starts_with?: InputMaybe<Scalars['String']>;
-  fromAccount_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  fromAccount_ends_with?: InputMaybe<Scalars['String']>;
-  fromAccount_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  fromAccount_not_ends_with?: InputMaybe<Scalars['String']>;
-  fromAccount_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  fromAccount_?: InputMaybe<Account_filter>;
-  fromProfileSTR?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_not?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_gt?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_lt?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_gte?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_lte?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_in?: InputMaybe<Array<Scalars['String']>>;
-  fromProfileSTR_not_in?: InputMaybe<Array<Scalars['String']>>;
-  fromProfileSTR_contains?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_contains_nocase?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_not_contains?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_starts_with?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_not_starts_with?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_ends_with?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_not_ends_with?: InputMaybe<Scalars['String']>;
-  fromProfileSTR_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  fromProfile?: InputMaybe<Scalars['String']>;
+  fromProfile_not?: InputMaybe<Scalars['String']>;
+  fromProfile_gt?: InputMaybe<Scalars['String']>;
+  fromProfile_lt?: InputMaybe<Scalars['String']>;
+  fromProfile_gte?: InputMaybe<Scalars['String']>;
+  fromProfile_lte?: InputMaybe<Scalars['String']>;
+  fromProfile_in?: InputMaybe<Array<Scalars['String']>>;
+  fromProfile_not_in?: InputMaybe<Array<Scalars['String']>>;
+  fromProfile_contains?: InputMaybe<Scalars['String']>;
+  fromProfile_contains_nocase?: InputMaybe<Scalars['String']>;
+  fromProfile_not_contains?: InputMaybe<Scalars['String']>;
+  fromProfile_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  fromProfile_starts_with?: InputMaybe<Scalars['String']>;
+  fromProfile_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  fromProfile_not_starts_with?: InputMaybe<Scalars['String']>;
+  fromProfile_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  fromProfile_ends_with?: InputMaybe<Scalars['String']>;
+  fromProfile_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  fromProfile_not_ends_with?: InputMaybe<Scalars['String']>;
+  fromProfile_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  fromProfile_?: InputMaybe<Account_filter>;
   toProfile?: InputMaybe<Array<Scalars['String']>>;
   toProfile_not?: InputMaybe<Array<Scalars['String']>>;
   toProfile_contains?: InputMaybe<Array<Scalars['String']>>;
@@ -503,8 +350,7 @@ export type Follow_filter = {
 
 export type Follow_orderBy =
   | 'id'
-  | 'fromAccount'
-  | 'fromProfileSTR'
+  | 'fromProfile'
   | 'toProfile'
   | 'timestamp';
 
@@ -770,36 +616,12 @@ export type Profile = {
   totalComments: Scalars['BigInt'];
   /** Total Followers */
   totalFollowers: Scalars['BigInt'];
-  /** Total Following From owner Account */
-  totalFollowings: Scalars['BigInt'];
-  /** List of followers Account */
-  followers: Array<Account>;
-  /** List of following Profiles */
-  followings: Array<Profile>;
   /** List of comments */
   comments?: Maybe<Array<Comment>>;
   /** List of post */
   posts?: Maybe<Array<Post>>;
   /** List of Mirrors */
   mirrors?: Maybe<Array<Mirror>>;
-};
-
-
-export type ProfilefollowersArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Account_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Account_filter>;
-};
-
-
-export type ProfilefollowingsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Profile_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<Profile_filter>;
 };
 
 
@@ -1020,28 +842,6 @@ export type Profile_filter = {
   totalFollowers_lte?: InputMaybe<Scalars['BigInt']>;
   totalFollowers_in?: InputMaybe<Array<Scalars['BigInt']>>;
   totalFollowers_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalFollowings?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_not?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_gt?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_lt?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_gte?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_lte?: InputMaybe<Scalars['BigInt']>;
-  totalFollowings_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  totalFollowings_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  followers?: InputMaybe<Array<Scalars['String']>>;
-  followers_not?: InputMaybe<Array<Scalars['String']>>;
-  followers_contains?: InputMaybe<Array<Scalars['String']>>;
-  followers_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
-  followers_not_contains?: InputMaybe<Array<Scalars['String']>>;
-  followers_not_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
-  followers_?: InputMaybe<Account_filter>;
-  followings?: InputMaybe<Array<Scalars['String']>>;
-  followings_not?: InputMaybe<Array<Scalars['String']>>;
-  followings_contains?: InputMaybe<Array<Scalars['String']>>;
-  followings_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
-  followings_not_contains?: InputMaybe<Array<Scalars['String']>>;
-  followings_not_contains_nocase?: InputMaybe<Array<Scalars['String']>>;
-  followings_?: InputMaybe<Profile_filter>;
   comments_?: InputMaybe<Comment_filter>;
   posts_?: InputMaybe<Post_filter>;
   mirrors_?: InputMaybe<Mirror_filter>;
@@ -1067,9 +867,6 @@ export type Profile_orderBy =
   | 'totalPosts'
   | 'totalComments'
   | 'totalFollowers'
-  | 'totalFollowings'
-  | 'followers'
-  | 'followings'
   | 'comments'
   | 'posts'
   | 'mirrors';
@@ -1173,8 +970,6 @@ export type Query = {
   comments: Array<Comment>;
   follow?: Maybe<Follow>;
   follows: Array<Follow>;
-  followNFTTransferred?: Maybe<FollowNFTTransferred>;
-  followNFTTransferreds: Array<FollowNFTTransferred>;
   publication?: Maybe<Publication>;
   publications: Array<Publication>;
   /** Access to subgraph metadata */
@@ -1321,24 +1116,6 @@ export type QueryfollowsArgs = {
   orderBy?: InputMaybe<Follow_orderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<Follow_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QueryfollowNFTTransferredArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type QueryfollowNFTTransferredsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<FollowNFTTransferred_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<FollowNFTTransferred_filter>;
   block?: InputMaybe<Block_height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };
@@ -1513,8 +1290,6 @@ export type Subscription = {
   comments: Array<Comment>;
   follow?: Maybe<Follow>;
   follows: Array<Follow>;
-  followNFTTransferred?: Maybe<FollowNFTTransferred>;
-  followNFTTransferreds: Array<FollowNFTTransferred>;
   publication?: Maybe<Publication>;
   publications: Array<Publication>;
   /** Access to subgraph metadata */
@@ -1666,24 +1441,6 @@ export type SubscriptionfollowsArgs = {
 };
 
 
-export type SubscriptionfollowNFTTransferredArgs = {
-  id: Scalars['ID'];
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
-export type SubscriptionfollowNFTTransferredsArgs = {
-  skip?: InputMaybe<Scalars['Int']>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<FollowNFTTransferred_orderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  where?: InputMaybe<FollowNFTTransferred_filter>;
-  block?: InputMaybe<Block_height>;
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-
 export type SubscriptionpublicationArgs = {
   id: Scalars['ID'];
   block?: InputMaybe<Block_height>;
@@ -1771,10 +1528,6 @@ export type _SubgraphErrorPolicy_ =
   /** null **/
   follows: InContextSdkMethod<Query['follows'], QueryfollowsArgs, MeshContext>,
   /** null **/
-  followNFTTransferred: InContextSdkMethod<Query['followNFTTransferred'], QueryfollowNFTTransferredArgs, MeshContext>,
-  /** null **/
-  followNFTTransferreds: InContextSdkMethod<Query['followNFTTransferreds'], QueryfollowNFTTransferredsArgs, MeshContext>,
-  /** null **/
   publication: InContextSdkMethod<Query['publication'], QuerypublicationArgs, MeshContext>,
   /** null **/
   publications: InContextSdkMethod<Query['publications'], QuerypublicationsArgs, MeshContext>,
@@ -1820,10 +1573,6 @@ export type _SubgraphErrorPolicy_ =
   /** null **/
   follows: InContextSdkMethod<Subscription['follows'], SubscriptionfollowsArgs, MeshContext>,
   /** null **/
-  followNFTTransferred: InContextSdkMethod<Subscription['followNFTTransferred'], SubscriptionfollowNFTTransferredArgs, MeshContext>,
-  /** null **/
-  followNFTTransferreds: InContextSdkMethod<Subscription['followNFTTransferreds'], SubscriptionfollowNFTTransferredsArgs, MeshContext>,
-  /** null **/
   publication: InContextSdkMethod<Subscription['publication'], SubscriptionpublicationArgs, MeshContext>,
   /** null **/
   publications: InContextSdkMethod<Subscription['publications'], SubscriptionpublicationsArgs, MeshContext>,
@@ -1832,7 +1581,7 @@ export type _SubgraphErrorPolicy_ =
   };
 
   export type Context = {
-      ["lens-subgraph"]: { Query: QuerySdk, Mutation: MutationSdk, Subscription: SubscriptionSdk },
+      ["lens-protocol"]: { Query: QuerySdk, Mutation: MutationSdk, Subscription: SubscriptionSdk },
       
     };
 }

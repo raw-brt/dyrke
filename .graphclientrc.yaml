@@ -1,8 +1,8 @@
 sources:
-  - name: lens-subgraph
+  - name: lens-protocol
     handler:
       graphql:
-        endpoint: https://api.thegraph.com/subgraphs/name/rtomas/lens-subgraph
+        endpoint: https://api.thegraph.com/subgraphs/name/raw-brt/lens-protocol
 
 documents:
-  - ./src/graphql/TestQuery.graphql
+  - ./src/graphql/subgraph/*

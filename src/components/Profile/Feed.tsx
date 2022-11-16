@@ -5,9 +5,9 @@ import {
   useProfileFeedQuery,
 } from "../../generated/types";
 import { useState } from "react";
-import type {FC, Dispatch, SetStateAction } from "react";
+import type {FC } from "react";
 import { useProfileStore } from "src/store/profiles";
-import { MAINNET_API_URL, SCROLL_THRESHOLD } from "src/config/constants";
+import { MAINNET_API_URL } from "src/config/constants";
 import { useAuthStore } from "src/store/auth";
 import { PublicationsSkeleton } from "../Shared/Skeleton/PublicationsSkeleton";
 import { Empty } from "../UI/Empty";
