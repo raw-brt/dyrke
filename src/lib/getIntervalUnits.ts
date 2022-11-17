@@ -108,12 +108,12 @@ export const getIntervalUnits = (period: Period) => {
       if (intervalUnits.length === 0) {
         intervalUnits.push({
           start: startAndEnd.start,
-          end: startAndEnd.start + WEEK_FROM_NOW
+          end: startAndEnd.start + DAY_FROM_NOW
         });
       } else {
         intervalUnits.push({
           start: intervalUnits[intervalUnits.length - 1].end,
-          end: intervalUnits[intervalUnits.length - 1].end + WEEK_FROM_NOW
+          end: intervalUnits[intervalUnits.length - 1].end + DAY_FROM_NOW
         });
       }
      } while (intervalUnits.length < 30);

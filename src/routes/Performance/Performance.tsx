@@ -5,7 +5,7 @@ import { useProfileStore } from "src/store/profiles";
 import { Chart } from "@components/Performance/Chart";
 import { MetricCard } from "@components/Performance/MetricCard";
 import { usePerformanceMetrics } from "src/hooks/usePerformanceMetrics";
-import { getChartData } from "@lib/getChartData";
+import { useGetChartData } from "src/hooks/useGetChartData";
 
 export const Performance: FC = () => {
 
@@ -15,13 +15,14 @@ export const Performance: FC = () => {
 
   // Get data
   const performanceMetrics = usePerformanceMetrics(period);
-
-  const testPeriodInterval = getChartData(period);
-  console.log(testPeriodInterval)
   
   // Metrics
   const postCounter = performanceMetrics?.posts?.posts?.flat().length;
   const followersCounter = performanceMetrics?.followers?.follows?.flat().length;
+
+  // Get chart data
+  const chartData = useGetChartData(metric, period, performanceMetrics);
+  console.log(chartData)
 
   return (
     <>
@@ -38,7 +39,7 @@ export const Performance: FC = () => {
             : followersCounter
         }
       />
-      <Chart metric={metric} period={period} />
+      <Chart metric={metric} period={period} dataSet={chartData} />
       <div className='w-full h-auto flex flex-col justify-start items-start'>
         <h2 className='w-full text-left text-3xl font-bold text-gray-100 mt-10'>
           {period === "Today" ? "Today" : `Last ${period}`}
