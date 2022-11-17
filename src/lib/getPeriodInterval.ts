@@ -26,10 +26,10 @@ export const getPeriodInterval = (period: Period): TimeInterval => {
     };
   } else if (period === "90 days") {
     // Get the day 90 days ago
-    const dayOneYearAgo = dayjs().subtract(90, "day");
+    const day90daysAgo = dayjs().subtract(90, "day");
 
     // Get unix time for 00:00 of that day
-    const startTime = dayjs(dayOneYearAgo).startOf("d");
+    const startTime = dayjs(day90daysAgo).startOf("d");
 
     // Get unix time for 23:59 of today
     const endTime = dayjs().endOf("d");
@@ -40,10 +40,10 @@ export const getPeriodInterval = (period: Period): TimeInterval => {
     };
   } else if (period === "30 days") {
     // Get the day 30 days ago
-    const dayOneYearAgo = dayjs().subtract(30, "day");
+    const dayThirtyDaysAgo = dayjs().subtract(30, "day");
 
     // Get unix time for 00:00 of that day
-    const startTime = dayjs(dayOneYearAgo).startOf("d");
+    const startTime = dayjs(dayThirtyDaysAgo).startOf("d");
 
     // Get unix time for 23:59 of today
     const endTime = dayjs().endOf("d");
@@ -54,10 +54,10 @@ export const getPeriodInterval = (period: Period): TimeInterval => {
     };
   } else if (period === "Week") {
     // Get the day one week ago
-    const dayOneYearAgo = dayjs().subtract(7, "day");
+    const dayOneWeekAgo = dayjs().subtract(7, "day");
 
     // Get unix time for 00:00 of that day
-    const startTime = dayjs(dayOneYearAgo).startOf("d");
+    const startTime = dayjs(dayOneWeekAgo).startOf("d");
 
     // Get unix time for 23:59 of today
     const endTime = dayjs().endOf("d");
@@ -68,10 +68,10 @@ export const getPeriodInterval = (period: Period): TimeInterval => {
     };
   } else {
     // Get the time 24 hours ago
-    const dayOneYearAgo = dayjs().subtract(1, "day");
+    const yesterday = dayjs().subtract(1, "day");
 
     // Get unix time for 00:00 of that day
-    const startTime = dayjs(dayOneYearAgo).startOf("d");
+    const startTime = dayjs(yesterday).startOf("d");
 
     // Get unix time for 23:59 of today
     const endTime = dayjs().endOf("d");

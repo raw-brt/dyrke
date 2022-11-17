@@ -1,63 +1,27 @@
-import { FC, useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getBuiltGraphSDK } from "../../.graphclient/index";
+import { FC, useState } from "react";
 import { Metric, Period } from "@generated/dyrketypes";
 import { Header } from "@components/Performance/Header";
 import { useProfileStore } from "src/store/profiles";
 import { Chart } from "@components/Performance/Chart";
-import { getIntervalUnits } from "@lib/getIntervalUnits";
 import { MetricCard } from "@components/Performance/MetricCard";
-import { getPeriodInterval } from "@lib/getPeriodInterval";
-
-type PeriodInterval = { start: number, end: number }
-
-const sdk = getBuiltGraphSDK();
+import { usePerformanceMetrics } from "src/hooks/usePerformanceMetrics";
+import { getChartData } from "@lib/getChartData";
 
 export const Performance: FC = () => {
+
+  // Component state
   const [metric, setMetric] = useState<Metric>("Followers");
   const [period, setPeriod] = useState<Period>("30 days");
-  const userProfile = useProfileStore((state) => state.currentProfile);
-  const userId = parseInt(userProfile?.id, 16).toString();
-  const [lastUserId, setLastUserId] = useState("");
-  const [periodInterval, setPeriodInterval] = useState<PeriodInterval>(getPeriodInterval(period));
 
-  const [follows, setFollows] = useState<unknown[]>([]);
+  // Get data
+  const performanceMetrics = usePerformanceMetrics(period);
 
-  console.log("follows array is: ", follows)
-
-  const currentProfile = useProfileStore((state) => state.currentProfile);
-
-  const followersByInterval = useQuery(
-    ["GetFollowersInterval", userId, periodInterval, lastUserId],
-    () => sdk.GetFollowersByInterval({ 
-      id: userId, 
-      gt: periodInterval?.start, 
-      lt: periodInterval?.end, 
-      lastID: lastUserId 
-    }),
-    { 
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      onSuccess: (data) => {
-        if (data.follows.length === 1000) {
-          setFollows([...follows as [any], data.follows]);
-          setLastUserId(data.follows[999].id);
-        } else {
-          setFollows([...follows as [any], data.follows]);
-          const flattened = follows.flat();
-          console.log(flattened.length)
-        }
-      }
-     },
-  );
-
-  console.log("Query is: ", followersByInterval?.data, periodInterval?.start, periodInterval?.end, lastUserId)
-
-    useEffect(() => {
-      setPeriodInterval(getPeriodInterval(period));
-      setFollows([]);
-      setLastUserId("");
-    }, [period]);
+  const testPeriodInterval = getChartData(period);
+  console.log(testPeriodInterval)
+  
+  // Metrics
+  const postCounter = performanceMetrics?.posts?.posts?.flat().length;
+  const followersCounter = performanceMetrics?.followers?.follows?.flat().length;
 
   return (
     <>
@@ -66,7 +30,13 @@ export const Performance: FC = () => {
         setMetric={setMetric}
         period={period}
         setPeriod={setPeriod}
-        value={currentProfile?.stats.totalFollowers}
+        value={
+          metric === "Followers" 
+            ? followersCounter 
+            : metric === "Publications" 
+            ? postCounter 
+            : followersCounter
+        }
       />
       <Chart metric={metric} period={period} />
       <div className='w-full h-auto flex flex-col justify-start items-start'>
@@ -76,7 +46,7 @@ export const Performance: FC = () => {
         <div className='w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 my-10'>
           <MetricCard
             metricTitle='PUBLICATIONS'
-            metricValue={356}
+            metricValue={postCounter}
             kpiTitle='AVERAGE ENG.'
             kpiValue={0.57}
           />

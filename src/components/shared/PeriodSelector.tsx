@@ -7,7 +7,7 @@ interface Props {
   setPeriod: Dispatch<SetStateAction<Period>>;
 }
 
-const periods: Array<Period> = ["Year", "90 days", "30 days", "Week", "Today"];
+const periods: Array<Period> = ["90 days", "30 days", "Week", "Today"];
 
 export const PeriodSelector: FC<Props> = ({ period = "Month", setPeriod }) => {
   return (

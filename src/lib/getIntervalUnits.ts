@@ -14,8 +14,8 @@ interface TimeInterval {
 }
 
 // Constants
-const WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
-const DAY_IN_SECONDS = 24 * 60 * 60;
+const WEEK_FROM_NOW = 7 * 24 * 60 * 60;
+const DAY_FROM_NOW = 24 * 60 * 60;
 const HOUR_IN_SECONDS = 60 * 60;
 
 export const getIntervalUnits = (period: Period) => {
@@ -23,23 +23,31 @@ export const getIntervalUnits = (period: Period) => {
 
   if (period === "Year") {
 
-    // Calculate one year from now
+    // Get the day one year ago
+    const dayOneYearAgo = dayjs().subtract(1, "year");
+
+    // Get unix time for 00:00 of that day
+    const startTime = dayjs(dayOneYearAgo).startOf("d");
+
+    // Get unix time for 23:59 of today
+    const endTime = dayjs().endOf("d");
+
     const startAndEnd = {
-      start: dayjs().subtract(1, "year").unix(),
-      end: dayjs().unix(), 
-     }
-    
-    // Build an array of objects with each timeinterval according to selected period
+      start: startTime.unix(),
+      end: endTime.unix()
+    }
+
+    // Build an array of objects with each time interval according to selected period
      do {
       if (intervalUnits.length === 0) {
         intervalUnits.push({
           start: startAndEnd.start,
-          end: startAndEnd.start + WEEK_IN_SECONDS
+          end: startAndEnd.start + WEEK_FROM_NOW
         });
       } else {
         intervalUnits.push({
           start: intervalUnits[intervalUnits.length - 1].end + 1,
-          end: intervalUnits[intervalUnits.length - 1].end + 1 + WEEK_IN_SECONDS
+          end: intervalUnits[intervalUnits.length - 1].end + WEEK_FROM_NOW
         });
       }
      } while (intervalUnits.length < 52);
@@ -48,23 +56,31 @@ export const getIntervalUnits = (period: Period) => {
 
   } else if (period === "90 days") {
 
-    // Calculate one year from now
-    const startAndEnd = { 
-      start: dayjs().subtract(90, "day").unix(),
-      end: dayjs().unix()
-     }
+    // Get the day 90 days from now
+    const day90DaysAgo = dayjs().subtract(90, "day");
+
+    // Get unix time for 00:00 of that day
+    const startTime = dayjs(day90DaysAgo).startOf("d");
+
+    // Get unix time for 23:59 of today
+    const endTime = dayjs().endOf("d");
+
+    const startAndEnd = {
+      start: startTime.unix(),
+      end: endTime.unix()
+    }
     
     // Build an array of objects with each timeinterval according to selected period
      do {
       if (intervalUnits.length === 0) {
         intervalUnits.push({
           start: startAndEnd.start,
-          end: startAndEnd.start + DAY_IN_SECONDS
+          end: startAndEnd.start + DAY_FROM_NOW
         });
       } else {
         intervalUnits.push({
           start: intervalUnits[intervalUnits.length - 1].end + 1,
-          end: intervalUnits[intervalUnits.length - 1].end + 1 + DAY_IN_SECONDS
+          end: intervalUnits[intervalUnits.length - 1].end + DAY_FROM_NOW
         });
       }
      } while (intervalUnits.length < 90);
@@ -73,23 +89,31 @@ export const getIntervalUnits = (period: Period) => {
 
   } else if (period === "30 days") {
 
-    // Calculate one year from now
-    const startAndEnd = { 
-      start: dayjs().subtract(30, "day").unix(),
-      end: dayjs().unix()
-     }
+    // Get the day 30 days from now
+    const dayOneYearAgo = dayjs().subtract(30, "day");
+
+    // Get unix time for 00:00 of that day
+    const startTime = dayjs(dayOneYearAgo).startOf("d");
+
+    // Get unix time for 23:59 of today
+    const endTime = dayjs().endOf("d");
+
+    const startAndEnd = {
+      start: startTime.unix(),
+      end: endTime.unix()
+    }
     
     // Build an array of objects with each timeinterval according to selected period
      do {
       if (intervalUnits.length === 0) {
         intervalUnits.push({
           start: startAndEnd.start,
-          end: startAndEnd.start + WEEK_IN_SECONDS
+          end: startAndEnd.start + WEEK_FROM_NOW
         });
       } else {
         intervalUnits.push({
-          start: intervalUnits[intervalUnits.length - 1].end + 1,
-          end: intervalUnits[intervalUnits.length - 1].end + 1 + WEEK_IN_SECONDS
+          start: intervalUnits[intervalUnits.length - 1].end,
+          end: intervalUnits[intervalUnits.length - 1].end + WEEK_FROM_NOW
         });
       }
      } while (intervalUnits.length < 30);
@@ -98,23 +122,31 @@ export const getIntervalUnits = (period: Period) => {
 
   } else if (period === "Week") {
 
-    // Calculate one year from now
-    const startAndEnd = { 
-      start: dayjs().subtract(7, "day").unix(),
-      end: dayjs().unix()
-     }
+    // Get the day 7 days from now
+    const dayOneYearAgo = dayjs().subtract(7, "day");
+
+    // Get unix time for 00:00 of that day
+    const startTime = dayjs(dayOneYearAgo).startOf("d");
+
+    // Get unix time for 23:59 of today
+    const endTime = dayjs().endOf("d");
+
+    const startAndEnd = {
+      start: startTime.unix(),
+      end: endTime.unix()
+    }
     
     // Build an array of objects with each timeinterval according to selected period
      do {
       if (intervalUnits.length === 0) {
         intervalUnits.push({
           start: startAndEnd.start,
-          end: startAndEnd.start + DAY_IN_SECONDS
+          end: startAndEnd.start + DAY_FROM_NOW
         });
       } else {
         intervalUnits.push({
-          start: intervalUnits[intervalUnits.length - 1].end + 1,
-          end: intervalUnits[intervalUnits.length - 1].end + 1 + DAY_IN_SECONDS
+          start: intervalUnits[intervalUnits.length - 1].end,
+          end: intervalUnits[intervalUnits.length - 1].end + DAY_FROM_NOW
         });
       }
      } while (intervalUnits.length < 7);
@@ -138,11 +170,11 @@ export const getIntervalUnits = (period: Period) => {
         });
       } else {
         intervalUnits.push({
-          start: intervalUnits[intervalUnits.length - 1].end + 1,
-          end: intervalUnits[intervalUnits.length - 1].end + 1 + HOUR_IN_SECONDS
+          start: intervalUnits[intervalUnits.length - 1].end,
+          end: intervalUnits[intervalUnits.length - 1].end + HOUR_IN_SECONDS
         });
       }
-     } while (intervalUnits.length < 52);
+     } while (intervalUnits.length < 24);
 
      return intervalUnits;
 

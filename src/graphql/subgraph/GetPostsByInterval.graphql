@@ -1,0 +1,24 @@
+query GetPostsByInterval(
+  $first: Int = 1000,
+  $skip: Int = 0, 
+  $handle: String,
+  $gt: BigInt, 
+  $lt: BigInt,
+  $lastPubId: BigInt = 0
+  ) {
+  posts(
+    first: $first, 
+    skip: $skip, 
+    where: {
+      fromProfile_: {handle: $handle}, 
+      timestamp_gt: $gt, 
+      timestamp_lt: $lt, 
+      pubId_gt: $lastPubId
+      }, 
+      orderBy: pubId, 
+      orderDirection: asc
+    ) {
+    pubId
+    timestamp
+  }
+}

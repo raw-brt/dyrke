@@ -9,7 +9,6 @@ import { ExclamationCircleIcon, IdentificationIcon } from "@heroicons/react/24/o
 import { SwitchNetwork } from "src/components/Shared/SwitchNetwork";
 import { Button } from "src/components/UI/Button";
 import LensIcon from "../../assets/lens-icon.svg";
-import { getPeriodInterval } from "@lib/getPeriodInterval";
 
 export const Login: FC = () => {
   const [isConnected, setIsConnected] = useState(false);
