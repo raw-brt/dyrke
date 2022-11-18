@@ -8,7 +8,7 @@ interface Props {
 
 export const Embed: FC<Props> = ({ og }) => {
   return (
-    <div className="mt-4 text-sm sm:w-4/6">
+    <div className="mt-4 text-sm w-full">
       <a
         href={og.url}
         onClick={(event) => {

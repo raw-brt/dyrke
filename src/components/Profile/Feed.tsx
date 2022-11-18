@@ -74,8 +74,6 @@ export const Feed: FC<Props> = ({ profile, type }) => {
     },
   );
 
-  console.log("Feedpublications: ", feedPublications)
-
   const publications = profileFeed?.data?.publications?.items;
   const pageInfo = profileFeed?.data?.publications?.pageInfo;
   const hasMore = pageInfo?.next && publications?.length !== pageInfo.totalCount;
@@ -105,7 +103,7 @@ export const Feed: FC<Props> = ({ profile, type }) => {
   }
 
   return (
-    <div id="scrollableDiv" style={{ height: "50%", overflow: "auto" }}>
+    <div id="scrollableDiv" style={{ height: "50%", width: "100%", overflow: "auto" }}>
       <InfiniteScroll
         dataLength={publications?.length ?? 0}
         hasMore={hasMore}

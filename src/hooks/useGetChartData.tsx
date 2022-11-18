@@ -1,16 +1,30 @@
 import { Metric, Period } from "@generated/dyrketypes";
 import { getIntervalUnits } from "@lib/getIntervalUnits";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import dayjs from "dayjs";
 
-// Calcular unidades para el intervalo
+// Apply localizeformat plugin to dayjs
+dayjs.extend(localizedFormat);
 
-// Meter en cada intervalo una propiedad con el contador
+const getReadableTimeUnit = (period: Period, timeUnit: { start: number, end: number }) => {
+  if (period === "90 days" || period === "30 days" || period === "Week") {
+    return dayjs.unix(timeUnit.start).format("L");
+  } else if (period === "Today") {
+    return dayjs.unix(timeUnit.start).format("LTS");
+  } else {
+    return;
+  }
+};
 
 export const useGetChartData = (metric: Metric, period: Period, chartData: any) => {
+
+  // If it's still loading, do nothing
 
   if (
     !chartData?.followers?.followersByInterval?.isSuccess || !chartData?.posts?.postsByInterval?.isSuccess
     ) return;
 
+  // If there are more than one page, flat the arrays
   const follows = chartData?.followers?.follows.flat();
   const publications = chartData?.posts?.posts.flat();
 
@@ -31,9 +45,9 @@ export const useGetChartData = (metric: Metric, period: Period, chartData: any) 
         : null
     ));
 
-    console.log("cookedChartData", cookedChartData)
-
-    const readyToRenderData = cookedChartData.map((element, index) => ({ periodUnit: index + 1, amount: element[0].length }))
+    const readyToRenderData = cookedChartData.map((element, index) => (
+      { periodUnit: index + 1, amount: element[0].length, date: getReadableTimeUnit(period, element[1]) }
+      ))
 
     return readyToRenderData;
 

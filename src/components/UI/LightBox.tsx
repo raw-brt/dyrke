@@ -11,7 +11,7 @@ interface Props {
 export const LightBox: FC<Props> = ({ show, url, onClose }) => {
   return (
     <Transition.Root show={show} as={Fragment}>
-      <Dialog as="div" className="overflow-y-auto fixed inset-0 z-10" onClose={onClose}>
+      <Dialog as="div" className="overflow-y-auto fixed inset-0 z-20" onClose={onClose}>
         <div className="text-center">
           <Transition.Child
             as={Fragment}

@@ -12,7 +12,7 @@ interface Props {
   isSidebar: boolean
 }
 
-export const Profile: FC<Props> = ({ isSidebar = false }) => {
+export const Profile: FC<Props> = ({ isSidebar = true }) => {
   const [feedType, setFeedType] = useState<FeedType>("FEED");
 
   // State & Dependencies

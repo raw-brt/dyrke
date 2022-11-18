@@ -48,7 +48,7 @@ const Attachments: FC<Props> = ({
   publication,
   txn
 }) => {
-  const [expanedImage, setExpandedImage] = useState<string | null>(null);
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
 
   const removeAttachment = (attachment: any) => {
     const arr = attachments;
@@ -104,10 +104,10 @@ const Attachments: FC<Props> = ({
                 <Video src={url} />
               ) : (
                 <img
-                  className="object-cover bg-gray-100 rounded-lg border cursor-pointer dark:bg-gray-800 dark:border-gray-700/80"
+                  className="bg-gray-100 rounded-lg border cursor-pointer dark:bg-gray-800 dark:border-gray-700/80 max-w-1/2"
                   loading="lazy"
-                  height={1000}
-                  width={1000}
+                  height={150}
+                  width={150}
                   onClick={() => setExpandedImage(url)}
                   src={url}
                   alt={url}
@@ -130,7 +130,7 @@ const Attachments: FC<Props> = ({
           );
         })}
       </div>
-      <LightBox show={!!expanedImage} url={expanedImage} onClose={() => setExpandedImage(null)} />
+      <LightBox show={!!expandedImage} url={expandedImage} onClose={() => setExpandedImage(null)} />
     </>
   ) : null;
 };

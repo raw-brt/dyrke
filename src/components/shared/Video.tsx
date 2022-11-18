@@ -8,7 +8,7 @@ interface Props {
 
 export const Video: FC<Props> = ({ src }) => {
   return (
-    <div className="rounded-lg">
+    <div className="rounded-lg max-w-1/2">
       <Plyr
         source={{
           type: "video",
