@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
-const CustomTooltip: FC<TooltipProps<ValueType, NameType>> = ({ active, label, payload }) => {
+const CustomTooltip: FC<TooltipProps<ValueType, NameType>> = ({ active, payload }) => {
   if (active) {
     const amount = payload && payload[0].payload.amount;
     const date = payload && payload[0].payload.date;
@@ -46,13 +46,17 @@ export const Chart: FC<Props> = ({ period, metric, dataSet }) => {
           data={dataSet}
           margin={{
             top: 5,
-            right: 0,
+            right: 5,
             left: 0,
             bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray='3 3' stroke='#374151' vertical={false} />
-          <XAxis dataKey='periodUnit' stroke='#9CA3AF' />
+          <XAxis
+            dataKey='periodUnit'
+            stroke='#9CA3AF'
+            interval={period === "90 days" ? 5 : period === "30 days" ? 2 : 0}
+          />
           <YAxis stroke='#9CA3AF' />
           <Tooltip isAnimationActive={false} content={<CustomTooltip />} />
           <Line
