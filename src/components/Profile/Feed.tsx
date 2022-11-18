@@ -103,7 +103,7 @@ export const Feed: FC<Props> = ({ profile, type }) => {
   }
 
   return (
-    <div id="scrollableDiv" style={{ height: "50%", width: "100%", overflow: "auto" }}>
+    <div className="w-full h-full pb-10 overflow-auto" id="scrollableDiv">
       <InfiniteScroll
         dataLength={publications?.length ?? 0}
         hasMore={hasMore}
@@ -115,9 +115,9 @@ export const Feed: FC<Props> = ({ profile, type }) => {
           {feedPublications?.map((page: any) => (
             page.map((publication: DyrkePublication, index: number) => (
               <SinglePublication
-              key={`${publication.id}_${index}`}
-              publication={publication as DyrkePublication}
-              showThread={type !== "MEDIA"}
+                key={`${publication.id}_${index}`}
+                publication={publication as DyrkePublication}
+                showThread={type !== "MEDIA"}
             />
             ))
           ))}

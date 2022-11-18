@@ -1,4 +1,5 @@
 fragment MirrorFields on Mirror {
+  __typename
   id
   profile {
     ...ProfileFields

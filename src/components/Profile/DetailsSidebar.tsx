@@ -3,7 +3,7 @@ import type { FC, ReactElement } from "react";
 import { useProfileStore } from "src/store/profiles";
 import { Profile } from "@generated/types";
 import { Tooltip } from "../UI/Tooltip";
-import { CogIcon, HashtagIcon, MapPinIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, HashtagIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import { Slug } from "../Shared/Slug";
 import { Button } from "../UI/Button";
 import { Link } from "react-router-dom";
@@ -37,8 +37,8 @@ export const DetailsSidebar: FC<Props> = ({ profile }) => {
       <div className='pt-4'>
         <div className='flex justify-between items-center text-2xl font-bold'>
           <div className='truncate'>{profile?.name ?? profile?.handle}</div>
-          <Button variant='secondary' size="sm" icon={<PencilSquareIcon className='w-5 h-5' />} outline>
-            Edit
+          <Button variant='secondary' size="sm" icon={<ArrowPathIcon className='w-5 h-5' />} outline>
+            Switch
           </Button>
         </div>
       </div>

@@ -43,15 +43,18 @@ export type Scalars = {
   BroadcastId: any;
   ChainId: any;
   CollectModuleData: any;
+  ContentEncryptionKey: any;
   ContractAddress: any;
   CreateHandle: any;
   Cursor: any;
   DateTime: any;
+  EncryptedValueScalar: any;
   Ens: any;
   EthereumAddress: any;
   FollowModuleData: any;
   Handle: any;
   HandleClaimIdScalar: any;
+  IfpsCid: any;
   InternalPublicationId: any;
   Jwt: any;
   LimitScalar: any;
@@ -62,6 +65,7 @@ export type Scalars = {
   Nonce: any;
   NotificationId: any;
   ProfileId: any;
+  ProfileInterest: any;
   ProxyActionId: any;
   PublicationId: any;
   PublicationTag: any;
@@ -72,11 +76,53 @@ export type Scalars = {
   Signature: any;
   Sources: any;
   TimestampScalar: any;
+  TokenId: any;
   TxHash: any;
   TxId: any;
   UnixTimestamp: any;
   Url: any;
   Void: any;
+};
+
+/** The access conditions for the publication */
+export type AccessConditionInput = {
+  /** AND condition */
+  and?: InputMaybe<AndConditionInput>;
+  /** Profile follow condition */
+  collect?: InputMaybe<CollectConditionInput>;
+  /** EOA ownership condition */
+  eoa?: InputMaybe<EoaOwnershipInput>;
+  /** Profile follow condition */
+  follow?: InputMaybe<FollowConditionInput>;
+  /** NFT ownership condition */
+  nft?: InputMaybe<NftOwnershipInput>;
+  /** OR condition */
+  or?: InputMaybe<OrConditionInput>;
+  /** Profile ownership condition */
+  profile?: InputMaybe<ProfileOwnershipInput>;
+  /** ERC20 token ownership condition */
+  token?: InputMaybe<Erc20OwnershipInput>;
+};
+
+/** The access conditions for the publication */
+export type AccessConditionOutput = {
+  __typename?: "AccessConditionOutput";
+  /** AND condition */
+  and?: Maybe<AndConditionOutput>;
+  /** Profile follow condition */
+  collect?: Maybe<CollectConditionOutput>;
+  /** EOA ownership condition */
+  eoa?: Maybe<EoaOwnershipOutput>;
+  /** Profile follow condition */
+  follow?: Maybe<FollowConditionOutput>;
+  /** NFT ownership condition */
+  nft?: Maybe<NftOwnershipOutput>;
+  /** OR condition */
+  or?: Maybe<OrConditionOutput>;
+  /** Profile ownership condition */
+  profile?: Maybe<ProfileOwnershipOutput>;
+  /** ERC20 token ownership condition */
+  token?: Maybe<Erc20OwnershipOutput>;
 };
 
 export type AchRequest = {
@@ -88,12 +134,31 @@ export type AchRequest = {
   secret: Scalars["String"];
 };
 
+/** The request object to add interests to a profile */
+export type AddProfileInterestsRequest = {
+  /** The profile interest to add */
+  interests: Array<Scalars["ProfileInterest"]>;
+  /** The profileId to add interests to */
+  profileId: Scalars["ProfileId"];
+};
+
 export type AllPublicationsTagsRequest = {
   cursor?: InputMaybe<Scalars["Cursor"]>;
   limit?: InputMaybe<Scalars["LimitScalar"]>;
   sort: TagSortCriteria;
   /** The App Id */
   source?: InputMaybe<Scalars["Sources"]>;
+};
+
+export type AndConditionInput = {
+  /** The list of conditions to apply AND to. You can only use nested boolean conditions at the root level. */
+  criteria: Array<AccessConditionInput>;
+};
+
+export type AndConditionOutput = {
+  __typename?: "AndConditionOutput";
+  /** The list of conditions to apply AND to. You can only use nested boolean conditions at the root level. */
+  criteria: Array<AccessConditionOutput>;
 };
 
 export type ApprovedAllowanceAmount = {
@@ -158,6 +223,12 @@ export type CanCommentResponse = {
   result: Scalars["Boolean"];
 };
 
+export type CanDecryptResponse = {
+  __typename?: "CanDecryptResponse";
+  reasons?: Maybe<DecryptFailReason>;
+  result: Scalars["Boolean"];
+};
+
 export type CanMirrorResponse = {
   __typename?: "CanMirrorResponse";
   result: Scalars["Boolean"];
@@ -187,6 +258,23 @@ export type ClaimableHandles = {
   __typename?: "ClaimableHandles";
   canClaimFreeTextHandle: Scalars["Boolean"];
   reservedHandles: Array<ReservedClaimableHandle>;
+};
+
+/** Condition that signifies if address or profile has collected a publication */
+export type CollectConditionInput = {
+  /** The collected publication id */
+  publicationId: Scalars["PublicationId"];
+  /** The collected publication id */
+  publisherId: Scalars["ProfileId"];
+};
+
+/** Condition that signifies if address or profile has collected a publication */
+export type CollectConditionOutput = {
+  __typename?: "CollectConditionOutput";
+  /** The collected publication id */
+  publicationId: Scalars["PublicationId"];
+  /** The collected publication id */
+  publisherId: Scalars["ProfileId"];
 };
 
 export type CollectModule =
@@ -242,6 +330,7 @@ export type Comment = {
   /** ID of the source */
   appId?: Maybe<Scalars["Sources"]>;
   canComment: CanCommentResponse;
+  canDecrypt: CanDecryptResponse;
   canMirror: CanMirrorResponse;
   /** The collect module */
   collectModule: CollectModule;
@@ -260,6 +349,8 @@ export type Comment = {
   hidden: Scalars["Boolean"];
   /** The internal publication id */
   id: Scalars["InternalPublicationId"];
+  /** Indicates if the publication is gated behind some access criteria */
+  isGated: Scalars["Boolean"];
   /** The top level post/mirror this comment lives on */
   mainPost: MainPostReference;
   /** The metadata for the post */
@@ -282,8 +373,19 @@ export type CommentCanCommentArgs = {
 };
 
 /** The social comment */
+export type CommentCanDecryptArgs = {
+  address?: InputMaybe<Scalars["EthereumAddress"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
+};
+
+/** The social comment */
 export type CommentCanMirrorArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
+};
+
+/** The social comment */
+export type CommentHasCollectedByMeArgs = {
+  isFinalisedOnChain?: InputMaybe<Scalars["Boolean"]>;
 };
 
 /** The social comment */
@@ -295,6 +397,13 @@ export type CommentMirrorsArgs = {
 export type CommentReactionArgs = {
   request?: InputMaybe<ReactionFieldResolverRequest>;
 };
+
+/** The gated publication access criteria contract types */
+export enum ContractType {
+  Erc20 = "ERC20",
+  Erc721 = "ERC721",
+  Erc1155 = "ERC1155",
+}
 
 /** The create burn eip 712 typed data */
 export type CreateBurnEip712TypedData = {
@@ -563,6 +672,8 @@ export type CreatePublicCommentRequest = {
   collectModule: CollectModuleParams;
   /** The metadata uploaded somewhere passing in the url to reach it */
   contentURI: Scalars["Url"];
+  /** The criteria to access the publication data */
+  gated?: InputMaybe<GatedPublicationParamsInput>;
   /** Profile id */
   profileId: Scalars["ProfileId"];
   /** Publication id of what your comments on remember if this is a comment you commented on it will be that as the id */
@@ -576,6 +687,8 @@ export type CreatePublicPostRequest = {
   collectModule: CollectModuleParams;
   /** The metadata uploaded somewhere passing in the url to reach it */
   contentURI: Scalars["Url"];
+  /** The criteria to access the publication data */
+  gated?: InputMaybe<GatedPublicationParamsInput>;
   /** Profile id */
   profileId: Scalars["ProfileId"];
   /** The reference module */
@@ -850,6 +963,19 @@ export enum CustomFiltersTypes {
   Gardeners = "GARDENERS",
 }
 
+/** The reason why a profile cannot decrypt a publication */
+export enum DecryptFailReason {
+  CollectNotFinalisedOnChain = "COLLECT_NOT_FINALISED_ON_CHAIN",
+  DoesNotFollowProfile = "DOES_NOT_FOLLOW_PROFILE",
+  DoesNotOwnNft = "DOES_NOT_OWN_NFT",
+  DoesNotOwnProfile = "DOES_NOT_OWN_PROFILE",
+  FollowNotFinalisedOnChain = "FOLLOW_NOT_FINALISED_ON_CHAIN",
+  HasNotCollectedPublication = "HAS_NOT_COLLECTED_PUBLICATION",
+  ProfileDoesNotExist = "PROFILE_DOES_NOT_EXIST",
+  UnauthorizedAddress = "UNAUTHORIZED_ADDRESS",
+  UnauthorizedBalance = "UNAUTHORIZED_BALANCE",
+}
+
 export type DefaultProfileRequest = {
   ethereumAddress: Scalars["EthereumAddress"];
 };
@@ -956,10 +1082,94 @@ export type EnabledModules = {
   referenceModules: Array<EnabledModule>;
 };
 
+/** The encrypted fields */
+export type EncryptedFieldsOutput = {
+  __typename?: "EncryptedFieldsOutput";
+  /** The encrypted animation_url field */
+  animation_url?: Maybe<Scalars["EncryptedValueScalar"]>;
+  /** The encrypted content field */
+  content?: Maybe<Scalars["EncryptedValueScalar"]>;
+  /** The encrypted external_url field */
+  external_url?: Maybe<Scalars["EncryptedValueScalar"]>;
+  /** The encrypted image field */
+  image?: Maybe<Scalars["EncryptedValueScalar"]>;
+  /** The encrypted media field */
+  media?: Maybe<Array<EncryptedMediaSet>>;
+};
+
+/** The Encrypted Media url and metadata */
+export type EncryptedMedia = {
+  __typename?: "EncryptedMedia";
+  /** The encrypted alt tags for accessibility */
+  altTag?: Maybe<Scalars["EncryptedValueScalar"]>;
+  /** The encrypted cover for any video or audio you attached */
+  cover?: Maybe<Scalars["EncryptedValueScalar"]>;
+  /** Height - will always be null on the public API */
+  height?: Maybe<Scalars["Int"]>;
+  /** The image/audio/video mime type for the publication */
+  mimeType?: Maybe<Scalars["MimeType"]>;
+  /** Size - will always be null on the public API */
+  size?: Maybe<Scalars["Int"]>;
+  /** The encrypted value for the URL */
+  url: Scalars["Url"];
+  /** Width - will always be null on the public API */
+  width?: Maybe<Scalars["Int"]>;
+};
+
+/** The encrypted media set */
+export type EncryptedMediaSet = {
+  __typename?: "EncryptedMediaSet";
+  /**
+   * Medium media - will always be null on the public API
+   * @deprecated should not be used will always be null
+   */
+  medium?: Maybe<EncryptedMedia>;
+  /** Original media */
+  original: EncryptedMedia;
+  /**
+   * Small media - will always be null on the public API
+   * @deprecated should not be used will always be null
+   */
+  small?: Maybe<EncryptedMedia>;
+};
+
+/** The metadata encryption params */
+export type EncryptionParamsOutput = {
+  __typename?: "EncryptionParamsOutput";
+  /** The access conditions */
+  accessCondition: AccessConditionOutput;
+  /** The encrypted fields */
+  encryptedFields: EncryptedFieldsOutput;
+  /** The encryption provider */
+  encryptionProvider: EncryptionProvider;
+  /** The provider-specific encryption params */
+  providerSpecificParams: ProviderSpecificParamsOutput;
+};
+
+/** The gated publication encryption provider */
+export enum EncryptionProvider {
+  LitProtocol = "LIT_PROTOCOL",
+}
+
 export type EnsOnChainIdentity = {
   __typename?: "EnsOnChainIdentity";
   /** The default ens mapped to this address */
   name?: Maybe<Scalars["Ens"]>;
+};
+
+export type EoaOwnershipInput = {
+  /** The address that will have access to the content */
+  address: Scalars["EthereumAddress"];
+  /** The chain ID of the address */
+  chainID: Scalars["ChainId"];
+};
+
+export type EoaOwnershipOutput = {
+  __typename?: "EoaOwnershipOutput";
+  /** The address that will have access to the content */
+  address: Scalars["EthereumAddress"];
+  /** The chain ID of the address */
+  chainID: Scalars["ChainId"];
 };
 
 /** The erc20 type */
@@ -981,6 +1191,33 @@ export type Erc20Amount = {
   asset: Erc20;
   /** Floating point number as string (e.g. 42.009837). It could have the entire precision of the Asset or be truncated to the last significant decimal. */
   value: Scalars["String"];
+};
+
+export type Erc20OwnershipInput = {
+  /** The amount of tokens required to access the content */
+  amount: Scalars["String"];
+  /** The amount of tokens required to access the content */
+  chainID: Scalars["ChainId"];
+  /** The operator to use when comparing the amount of tokens */
+  condition: ScalarOperator;
+  /** The ERC20 token's ethereum address */
+  contractAddress: Scalars["ContractAddress"];
+  /** The amount of decimals of the ERC20 contract */
+  decimals: Scalars["Float"];
+};
+
+export type Erc20OwnershipOutput = {
+  __typename?: "Erc20OwnershipOutput";
+  /** The amount of tokens required to access the content */
+  amount: Scalars["String"];
+  /** The amount of tokens required to access the content */
+  chainID: Scalars["ChainId"];
+  /** The operator to use when comparing the amount of tokens */
+  condition: ScalarOperator;
+  /** The ERC20 token's ethereum address */
+  contractAddress: Scalars["ContractAddress"];
+  /** The amount of decimals of the ERC20 contract */
+  decimals: Scalars["Float"];
 };
 
 /** The paginated publication result */
@@ -1126,6 +1363,17 @@ export type Follow = {
   profile: Scalars["ProfileId"];
 };
 
+export type FollowConditionInput = {
+  /** The profile id of the gated profile */
+  profileId: Scalars["ProfileId"];
+};
+
+export type FollowConditionOutput = {
+  __typename?: "FollowConditionOutput";
+  /** The profile id of the gated profile */
+  profileId: Scalars["ProfileId"];
+};
+
 export type FollowModule =
   | FeeFollowModuleSettings
   | ProfileFollowModuleSettings
@@ -1242,6 +1490,28 @@ export type FreeCollectProxyAction = {
 
 export type FreeFollowProxyAction = {
   profileId: Scalars["ProfileId"];
+};
+
+/** The access conditions for the publication */
+export type GatedPublicationParamsInput = {
+  /** AND condition */
+  and?: InputMaybe<AndConditionInput>;
+  /** Profile follow condition */
+  collect?: InputMaybe<CollectConditionInput>;
+  /** The LIT Protocol encrypted symmetric key */
+  encryptedSymmetricKey: Scalars["ContentEncryptionKey"];
+  /** EOA ownership condition */
+  eoa?: InputMaybe<EoaOwnershipInput>;
+  /** Profile follow condition */
+  follow?: InputMaybe<FollowConditionInput>;
+  /** NFT ownership condition */
+  nft?: InputMaybe<NftOwnershipInput>;
+  /** OR condition */
+  or?: InputMaybe<OrConditionInput>;
+  /** Profile ownership condition */
+  profile?: InputMaybe<ProfileOwnershipInput>;
+  /** ERC20 token ownership condition */
+  token?: InputMaybe<Erc20OwnershipInput>;
 };
 
 export type GenerateModuleCurrencyApproval = {
@@ -1403,7 +1673,7 @@ export type Media = {
   /** The alt tags for accessibility */
   altTag?: Maybe<Scalars["String"]>;
   /** The cover for any video or audio you attached */
-  cover?: Maybe<Scalars["String"]>;
+  cover?: Maybe<Scalars["Url"]>;
   /** Height - will always be null on the public API */
   height?: Maybe<Scalars["Int"]>;
   /** The image/audio/video mime type for the publication */
@@ -1414,6 +1684,19 @@ export type Media = {
   url: Scalars["Url"];
   /** Width - will always be null on the public API */
   width?: Maybe<Scalars["Int"]>;
+};
+
+/** Media object output */
+export type MediaOutput = {
+  __typename?: "MediaOutput";
+  /** The alt tags for accessibility */
+  altTag?: Maybe<Scalars["String"]>;
+  /** The cover for any video or audio you attached */
+  cover?: Maybe<Scalars["Url"]>;
+  item: Scalars["Url"];
+  source?: Maybe<PublicationMediaSource>;
+  /** This is the mime type of media */
+  type?: Maybe<Scalars["MimeType"]>;
 };
 
 /** The Media Set */
@@ -1471,6 +1754,8 @@ export type MetadataOutput = {
   cover?: Maybe<MediaSet>;
   /** This is the metadata description */
   description?: Maybe<Scalars["Markdown"]>;
+  /** The publication's encryption params in case it's encrypted */
+  encryptionParams?: Maybe<EncryptionParamsOutput>;
   /** This is the image attached to the metadata and the property used to show the NFT! */
   image?: Maybe<Scalars["Url"]>;
   /** The locale of the publication,  */
@@ -1491,6 +1776,7 @@ export type Mirror = {
   /** ID of the source */
   appId?: Maybe<Scalars["Sources"]>;
   canComment: CanCommentResponse;
+  canDecrypt: CanDecryptResponse;
   canMirror: CanMirrorResponse;
   /** The collect module */
   collectModule: CollectModule;
@@ -1503,6 +1789,8 @@ export type Mirror = {
   hidden: Scalars["Boolean"];
   /** The internal publication id */
   id: Scalars["InternalPublicationId"];
+  /** Indicates if the publication is gated behind some access criteria */
+  isGated: Scalars["Boolean"];
   /** The metadata for the post */
   metadata: MetadataOutput;
   /** The mirror publication */
@@ -1524,8 +1812,19 @@ export type MirrorCanCommentArgs = {
 };
 
 /** The social mirror */
+export type MirrorCanDecryptArgs = {
+  address?: InputMaybe<Scalars["EthereumAddress"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
+};
+
+/** The social mirror */
 export type MirrorCanMirrorArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
+};
+
+/** The social mirror */
+export type MirrorHasCollectedByMeArgs = {
+  isFinalisedOnChain?: InputMaybe<Scalars["Boolean"]>;
 };
 
 /** The social mirror */
@@ -1565,10 +1864,13 @@ export type ModuleInfo = {
 export type Mutation = {
   __typename?: "Mutation";
   ach?: Maybe<Scalars["Void"]>;
+  /** Adds profile interests to the given profile */
+  addProfileInterests?: Maybe<Scalars["Void"]>;
   addReaction?: Maybe<Scalars["Void"]>;
   authenticate: AuthenticationResult;
   broadcast: RelayResult;
   claim: RelayResult;
+  createAttachMediaData: PublicMediaResults;
   createBurnProfileTypedData: CreateBurnProfileBroadcastItemResult;
   createCollectTypedData: CreateCollectBroadcastItemResult;
   createCommentTypedData: CreateCommentBroadcastItemResult;
@@ -1592,12 +1894,18 @@ export type Mutation = {
   hidePublication?: Maybe<Scalars["Void"]>;
   proxyAction: Scalars["ProxyActionId"];
   refresh: AuthenticationResult;
+  /** Removes profile interests from the given profile */
+  removeProfileInterests?: Maybe<Scalars["Void"]>;
   removeReaction?: Maybe<Scalars["Void"]>;
   reportPublication?: Maybe<Scalars["Void"]>;
 };
 
 export type MutationAchArgs = {
   request: AchRequest;
+};
+
+export type MutationAddProfileInterestsArgs = {
+  request: AddProfileInterestsRequest;
 };
 
 export type MutationAddReactionArgs = {
@@ -1614,6 +1922,10 @@ export type MutationBroadcastArgs = {
 
 export type MutationClaimArgs = {
   request: ClaimHandleRequest;
+};
+
+export type MutationCreateAttachMediaDataArgs = {
+  request: PublicMediaRequest;
 };
 
 export type MutationCreateBurnProfileTypedDataArgs = {
@@ -1720,6 +2032,10 @@ export type MutationProxyActionArgs = {
 
 export type MutationRefreshArgs = {
   request: RefreshRequest;
+};
+
+export type MutationRemoveProfileInterestsArgs = {
+  request: RemoveProfileInterestsRequest;
 };
 
 export type MutationRemoveReactionArgs = {
@@ -1895,6 +2211,29 @@ export type NftOwnershipChallengeResult = {
   timeout: Scalars["TimestampScalar"];
 };
 
+export type NftOwnershipInput = {
+  /** The NFT chain id */
+  chainID: Scalars["ChainId"];
+  /** The NFT collection's ethereum address */
+  contractAddress: Scalars["ContractAddress"];
+  /** The unlocker contract type */
+  contractType: ContractType;
+  /** The optional token ID(s) to check for ownership */
+  tokenIds?: InputMaybe<Scalars["TokenId"]>;
+};
+
+export type NftOwnershipOutput = {
+  __typename?: "NftOwnershipOutput";
+  /** The NFT chain id */
+  chainID: Scalars["ChainId"];
+  /** The NFT collection's ethereum address */
+  contractAddress: Scalars["ContractAddress"];
+  /** The unlocker contract type */
+  contractType: ContractType;
+  /** The optional token ID(s) to check for ownership */
+  tokenIds?: Maybe<Scalars["TokenId"]>;
+};
+
 export type Notification =
   | NewCollectNotification
   | NewCommentNotification
@@ -1941,6 +2280,17 @@ export type OnChainIdentity = {
   sybilDotOrg: SybilDotOrgIdentity;
   /** The worldcoin identity */
   worldcoin: WorldcoinIdentity;
+};
+
+export type OrConditionInput = {
+  /** The list of conditions to apply OR to. You can only use nested boolean conditions at the root level. */
+  criteria: Array<AccessConditionInput>;
+};
+
+export type OrConditionOutput = {
+  __typename?: "OrConditionOutput";
+  /** The list of conditions to apply OR to. You can only use nested boolean conditions at the root level. */
+  criteria: Array<AccessConditionOutput>;
 };
 
 /** The nft type */
@@ -2056,6 +2406,7 @@ export type Post = {
   /** ID of the source */
   appId?: Maybe<Scalars["Sources"]>;
   canComment: CanCommentResponse;
+  canDecrypt: CanDecryptResponse;
   canMirror: CanMirrorResponse;
   /** The collect module */
   collectModule: CollectModule;
@@ -2073,6 +2424,8 @@ export type Post = {
   hidden: Scalars["Boolean"];
   /** The internal publication id */
   id: Scalars["InternalPublicationId"];
+  /** Indicates if the publication is gated behind some access criteria */
+  isGated: Scalars["Boolean"];
   /** The metadata for the post */
   metadata: MetadataOutput;
   mirrors: Array<Scalars["InternalPublicationId"]>;
@@ -2093,8 +2446,19 @@ export type PostCanCommentArgs = {
 };
 
 /** The social post */
+export type PostCanDecryptArgs = {
+  address?: InputMaybe<Scalars["EthereumAddress"]>;
+  profileId?: InputMaybe<Scalars["ProfileId"]>;
+};
+
+/** The social post */
 export type PostCanMirrorArgs = {
   profileId?: InputMaybe<Scalars["ProfileId"]>;
+};
+
+/** The social post */
+export type PostHasCollectedByMeArgs = {
+  isFinalisedOnChain?: InputMaybe<Scalars["Boolean"]>;
 };
 
 /** The social post */
@@ -2126,6 +2490,8 @@ export type Profile = {
   handle: Scalars["Handle"];
   /** The profile id */
   id: Scalars["ProfileId"];
+  /** The profile interests */
+  interests?: Maybe<Array<Scalars["ProfileInterest"]>>;
   /** Is the profile default */
   isDefault: Scalars["Boolean"];
   isFollowedByMe: Scalars["Boolean"];
@@ -2142,6 +2508,11 @@ export type Profile = {
   picture?: Maybe<ProfileMedia>;
   /** Profile stats */
   stats: ProfileStats;
+};
+
+/** The Profile */
+export type ProfileIsFollowedByMeArgs = {
+  isFinalisedOnChain?: InputMaybe<Scalars["Boolean"]>;
 };
 
 /** The Profile */
@@ -2175,6 +2546,19 @@ export type ProfileMedia = MediaSet | NftImage;
 
 export type ProfileOnChainIdentityRequest = {
   profileIds: Array<Scalars["ProfileId"]>;
+};
+
+/** Condition that signifies if address has access to profile */
+export type ProfileOwnershipInput = {
+  /** The profile id */
+  profileId: Scalars["ProfileId"];
+};
+
+/** Condition that signifies if address has access to profile */
+export type ProfileOwnershipOutput = {
+  __typename?: "ProfileOwnershipOutput";
+  /** The profile id */
+  profileId: Scalars["ProfileId"];
 };
 
 export type ProfilePublicationRevenueQueryRequest = {
@@ -2283,6 +2667,13 @@ export type ProfileStatsPublicationsTotalArgs = {
   forSources: Array<Scalars["Sources"]>;
 };
 
+/** The provider-specific encryption params */
+export type ProviderSpecificParamsOutput = {
+  __typename?: "ProviderSpecificParamsOutput";
+  /** The encryption key */
+  encryptionKey: Scalars["ContentEncryptionKey"];
+};
+
 export type ProxyActionError = {
   __typename?: "ProxyActionError";
   lastKnownTxId?: Maybe<Scalars["TxId"]>;
@@ -2318,6 +2709,26 @@ export enum ProxyActionStatusTypes {
   Transferring = "TRANSFERRING",
 }
 
+export type PublicMediaRequest = {
+  /** The alt tags for accessibility */
+  altTag?: InputMaybe<Scalars["String"]>;
+  /** The cover for any video or audio you attached */
+  cover?: InputMaybe<Scalars["Url"]>;
+  /** Pre calculated cid of the file to push */
+  itemCid: Scalars["IfpsCid"];
+  /** This is the mime type of media */
+  type?: InputMaybe<Scalars["MimeType"]>;
+};
+
+/** The response to upload the attached file */
+export type PublicMediaResults = {
+  __typename?: "PublicMediaResults";
+  /** ipfs uri to add on the metadata */
+  media: MediaOutput;
+  /** Signed url to push the file */
+  signedUrl: Scalars["String"];
+};
+
 export type Publication = Comment | Mirror | Post;
 
 /** The publication content warning */
@@ -2338,6 +2749,11 @@ export enum PublicationMainFocus {
   Link = "LINK",
   TextOnly = "TEXT_ONLY",
   Video = "VIDEO",
+}
+
+/** The source of the media */
+export enum PublicationMediaSource {
+  Lens = "LENS",
 }
 
 /** Publication metadata content waring filters */
@@ -2362,13 +2778,14 @@ export type PublicationMetadataFilters = {
   tags?: InputMaybe<PublicationMetadataTagsFilter>;
 };
 
-/** The metadata attribute output */
+/** The metadata attribute input */
 export type PublicationMetadataMediaInput = {
   /** The alt tags for accessibility */
   altTag?: InputMaybe<Scalars["String"]>;
   /** The cover for any video or audio you attached */
-  cover?: InputMaybe<Scalars["String"]>;
+  cover?: InputMaybe<Scalars["Url"]>;
   item: Scalars["Url"];
+  source?: InputMaybe<PublicationMediaSource>;
   /** This is the mime type of media */
   type?: InputMaybe<Scalars["MimeType"]>;
 };
@@ -2649,6 +3066,8 @@ export type Query = {
   profile?: Maybe<Profile>;
   profileFollowModuleBeenRedeemed: Scalars["Boolean"];
   profileFollowRevenue: FollowRevenueResult;
+  /** Get the list of profile interests */
+  profileInterests: Array<Scalars["ProfileInterest"]>;
   profileOnChainIdentity: Array<OnChainIdentity>;
   profilePublicationRevenue: ProfilePublicationRevenueResult;
   profilePublicationsForSale: PaginatedProfilePublicationsForSaleResult;
@@ -2931,6 +3350,14 @@ export type RelayerResult = {
   txId: Scalars["TxId"];
 };
 
+/** The request object to remove interests from a profile */
+export type RemoveProfileInterestsRequest = {
+  /** The profile interest to add */
+  interests: Array<Scalars["ProfileInterest"]>;
+  /** The profileId to add interests to */
+  profileId: Scalars["ProfileId"];
+};
+
 export type ReportPublicationRequest = {
   additionalComments?: InputMaybe<Scalars["String"]>;
   publicationId: Scalars["InternalPublicationId"];
@@ -2970,6 +3397,16 @@ export type RevertFollowModuleSettings = {
   /** The follow module enum */
   type: FollowModules;
 };
+
+/** The gated publication access criteria scalar operators */
+export enum ScalarOperator {
+  Equal = "EQUAL",
+  GreaterThan = "GREATER_THAN",
+  GreaterThanOrEqual = "GREATER_THAN_OR_EQUAL",
+  LessThan = "LESS_THAN",
+  LessThanOrEqual = "LESS_THAN_OR_EQUAL",
+  NotEqual = "NOT_EQUAL",
+}
 
 export type SearchQueryRequest = {
   cursor?: InputMaybe<Scalars["Cursor"]>;
@@ -3393,7 +3830,7 @@ export type CollectModuleFieldsFragment =
   | CollectModuleFields_UnknownCollectModuleSettings_Fragment;
 
 export type CommentFieldsFragment = {
-  __typename?: "Comment";
+  __typename: "Comment";
   id: any;
   reaction?: ReactionTypes | null;
   mirrors: Array<any>;
@@ -3699,7 +4136,7 @@ export type CommentFieldsFragment = {
         };
         mainPost:
           | {
-              __typename?: "Mirror";
+              __typename: "Mirror";
               id: any;
               reaction?: ReactionTypes | null;
               hidden: boolean;
@@ -3905,7 +4342,7 @@ export type CommentFieldsFragment = {
                     };
                   }
                 | {
-                    __typename?: "Post";
+                    __typename: "Post";
                     id: any;
                     reaction?: ReactionTypes | null;
                     mirrors: Array<any>;
@@ -4106,7 +4543,7 @@ export type CommentFieldsFragment = {
                   };
             }
           | {
-              __typename?: "Post";
+              __typename: "Post";
               id: any;
               reaction?: ReactionTypes | null;
               mirrors: Array<any>;
@@ -4303,7 +4740,7 @@ export type CommentFieldsFragment = {
             };
       }
     | {
-        __typename?: "Mirror";
+        __typename: "Mirror";
         id: any;
         reaction?: ReactionTypes | null;
         hidden: boolean;
@@ -4482,7 +4919,7 @@ export type CommentFieldsFragment = {
               };
             }
           | {
-              __typename?: "Post";
+              __typename: "Post";
               id: any;
               reaction?: ReactionTypes | null;
               mirrors: Array<any>;
@@ -4679,7 +5116,7 @@ export type CommentFieldsFragment = {
             };
       }
     | {
-        __typename?: "Post";
+        __typename: "Post";
         id: any;
         reaction?: ReactionTypes | null;
         mirrors: Array<any>;
@@ -4869,7 +5306,7 @@ export type MetadataFieldsFragment = {
 };
 
 export type MirrorFieldsFragment = {
-  __typename?: "Mirror";
+  __typename: "Mirror";
   id: any;
   reaction?: ReactionTypes | null;
   hidden: boolean;
@@ -5048,7 +5485,7 @@ export type MirrorFieldsFragment = {
         };
       }
     | {
-        __typename?: "Post";
+        __typename: "Post";
         id: any;
         reaction?: ReactionTypes | null;
         mirrors: Array<any>;
@@ -5219,7 +5656,7 @@ export type MirrorFieldsFragment = {
 };
 
 export type PostFieldsFragment = {
-  __typename?: "Post";
+  __typename: "Post";
   id: any;
   reaction?: ReactionTypes | null;
   mirrors: Array<any>;
@@ -5614,7 +6051,7 @@ export type ProfileFeedQuery = {
     __typename?: "PaginatedPublicationResult";
     items: Array<
       | {
-          __typename?: "Comment";
+          __typename: "Comment";
           id: any;
           reaction?: ReactionTypes | null;
           mirrors: Array<any>;
@@ -5950,7 +6387,7 @@ export type ProfileFeedQuery = {
                 };
                 mainPost:
                   | {
-                      __typename?: "Mirror";
+                      __typename: "Mirror";
                       id: any;
                       reaction?: ReactionTypes | null;
                       hidden: boolean;
@@ -6167,7 +6604,7 @@ export type ProfileFeedQuery = {
                             };
                           }
                         | {
-                            __typename?: "Post";
+                            __typename: "Post";
                             id: any;
                             reaction?: ReactionTypes | null;
                             mirrors: Array<any>;
@@ -6382,7 +6819,7 @@ export type ProfileFeedQuery = {
                           };
                     }
                   | {
-                      __typename?: "Post";
+                      __typename: "Post";
                       id: any;
                       reaction?: ReactionTypes | null;
                       mirrors: Array<any>;
@@ -6586,7 +7023,7 @@ export type ProfileFeedQuery = {
                     };
               }
             | {
-                __typename?: "Mirror";
+                __typename: "Mirror";
                 id: any;
                 reaction?: ReactionTypes | null;
                 hidden: boolean;
@@ -6796,7 +7233,7 @@ export type ProfileFeedQuery = {
                       };
                     }
                   | {
-                      __typename?: "Post";
+                      __typename: "Post";
                       id: any;
                       reaction?: ReactionTypes | null;
                       mirrors: Array<any>;
@@ -7000,7 +7437,7 @@ export type ProfileFeedQuery = {
                     };
               }
             | {
-                __typename?: "Post";
+                __typename: "Post";
                 id: any;
                 reaction?: ReactionTypes | null;
                 mirrors: Array<any>;
@@ -7202,7 +7639,7 @@ export type ProfileFeedQuery = {
             | null;
         }
       | {
-          __typename?: "Mirror";
+          __typename: "Mirror";
           id: any;
           reaction?: ReactionTypes | null;
           hidden: boolean;
@@ -7388,7 +7825,7 @@ export type ProfileFeedQuery = {
                 };
               }
             | {
-                __typename?: "Post";
+                __typename: "Post";
                 id: any;
                 reaction?: ReactionTypes | null;
                 mirrors: Array<any>;
@@ -7589,7 +8026,7 @@ export type ProfileFeedQuery = {
               };
         }
       | {
-          __typename?: "Post";
+          __typename: "Post";
           id: any;
           reaction?: ReactionTypes | null;
           mirrors: Array<any>;
@@ -7961,6 +8398,7 @@ export const MetadataFieldsFragmentDoc = `
     `;
 export const PostFieldsFragmentDoc = `
     fragment PostFields on Post {
+  __typename
   id
   profile {
     ...ProfileFields
@@ -7996,6 +8434,7 @@ export const PostFieldsFragmentDoc = `
     `;
 export const MirrorFieldsFragmentDoc = `
     fragment MirrorFields on Mirror {
+  __typename
   id
   profile {
     ...ProfileFields
@@ -8046,6 +8485,7 @@ export const MirrorFieldsFragmentDoc = `
     `;
 export const CommentFieldsFragmentDoc = `
     fragment CommentFields on Comment {
+  __typename
   id
   profile {
     ...ProfileFields
@@ -8489,8 +8929,13 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AccessConditionInput: AccessConditionInput;
+  AccessConditionOutput: ResolverTypeWrapper<AccessConditionOutput>;
   AchRequest: AchRequest;
+  AddProfileInterestsRequest: AddProfileInterestsRequest;
   AllPublicationsTagsRequest: AllPublicationsTagsRequest;
+  AndConditionInput: AndConditionInput;
+  AndConditionOutput: ResolverTypeWrapper<AndConditionOutput>;
   ApprovedAllowanceAmount: ResolverTypeWrapper<ApprovedAllowanceAmount>;
   ApprovedModuleAllowanceAmountRequest: ApprovedModuleAllowanceAmountRequest;
   Attribute: ResolverTypeWrapper<Attribute>;
@@ -8502,12 +8947,15 @@ export type ResolversTypes = {
   BroadcastRequest: BroadcastRequest;
   BurnProfileRequest: BurnProfileRequest;
   CanCommentResponse: ResolverTypeWrapper<CanCommentResponse>;
+  CanDecryptResponse: ResolverTypeWrapper<CanDecryptResponse>;
   CanMirrorResponse: ResolverTypeWrapper<CanMirrorResponse>;
   ChainId: ResolverTypeWrapper<Scalars["ChainId"]>;
   ChallengeRequest: ChallengeRequest;
   ClaimHandleRequest: ClaimHandleRequest;
   ClaimStatus: ClaimStatus;
   ClaimableHandles: ResolverTypeWrapper<ClaimableHandles>;
+  CollectConditionInput: CollectConditionInput;
+  CollectConditionOutput: ResolverTypeWrapper<CollectConditionOutput>;
   CollectModule:
     | ResolversTypes["FeeCollectModuleSettings"]
     | ResolversTypes["FreeCollectModuleSettings"]
@@ -8529,7 +8977,9 @@ export type ResolversTypes = {
       referenceModule?: Maybe<ResolversTypes["ReferenceModule"]>;
     }
   >;
+  ContentEncryptionKey: ResolverTypeWrapper<Scalars["ContentEncryptionKey"]>;
   ContractAddress: ResolverTypeWrapper<Scalars["ContractAddress"]>;
+  ContractType: ContractType;
   CreateBurnEIP712TypedData: ResolverTypeWrapper<CreateBurnEip712TypedData>;
   CreateBurnEIP712TypedDataTypes: ResolverTypeWrapper<CreateBurnEip712TypedDataTypes>;
   CreateBurnEIP712TypedDataValue: ResolverTypeWrapper<CreateBurnEip712TypedDataValue>;
@@ -8593,6 +9043,7 @@ export type ResolversTypes = {
   Cursor: ResolverTypeWrapper<Scalars["Cursor"]>;
   CustomFiltersTypes: CustomFiltersTypes;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
+  DecryptFailReason: DecryptFailReason;
   DefaultProfileRequest: DefaultProfileRequest;
   DegreesOfSeparationReferenceModuleParams: DegreesOfSeparationReferenceModuleParams;
   DegreesOfSeparationReferenceModuleSettings: ResolverTypeWrapper<DegreesOfSeparationReferenceModuleSettings>;
@@ -8605,10 +9056,20 @@ export type ResolversTypes = {
   ElectedMirror: ResolverTypeWrapper<ElectedMirror>;
   EnabledModule: ResolverTypeWrapper<EnabledModule>;
   EnabledModules: ResolverTypeWrapper<EnabledModules>;
+  EncryptedFieldsOutput: ResolverTypeWrapper<EncryptedFieldsOutput>;
+  EncryptedMedia: ResolverTypeWrapper<EncryptedMedia>;
+  EncryptedMediaSet: ResolverTypeWrapper<EncryptedMediaSet>;
+  EncryptedValueScalar: ResolverTypeWrapper<Scalars["EncryptedValueScalar"]>;
+  EncryptionParamsOutput: ResolverTypeWrapper<EncryptionParamsOutput>;
+  EncryptionProvider: EncryptionProvider;
   Ens: ResolverTypeWrapper<Scalars["Ens"]>;
   EnsOnChainIdentity: ResolverTypeWrapper<EnsOnChainIdentity>;
+  EoaOwnershipInput: EoaOwnershipInput;
+  EoaOwnershipOutput: ResolverTypeWrapper<EoaOwnershipOutput>;
   Erc20: ResolverTypeWrapper<Erc20>;
   Erc20Amount: ResolverTypeWrapper<Erc20Amount>;
+  Erc20OwnershipInput: Erc20OwnershipInput;
+  Erc20OwnershipOutput: ResolverTypeWrapper<Erc20OwnershipOutput>;
   EthereumAddress: ResolverTypeWrapper<Scalars["EthereumAddress"]>;
   ExploreProfileResult: ResolverTypeWrapper<ExploreProfileResult>;
   ExploreProfilesRequest: ExploreProfilesRequest;
@@ -8628,6 +9089,8 @@ export type ResolversTypes = {
   FeedRequest: FeedRequest;
   Float: ResolverTypeWrapper<Scalars["Float"]>;
   Follow: Follow;
+  FollowConditionInput: FollowConditionInput;
+  FollowConditionOutput: ResolverTypeWrapper<FollowConditionOutput>;
   FollowModule:
     | ResolversTypes["FeeFollowModuleSettings"]
     | ResolversTypes["ProfileFollowModuleSettings"]
@@ -8652,6 +9115,7 @@ export type ResolversTypes = {
   FreeCollectModuleSettings: ResolverTypeWrapper<FreeCollectModuleSettings>;
   FreeCollectProxyAction: FreeCollectProxyAction;
   FreeFollowProxyAction: FreeFollowProxyAction;
+  GatedPublicationParamsInput: GatedPublicationParamsInput;
   GenerateModuleCurrencyApproval: ResolverTypeWrapper<GenerateModuleCurrencyApproval>;
   GenerateModuleCurrencyApprovalDataRequest: GenerateModuleCurrencyApprovalDataRequest;
   GetPublicationMetadataStatusRequest: GetPublicationMetadataStatusRequest;
@@ -8661,6 +9125,7 @@ export type ResolversTypes = {
   HandleClaimIdScalar: ResolverTypeWrapper<Scalars["HandleClaimIdScalar"]>;
   HasTxHashBeenIndexedRequest: HasTxHashBeenIndexedRequest;
   HidePublicationRequest: HidePublicationRequest;
+  IfpsCid: ResolverTypeWrapper<Scalars["IfpsCid"]>;
   IllegalReasonInputParams: IllegalReasonInputParams;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   InternalPublicationId: ResolverTypeWrapper<Scalars["InternalPublicationId"]>;
@@ -8676,6 +9141,7 @@ export type ResolversTypes = {
   MainPostReference: ResolversTypes["Mirror"] | ResolversTypes["Post"];
   Markdown: ResolverTypeWrapper<Scalars["Markdown"]>;
   Media: ResolverTypeWrapper<Media>;
+  MediaOutput: ResolverTypeWrapper<MediaOutput>;
   MediaSet: ResolverTypeWrapper<MediaSet>;
   MentionPublication: ResolversTypes["Comment"] | ResolversTypes["Post"];
   MetadataAttributeInput: MetadataAttributeInput;
@@ -8726,6 +9192,8 @@ export type ResolversTypes = {
   NftOwnershipChallengeRequest: NftOwnershipChallengeRequest;
   NftOwnershipChallengeResult: ResolverTypeWrapper<NftOwnershipChallengeResult>;
   NftOwnershipId: ResolverTypeWrapper<Scalars["NftOwnershipId"]>;
+  NftOwnershipInput: NftOwnershipInput;
+  NftOwnershipOutput: ResolverTypeWrapper<NftOwnershipOutput>;
   Nonce: ResolverTypeWrapper<Scalars["Nonce"]>;
   Notification:
     | ResolversTypes["NewCollectNotification"]
@@ -8738,6 +9206,8 @@ export type ResolversTypes = {
   NotificationRequest: NotificationRequest;
   NotificationTypes: NotificationTypes;
   OnChainIdentity: ResolverTypeWrapper<OnChainIdentity>;
+  OrConditionInput: OrConditionInput;
+  OrConditionOutput: ResolverTypeWrapper<OrConditionOutput>;
   Owner: ResolverTypeWrapper<Owner>;
   PaginatedAllPublicationsTagsResult: ResolverTypeWrapper<PaginatedAllPublicationsTagsResult>;
   PaginatedFeedResult: ResolverTypeWrapper<PaginatedFeedResult>;
@@ -8781,8 +9251,11 @@ export type ResolversTypes = {
   ProfileFollowModuleSettings: ResolverTypeWrapper<ProfileFollowModuleSettings>;
   ProfileFollowRevenueQueryRequest: ProfileFollowRevenueQueryRequest;
   ProfileId: ResolverTypeWrapper<Scalars["ProfileId"]>;
+  ProfileInterest: ResolverTypeWrapper<Scalars["ProfileInterest"]>;
   ProfileMedia: ResolversTypes["MediaSet"] | ResolversTypes["NftImage"];
   ProfileOnChainIdentityRequest: ProfileOnChainIdentityRequest;
+  ProfileOwnershipInput: ProfileOwnershipInput;
+  ProfileOwnershipOutput: ResolverTypeWrapper<ProfileOwnershipOutput>;
   ProfilePublicationRevenueQueryRequest: ProfilePublicationRevenueQueryRequest;
   ProfilePublicationRevenueResult: ResolverTypeWrapper<ProfilePublicationRevenueResult>;
   ProfilePublicationsForSaleRequest: ProfilePublicationsForSaleRequest;
@@ -8790,6 +9263,7 @@ export type ResolversTypes = {
   ProfileSearchResult: ResolverTypeWrapper<ProfileSearchResult>;
   ProfileSortCriteria: ProfileSortCriteria;
   ProfileStats: ResolverTypeWrapper<ProfileStats>;
+  ProviderSpecificParamsOutput: ResolverTypeWrapper<ProviderSpecificParamsOutput>;
   ProxyActionError: ResolverTypeWrapper<ProxyActionError>;
   ProxyActionId: ResolverTypeWrapper<Scalars["ProxyActionId"]>;
   ProxyActionQueued: ResolverTypeWrapper<ProxyActionQueued>;
@@ -8800,11 +9274,14 @@ export type ResolversTypes = {
     | ResolversTypes["ProxyActionQueued"]
     | ResolversTypes["ProxyActionStatusResult"];
   ProxyActionStatusTypes: ProxyActionStatusTypes;
+  PublicMediaRequest: PublicMediaRequest;
+  PublicMediaResults: ResolverTypeWrapper<PublicMediaResults>;
   Publication: ResolversTypes["Comment"] | ResolversTypes["Mirror"] | ResolversTypes["Post"];
   PublicationContentWarning: PublicationContentWarning;
   PublicationForSale: ResolversTypes["Comment"] | ResolversTypes["Post"];
   PublicationId: ResolverTypeWrapper<Scalars["PublicationId"]>;
   PublicationMainFocus: PublicationMainFocus;
+  PublicationMediaSource: PublicationMediaSource;
   PublicationMetadataContentWarningFilter: PublicationMetadataContentWarningFilter;
   PublicationMetadataDisplayTypes: PublicationMetadataDisplayTypes;
   PublicationMetadataFilters: PublicationMetadataFilters;
@@ -8858,12 +9335,14 @@ export type ResolversTypes = {
   RelayErrorReasons: RelayErrorReasons;
   RelayResult: ResolversTypes["RelayError"] | ResolversTypes["RelayerResult"];
   RelayerResult: ResolverTypeWrapper<RelayerResult>;
+  RemoveProfileInterestsRequest: RemoveProfileInterestsRequest;
   ReportPublicationRequest: ReportPublicationRequest;
   ReportingReasonInputParams: ReportingReasonInputParams;
   ReservedClaimableHandle: ResolverTypeWrapper<ReservedClaimableHandle>;
   RevenueAggregate: ResolverTypeWrapper<RevenueAggregate>;
   RevertCollectModuleSettings: ResolverTypeWrapper<RevertCollectModuleSettings>;
   RevertFollowModuleSettings: ResolverTypeWrapper<RevertFollowModuleSettings>;
+  ScalarOperator: ScalarOperator;
   Search: ResolverTypeWrapper<Scalars["Search"]>;
   SearchQueryRequest: SearchQueryRequest;
   SearchRequestTypes: SearchRequestTypes;
@@ -8890,6 +9369,7 @@ export type ResolversTypes = {
   TimelineRequest: TimelineRequest;
   TimelineType: TimelineType;
   TimestampScalar: ResolverTypeWrapper<Scalars["TimestampScalar"]>;
+  TokenId: ResolverTypeWrapper<Scalars["TokenId"]>;
   TransactionError: ResolverTypeWrapper<TransactionError>;
   TransactionErrorReasons: TransactionErrorReasons;
   TransactionIndexedResult: ResolverTypeWrapper<TransactionIndexedResult>;
@@ -8924,8 +9404,13 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AccessConditionInput: AccessConditionInput;
+  AccessConditionOutput: AccessConditionOutput;
   AchRequest: AchRequest;
+  AddProfileInterestsRequest: AddProfileInterestsRequest;
   AllPublicationsTagsRequest: AllPublicationsTagsRequest;
+  AndConditionInput: AndConditionInput;
+  AndConditionOutput: AndConditionOutput;
   ApprovedAllowanceAmount: ApprovedAllowanceAmount;
   ApprovedModuleAllowanceAmountRequest: ApprovedModuleAllowanceAmountRequest;
   Attribute: Attribute;
@@ -8937,11 +9422,14 @@ export type ResolversParentTypes = {
   BroadcastRequest: BroadcastRequest;
   BurnProfileRequest: BurnProfileRequest;
   CanCommentResponse: CanCommentResponse;
+  CanDecryptResponse: CanDecryptResponse;
   CanMirrorResponse: CanMirrorResponse;
   ChainId: Scalars["ChainId"];
   ChallengeRequest: ChallengeRequest;
   ClaimHandleRequest: ClaimHandleRequest;
   ClaimableHandles: ClaimableHandles;
+  CollectConditionInput: CollectConditionInput;
+  CollectConditionOutput: CollectConditionOutput;
   CollectModule:
     | ResolversParentTypes["FeeCollectModuleSettings"]
     | ResolversParentTypes["FreeCollectModuleSettings"]
@@ -8960,6 +9448,7 @@ export type ResolversParentTypes = {
     mainPost: ResolversParentTypes["MainPostReference"];
     referenceModule?: Maybe<ResolversParentTypes["ReferenceModule"]>;
   };
+  ContentEncryptionKey: Scalars["ContentEncryptionKey"];
   ContractAddress: Scalars["ContractAddress"];
   CreateBurnEIP712TypedData: CreateBurnEip712TypedData;
   CreateBurnEIP712TypedDataTypes: CreateBurnEip712TypedDataTypes;
@@ -9035,10 +9524,19 @@ export type ResolversParentTypes = {
   ElectedMirror: ElectedMirror;
   EnabledModule: EnabledModule;
   EnabledModules: EnabledModules;
+  EncryptedFieldsOutput: EncryptedFieldsOutput;
+  EncryptedMedia: EncryptedMedia;
+  EncryptedMediaSet: EncryptedMediaSet;
+  EncryptedValueScalar: Scalars["EncryptedValueScalar"];
+  EncryptionParamsOutput: EncryptionParamsOutput;
   Ens: Scalars["Ens"];
   EnsOnChainIdentity: EnsOnChainIdentity;
+  EoaOwnershipInput: EoaOwnershipInput;
+  EoaOwnershipOutput: EoaOwnershipOutput;
   Erc20: Erc20;
   Erc20Amount: Erc20Amount;
+  Erc20OwnershipInput: Erc20OwnershipInput;
+  Erc20OwnershipOutput: Erc20OwnershipOutput;
   EthereumAddress: Scalars["EthereumAddress"];
   ExploreProfileResult: ExploreProfileResult;
   ExploreProfilesRequest: ExploreProfilesRequest;
@@ -9057,6 +9555,8 @@ export type ResolversParentTypes = {
   FeedRequest: FeedRequest;
   Float: Scalars["Float"];
   Follow: Follow;
+  FollowConditionInput: FollowConditionInput;
+  FollowConditionOutput: FollowConditionOutput;
   FollowModule:
     | ResolversParentTypes["FeeFollowModuleSettings"]
     | ResolversParentTypes["ProfileFollowModuleSettings"]
@@ -9080,6 +9580,7 @@ export type ResolversParentTypes = {
   FreeCollectModuleSettings: FreeCollectModuleSettings;
   FreeCollectProxyAction: FreeCollectProxyAction;
   FreeFollowProxyAction: FreeFollowProxyAction;
+  GatedPublicationParamsInput: GatedPublicationParamsInput;
   GenerateModuleCurrencyApproval: GenerateModuleCurrencyApproval;
   GenerateModuleCurrencyApprovalDataRequest: GenerateModuleCurrencyApprovalDataRequest;
   GetPublicationMetadataStatusRequest: GetPublicationMetadataStatusRequest;
@@ -9089,6 +9590,7 @@ export type ResolversParentTypes = {
   HandleClaimIdScalar: Scalars["HandleClaimIdScalar"];
   HasTxHashBeenIndexedRequest: HasTxHashBeenIndexedRequest;
   HidePublicationRequest: HidePublicationRequest;
+  IfpsCid: Scalars["IfpsCid"];
   IllegalReasonInputParams: IllegalReasonInputParams;
   Int: Scalars["Int"];
   InternalPublicationId: Scalars["InternalPublicationId"];
@@ -9104,6 +9606,7 @@ export type ResolversParentTypes = {
   MainPostReference: ResolversParentTypes["Mirror"] | ResolversParentTypes["Post"];
   Markdown: Scalars["Markdown"];
   Media: Media;
+  MediaOutput: MediaOutput;
   MediaSet: MediaSet;
   MentionPublication: ResolversParentTypes["Comment"] | ResolversParentTypes["Post"];
   MetadataAttributeInput: MetadataAttributeInput;
@@ -9146,6 +9649,8 @@ export type ResolversParentTypes = {
   NftOwnershipChallengeRequest: NftOwnershipChallengeRequest;
   NftOwnershipChallengeResult: NftOwnershipChallengeResult;
   NftOwnershipId: Scalars["NftOwnershipId"];
+  NftOwnershipInput: NftOwnershipInput;
+  NftOwnershipOutput: NftOwnershipOutput;
   Nonce: Scalars["Nonce"];
   Notification:
     | ResolversParentTypes["NewCollectNotification"]
@@ -9157,6 +9662,8 @@ export type ResolversParentTypes = {
   NotificationId: Scalars["NotificationId"];
   NotificationRequest: NotificationRequest;
   OnChainIdentity: OnChainIdentity;
+  OrConditionInput: OrConditionInput;
+  OrConditionOutput: OrConditionOutput;
   Owner: Owner;
   PaginatedAllPublicationsTagsResult: PaginatedAllPublicationsTagsResult;
   PaginatedFeedResult: PaginatedFeedResult;
@@ -9195,14 +9702,18 @@ export type ResolversParentTypes = {
   ProfileFollowModuleSettings: ProfileFollowModuleSettings;
   ProfileFollowRevenueQueryRequest: ProfileFollowRevenueQueryRequest;
   ProfileId: Scalars["ProfileId"];
+  ProfileInterest: Scalars["ProfileInterest"];
   ProfileMedia: ResolversParentTypes["MediaSet"] | ResolversParentTypes["NftImage"];
   ProfileOnChainIdentityRequest: ProfileOnChainIdentityRequest;
+  ProfileOwnershipInput: ProfileOwnershipInput;
+  ProfileOwnershipOutput: ProfileOwnershipOutput;
   ProfilePublicationRevenueQueryRequest: ProfilePublicationRevenueQueryRequest;
   ProfilePublicationRevenueResult: ProfilePublicationRevenueResult;
   ProfilePublicationsForSaleRequest: ProfilePublicationsForSaleRequest;
   ProfileQueryRequest: ProfileQueryRequest;
   ProfileSearchResult: ProfileSearchResult;
   ProfileStats: ProfileStats;
+  ProviderSpecificParamsOutput: ProviderSpecificParamsOutput;
   ProxyActionError: ProxyActionError;
   ProxyActionId: Scalars["ProxyActionId"];
   ProxyActionQueued: ProxyActionQueued;
@@ -9212,6 +9723,8 @@ export type ResolversParentTypes = {
     | ResolversParentTypes["ProxyActionError"]
     | ResolversParentTypes["ProxyActionQueued"]
     | ResolversParentTypes["ProxyActionStatusResult"];
+  PublicMediaRequest: PublicMediaRequest;
+  PublicMediaResults: PublicMediaResults;
   Publication:
     | ResolversParentTypes["Comment"]
     | ResolversParentTypes["Mirror"]
@@ -9257,6 +9770,7 @@ export type ResolversParentTypes = {
   RelayError: RelayError;
   RelayResult: ResolversParentTypes["RelayError"] | ResolversParentTypes["RelayerResult"];
   RelayerResult: RelayerResult;
+  RemoveProfileInterestsRequest: RemoveProfileInterestsRequest;
   ReportPublicationRequest: ReportPublicationRequest;
   ReportingReasonInputParams: ReportingReasonInputParams;
   ReservedClaimableHandle: ReservedClaimableHandle;
@@ -9288,6 +9802,7 @@ export type ResolversParentTypes = {
   TimedFeeCollectModuleSettings: TimedFeeCollectModuleSettings;
   TimelineRequest: TimelineRequest;
   TimestampScalar: Scalars["TimestampScalar"];
+  TokenId: Scalars["TokenId"];
   TransactionError: TransactionError;
   TransactionIndexedResult: TransactionIndexedResult;
   TransactionReceipt: TransactionReceipt;
@@ -9317,6 +9832,29 @@ export type ResolversParentTypes = {
   WhoReactedPublicationRequest: WhoReactedPublicationRequest;
   WhoReactedResult: WhoReactedResult;
   WorldcoinIdentity: WorldcoinIdentity;
+};
+
+export type AccessConditionOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AccessConditionOutput"] = ResolversParentTypes["AccessConditionOutput"],
+> = {
+  and?: Resolver<Maybe<ResolversTypes["AndConditionOutput"]>, ParentType, ContextType>;
+  collect?: Resolver<Maybe<ResolversTypes["CollectConditionOutput"]>, ParentType, ContextType>;
+  eoa?: Resolver<Maybe<ResolversTypes["EoaOwnershipOutput"]>, ParentType, ContextType>;
+  follow?: Resolver<Maybe<ResolversTypes["FollowConditionOutput"]>, ParentType, ContextType>;
+  nft?: Resolver<Maybe<ResolversTypes["NftOwnershipOutput"]>, ParentType, ContextType>;
+  or?: Resolver<Maybe<ResolversTypes["OrConditionOutput"]>, ParentType, ContextType>;
+  profile?: Resolver<Maybe<ResolversTypes["ProfileOwnershipOutput"]>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes["Erc20OwnershipOutput"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AndConditionOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AndConditionOutput"] = ResolversParentTypes["AndConditionOutput"],
+> = {
+  criteria?: Resolver<Array<ResolversTypes["AccessConditionOutput"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ApprovedAllowanceAmountResolvers<
@@ -9376,6 +9914,15 @@ export type CanCommentResponseResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CanDecryptResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CanDecryptResponse"] = ResolversParentTypes["CanDecryptResponse"],
+> = {
+  reasons?: Resolver<Maybe<ResolversTypes["DecryptFailReason"]>, ParentType, ContextType>;
+  result?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type CanMirrorResponseResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["CanMirrorResponse"] = ResolversParentTypes["CanMirrorResponse"],
@@ -9399,6 +9946,15 @@ export type ClaimableHandlesResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CollectConditionOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CollectConditionOutput"] = ResolversParentTypes["CollectConditionOutput"],
+> = {
+  publicationId?: Resolver<ResolversTypes["PublicationId"], ParentType, ContextType>;
+  publisherId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -9444,6 +10000,12 @@ export type CommentResolvers<
     ContextType,
     Partial<CommentCanCommentArgs>
   >;
+  canDecrypt?: Resolver<
+    ResolversTypes["CanDecryptResponse"],
+    ParentType,
+    ContextType,
+    Partial<CommentCanDecryptArgs>
+  >;
   canMirror?: Resolver<
     ResolversTypes["CanMirrorResponse"],
     ParentType,
@@ -9456,9 +10018,15 @@ export type CommentResolvers<
   commentOn?: Resolver<Maybe<ResolversTypes["Publication"]>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   firstComment?: Resolver<Maybe<ResolversTypes["Comment"]>, ParentType, ContextType>;
-  hasCollectedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  hasCollectedByMe?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    Partial<CommentHasCollectedByMeArgs>
+  >;
   hidden?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  isGated?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   mainPost?: Resolver<ResolversTypes["MainPostReference"], ParentType, ContextType>;
   metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
   mirrors?: Resolver<
@@ -9479,6 +10047,11 @@ export type CommentResolvers<
   stats?: Resolver<ResolversTypes["PublicationStats"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
+
+export interface ContentEncryptionKeyScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ContentEncryptionKey"], any> {
+  name: "ContentEncryptionKey";
+}
 
 export interface ContractAddressScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["ContractAddress"], any> {
@@ -10185,6 +10758,62 @@ export type EnabledModulesResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type EncryptedFieldsOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EncryptedFieldsOutput"] = ResolversParentTypes["EncryptedFieldsOutput"],
+> = {
+  animation_url?: Resolver<Maybe<ResolversTypes["EncryptedValueScalar"]>, ParentType, ContextType>;
+  content?: Resolver<Maybe<ResolversTypes["EncryptedValueScalar"]>, ParentType, ContextType>;
+  external_url?: Resolver<Maybe<ResolversTypes["EncryptedValueScalar"]>, ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes["EncryptedValueScalar"]>, ParentType, ContextType>;
+  media?: Resolver<Maybe<Array<ResolversTypes["EncryptedMediaSet"]>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EncryptedMediaResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EncryptedMedia"] = ResolversParentTypes["EncryptedMedia"],
+> = {
+  altTag?: Resolver<Maybe<ResolversTypes["EncryptedValueScalar"]>, ParentType, ContextType>;
+  cover?: Resolver<Maybe<ResolversTypes["EncryptedValueScalar"]>, ParentType, ContextType>;
+  height?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  mimeType?: Resolver<Maybe<ResolversTypes["MimeType"]>, ParentType, ContextType>;
+  size?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
+  width?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EncryptedMediaSetResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EncryptedMediaSet"] = ResolversParentTypes["EncryptedMediaSet"],
+> = {
+  medium?: Resolver<Maybe<ResolversTypes["EncryptedMedia"]>, ParentType, ContextType>;
+  original?: Resolver<ResolversTypes["EncryptedMedia"], ParentType, ContextType>;
+  small?: Resolver<Maybe<ResolversTypes["EncryptedMedia"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface EncryptedValueScalarScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["EncryptedValueScalar"], any> {
+  name: "EncryptedValueScalar";
+}
+
+export type EncryptionParamsOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EncryptionParamsOutput"] = ResolversParentTypes["EncryptionParamsOutput"],
+> = {
+  accessCondition?: Resolver<ResolversTypes["AccessConditionOutput"], ParentType, ContextType>;
+  encryptedFields?: Resolver<ResolversTypes["EncryptedFieldsOutput"], ParentType, ContextType>;
+  encryptionProvider?: Resolver<ResolversTypes["EncryptionProvider"], ParentType, ContextType>;
+  providerSpecificParams?: Resolver<
+    ResolversTypes["ProviderSpecificParamsOutput"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface EnsScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Ens"], any> {
   name: "Ens";
 }
@@ -10194,6 +10823,15 @@ export type EnsOnChainIdentityResolvers<
   ParentType extends ResolversParentTypes["EnsOnChainIdentity"] = ResolversParentTypes["EnsOnChainIdentity"],
 > = {
   name?: Resolver<Maybe<ResolversTypes["Ens"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EoaOwnershipOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["EoaOwnershipOutput"] = ResolversParentTypes["EoaOwnershipOutput"],
+> = {
+  address?: Resolver<ResolversTypes["EthereumAddress"], ParentType, ContextType>;
+  chainID?: Resolver<ResolversTypes["ChainId"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -10214,6 +10852,18 @@ export type Erc20AmountResolvers<
 > = {
   asset?: Resolver<ResolversTypes["Erc20"], ParentType, ContextType>;
   value?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Erc20OwnershipOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Erc20OwnershipOutput"] = ResolversParentTypes["Erc20OwnershipOutput"],
+> = {
+  amount?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  chainID?: Resolver<ResolversTypes["ChainId"], ParentType, ContextType>;
+  condition?: Resolver<ResolversTypes["ScalarOperator"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  decimals?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -10282,6 +10932,14 @@ export type FeedItemRootResolvers<
   ParentType extends ResolversParentTypes["FeedItemRoot"] = ResolversParentTypes["FeedItemRoot"],
 > = {
   __resolveType: TypeResolveFn<"Comment" | "Post", ParentType, ContextType>;
+};
+
+export type FollowConditionOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["FollowConditionOutput"] = ResolversParentTypes["FollowConditionOutput"],
+> = {
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type FollowModuleResolvers<
@@ -10391,6 +11049,11 @@ export interface HandleClaimIdScalarScalarConfig
   name: "HandleClaimIdScalar";
 }
 
+export interface IfpsCidScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["IfpsCid"], any> {
+  name: "IfpsCid";
+}
+
 export interface InternalPublicationIdScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["InternalPublicationId"], any> {
   name: "InternalPublicationId";
@@ -10471,12 +11134,24 @@ export type MediaResolvers<
   ParentType extends ResolversParentTypes["Media"] = ResolversParentTypes["Media"],
 > = {
   altTag?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  cover?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  cover?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
   height?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   mimeType?: Resolver<Maybe<ResolversTypes["MimeType"]>, ParentType, ContextType>;
   size?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
   width?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MediaOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MediaOutput"] = ResolversParentTypes["MediaOutput"],
+> = {
+  altTag?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  cover?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
+  item?: Resolver<ResolversTypes["Url"], ParentType, ContextType>;
+  source?: Resolver<Maybe<ResolversTypes["PublicationMediaSource"]>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes["MimeType"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -10525,6 +11200,11 @@ export type MetadataOutputResolvers<
   >;
   cover?: Resolver<Maybe<ResolversTypes["MediaSet"]>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes["Markdown"]>, ParentType, ContextType>;
+  encryptionParams?: Resolver<
+    Maybe<ResolversTypes["EncryptionParamsOutput"]>,
+    ParentType,
+    ContextType
+  >;
   image?: Resolver<Maybe<ResolversTypes["Url"]>, ParentType, ContextType>;
   locale?: Resolver<Maybe<ResolversTypes["Locale"]>, ParentType, ContextType>;
   mainContentFocus?: Resolver<ResolversTypes["PublicationMainFocus"], ParentType, ContextType>;
@@ -10550,6 +11230,12 @@ export type MirrorResolvers<
     ContextType,
     Partial<MirrorCanCommentArgs>
   >;
+  canDecrypt?: Resolver<
+    ResolversTypes["CanDecryptResponse"],
+    ParentType,
+    ContextType,
+    Partial<MirrorCanDecryptArgs>
+  >;
   canMirror?: Resolver<
     ResolversTypes["CanMirrorResponse"],
     ParentType,
@@ -10559,9 +11245,15 @@ export type MirrorResolvers<
   collectModule?: Resolver<ResolversTypes["CollectModule"], ParentType, ContextType>;
   collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
-  hasCollectedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  hasCollectedByMe?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    Partial<MirrorHasCollectedByMeArgs>
+  >;
   hidden?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  isGated?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
   mirrorOf?: Resolver<ResolversTypes["MirrorablePublication"], ParentType, ContextType>;
   onChainContentURI?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -10621,6 +11313,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationAchArgs, "request">
   >;
+  addProfileInterests?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddProfileInterestsArgs, "request">
+  >;
   addReaction?: Resolver<
     Maybe<ResolversTypes["Void"]>,
     ParentType,
@@ -10644,6 +11342,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationClaimArgs, "request">
+  >;
+  createAttachMediaData?: Resolver<
+    ResolversTypes["PublicMediaResults"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateAttachMediaDataArgs, "request">
   >;
   createBurnProfileTypedData?: Resolver<
     ResolversTypes["CreateBurnProfileBroadcastItemResult"],
@@ -10782,6 +11486,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationRefreshArgs, "request">
+  >;
+  removeProfileInterests?: Resolver<
+    Maybe<ResolversTypes["Void"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveProfileInterestsArgs, "request">
   >;
   removeReaction?: Resolver<
     Maybe<ResolversTypes["Void"]>,
@@ -10928,6 +11638,17 @@ export interface NftOwnershipIdScalarConfig
   name: "NftOwnershipId";
 }
 
+export type NftOwnershipOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NftOwnershipOutput"] = ResolversParentTypes["NftOwnershipOutput"],
+> = {
+  chainID?: Resolver<ResolversTypes["ChainId"], ParentType, ContextType>;
+  contractAddress?: Resolver<ResolversTypes["ContractAddress"], ParentType, ContextType>;
+  contractType?: Resolver<ResolversTypes["ContractType"], ParentType, ContextType>;
+  tokenIds?: Resolver<Maybe<ResolversTypes["TokenId"]>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface NonceScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes["Nonce"], any> {
   name: "Nonce";
 }
@@ -10961,6 +11682,14 @@ export type OnChainIdentityResolvers<
   proofOfHumanity?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   sybilDotOrg?: Resolver<ResolversTypes["SybilDotOrgIdentity"], ParentType, ContextType>;
   worldcoin?: Resolver<ResolversTypes["WorldcoinIdentity"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type OrConditionOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["OrConditionOutput"] = ResolversParentTypes["OrConditionOutput"],
+> = {
+  criteria?: Resolver<Array<ResolversTypes["AccessConditionOutput"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -11102,6 +11831,12 @@ export type PostResolvers<
     ContextType,
     Partial<PostCanCommentArgs>
   >;
+  canDecrypt?: Resolver<
+    ResolversTypes["CanDecryptResponse"],
+    ParentType,
+    ContextType,
+    Partial<PostCanDecryptArgs>
+  >;
   canMirror?: Resolver<
     ResolversTypes["CanMirrorResponse"],
     ParentType,
@@ -11112,9 +11847,15 @@ export type PostResolvers<
   collectNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
   collectedBy?: Resolver<Maybe<ResolversTypes["Wallet"]>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
-  hasCollectedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  hasCollectedByMe?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    Partial<PostHasCollectedByMeArgs>
+  >;
   hidden?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["InternalPublicationId"], ParentType, ContextType>;
+  isGated?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   metadata?: Resolver<ResolversTypes["MetadataOutput"], ParentType, ContextType>;
   mirrors?: Resolver<
     Array<ResolversTypes["InternalPublicationId"]>,
@@ -11147,8 +11888,14 @@ export type ProfileResolvers<
   followNftAddress?: Resolver<Maybe<ResolversTypes["ContractAddress"]>, ParentType, ContextType>;
   handle?: Resolver<ResolversTypes["Handle"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  interests?: Resolver<Maybe<Array<ResolversTypes["ProfileInterest"]>>, ParentType, ContextType>;
   isDefault?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  isFollowedByMe?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  isFollowedByMe?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType,
+    Partial<ProfileIsFollowedByMeArgs>
+  >;
   isFollowing?: Resolver<
     ResolversTypes["Boolean"],
     ParentType,
@@ -11178,11 +11925,24 @@ export interface ProfileIdScalarConfig
   name: "ProfileId";
 }
 
+export interface ProfileInterestScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["ProfileInterest"], any> {
+  name: "ProfileInterest";
+}
+
 export type ProfileMediaResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["ProfileMedia"] = ResolversParentTypes["ProfileMedia"],
 > = {
   __resolveType: TypeResolveFn<"MediaSet" | "NftImage", ParentType, ContextType>;
+};
+
+export type ProfileOwnershipOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProfileOwnershipOutput"] = ResolversParentTypes["ProfileOwnershipOutput"],
+> = {
+  profileId?: Resolver<ResolversTypes["ProfileId"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProfilePublicationRevenueResultResolvers<
@@ -11243,6 +12003,14 @@ export type ProfileStatsResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ProviderSpecificParamsOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["ProviderSpecificParamsOutput"] = ResolversParentTypes["ProviderSpecificParamsOutput"],
+> = {
+  encryptionKey?: Resolver<ResolversTypes["ContentEncryptionKey"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ProxyActionErrorResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["ProxyActionError"] = ResolversParentTypes["ProxyActionError"],
@@ -11284,6 +12052,15 @@ export type ProxyActionStatusResultUnionResolvers<
     ParentType,
     ContextType
   >;
+};
+
+export type PublicMediaResultsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["PublicMediaResults"] = ResolversParentTypes["PublicMediaResults"],
+> = {
+  media?: Resolver<ResolversTypes["MediaOutput"], ParentType, ContextType>;
+  signedUrl?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type PublicationResolvers<
@@ -11531,6 +12308,7 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryProfileFollowRevenueArgs, "request">
   >;
+  profileInterests?: Resolver<Array<ResolversTypes["ProfileInterest"]>, ParentType, ContextType>;
   profileOnChainIdentity?: Resolver<
     Array<ResolversTypes["OnChainIdentity"]>,
     ParentType,
@@ -11866,6 +12644,11 @@ export interface TimestampScalarScalarConfig
   name: "TimestampScalar";
 }
 
+export interface TokenIdScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["TokenId"], any> {
+  name: "TokenId";
+}
+
 export type TransactionErrorResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["TransactionError"] = ResolversParentTypes["TransactionError"],
@@ -12018,6 +12801,8 @@ export type WorldcoinIdentityResolvers<
 };
 
 export type Resolvers<ContextType = any> = {
+  AccessConditionOutput?: AccessConditionOutputResolvers<ContextType>;
+  AndConditionOutput?: AndConditionOutputResolvers<ContextType>;
   ApprovedAllowanceAmount?: ApprovedAllowanceAmountResolvers<ContextType>;
   Attribute?: AttributeResolvers<ContextType>;
   AuthChallengeResult?: AuthChallengeResultResolvers<ContextType>;
@@ -12025,13 +12810,16 @@ export type Resolvers<ContextType = any> = {
   BlockchainData?: GraphQLScalarType;
   BroadcastId?: GraphQLScalarType;
   CanCommentResponse?: CanCommentResponseResolvers<ContextType>;
+  CanDecryptResponse?: CanDecryptResponseResolvers<ContextType>;
   CanMirrorResponse?: CanMirrorResponseResolvers<ContextType>;
   ChainId?: GraphQLScalarType;
   ClaimableHandles?: ClaimableHandlesResolvers<ContextType>;
+  CollectConditionOutput?: CollectConditionOutputResolvers<ContextType>;
   CollectModule?: CollectModuleResolvers<ContextType>;
   CollectModuleData?: GraphQLScalarType;
   CollectedEvent?: CollectedEventResolvers<ContextType>;
   Comment?: CommentResolvers<ContextType>;
+  ContentEncryptionKey?: GraphQLScalarType;
   ContractAddress?: GraphQLScalarType;
   CreateBurnEIP712TypedData?: CreateBurnEip712TypedDataResolvers<ContextType>;
   CreateBurnEIP712TypedDataTypes?: CreateBurnEip712TypedDataTypesResolvers<ContextType>;
@@ -12093,10 +12881,17 @@ export type Resolvers<ContextType = any> = {
   ElectedMirror?: ElectedMirrorResolvers<ContextType>;
   EnabledModule?: EnabledModuleResolvers<ContextType>;
   EnabledModules?: EnabledModulesResolvers<ContextType>;
+  EncryptedFieldsOutput?: EncryptedFieldsOutputResolvers<ContextType>;
+  EncryptedMedia?: EncryptedMediaResolvers<ContextType>;
+  EncryptedMediaSet?: EncryptedMediaSetResolvers<ContextType>;
+  EncryptedValueScalar?: GraphQLScalarType;
+  EncryptionParamsOutput?: EncryptionParamsOutputResolvers<ContextType>;
   Ens?: GraphQLScalarType;
   EnsOnChainIdentity?: EnsOnChainIdentityResolvers<ContextType>;
+  EoaOwnershipOutput?: EoaOwnershipOutputResolvers<ContextType>;
   Erc20?: Erc20Resolvers<ContextType>;
   Erc20Amount?: Erc20AmountResolvers<ContextType>;
+  Erc20OwnershipOutput?: Erc20OwnershipOutputResolvers<ContextType>;
   EthereumAddress?: GraphQLScalarType;
   ExploreProfileResult?: ExploreProfileResultResolvers<ContextType>;
   ExplorePublicationResult?: ExplorePublicationResultResolvers<ContextType>;
@@ -12104,6 +12899,7 @@ export type Resolvers<ContextType = any> = {
   FeeFollowModuleSettings?: FeeFollowModuleSettingsResolvers<ContextType>;
   FeedItem?: FeedItemResolvers<ContextType>;
   FeedItemRoot?: FeedItemRootResolvers<ContextType>;
+  FollowConditionOutput?: FollowConditionOutputResolvers<ContextType>;
   FollowModule?: FollowModuleResolvers<ContextType>;
   FollowModuleData?: GraphQLScalarType;
   FollowOnlyReferenceModuleSettings?: FollowOnlyReferenceModuleSettingsResolvers<ContextType>;
@@ -12116,6 +12912,7 @@ export type Resolvers<ContextType = any> = {
   GlobalProtocolStats?: GlobalProtocolStatsResolvers<ContextType>;
   Handle?: GraphQLScalarType;
   HandleClaimIdScalar?: GraphQLScalarType;
+  IfpsCid?: GraphQLScalarType;
   InternalPublicationId?: GraphQLScalarType;
   Jwt?: GraphQLScalarType;
   LimitScalar?: GraphQLScalarType;
@@ -12126,6 +12923,7 @@ export type Resolvers<ContextType = any> = {
   MainPostReference?: MainPostReferenceResolvers<ContextType>;
   Markdown?: GraphQLScalarType;
   Media?: MediaResolvers<ContextType>;
+  MediaOutput?: MediaOutputResolvers<ContextType>;
   MediaSet?: MediaSetResolvers<ContextType>;
   MentionPublication?: MentionPublicationResolvers<ContextType>;
   MetadataAttributeOutput?: MetadataAttributeOutputResolvers<ContextType>;
@@ -12149,10 +12947,12 @@ export type Resolvers<ContextType = any> = {
   NftImage?: NftImageResolvers<ContextType>;
   NftOwnershipChallengeResult?: NftOwnershipChallengeResultResolvers<ContextType>;
   NftOwnershipId?: GraphQLScalarType;
+  NftOwnershipOutput?: NftOwnershipOutputResolvers<ContextType>;
   Nonce?: GraphQLScalarType;
   Notification?: NotificationResolvers<ContextType>;
   NotificationId?: GraphQLScalarType;
   OnChainIdentity?: OnChainIdentityResolvers<ContextType>;
+  OrConditionOutput?: OrConditionOutputResolvers<ContextType>;
   Owner?: OwnerResolvers<ContextType>;
   PaginatedAllPublicationsTagsResult?: PaginatedAllPublicationsTagsResultResolvers<ContextType>;
   PaginatedFeedResult?: PaginatedFeedResultResolvers<ContextType>;
@@ -12171,15 +12971,19 @@ export type Resolvers<ContextType = any> = {
   Profile?: ProfileResolvers<ContextType>;
   ProfileFollowModuleSettings?: ProfileFollowModuleSettingsResolvers<ContextType>;
   ProfileId?: GraphQLScalarType;
+  ProfileInterest?: GraphQLScalarType;
   ProfileMedia?: ProfileMediaResolvers<ContextType>;
+  ProfileOwnershipOutput?: ProfileOwnershipOutputResolvers<ContextType>;
   ProfilePublicationRevenueResult?: ProfilePublicationRevenueResultResolvers<ContextType>;
   ProfileSearchResult?: ProfileSearchResultResolvers<ContextType>;
   ProfileStats?: ProfileStatsResolvers<ContextType>;
+  ProviderSpecificParamsOutput?: ProviderSpecificParamsOutputResolvers<ContextType>;
   ProxyActionError?: ProxyActionErrorResolvers<ContextType>;
   ProxyActionId?: GraphQLScalarType;
   ProxyActionQueued?: ProxyActionQueuedResolvers<ContextType>;
   ProxyActionStatusResult?: ProxyActionStatusResultResolvers<ContextType>;
   ProxyActionStatusResultUnion?: ProxyActionStatusResultUnionResolvers<ContextType>;
+  PublicMediaResults?: PublicMediaResultsResolvers<ContextType>;
   Publication?: PublicationResolvers<ContextType>;
   PublicationForSale?: PublicationForSaleResolvers<ContextType>;
   PublicationId?: GraphQLScalarType;
@@ -12217,6 +13021,7 @@ export type Resolvers<ContextType = any> = {
   TagResult?: TagResultResolvers<ContextType>;
   TimedFeeCollectModuleSettings?: TimedFeeCollectModuleSettingsResolvers<ContextType>;
   TimestampScalar?: GraphQLScalarType;
+  TokenId?: GraphQLScalarType;
   TransactionError?: TransactionErrorResolvers<ContextType>;
   TransactionIndexedResult?: TransactionIndexedResultResolvers<ContextType>;
   TransactionReceipt?: TransactionReceiptResolvers<ContextType>;

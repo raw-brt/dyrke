@@ -38,7 +38,7 @@ interface Props {
 
 export const Chart: FC<Props> = ({ period, metric, dataSet }) => {
   return (
-    <div className='w-full h-[28rem]'>
+    <div className='w-full h-[32rem]'>
       <ResponsiveContainer width='100%' height='100%'>
         <LineChart
           width={500}
