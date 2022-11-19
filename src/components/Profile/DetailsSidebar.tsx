@@ -22,8 +22,15 @@ interface Props {
 }
 
 export const DetailsSidebar: FC<Props> = ({ profile }) => {
-  const currentProfile = useProfileStore((state) => state.currentProfile);
+  const currentProfile = useProfileStore((state) => state);
   const [following, setFollowing] = useState(profile?.isFollowedByMe);
+
+  const handleSwitchAccounts = (handle: string) => {
+    const newProfile = currentProfile?.profiles?.filter((element) => element.handle === handle);
+    currentProfile.setCurrentProfile(newProfile[0]);
+    currentProfile.setCurrentProfileHandle(newProfile[0].handle);
+    currentProfile.setCurrentProfileId(newProfile[0].id);
+  };
 
   const MetaDetails = ({ children, icon }: { children: ReactElement; icon: ReactElement }) => (
     <div className='flex gap-2 items-center'>
@@ -37,9 +44,6 @@ export const DetailsSidebar: FC<Props> = ({ profile }) => {
       <div className='pt-4'>
         <div className='flex justify-between items-center text-2xl font-bold'>
           <div className='truncate'>{profile?.name ?? profile?.handle}</div>
-          <Button variant='secondary' size="sm" icon={<ArrowPathIcon className='w-5 h-5' />} outline>
-            Switch
-          </Button>
         </div>
       </div>
       <div className='space-y-4'>

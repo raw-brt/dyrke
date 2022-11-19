@@ -20,9 +20,6 @@ export const PublicationType: FC<Props> = ({ publication, showType, showThread =
     return null;
   }
 
-  console.log("Publication is: ", publication)
-  console.log("Publication type is: ", type)
-
   return (
     <>
       {type === "Mirror" && <Mirrored publication={publication} />}

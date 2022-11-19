@@ -12,7 +12,7 @@ interface Props {
 
 export const FeedSelector: FC<Props> = ({ stats, setFeedType, feedType }) => {
   return (
-    <div className="flex overflow-x-auto gap-3 pb-2 mt-4 mb-2 sm:px-0 sm:mb-4 md:pb-0">
+    <div className="flex overflow-x-auto gap-3 my-4 pb-2">
       <TabButton
         name="Feed"
         icon={<PencilIcon className="w-4 h-4" />}

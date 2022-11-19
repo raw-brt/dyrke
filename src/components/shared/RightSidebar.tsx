@@ -16,13 +16,20 @@ interface Props {
 export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen }) => {
   // Store
   const sidebarContents = useRightSidebarState((state) => state);
-  const { currentProfile } = useProfileStore((state) => state);
+  const currentProfile = useProfileStore((state) => state);
   const currentProfileHandle = useProfileStore((state) => state.currentProfileHandle);
+
+  const handleSwitchAccounts = (handle: string) => {
+    const newProfile = currentProfile?.profiles?.filter((element) => element.handle === handle);
+    currentProfile.setCurrentProfile(newProfile[0]);
+    currentProfile.setCurrentProfileHandle(newProfile[0].handle);
+    currentProfile.setCurrentProfileId(newProfile[0].id);
+  };
 
   // Profile image (Improve)
   const currentProfileImage =
-    currentProfile?.picture?.__typename === "MediaSet"
-      ? currentProfile?.picture?.original?.url
+    currentProfile?.currentProfile?.picture?.__typename === "MediaSet"
+      ? currentProfile?.currentProfile?.picture?.original?.url
       : `${STATIC_ASSETS}/patterns/2.svg`;
 
   return (
@@ -85,7 +92,23 @@ export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen 
                       alt=''
                     />
                   </button>
-                  <p className='md:flex font-semibold text-primary-500'>@{currentProfileHandle}</p>
+                  {currentProfile?.profiles?.length > 1 ? (
+                    <select
+                      className='w-auto border-none bg-transparent font-semibold text-primary-500 appearance-none focus:ring focus:ring-primary-400 py-0 rounded'
+                      value={currentProfile?.currentProfile?.handle}
+                      onChange={(event) => handleSwitchAccounts(event.target.value)}
+                    >
+                      {currentProfile?.profiles?.map((account, index) => (
+                        <option key={index} value={account.handle}>
+                          {account.handle}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <p className='md:flex font-semibold text-primary-500'>
+                      @{currentProfileHandle}
+                    </p>
+                  )}
                 </div>
               </div>
               {sidebarContents.whatToShow === "ownProfile" && (
