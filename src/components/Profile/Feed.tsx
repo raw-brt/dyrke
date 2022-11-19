@@ -2,12 +2,13 @@ import {
   Profile,
   PublicationMainFocus,
   PublicationTypes,
+  useProfileFeedInfiniteQuery,
   useProfileFeedQuery,
 } from "../../generated/types";
 import { useState } from "react";
-import type {FC } from "react";
+import type { FC } from "react";
 import { useProfileStore } from "src/store/profiles";
-import { MAINNET_API_URL } from "src/config/constants";
+import { MAINNET_API_URL, SCROLL_THRESHOLD } from "src/config/constants";
 import { useAuthStore } from "src/store/auth";
 import { PublicationsSkeleton } from "../Shared/Skeleton/PublicationsSkeleton";
 import { Empty } from "../UI/Empty";
@@ -19,6 +20,7 @@ import { Card } from "../UI/Card";
 import { SinglePublication } from "../Publication/SinglePublication";
 import { DyrkePublication } from "src/generated/dyrketypes";
 import { getAuthProperties } from "@lib/getFetchOptions";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   profile: Profile;
@@ -50,7 +52,6 @@ export const Feed: FC<Props> = ({ profile, type }) => {
         }
       : null;
 
-  // TODO: Control pagination
   const request = {
     publicationTypes,
     metadata,
@@ -61,7 +62,22 @@ export const Feed: FC<Props> = ({ profile, type }) => {
   const reactionRequest = currentProfile ? { profileId: currentProfile?.id } : null;
   const profileId = currentProfile?.id ?? null;
 
-  const profileFeed = useProfileFeedQuery(
+  // const profileFeed = useProfileFeedQuery(
+  //   getAuthProperties(MAINNET_API_URL, accessToken),
+  //   {
+  //     request,
+  //     reactionRequest,
+  //     profileId,
+  //   },
+  //   {
+  //     refetchOnWindowFocus: false,
+  //     keepPreviousData: true,
+  //     // Al estar haciendo el spread, cuando cambio el tipo de feed me los acumula, no los actualiza
+  //     // onSuccess: (data) => setFeedPublications([...feedPublications as [any], data?.publications?.items])
+  //   },
+  // );
+
+  const profileFeed = useProfileFeedInfiniteQuery(
     getAuthProperties(MAINNET_API_URL, accessToken),
     {
       request,
@@ -70,59 +86,69 @@ export const Feed: FC<Props> = ({ profile, type }) => {
     },
     {
       refetchOnWindowFocus: false,
-      onSuccess: (data) => setFeedPublications([...feedPublications as [any], data?.publications?.items])
+      keepPreviousData: true,
+      // Al estar haciendo el spread, cuando cambio el tipo de feed me los acumula, no los actualiza
+      // onSuccess: (data) => setCursor(data?.pages[data?.pages.length - 1]?.publications?.pageInfo?.next),
+      getNextPageParam: (lastPage, pages) => lastPage?.publications?.pageInfo?.next
+      
     },
   );
 
-  const publications = profileFeed?.data?.publications?.items;
-  const pageInfo = profileFeed?.data?.publications?.pageInfo;
-  const hasMore = pageInfo?.next && publications?.length !== pageInfo.totalCount;
-
-  const loadMore = () => {
-    if (hasMore) setCursor(profileFeed?.data?.publications?.pageInfo?.next);
+  const handleLoadMore = () => {
+    setCursor(profileFeed?.data?.pages[profileFeed?.data?.pages.length - 1]?.publications?.pageInfo?.next)
   };
+
+  // const publications = profileFeed?.data?.publications?.items;
+  // const feedLength = profileFeed?.data?.pages.reduce((acc: number, page: any) => acc + page?.publications?.items.length as number);
+
+  // const loadMore = () => {
+  //   console.log("Entra load more")
+  //   if (hasMore) setCursor(profileFeed?.data?.publications?.pageInfo?.next);
+  // };
 
   // if (profileFeed.isFetching) return <PublicationsSkeleton />;
 
-  if (publications?.length === 0) {
-    return (
-      <Empty
-        message={
-          <div>
-            <span className='mr-1 font-bold'>@{profile?.handle}</span>
-            <span>doesn’t {type.toLowerCase()}ed yet!</span>
-          </div>
-        }
-        icon={<RectangleStackIcon className='w-8 h-8 text-primary-500' />}
-      />
-    );
-  }
+  // if (publications?.length === 0) {
+  //   return (
+  //     <Empty
+  //       message={
+  //         <div>
+  //           <span className='mr-1 font-bold'>@{profile?.handle}</span>
+  //           <span>doesn’t {type.toLowerCase()}ed yet!</span>
+  //         </div>
+  //       }
+  //       icon={<RectangleStackIcon className='w-8 h-8 text-primary-500' />}
+  //     />
+  //   );
+  // }
 
   if (profileFeed.error) {
     return <ErrorMessage title='Failed to load profile feed' error={profileFeed?.error} />;
   }
 
   return (
-    <div className="w-full h-full pb-10 overflow-auto" id="scrollableDiv">
+    <div className='w-full h-full pb-10 overflow-auto' id='scrollableDiv'>
       <InfiniteScroll
-        dataLength={publications?.length ?? 0}
-        hasMore={hasMore}
-        next={loadMore}
+        dataLength={profileFeed?.data?.pages?.length ?? 0}
+        scrollThreshold={SCROLL_THRESHOLD}
+        hasMore={!!profileFeed.hasNextPage}
+        next={handleLoadMore}
         loader={<InfiniteLoader />}
         scrollableTarget="scrollableDiv"
       >
         <Card className='divide-y-[1px] divide-gray-700/80'>
-          {feedPublications?.map((page: any) => (
-            page.map((publication: DyrkePublication, index: number) => (
-              <SinglePublication
-                key={`${publication.id}_${index}`}
-                publication={publication as DyrkePublication}
-                showThread={type !== "MEDIA"}
-            />
-            ))
-          ))}
-        </Card>
-        {profileFeed?.isFetching && <PublicationsSkeleton />}
+          {
+            profileFeed?.data?.pages?.map((page: any) => (
+              page?.publications?.items?.map((publication: DyrkePublication, index: number) => (
+                <SinglePublication
+                  key={`${publication.id}_${index}`}
+                  publication={publication as any}
+                  showThread={type !== "MEDIA"}
+                />
+              )))
+          )}
+      </Card>
+        {/* {profileFeed?.isFetching && <PublicationsSkeleton />} */}
       </InfiniteScroll>
     </div>
   );

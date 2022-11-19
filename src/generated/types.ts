@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from "graphql";
-import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, useQuery, UseMutationOptions, UseQueryOptions, useInfiniteQuery, UseInfiniteQueryOptions } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -8794,6 +8794,7 @@ ${StatsFieldsFragmentDoc}
 ${MetadataFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
 ${MirrorFieldsFragmentDoc}`;
+
 export const useProfileFeedQuery = <TData = ProfileFeedQuery, TError = unknown>(
   dataSource: { endpoint: string; fetchParams?: RequestInit },
   variables: ProfileFeedQueryVariables,
@@ -8809,6 +8810,23 @@ export const useProfileFeedQuery = <TData = ProfileFeedQuery, TError = unknown>(
     ),
     options,
   );
+
+  export const useProfileFeedInfiniteQuery = <TData = ProfileFeedQuery, TError = unknown>(
+    dataSource: { endpoint: string; fetchParams?: RequestInit },
+    variables: ProfileFeedQueryVariables,
+    options?: UseInfiniteQueryOptions<ProfileFeedQuery, TError, TData>,
+  ) =>
+    useInfiniteQuery<ProfileFeedQuery, TError, TData>(
+      ["ProfileFeed", variables],
+      fetcher<ProfileFeedQuery, ProfileFeedQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        ProfileFeedDocument,
+        variables,
+      ),
+      options,
+    );
+
 export const UserProfilesDocument = `
     query UserProfiles($ownedBy: [EthereumAddress!]) {
   profiles(request: {ownedBy: $ownedBy}) {
