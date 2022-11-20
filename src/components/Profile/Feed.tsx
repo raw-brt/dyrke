@@ -67,6 +67,7 @@ export const Feed: FC<Props> = ({ profile, type }) => {
       profileId,
     },
     {
+      keepPreviousData: true,
       getNextPageParam: (lastPage, pages) => {
         const nextCursor: string | undefined = lastPage.publications.pageInfo.next;
 
@@ -94,8 +95,6 @@ export const Feed: FC<Props> = ({ profile, type }) => {
     profileFeed?.data?.pages?.map((page) => counter += page.publications.items.length)
     return counter;
   };
-
-  if (profileFeed.isSuccess && profileFeed?.data.pages) console.log(profileFeed?.data.pages)
 
   return (
     <div className='w-full h-full pb-10 overflow-auto' id='scrollableDiv'>

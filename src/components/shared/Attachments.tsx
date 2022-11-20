@@ -86,7 +86,7 @@ const Attachments: FC<Props> = ({
                 },
                 "relative"
               )}
-              key={url}
+              key={`${url}-${Math.random() * 10000}`}
               onClick={(event) => {
                 event.stopPropagation();
               }}
