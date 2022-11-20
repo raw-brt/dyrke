@@ -1,5 +1,12 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from "graphql";
-import { useMutation, useQuery, UseMutationOptions, UseQueryOptions, useInfiniteQuery, UseInfiniteQueryOptions } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  UseMutationOptions,
+  UseQueryOptions,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+} from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -8,7 +15,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 
-function fetcher<TData, TVariables>(
+export function fetcher<TData, TVariables>(
   endpoint: string,
   requestInit: RequestInit,
   query: string,
@@ -8811,21 +8818,21 @@ export const useProfileFeedQuery = <TData = ProfileFeedQuery, TError = unknown>(
     options,
   );
 
-  export const useProfileFeedInfiniteQuery = <TData = ProfileFeedQuery, TError = unknown>(
-    dataSource: { endpoint: string; fetchParams?: RequestInit },
-    variables: ProfileFeedQueryVariables,
-    options?: UseInfiniteQueryOptions<ProfileFeedQuery, TError, TData>,
-  ) =>
-    useInfiniteQuery<ProfileFeedQuery, TError, TData>(
-      ["ProfileFeed", variables],
-      fetcher<ProfileFeedQuery, ProfileFeedQueryVariables>(
-        dataSource.endpoint,
-        dataSource.fetchParams || {},
-        ProfileFeedDocument,
-        variables,
-      ),
-      options,
-    );
+export const useProfileFeedInfiniteQuery = <TData = ProfileFeedQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  variables: ProfileFeedQueryVariables,
+  options?: UseInfiniteQueryOptions<ProfileFeedQuery, TError, TData>,
+) =>
+  useInfiniteQuery<ProfileFeedQuery, TError, TData>(
+    ["ProfileFeed", variables],
+    fetcher<ProfileFeedQuery, ProfileFeedQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      ProfileFeedDocument,
+      variables,
+    ),
+    options,
+  );
 
 export const UserProfilesDocument = `
     query UserProfiles($ownedBy: [EthereumAddress!]) {

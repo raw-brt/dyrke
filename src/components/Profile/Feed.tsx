@@ -18,7 +18,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { InfiniteLoader } from "../UI/InfiniteLoader";
 import { Card } from "../UI/Card";
 import { SinglePublication } from "../Publication/SinglePublication";
-import { DyrkePublication } from "src/generated/dyrketypes";
+import { DyrkePublication, useInfiniteProfileFeedQuery } from "src/generated/dyrketypes";
 import { getAuthProperties } from "@lib/getFetchOptions";
 
 interface Props {
@@ -50,31 +50,66 @@ export const Feed: FC<Props> = ({ profile, type }) => {
         }
       : null;
 
-  const request = {
+  const request = { 
     publicationTypes,
     metadata,
     profileId: profile?.id,
     limit: 10,
-    cursor: cursor,
-  };
+    cursor: null
+  }
   const reactionRequest = currentProfile ? { profileId: currentProfile?.id } : null;
   const profileId = currentProfile?.id ?? null;
 
-  const profileFeed = useProfileFeedInfiniteQuery(
+  // const profileFeed = useProfileFeedInfiniteQuery(
+  //   getAuthProperties(MAINNET_API_URL, accessToken),
+  //   {
+  //     request: { 
+  //       publicationTypes,
+  //       metadata,
+  //       profileId: profile?.id,
+  //       limit: 10,
+  //       cursor
+  //     },
+  //     reactionRequest,
+  //     profileId,
+  //   },
+  //   {
+  //     refetchOnWindowFocus: false,
+  //     keepPreviousData: true,
+  //     // Al estar haciendo el spread, cuando cambio el tipo de feed me los acumula, no los actualiza
+  //     // onSuccess: (data) => setCursor(data?.pages[data?.pages.length - 1]?.publications?.pageInfo?.next),
+  //     getNextPageParam: (lastPage, pages) => lastPage?.publications?.pageInfo?.next
+      
+  //   },
+  // );
+
+  const profileFeed = useInfiniteProfileFeedQuery(
     getAuthProperties(MAINNET_API_URL, accessToken),
+    "request",
     {
       request,
       reactionRequest,
       profileId,
     },
     {
-      refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      // Al estar haciendo el spread, cuando cambio el tipo de feed me los acumula, no los actualiza
-      // onSuccess: (data) => setCursor(data?.pages[data?.pages.length - 1]?.publications?.pageInfo?.next),
-      getNextPageParam: (lastPage, pages) => lastPage?.publications?.pageInfo?.next
-      
-    },
+      getNextPageParam: (lastPage, pages) => {
+        const nextCursor: string | undefined = lastPage.publications.pageInfo.next;
+        console.log("Lastpage is: ", lastPage)
+        console.log("next cursor is: ", nextCursor)
+
+        if (nextCursor) {
+          return {
+            publicationTypes,
+            metadata,
+            profileId: profile?.id,
+            limit: 10,
+            cursor: nextCursor
+          }
+        } else {
+          return undefined;
+        }
+      }
+    }
   );
 
   if (profileFeed.error) {
