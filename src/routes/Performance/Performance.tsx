@@ -22,7 +22,6 @@ export const Performance: FC = () => {
 
   // Get chart data
   const chartData = useGetChartData(metric, period, performanceMetrics);
-  console.log(chartData)
 
   return (
     <>

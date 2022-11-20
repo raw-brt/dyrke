@@ -20,7 +20,7 @@ const config: CodegenConfig = {
       ],
       config: {
         fetcher: "fetch",
-        dedupeFragments: true,
+        dedupeFragments: true
       },
     },
     "src/generated/subgraphtypes.ts": {
