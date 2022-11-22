@@ -24,7 +24,9 @@ const App: FC = () => {
         <Route path='login' element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route path='performance' element={<Performance />} />
-          <Route path='audience' element={<Audience />} />
+          <Route path='audience/followers' element={<Audience location="Followers" />} />
+          <Route path='audience/following' element={<Audience location="Following" />} />
+          <Route path='audience' element={<Navigate to="audience/followers" replace />} />
         </Route>
         <Route path='*' element={<Custom404 />} />
       </Routes>

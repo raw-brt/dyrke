@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 interface Props
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
-  variant?: "primary" | "secondary" | "success" | "warning" | "super" | "danger";
+  variant?: "primary" | "secondary" | "tertiary" | "success" | "warning" | "super" | "danger";
   outline?: boolean;
   light?: boolean;
   loading?: boolean;
@@ -37,6 +37,8 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
             !outline && !light && variant === "primary",
           "bg-gray-500 hover:bg-gray-600 text-gray-900 focus:ring-gray-400 focus:ring-offset-2":
             !outline && !light && variant === "secondary",
+            "bg-transparent hover:bg-gray-800 text-gray-100 focus:ring-gray-800 focus:ring-offset-2":
+            !outline && !light && variant === "tertiary",
           "bg-success-500 hover:bg-success-400 border border-success-600 text-gray-900 focus:ring-success-400 focus:ring-offset-2":
             !outline && !light && variant === "success",
           "bg-orange-500 hover:bg-orange-400 text-gray-900 focus:ring-orange-400 focus:ring-offset-2":

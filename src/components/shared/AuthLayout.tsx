@@ -1,42 +1,41 @@
 import type { FC, ReactNode } from "react";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import DyrkeImagotype from "../../assets/dyrke-imagotype.svg";
-import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3BottomLeftIcon,
   ChartBarSquareIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   CogIcon,
   PencilSquareIcon,
   SparklesIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { Profile } from "../Profile/Profile";
 import { useProfileStore } from "src/store/profiles";
 import { getIPFSLink } from "../../lib/getIPFSLink";
 import { STATIC_ASSETS } from "src/config/constants";
 import { RightSidebar } from "./RightSidebar";
 import { MobileMenu } from "./MobileMenu";
+import { UpperNavigation } from "./UpperNavigation";
 
 interface AuthLayoutProps {
   children: ReactNode;
 }
 
-const sidebarNavigation = [
-  { name: "Performance", href: "/performance", icon: ChartBarSquareIcon, current: true },
-  { name: "Audience", href: "/audience", icon: UserGroupIcon, current: false },
-  { name: "Content", href: "/content", icon: PencilSquareIcon, current: false },
-  { name: "Insights", href: "/insights", icon: SparklesIcon, current: false },
-  { name: "Settings", href: "/settings", icon: CogIcon, current: false },
-];
-
 export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+
+  const { pathname } = useLocation();
+
+  const sidebarNavigation = [
+    { name: "Performance", href: "/performance", icon: ChartBarSquareIcon, current: pathname === "/performance" },
+    { name: "Audience", href: "/audience/followers", icon: UserGroupIcon, current: pathname.includes("audience") },
+    { name: "Publications", href: "/publications", icon: PencilSquareIcon, current: pathname === "/publications" },
+    { name: "Insights", href: "/insights", icon: SparklesIcon, current: pathname === "/insights" },
+    { name: "Settings", href: "/settings", icon: CogIcon, current: pathname === "/settings" },
+  ];
 
   const { currentProfile } = useProfileStore((state) => state);
   const currentProfileHandle = useProfileStore((state) => state.currentProfileHandle);
@@ -107,8 +106,17 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
                 <span className='sr-only'>Open sidebar</span>
                 <Bars3BottomLeftIcon className='h-6 w-6' aria-hidden='true' />
               </button>
-              <div className='flex flex-1 justify-end'>
-                <div className='flex justify-center items-center space-x-2 md:border-none border-l border-gray-700 px-4'>
+              <div className={clsx(
+                pathname.includes("audience") || pathname.includes("publications")
+                  ? "flex flex-1 justify-end md:justify-between mx-10"
+                  : "flex flex-1 justify-end mx-10"
+              )}>
+                {
+                  pathname.includes("audience") || pathname.includes("publications")
+                    ? <UpperNavigation />
+                    : null
+                }
+                <div className='flex justify-center items-center space-x-2 md:border-none border-l border-gray-700 px-4 md:px-0'>
                   {/* Profile dropdown */}
                   <button
                     className='flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'

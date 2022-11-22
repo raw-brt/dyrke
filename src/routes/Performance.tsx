@@ -7,10 +7,9 @@ import { usePerformanceMetrics } from "src/hooks/usePerformanceMetrics";
 import { useGetChartData } from "src/hooks/useGetChartData";
 import { formatRates } from "@lib/formatRates";
 import { getAvgEngagement } from "@lib/getAvgEngagement";
-import { PageHeader } from "@components/Shared/PageHeader";
+import { PerformanceHeader } from "@components/Performance/PerformanceHeader";
 
 export const Performance: FC = () => {
-  
   // Global state
   const userData = useProfileStore((state) => state);
 
@@ -32,7 +31,7 @@ export const Performance: FC = () => {
 
   return (
     <>
-      <PageHeader
+      <PerformanceHeader
         metric={metric}
         setMetric={setMetric}
         period={period}
