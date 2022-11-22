@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FC } from "react";
-import { WalletConnector } from "./Components/WalletConnector";
+import { WalletConnector } from "../components/Login/WalletConnector";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/solid";
 import { Card } from "src/components/UI/Card";
 import { CHAIN_ID, LENS_HANDLE_CLAIM } from "src/config/constants";
@@ -8,7 +8,7 @@ import { useNetwork } from "wagmi";
 import { ExclamationCircleIcon, IdentificationIcon } from "@heroicons/react/24/outline";
 import { SwitchNetwork } from "src/components/Shared/SwitchNetwork";
 import { Button } from "src/components/UI/Button";
-import LensIcon from "../../assets/lens-icon.svg";
+import LensIcon from "../assets/lens-icon.svg";
 
 export const Login: FC = () => {
   const [isConnected, setIsConnected] = useState(false);

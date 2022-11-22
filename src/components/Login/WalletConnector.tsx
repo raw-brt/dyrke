@@ -3,23 +3,23 @@ import { Dispatch, FC, useEffect, useState } from "react";
 import { useAccount, useConnect, useNetwork, useSignMessage } from "wagmi";
 import type { Connector } from "wagmi";
 import { useIsMounted } from "src/hooks/useIsMounted";
-import { getWalletIso } from "../../../lib/getWalletIso";
+import { getWalletIso } from "../../lib/getWalletIso";
 import { CHAIN_ID, ERROR_MESSAGE, MAINNET_API_URL } from "src/config/constants";
 import { Button } from "src/components/UI/Button";
 import { Spinner } from "src/components/UI/Spinner";
-import LensIcon from "../../../assets/lens-icon.svg";
+import LensIcon from "../../assets/lens-icon.svg";
 import { SwitchNetwork } from "src/components/Shared/SwitchNetwork";
 import {
   useAuthenticateMutation,
   useChallengeQuery,
   useUserProfilesQuery,
-} from "../../../generated/types";
+} from "../../generated/types";
 import toast from "react-hot-toast";
 import { useAuthStore } from "src/store/auth";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { useProfileStore } from "src/store/profiles";
 import { useNavigate } from "react-router-dom";
-import { getAuthProperties, getUnauthProperties } from "../../../lib/getFetchOptions";
+import { getAuthProperties, getUnauthProperties } from "../../lib/getFetchOptions";
 
 interface Props {
   setIsConnected: Dispatch<boolean>;

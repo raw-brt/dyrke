@@ -3,8 +3,10 @@ import { MetricSelector } from "@components/Shared/MetricSelector";
 import { Period } from "@generated/dyrketypes";
 import clsx from "clsx";
 import type { Dispatch, FC, SetStateAction } from "react";
+import { useLocation } from "react-router-dom";
 
 type Metric = "Followers" | "Publications" | "Comments" | "Mirrors" | "Collects" | "Likes";
+type Location = "Performance" | "Audience" | "Content";
 
 interface Props {
   metric: Metric,
@@ -18,7 +20,7 @@ interface Props {
   contextualValue? : string
 }
 
-export const Header: FC<Props> = ({ 
+export const PageHeader: FC<Props> = ({ 
   metric = "Followers",
   setMetric,
   period,
@@ -29,6 +31,14 @@ export const Header: FC<Props> = ({
   contextualCounter = false,
   contextualValue
 }) => {
+
+  const { pathname } = useLocation();
+
+  const isPerformance = pathname.includes("performance");
+  const isAudience = pathname.includes("audience");
+
+  // 
+
   return (
     <div className="w-full h-auto flex flex-col justify-start items-start space-y-4">
       {/* Metric */}

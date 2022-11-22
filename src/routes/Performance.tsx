@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import { Metric, Period } from "@generated/dyrketypes";
-import { Header } from "@components/Performance/Header";
 import { useProfileStore } from "src/store/profiles";
 import { Chart } from "@components/Performance/Chart";
 import { MetricCard } from "@components/Performance/MetricCard";
@@ -8,8 +7,13 @@ import { usePerformanceMetrics } from "src/hooks/usePerformanceMetrics";
 import { useGetChartData } from "src/hooks/useGetChartData";
 import { formatRates } from "@lib/formatRates";
 import { getAvgEngagement } from "@lib/getAvgEngagement";
+import { PageHeader } from "@components/Shared/PageHeader";
 
 export const Performance: FC = () => {
+  
+  // Global state
+  const userData = useProfileStore((state) => state);
+
   // Component state
   const [metric, setMetric] = useState<Metric>("Followers");
   const [period, setPeriod] = useState<Period>("30 days");
@@ -23,14 +27,12 @@ export const Performance: FC = () => {
   const commentsCounter = performanceMetrics?.comments?.comments.flat().length;
   const mirrorsCounter = performanceMetrics?.mirrors?.mirrors.flat().length;
 
-  console.log(performanceMetrics);
-
   // Get chart data
   const chartData = useGetChartData(metric, period, performanceMetrics);
 
   return (
     <>
-      <Header
+      <PageHeader
         metric={metric}
         setMetric={setMetric}
         period={period}
@@ -51,14 +53,14 @@ export const Performance: FC = () => {
         <div className='w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 my-10'>
           <MetricCard
             metricTitle='NEW FOLLOWERS'
-            metricValue={followersCounter}
-            kpiTitle='UNFOLLOWS'
-            kpiValue={0.57}
+            metricValue={followersCounter.toLocaleString()}
+            kpiTitle='TOTAL FOLLOWERS'
+            kpiValue={userData.currentProfile?.stats.totalFollowers.toLocaleString() ?? ""}
             isLoading={false}
           />
           <MetricCard
             metricTitle='PUBLICATIONS'
-            metricValue={postCounter}
+            metricValue={postCounter.toLocaleString()}
             kpiTitle='AVERAGE ENG.'
             kpiValue={getAvgEngagement([
               formatRates(commentsCounter, postCounter),
@@ -68,16 +70,16 @@ export const Performance: FC = () => {
           />
           <MetricCard
             metricTitle='COMMENTS'
-            metricValue={commentsCounter}
+            metricValue={commentsCounter.toLocaleString()}
             kpiTitle='COMMENT RATE'
-            kpiValue={formatRates(commentsCounter, postCounter)}
+            kpiValue={formatRates(commentsCounter, postCounter).toLocaleString()}
             isLoading={false}
           />
           <MetricCard
             metricTitle='MIRRORS'
-            metricValue={mirrorsCounter}
+            metricValue={mirrorsCounter.toLocaleString()}
             kpiTitle='MIRROR RATE'
-            kpiValue={formatRates(mirrorsCounter, postCounter)}
+            kpiValue={formatRates(mirrorsCounter, postCounter).toLocaleString()}
             isLoading={false}
           />
         </div>

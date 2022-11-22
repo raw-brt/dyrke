@@ -3,11 +3,11 @@ import type { FC } from "react";
 
 interface Props {
   metricTitle: string;
-  metricValue: number;
+  metricValue: string;
   metricDelta?: string;
   metricDeltaSign?: boolean;
   kpiTitle: string;
-  kpiValue: number;
+  kpiValue: string;
   kpiDelta?: string;
   kpiDeltaSign?: boolean;
   isLoading: boolean
