@@ -37,7 +37,7 @@ const PublicationBody: FC<Props> = ({ publication }) => {
       ) : (
         publication?.metadata?.content &&
         getURLs(publication?.metadata?.content)?.length > 0 && (
-          <IFramely url={getURLs(publication?.metadata?.content)[0]} />
+          <IFramely url={getURLs(publication?.metadata?.content)[0] || ""} />
         )
       )}
     </div>

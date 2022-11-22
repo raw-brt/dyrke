@@ -10,6 +10,7 @@ interface Props {
   kpiValue: number;
   kpiDelta?: string;
   kpiDeltaSign?: boolean;
+  isLoading: boolean
 }
 
 export const MetricCard: FC<Props> = ({
@@ -21,6 +22,7 @@ export const MetricCard: FC<Props> = ({
   kpiValue,
   kpiDelta,
   kpiDeltaSign,
+  isLoading
 }) => {
   return (
     <div className='w-64 h-48 bg-gray-800 rounded-xl'>

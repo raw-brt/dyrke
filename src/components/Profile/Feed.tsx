@@ -25,7 +25,6 @@ interface Props {
 }
 
 export const Feed: FC<Props> = ({ profile, type }) => {
-  const [cursor, setCursor] = useState(null);
   const accessToken = useAuthStore((state) => state.authState.accessToken);
   const currentProfile = useProfileStore((state) => state.currentProfile);
 
@@ -94,6 +93,11 @@ export const Feed: FC<Props> = ({ profile, type }) => {
     let counter = 0;
     profileFeed?.data?.pages?.map((page) => counter += page.publications.items.length)
     return counter;
+  };
+
+  const handleLoadMore = () => {
+    if (profileFeed.isFetching) return;
+    profileFeed.fetchNextPage();
   };
 
   return (

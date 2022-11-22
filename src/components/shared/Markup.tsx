@@ -19,6 +19,7 @@ interface Props {
 const Markup: FC<Props> = ({ children, className = "" }) => {
   return (
     <Interweave
+      index={Math.random() * 10000}
       className={className}
       content={trimify(children)}
       escapeHtml

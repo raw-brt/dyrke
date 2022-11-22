@@ -19,6 +19,9 @@ export const Performance: FC = () => {
   // Metrics
   const postCounter = performanceMetrics?.posts?.posts?.flat().length;
   const followersCounter = performanceMetrics?.followers?.follows?.flat().length;
+  const commentsCounter = performanceMetrics?.comments?.comments.flat().length;
+
+  console.log(performanceMetrics)
 
   // Get chart data
   const chartData = useGetChartData(metric, period, performanceMetrics);
@@ -45,11 +48,33 @@ export const Performance: FC = () => {
         </h2>
         <div className='w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 my-10'>
           <MetricCard
-            metricTitle='PUBLICATIONS'
-            metricValue={postCounter}
-            kpiTitle='AVERAGE ENG.'
-            kpiValue={0.57}
-          />
+              metricTitle='NEW FOLLOWERS'
+              metricValue={followersCounter}
+              kpiTitle='UNFOLLOWS'
+              kpiValue={0.57}
+              isLoading={false}
+            />
+            <MetricCard
+              metricTitle='PUBLICATIONS'
+              metricValue={postCounter}
+              kpiTitle='AVERAGE ENG.'
+              kpiValue={0.57}
+              isLoading={false}
+            />
+            <MetricCard
+              metricTitle='COMMENTS'
+              metricValue={commentsCounter}
+              kpiTitle='COMMENT RATE'
+              kpiValue={0.57}
+              isLoading={false}
+            />
+            <MetricCard
+              metricTitle='MIRRORS'
+              metricValue={postCounter}
+              kpiTitle='MIRROR RATE'
+              kpiValue={0.57}
+              isLoading={false}
+            />
         </div>
       </div>
     </>
