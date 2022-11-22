@@ -16,11 +16,14 @@ const CustomTooltip: FC<TooltipProps<ValueType, NameType>> = ({ active, payload 
   if (active) {
     const amount = payload && payload[0].payload.amount;
     const date = payload && payload[0].payload.date;
+    const metric = payload && payload[0].payload.metric;
 
     return (
       <div className='py-2 px-4 bg-gray-800 border border-gray-700 rounded-lg'>
         <p className='text-gray-100'>
-          <span className='font-bold text-primary-500'>{amount > 0 ? amount : "Nothing"}</span> on{" "}
+          <span className='font-bold text-primary-500'>
+            {amount > 0 ? `${amount} ${metric.toLowerCase()}` : "Nothing"}
+          </span> on{" "}
           {date}
         </p>
       </div>

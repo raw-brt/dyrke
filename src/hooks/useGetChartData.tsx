@@ -46,7 +46,7 @@ export const useGetChartData = (metric: Metric, period: Period, chartData: any) 
     ));
 
     const readyToRenderData = cookedChartData.map((element, index) => (
-      { periodUnit: index + 1, amount: element[0].length, date: getReadableTimeUnit(period, element[1]) }
+      { periodUnit: index + 1, amount: element[0].length, date: getReadableTimeUnit(period, element[1]), metric: metric }
       ))
 
     return readyToRenderData;

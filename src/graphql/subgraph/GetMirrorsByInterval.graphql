@@ -1,24 +1,24 @@
-query GetPostsByInterval(
+query GetMirrorsByInterval(
   $first: Int = 1000,
   $skip: Int = 0, 
-  $handle: String,
+  $id: BigInt,
   $gte: BigInt, 
   $lte: BigInt,
-  $lastPubId: BigInt = 0
+  $lastID: ID = ""
   ) {
-  posts(
+  mirrors(
     first: $first, 
     skip: $skip, 
     where: {
-      fromProfile_: {handle: $handle}, 
+      profileIdPointed: $id, 
       timestamp_gte: $gte, 
       timestamp_lte: $lte, 
-      pubId_gt: $lastPubId
+      id_gt: $lastID
       }, 
-      orderBy: pubId, 
+      orderBy: id, 
       orderDirection: asc
     ) {
-    pubId
+    id
     timestamp
   }
 }

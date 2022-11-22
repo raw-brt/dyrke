@@ -1,12 +1,24 @@
 query GetFollowersByInterval(
-  $first: Int = 1000,
-  $skip: Int = 0, 
-  $id: ID!,
-  $gt: BigInt, 
-  $lt: BigInt,
+  $first: Int = 1000
+  $skip: Int = 0
+  $id: ID!
+  $gte: BigInt
+  $lte: BigInt
   $lastID: ID = ""
+) {
+  follows(
+    first: $first
+    skip: $skip
+    where: { 
+      toProfile_: 
+        { id: $id }, 
+        timestamp_gte: $gte, 
+        timestamp_lte: $lte, 
+        id_gt: $lastID 
+      }
+    orderBy: id
+    orderDirection: asc
   ) {
-  follows(first: $first, skip: $skip, where: {toProfile_: {id: $id}, timestamp_gt: $gt, timestamp_lt: $lt, id_gt: $lastID}, orderBy: id, orderDirection: asc) {
     timestamp
     id
   }

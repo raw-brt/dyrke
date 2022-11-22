@@ -21,8 +21,8 @@ export const usePerformanceMetrics= (period: Period) => {
   // Get last elements ID for a given query to get pages of 1000 items
   const [lastUserId, setLastUserId] = useState("");
   const [lastPubId, setLastPubId] = useState(0);
-  const [lastMirrorId, setLastMirrorId] = useState(0);
-  const [lastCommentId, setLastCommentId] = useState(0);
+  const [lastMirrorId, setLastMirrorId] = useState("");
+  const [lastCommentId, setLastCommentId] = useState("");
 
   // Get period interval according to selected period by the user
   const [periodInterval, setPeriodInterval] = useState<PeriodInterval>(getPeriodInterval(period));
@@ -37,8 +37,8 @@ export const usePerformanceMetrics= (period: Period) => {
     ["GetFollowersByInterval", userId, periodInterval, lastUserId],
     () => sdk.GetFollowersByInterval({ 
       id: userId, 
-      gt: periodInterval?.start, 
-      lt: periodInterval?.end, 
+      gte: periodInterval?.start, 
+      lte: periodInterval?.end, 
       lastID: lastUserId 
     }),
     { 
@@ -68,8 +68,8 @@ export const usePerformanceMetrics= (period: Period) => {
     ["GetPostsByInterval", handle, periodInterval, lastPubId],
     () => sdk.GetPostsByInterval({ 
       handle: handle, 
-      gt: periodInterval?.start, 
-      lt: periodInterval?.end, 
+      gte: periodInterval?.start, 
+      lte: periodInterval?.end, 
       lastPubId: lastPubId 
     }),
     { 
@@ -83,10 +83,10 @@ export const usePerformanceMetrics= (period: Period) => {
           setPosts([...posts as [any], data.posts]);
 
           // Put manually in the cache the paginated result
-          queryClient.setQueryData(
-            ["GetPostsByInterval", handle, periodInterval, lastPubId],
-            posts.flat()
-          )
+          // queryClient.setQueryData(
+          //   ["GetPostsByInterval", handle, periodInterval, lastPubId],
+          //   posts.flat()
+          // )
         }
       }
       // Set cache by hand with posts result
@@ -97,27 +97,26 @@ export const usePerformanceMetrics= (period: Period) => {
   const commentsByInterval = useQuery(
     ["GetCommentsByInterval", handle, periodInterval, lastCommentId],
     () => sdk.GetCommentsByInterval({ 
-      handle: handle, 
-      gt: periodInterval?.start, 
-      lt: periodInterval?.end, 
-      lastPubId: lastCommentId 
+      id: userId, 
+      gte: periodInterval?.start, 
+      lte: periodInterval?.end, 
+      lastID: lastCommentId 
     }),
     { 
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        console.log("Data from comments query: ", data)
         // If there are the max number of elements possible, keep fetching 
         if (data.comments.length === 1000) {
           setComments([...comments as [any], data.comments]);
-          setLastCommentId(data.comments[999].pubId);
+          setLastCommentId(data.comments[999].id);
         } else {
           setComments([...comments as [any], data.comments]);
 
           // Put manually in the cache the paginated result
-          queryClient.setQueryData(
-            ["GetCommentsByInterval", handle, periodInterval, lastCommentId],
-            comments.flat()
-          )
+          // queryClient.setQueryData(
+          //   ["GetCommentsByInterval", handle, periodInterval, lastCommentId],
+          //   comments.flat()
+          // )
         }
       }
       // Set cache by hand with posts result
@@ -125,6 +124,35 @@ export const usePerformanceMetrics= (period: Period) => {
   );
 
   // Get mirrors
+  const mirrorsByInterval = useQuery(
+    ["GetMirrorsByInterval", handle, periodInterval, lastMirrorId],
+    () => sdk.GetMirrorsByInterval({ 
+      id: userId, 
+      gte: periodInterval?.start, 
+      lte: periodInterval?.end, 
+      lastID: lastMirrorId 
+    }),
+    { 
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        console.log("Data from comments query: ", data)
+        // If there are the max number of elements possible, keep fetching 
+        if (data.mirrors.length === 1000) {
+          setMirrors([...mirrors as [any], data.mirrors]);
+          setLastMirrorId(data.mirrors[999].id);
+        } else {
+          setMirrors([...mirrors as [any], data.mirrors]);
+
+          // Put manually in the cache the paginated result
+          // queryClient.setQueryData(
+          //   ["GetMirrorsByInterval", handle, periodInterval, lastMirrorId],
+          //   mirrors.flat()
+          // )
+        }
+      }
+      // Set cache by hand with posts result
+     },
+  );  
 
   // Get collects
 
@@ -154,6 +182,10 @@ export const usePerformanceMetrics= (period: Period) => {
     comments: {
       commentsByInterval,
       comments
+    },
+    mirrors: {
+      mirrorsByInterval,
+      mirrors
     }
   };
 };
