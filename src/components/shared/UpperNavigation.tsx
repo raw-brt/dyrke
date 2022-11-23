@@ -19,7 +19,7 @@ export const UpperNavigation: FC = () => {
   };
 
   return (
-    <div className='hidden w-auto h-auto md:flex justify-start items-center space-x-10'>
+    <div className='w-auto h-auto flex justify-start items-center space-x-10'>
       <div className='flex justify-start items-center space-x-4'>
         <Button 
           size='sm' 

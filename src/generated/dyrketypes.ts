@@ -1,6 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { UseInfiniteQueryOptions } from "@tanstack/react-query";
-import { ProfileFeedQuery, ProfileFeedQueryVariables, ProfileFeedDocument } from "./types";
+import {
+  ProfileFeedQuery,
+  ProfileFeedQueryVariables,
+  ProfileFeedDocument,
+  FollowersQuery,
+  FollowersQueryVariables,
+  FollowersDocument,
+  FollowingQuery,
+  FollowingQueryVariables,
+  FollowingDocument,
+} from "./types";
 import { Comment, Mirror, Post } from "./types";
 
 export type Metric = "Followers" | "Publications" | "Comments" | "Mirrors" | "Collects" | "Likes";
@@ -88,8 +98,43 @@ export const useInfiniteProfileFeedQuery = <TData = ProfileFeedQuery, TError = u
         dataSource.endpoint,
         dataSource.fetchParams || {},
         ProfileFeedDocument,
-        // El problema es esta línea: Resuelto, proponer PR a librería
         { ...variables, [pageParamKey]: metaData.pageParam || variables[pageParamKey] },
+      )(),
+    options,
+  );
+
+export const useInfiniteFollowersQuery = <TData = FollowersQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  pageParamKey: keyof FollowersQueryVariables,
+  variables: FollowersQueryVariables,
+  options?: UseInfiniteQueryOptions<FollowersQuery, TError, TData>,
+) =>
+  useInfiniteQuery<FollowersQuery, TError, TData>(
+    ["Followers.infinite", variables],
+    (metaData) =>
+      fetcher<FollowersQuery, FollowersQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        FollowersDocument,
+        { ...variables, ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}) },
+      )(),
+    options,
+  );
+
+export const useInfiniteFollowingQuery = <TData = FollowingQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
+  pageParamKey: keyof FollowingQueryVariables,
+  variables: FollowingQueryVariables,
+  options?: UseInfiniteQueryOptions<FollowingQuery, TError, TData>,
+) =>
+  useInfiniteQuery<FollowingQuery, TError, TData>(
+    ["Following.infinite", variables],
+    (metaData) =>
+      fetcher<FollowingQuery, FollowingQueryVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        FollowingDocument,
+        { ...variables, ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}) },
       )(),
     options,
   );

@@ -108,7 +108,7 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
               </button>
               <div className={clsx(
                 pathname.includes("audience") || pathname.includes("publications")
-                  ? "flex flex-1 justify-end md:justify-between mx-10"
+                  ? "flex flex-1 justify-between ml-10 md:mx-10"
                   : "flex flex-1 justify-end mx-10"
               )}>
                 {
@@ -140,7 +140,7 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
             <main className='flex-1 overflow-y-auto'>
               {/* Primary column */}
               <section
-                className='w-auto h-full mx-10 my-8 flex flex-col justify-start items-start space-y-10'
+                className='w-auto h-full mx-4 md:mx-10 my-8 flex flex-col justify-start items-start space-y-10'
               >
                 {children}
               </section>

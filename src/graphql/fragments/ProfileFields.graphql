@@ -10,31 +10,14 @@ fragment ProfileFields on Profile {
   }
   picture {
     ... on MediaSet {
-      __typename
       original {
         url
       }
     }
     ... on NftImage {
-      __typename
       uri
     }
   }
-  coverPicture {
-  ... on NftImage {
-    contractAddress
-    tokenId
-    uri
-    verified
-  }
-  ... on MediaSet {
-    original {
-      url
-      mimeType
-    }
-  }
-  __typename
-}
   followModule {
     __typename
   }
