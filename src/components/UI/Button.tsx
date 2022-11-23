@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge"
 import type { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 import { forwardRef } from "react";
 
@@ -31,7 +32,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
   return (
     <button
       ref={ref}
-      className={clsx(
+      className={twMerge(clsx(
         {
           "bg-primary-500 hover:bg-primary-600 text-gray-900 focus:ring-primary-400 focus:ring-offset-2":
             !outline && !light && variant === "primary",
@@ -65,9 +66,9 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
           "px-4 py-2": size === "lg",
           "flex items-center space-x-1.5": icon && children,
         },
-        "rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none",
         className,
-      )}
+        "rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none",
+      ))}
       disabled={loading}
       type={rest.type}
       {...rest}
