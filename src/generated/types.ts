@@ -5608,7 +5608,6 @@ export type FollowersQuery = {
     __typename?: "PaginatedFollowersResult";
     items: Array<{
       __typename?: "Follower";
-      totalAmountOfTimesFollowed: number;
       wallet: {
         __typename?: "Wallet";
         address: any;
@@ -5618,9 +5617,6 @@ export type FollowersQuery = {
           name?: string | null;
           bio?: string | null;
           isFollowedByMe: boolean;
-          followNftAddress?: any | null;
-          metadata?: any | null;
-          isDefault: boolean;
           handle: any;
           ownedBy: any;
           attributes?: Array<{
@@ -5656,7 +5652,6 @@ export type FollowersQuery = {
                 verified: boolean;
               }
             | null;
-          dispatcher?: { __typename?: "Dispatcher"; address: any; canUseRelay: boolean } | null;
           stats: {
             __typename?: "ProfileStats";
             totalFollowers: number;
@@ -5667,28 +5662,6 @@ export type FollowersQuery = {
             totalPublications: number;
             totalCollects: number;
           };
-          followModule?:
-            | {
-                __typename?: "FeeFollowModuleSettings";
-                type: FollowModules;
-                contractAddress: any;
-                recipient: any;
-                amount: {
-                  __typename?: "ModuleFeeAmount";
-                  value: string;
-                  asset: {
-                    __typename?: "Erc20";
-                    name: string;
-                    symbol: string;
-                    decimals: number;
-                    address: any;
-                  };
-                };
-              }
-            | { __typename?: "ProfileFollowModuleSettings"; type: FollowModules }
-            | { __typename?: "RevertFollowModuleSettings"; type: FollowModules }
-            | { __typename?: "UnknownFollowModuleSettings" }
-            | null;
         } | null;
       };
     }>;
@@ -8088,9 +8061,6 @@ export const FollowersDocument = `
             key
             value
           }
-          followNftAddress
-          metadata
-          isDefault
           handle
           picture {
             ... on NftImage {
@@ -8121,10 +8091,6 @@ export const FollowersDocument = `
             }
           }
           ownedBy
-          dispatcher {
-            address
-            canUseRelay
-          }
           stats {
             totalFollowers
             totalFollowing
@@ -8134,31 +8100,8 @@ export const FollowersDocument = `
             totalPublications
             totalCollects
           }
-          followModule {
-            ... on FeeFollowModuleSettings {
-              type
-              contractAddress
-              amount {
-                asset {
-                  name
-                  symbol
-                  decimals
-                  address
-                }
-                value
-              }
-              recipient
-            }
-            ... on ProfileFollowModuleSettings {
-              type
-            }
-            ... on RevertFollowModuleSettings {
-              type
-            }
-          }
         }
       }
-      totalAmountOfTimesFollowed
     }
     pageInfo {
       prev

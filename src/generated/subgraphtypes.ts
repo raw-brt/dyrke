@@ -3860,7 +3860,7 @@ export type FollowersQueryVariables = Exact<{
 }>;
 
 
-export type FollowersQuery = { __typename?: 'Query', followers: { __typename?: 'PaginatedFollowersResult', items: Array<{ __typename?: 'Follower', totalAmountOfTimesFollowed: number, wallet: { __typename?: 'Wallet', address: any, defaultProfile?: { __typename?: 'Profile', id: any, name?: string | null, bio?: string | null, isFollowedByMe: boolean, followNftAddress?: any | null, metadata?: any | null, isDefault: boolean, handle: any, ownedBy: any, attributes?: Array<{ __typename?: 'Attribute', displayType?: string | null, traitType?: string | null, key: string, value: string }> | null, picture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any, mimeType?: any | null } } | { __typename?: 'NftImage', contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, coverPicture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any, mimeType?: any | null } } | { __typename?: 'NftImage', contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, dispatcher?: { __typename?: 'Dispatcher', address: any, canUseRelay: boolean } | null, stats: { __typename?: 'ProfileStats', totalFollowers: number, totalFollowing: number, totalPosts: number, totalComments: number, totalMirrors: number, totalPublications: number, totalCollects: number }, followModule?: { __typename?: 'FeeFollowModuleSettings', type: FollowModules, contractAddress: any, recipient: any, amount: { __typename?: 'ModuleFeeAmount', value: string, asset: { __typename?: 'Erc20', name: string, symbol: string, decimals: number, address: any } } } | { __typename?: 'ProfileFollowModuleSettings', type: FollowModules } | { __typename?: 'RevertFollowModuleSettings', type: FollowModules } | { __typename?: 'UnknownFollowModuleSettings' } | null } | null } }>, pageInfo: { __typename?: 'PaginatedResultInfo', prev?: any | null, next?: any | null, totalCount?: number | null } } };
+export type FollowersQuery = { __typename?: 'Query', followers: { __typename?: 'PaginatedFollowersResult', items: Array<{ __typename?: 'Follower', wallet: { __typename?: 'Wallet', address: any, defaultProfile?: { __typename?: 'Profile', id: any, name?: string | null, bio?: string | null, isFollowedByMe: boolean, handle: any, ownedBy: any, attributes?: Array<{ __typename?: 'Attribute', displayType?: string | null, traitType?: string | null, key: string, value: string }> | null, picture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any, mimeType?: any | null } } | { __typename?: 'NftImage', contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, coverPicture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any, mimeType?: any | null } } | { __typename?: 'NftImage', contractAddress: any, tokenId: string, uri: any, verified: boolean } | null, stats: { __typename?: 'ProfileStats', totalFollowers: number, totalFollowing: number, totalPosts: number, totalComments: number, totalMirrors: number, totalPublications: number, totalCollects: number } } | null } }>, pageInfo: { __typename?: 'PaginatedResultInfo', prev?: any | null, next?: any | null, totalCount?: number | null } } };
 
 export type FollowingQueryVariables = Exact<{
   request: FollowingRequest;
@@ -4251,9 +4251,6 @@ export const FollowersDocument = `
             key
             value
           }
-          followNftAddress
-          metadata
-          isDefault
           handle
           picture {
             ... on NftImage {
@@ -4284,10 +4281,6 @@ export const FollowersDocument = `
             }
           }
           ownedBy
-          dispatcher {
-            address
-            canUseRelay
-          }
           stats {
             totalFollowers
             totalFollowing
@@ -4297,31 +4290,8 @@ export const FollowersDocument = `
             totalPublications
             totalCollects
           }
-          followModule {
-            ... on FeeFollowModuleSettings {
-              type
-              contractAddress
-              amount {
-                asset {
-                  name
-                  symbol
-                  decimals
-                  address
-                }
-                value
-              }
-              recipient
-            }
-            ... on ProfileFollowModuleSettings {
-              type
-            }
-            ... on RevertFollowModuleSettings {
-              type
-            }
-          }
         }
       }
-      totalAmountOfTimesFollowed
     }
     pageInfo {
       prev

@@ -1,7 +1,6 @@
 /* eslint-disable no-constant-condition */
 import clsx from "clsx";
 import type { FC } from "react";
-import { useLocation } from "react-router-dom";
 
 interface Props {
   location: string,
@@ -20,7 +19,7 @@ export const PageHeader: FC<Props> = ({
   delta,
   contextualCounter,
   contextualValue,
-  searchField,
+  searchField = false,
 }) => {
 
   return (

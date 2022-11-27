@@ -14,9 +14,6 @@ query Followers($request: FollowersRequest!) {
             key
             value
           }
-          followNftAddress
-            metadata
-          isDefault
           handle
           picture {
             ... on NftImage {
@@ -47,10 +44,6 @@ query Followers($request: FollowersRequest!) {
             }
           }
           ownedBy
-          dispatcher {
-            address
-            canUseRelay
-          }
           stats {
             totalFollowers
             totalFollowing
@@ -60,31 +53,8 @@ query Followers($request: FollowersRequest!) {
             totalPublications
             totalCollects
           }
-          followModule {
-            ... on FeeFollowModuleSettings {
-              type
-              contractAddress
-              amount {
-                asset {
-                  name
-                  symbol
-                  decimals
-                  address
-                }
-                value
-              }
-              recipient
-            }
-            ... on ProfileFollowModuleSettings {
-             type
-            }
-            ... on RevertFollowModuleSettings {
-             type
-            }
-          }
         }
       }
-      totalAmountOfTimesFollowed
     }
     pageInfo {
       prev
