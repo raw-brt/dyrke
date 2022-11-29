@@ -4,8 +4,7 @@ import { useProfileStore } from "src/store/profiles";
 import { useInfiniteFollowersQuery } from "@generated/dyrketypes";
 import { getUnauthProperties } from "@lib/getFetchOptions";
 import { MAINNET_API_URL } from "src/config/constants";
-import { PropertiesRow } from "@components/Audience/PropertiesRow";
-import { AudienceItem } from "@components/Audience/AudienceItem";
+import { AudienceList } from "@components/Audience/AudienceList";
 
 type Location = "Followers" | "Following";
 type Props = { location: Location }
@@ -34,20 +33,7 @@ export const Audience: FC<Props> = ({ location }) => {
         value={location === "Followers" ? followers : following}
         searchField={false}
       />
-      <PropertiesRow />
-      <ul className="w-full h-auto">
-        {
-          getFollowers.isLoading
-            ? <li>Loading...</li>
-            : (
-              getFollowers?.data?.pages.map((page) => (
-                page.followers.items.map((item, index) => (
-                  <AudienceItem key={index} index={index} wallet={item.wallet} />
-                ))
-              ))
-            )
-        }
-      </ul>
+      <AudienceList />
     </>
   );
 };
