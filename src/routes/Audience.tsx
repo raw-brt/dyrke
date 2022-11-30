@@ -26,14 +26,18 @@ export const Audience: FC<Props> = ({ location }) => {
      { request }
   );
 
-  return (
-    <>
-      <PageHeader
-        location={location}
-        value={location === "Followers" ? followers : following}
-        searchField={false}
-      />
-      <AudienceList />
-    </>
-  );
+  if (getFollowers.isLoading) {
+    return <p className="text-white">Loading...</p>
+  } else {
+    return (
+      <>
+        <PageHeader
+          location={location}
+          value={location === "Followers" ? followers : following}
+          searchField={false}
+        />
+        <AudienceList data={getFollowers?.data} />
+      </>
+    );
+  }
 };
