@@ -1,4 +1,7 @@
+import { getIPFSLink } from "@lib/getIPFSLink";
 import type { FC } from "react";
+import { STATIC_ASSETS } from "src/config/constants";
+import { PicturelessIcon } from "./PicturelessIcon";
 
 interface Item {
   wallet: {
@@ -65,43 +68,57 @@ export const TableBody: FC<Props> = ({ pages }) => {
   return (
     <tbody className='divide-y divide-gray-700 bg-gray-800'>
       {pages.map((page: any) =>
-        page.followers.items.map((item: any) => (
-          <tr key={item.wallet.defaultProfile.handle}>
+        page.followers.items.map((item: any, index: number) => (
+          <tr key={`${index}-${item?.wallet?.defaultProfile?.handle}`}>
             <td className='whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6'>
               <div className='flex items-center'>
                 <div className='h-10 w-10 flex-shrink-0'>
-                  {/* <img className='h-10 w-10 rounded-full' src={item.wallet.defaultProfile.image} alt='' /> */}
+                  {
+                    item?.wallet?.defaultProfile?.picture
+                      ? (
+                          <img 
+                            className='h-10 w-10 rounded-full' 
+                            src={
+                              item?.wallet?.defaultProfile?.picture?.__typename === "MediaSet"
+                                ? getIPFSLink(item?.wallet?.defaultProfile?.picture?.original?.url)
+                                : item?.wallet?.defaultProfile?.picture?.uri
+                            } 
+                            alt={`${item?.wallet?.defaultProfile?.handle} picture` }
+                          />
+                        )
+                      : <PicturelessIcon />  
+                  }
                 </div>
                 <div className='ml-4'>
-                  <div className='font-medium text-gray-100'>{item.wallet.defaultProfile.name}</div>
+                  <div className='font-medium text-gray-100'>{item?.wallet?.defaultProfile?.name}</div>
                   <div className='text-primary-500 font-semibold'>
-                    @{item.wallet.defaultProfile.handle}
+                    @{item?.wallet?.defaultProfile?.handle}
                   </div>
                 </div>
               </div>
             </td>
             <td className='py-4 text-sm text-gray-500'>
-              <div className='text-gray-100 truncate w-48'>{item.wallet.defaultProfile.bio}</div>
+              <div className='text-gray-100 truncate w-48'>{item?.wallet?.defaultProfile?.bio}</div>
             </td>
             <td className='whitespace-nowrap py-4 text-sm text-left text-gray-500'>
               <div className='text-gray-100'>
-                {item.wallet.defaultProfile.stats.totalPublications}
+                {item?.wallet?.defaultProfile?.stats?.totalPublications}
               </div>
             </td>
             <td className='whitespace-nowrap py-4 text-sm text-left text-gray-100'>
-              <div className='text-gray-100'>{item.wallet.defaultProfile.stats.totalFollowers}</div>
+              <div className='text-gray-100'>{item?.wallet?.defaultProfile?.stats?.totalFollowers}</div>
             </td>
             <td className='relative whitespace-nowrap py-4 text-left text-sm font-medium sm:pr-6'>
-              <div className='text-gray-100'>{item.wallet.defaultProfile.stats.totalFollowing}</div>
+              <div className='text-gray-100'>{item?.wallet?.defaultProfile?.stats?.totalFollowing}</div>
             </td>
             <td className='relative whitespace-nowrap py-4 text-left text-sm font-medium sm:pr-6'>
-              <div className='text-gray-100'>{item.wallet.defaultProfile.stats.totalComments}</div>
+              <div className='text-gray-100'>{item?.wallet?.defaultProfile?.stats?.totalComments}</div>
             </td>
             <td className='relative whitespace-nowrap py-4 text-left text-sm font-medium sm:pr-6'>
-              <div className='text-gray-100'>{item.wallet.defaultProfile.stats.totalMirrors}</div>
+              <div className='text-gray-100'>{item?.wallet?.defaultProfile?.stats?.totalMirrors}</div>
             </td>
             <td className='relative whitespace-nowrap py-4 text-left text-sm font-medium sm:pr-6'>
-              <div className='text-gray-100'>{item.wallet.defaultProfile.stats.totalCollects}</div>
+              <div className='text-gray-100'>{item?.wallet?.defaultProfile?.stats?.totalCollects}</div>
             </td>
           </tr>
         )),

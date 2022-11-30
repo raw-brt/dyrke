@@ -5,7 +5,6 @@ import { FC } from "react";
 const columns = ["Profile", "Bio", "Publications", "Followers", "Following", "Comments", "Mirrors", "Collects"];
 
 export const AudienceList: FC<any> = ({ data }) => {
-  console.log("Data", data)
   return (
     <div className="w-full px-4 lg:px-0">
       <div className="flex flex-col">

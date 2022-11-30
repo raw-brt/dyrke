@@ -17,12 +17,14 @@ query Followers($request: FollowersRequest!) {
           handle
           picture {
             ... on NftImage {
+              __typename
               contractAddress
               tokenId
               uri
               verified
             }
             ... on MediaSet {
+              __typename
               original {
                 url
                 mimeType

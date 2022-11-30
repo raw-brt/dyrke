@@ -3,18 +3,11 @@ import type { FC, ReactElement } from "react";
 import { useProfileStore } from "src/store/profiles";
 import { Profile } from "@generated/types";
 import { Tooltip } from "../UI/Tooltip";
-import { ArrowPathIcon, HashtagIcon, MapPinIcon } from "@heroicons/react/24/outline";
-import { Slug } from "../Shared/Slug";
-import { Button } from "../UI/Button";
-import { Link } from "react-router-dom";
-import formatAddress from "../../lib/formatAddress";
-import { Following } from "./Following";
+import { HashtagIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import Markup from "../Shared/Markup";
 import { getAttribute } from "../../lib/getAttribute";
 import { STATIC_ASSETS } from "src/config/constants";
 import Badges from "./Badges";
-import { Follow } from "../Shared/Follow";
-import { Unfollow } from "../Shared/Unfollow";
 import { FollowMetrics } from "./FollowMetrics";
 
 interface Props {
@@ -23,7 +16,6 @@ interface Props {
 
 export const DetailsSidebar: FC<Props> = ({ profile }) => {
   const currentProfile = useProfileStore((state) => state);
-  const [following, setFollowing] = useState(profile?.isFollowedByMe);
 
   const handleSwitchAccounts = (handle: string) => {
     const newProfile = currentProfile?.profiles?.filter((element) => element.handle === handle);

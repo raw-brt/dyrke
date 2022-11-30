@@ -42,11 +42,13 @@ query Profile($request: SingleProfileQueryRequest!, $who: ProfileId) {
     }
     picture {
       ... on MediaSet {
+        __typename
         original {
           url
         }
       }
       ... on NftImage {
+        __typename
         uri
       }
     }

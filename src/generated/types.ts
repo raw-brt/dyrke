@@ -3864,8 +3864,8 @@ export type CommentFieldsFragment = {
     ownedBy: any;
     attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
     picture?:
-      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-      | { __typename?: "NftImage"; uri: any }
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage"; uri: any }
       | null;
     followModule?:
       | { __typename: "FeeFollowModuleSettings" }
@@ -3888,8 +3888,8 @@ export type CommentFieldsFragment = {
       ownedBy: any;
       attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
       picture?:
-        | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-        | { __typename?: "NftImage"; uri: any }
+        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename: "NftImage"; uri: any }
         | null;
       followModule?:
         | { __typename: "FeeFollowModuleSettings" }
@@ -4006,8 +4006,8 @@ export type CommentFieldsFragment = {
           ownedBy: any;
           attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
           picture?:
-            | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-            | { __typename?: "NftImage"; uri: any }
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
             | null;
           followModule?:
             | { __typename: "FeeFollowModuleSettings" }
@@ -4129,8 +4129,8 @@ export type CommentFieldsFragment = {
                 ownedBy: any;
                 attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
                 picture?:
-                  | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                  | { __typename?: "NftImage"; uri: any }
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
                   | null;
                 followModule?:
                   | { __typename: "FeeFollowModuleSettings" }
@@ -4273,8 +4273,8 @@ export type CommentFieldsFragment = {
                         value: string;
                       }> | null;
                       picture?:
-                        | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                        | { __typename?: "NftImage"; uri: any }
+                        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                        | { __typename: "NftImage"; uri: any }
                         | null;
                       followModule?:
                         | { __typename: "FeeFollowModuleSettings" }
@@ -4315,8 +4315,8 @@ export type CommentFieldsFragment = {
                         value: string;
                       }> | null;
                       picture?:
-                        | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                        | { __typename?: "NftImage"; uri: any }
+                        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                        | { __typename: "NftImage"; uri: any }
                         | null;
                       followModule?:
                         | { __typename: "FeeFollowModuleSettings" }
@@ -4343,11 +4343,8 @@ export type CommentFieldsFragment = {
                           value: string;
                         }> | null;
                         picture?:
-                          | {
-                              __typename?: "MediaSet";
-                              original: { __typename?: "Media"; url: any };
-                            }
-                          | { __typename?: "NftImage"; uri: any }
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
                           | null;
                         followModule?:
                           | { __typename: "FeeFollowModuleSettings" }
@@ -4489,8 +4486,8 @@ export type CommentFieldsFragment = {
                 ownedBy: any;
                 attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
                 picture?:
-                  | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                  | { __typename?: "NftImage"; uri: any }
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
                   | null;
                 followModule?:
                   | { __typename: "FeeFollowModuleSettings" }
@@ -4517,8 +4514,8 @@ export type CommentFieldsFragment = {
                     value: string;
                   }> | null;
                   picture?:
-                    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                    | { __typename?: "NftImage"; uri: any }
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
                     | null;
                   followModule?:
                     | { __typename: "FeeFollowModuleSettings" }
@@ -4658,8 +4655,8 @@ export type CommentFieldsFragment = {
           ownedBy: any;
           attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
           picture?:
-            | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-            | { __typename?: "NftImage"; uri: any }
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
             | null;
           followModule?:
             | { __typename: "FeeFollowModuleSettings" }
@@ -4775,8 +4772,8 @@ export type CommentFieldsFragment = {
                 ownedBy: any;
                 attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
                 picture?:
-                  | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                  | { __typename?: "NftImage"; uri: any }
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
                   | null;
                 followModule?:
                   | { __typename: "FeeFollowModuleSettings" }
@@ -4813,8 +4810,8 @@ export type CommentFieldsFragment = {
                 ownedBy: any;
                 attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
                 picture?:
-                  | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                  | { __typename?: "NftImage"; uri: any }
+                  | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                  | { __typename: "NftImage"; uri: any }
                   | null;
                 followModule?:
                   | { __typename: "FeeFollowModuleSettings" }
@@ -4841,8 +4838,8 @@ export type CommentFieldsFragment = {
                     value: string;
                   }> | null;
                   picture?:
-                    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                    | { __typename?: "NftImage"; uri: any }
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
                     | null;
                   followModule?:
                     | { __typename: "FeeFollowModuleSettings" }
@@ -4984,8 +4981,8 @@ export type CommentFieldsFragment = {
           ownedBy: any;
           attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
           picture?:
-            | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-            | { __typename?: "NftImage"; uri: any }
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
             | null;
           followModule?:
             | { __typename: "FeeFollowModuleSettings" }
@@ -5008,8 +5005,8 @@ export type CommentFieldsFragment = {
             ownedBy: any;
             attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
             picture?:
-              | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-              | { __typename?: "NftImage"; uri: any }
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
               | null;
             followModule?:
               | { __typename: "FeeFollowModuleSettings" }
@@ -5146,8 +5143,8 @@ export type MirrorFieldsFragment = {
     ownedBy: any;
     attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
     picture?:
-      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-      | { __typename?: "NftImage"; uri: any }
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage"; uri: any }
       | null;
     followModule?:
       | { __typename: "FeeFollowModuleSettings" }
@@ -5263,8 +5260,8 @@ export type MirrorFieldsFragment = {
           ownedBy: any;
           attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
           picture?:
-            | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-            | { __typename?: "NftImage"; uri: any }
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
             | null;
           followModule?:
             | { __typename: "FeeFollowModuleSettings" }
@@ -5301,8 +5298,8 @@ export type MirrorFieldsFragment = {
           ownedBy: any;
           attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
           picture?:
-            | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-            | { __typename?: "NftImage"; uri: any }
+            | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+            | { __typename: "NftImage"; uri: any }
             | null;
           followModule?:
             | { __typename: "FeeFollowModuleSettings" }
@@ -5325,8 +5322,8 @@ export type MirrorFieldsFragment = {
             ownedBy: any;
             attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
             picture?:
-              | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-              | { __typename?: "NftImage"; uri: any }
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
               | null;
             followModule?:
               | { __typename: "FeeFollowModuleSettings" }
@@ -5446,8 +5443,8 @@ export type PostFieldsFragment = {
     ownedBy: any;
     attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
     picture?:
-      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-      | { __typename?: "NftImage"; uri: any }
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage"; uri: any }
       | null;
     followModule?:
       | { __typename: "FeeFollowModuleSettings" }
@@ -5470,8 +5467,8 @@ export type PostFieldsFragment = {
       ownedBy: any;
       attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
       picture?:
-        | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-        | { __typename?: "NftImage"; uri: any }
+        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename: "NftImage"; uri: any }
         | null;
       followModule?:
         | { __typename: "FeeFollowModuleSettings" }
@@ -5581,8 +5578,8 @@ export type ProfileFieldsFragment = {
   ownedBy: any;
   attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
   picture?:
-    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-    | { __typename?: "NftImage"; uri: any }
+    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+    | { __typename: "NftImage"; uri: any }
     | null;
   followModule?:
     | { __typename: "FeeFollowModuleSettings" }
@@ -5648,11 +5645,11 @@ export type FollowersQuery = {
           }> | null;
           picture?:
             | {
-                __typename?: "MediaSet";
+                __typename: "MediaSet";
                 original: { __typename?: "Media"; url: any; mimeType?: any | null };
               }
             | {
-                __typename?: "NftImage";
+                __typename: "NftImage";
                 contractAddress: any;
                 tokenId: string;
                 uri: any;
@@ -5702,8 +5699,8 @@ export type FollowingQuery = {
         ownedBy: any;
         attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
         picture?:
-          | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-          | { __typename?: "NftImage"; uri: any }
+          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+          | { __typename: "NftImage"; uri: any }
           | null;
         followModule?:
           | { __typename: "FeeFollowModuleSettings" }
@@ -5760,8 +5757,8 @@ export type ProfileQuery = {
       totalMirrors: number;
     };
     picture?:
-      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-      | { __typename?: "NftImage"; uri: any }
+      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+      | { __typename: "NftImage"; uri: any }
       | null;
     coverPicture?:
       | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
@@ -5805,8 +5802,8 @@ export type ProfileFeedQuery = {
             ownedBy: any;
             attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
             picture?:
-              | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-              | { __typename?: "NftImage"; uri: any }
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
               | null;
             followModule?:
               | { __typename: "FeeFollowModuleSettings" }
@@ -5829,8 +5826,8 @@ export type ProfileFeedQuery = {
               ownedBy: any;
               attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
               picture?:
-                | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                | { __typename?: "NftImage"; uri: any }
+                | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                | { __typename: "NftImage"; uri: any }
                 | null;
               followModule?:
                 | { __typename: "FeeFollowModuleSettings" }
@@ -5954,8 +5951,8 @@ export type ProfileFeedQuery = {
                     value: string;
                   }> | null;
                   picture?:
-                    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                    | { __typename?: "NftImage"; uri: any }
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
                     | null;
                   followModule?:
                     | { __typename: "FeeFollowModuleSettings" }
@@ -6104,11 +6101,8 @@ export type ProfileFeedQuery = {
                           value: string;
                         }> | null;
                         picture?:
-                          | {
-                              __typename?: "MediaSet";
-                              original: { __typename?: "Media"; url: any };
-                            }
-                          | { __typename?: "NftImage"; uri: any }
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
                           | null;
                         followModule?:
                           | { __typename: "FeeFollowModuleSettings" }
@@ -6252,10 +6246,10 @@ export type ProfileFeedQuery = {
                               }> | null;
                               picture?:
                                 | {
-                                    __typename?: "MediaSet";
+                                    __typename: "MediaSet";
                                     original: { __typename?: "Media"; url: any };
                                   }
-                                | { __typename?: "NftImage"; uri: any }
+                                | { __typename: "NftImage"; uri: any }
                                 | null;
                               followModule?:
                                 | { __typename: "FeeFollowModuleSettings" }
@@ -6297,10 +6291,10 @@ export type ProfileFeedQuery = {
                               }> | null;
                               picture?:
                                 | {
-                                    __typename?: "MediaSet";
+                                    __typename: "MediaSet";
                                     original: { __typename?: "Media"; url: any };
                                   }
-                                | { __typename?: "NftImage"; uri: any }
+                                | { __typename: "NftImage"; uri: any }
                                 | null;
                               followModule?:
                                 | { __typename: "FeeFollowModuleSettings" }
@@ -6328,10 +6322,10 @@ export type ProfileFeedQuery = {
                                 }> | null;
                                 picture?:
                                   | {
-                                      __typename?: "MediaSet";
+                                      __typename: "MediaSet";
                                       original: { __typename?: "Media"; url: any };
                                     }
-                                  | { __typename?: "NftImage"; uri: any }
+                                  | { __typename: "NftImage"; uri: any }
                                   | null;
                                 followModule?:
                                   | { __typename: "FeeFollowModuleSettings" }
@@ -6477,11 +6471,8 @@ export type ProfileFeedQuery = {
                           value: string;
                         }> | null;
                         picture?:
-                          | {
-                              __typename?: "MediaSet";
-                              original: { __typename?: "Media"; url: any };
-                            }
-                          | { __typename?: "NftImage"; uri: any }
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
                           | null;
                         followModule?:
                           | { __typename: "FeeFollowModuleSettings" }
@@ -6509,10 +6500,10 @@ export type ProfileFeedQuery = {
                           }> | null;
                           picture?:
                             | {
-                                __typename?: "MediaSet";
+                                __typename: "MediaSet";
                                 original: { __typename?: "Media"; url: any };
                               }
-                            | { __typename?: "NftImage"; uri: any }
+                            | { __typename: "NftImage"; uri: any }
                             | null;
                           followModule?:
                             | { __typename: "FeeFollowModuleSettings" }
@@ -6656,8 +6647,8 @@ export type ProfileFeedQuery = {
                     value: string;
                   }> | null;
                   picture?:
-                    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                    | { __typename?: "NftImage"; uri: any }
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
                     | null;
                   followModule?:
                     | { __typename: "FeeFollowModuleSettings" }
@@ -6800,11 +6791,8 @@ export type ProfileFeedQuery = {
                           value: string;
                         }> | null;
                         picture?:
-                          | {
-                              __typename?: "MediaSet";
-                              original: { __typename?: "Media"; url: any };
-                            }
-                          | { __typename?: "NftImage"; uri: any }
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
                           | null;
                         followModule?:
                           | { __typename: "FeeFollowModuleSettings" }
@@ -6845,11 +6833,8 @@ export type ProfileFeedQuery = {
                           value: string;
                         }> | null;
                         picture?:
-                          | {
-                              __typename?: "MediaSet";
-                              original: { __typename?: "Media"; url: any };
-                            }
-                          | { __typename?: "NftImage"; uri: any }
+                          | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                          | { __typename: "NftImage"; uri: any }
                           | null;
                         followModule?:
                           | { __typename: "FeeFollowModuleSettings" }
@@ -6877,10 +6862,10 @@ export type ProfileFeedQuery = {
                           }> | null;
                           picture?:
                             | {
-                                __typename?: "MediaSet";
+                                __typename: "MediaSet";
                                 original: { __typename?: "Media"; url: any };
                               }
-                            | { __typename?: "NftImage"; uri: any }
+                            | { __typename: "NftImage"; uri: any }
                             | null;
                           followModule?:
                             | { __typename: "FeeFollowModuleSettings" }
@@ -7026,8 +7011,8 @@ export type ProfileFeedQuery = {
                     value: string;
                   }> | null;
                   picture?:
-                    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                    | { __typename?: "NftImage"; uri: any }
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
                     | null;
                   followModule?:
                     | { __typename: "FeeFollowModuleSettings" }
@@ -7054,8 +7039,8 @@ export type ProfileFeedQuery = {
                       value: string;
                     }> | null;
                     picture?:
-                      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                      | { __typename?: "NftImage"; uri: any }
+                      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                      | { __typename: "NftImage"; uri: any }
                       | null;
                     followModule?:
                       | { __typename: "FeeFollowModuleSettings" }
@@ -7196,8 +7181,8 @@ export type ProfileFeedQuery = {
             ownedBy: any;
             attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
             picture?:
-              | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-              | { __typename?: "NftImage"; uri: any }
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
               | null;
             followModule?:
               | { __typename: "FeeFollowModuleSettings" }
@@ -7320,8 +7305,8 @@ export type ProfileFeedQuery = {
                     value: string;
                   }> | null;
                   picture?:
-                    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                    | { __typename?: "NftImage"; uri: any }
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
                     | null;
                   followModule?:
                     | { __typename: "FeeFollowModuleSettings" }
@@ -7362,8 +7347,8 @@ export type ProfileFeedQuery = {
                     value: string;
                   }> | null;
                   picture?:
-                    | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                    | { __typename?: "NftImage"; uri: any }
+                    | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                    | { __typename: "NftImage"; uri: any }
                     | null;
                   followModule?:
                     | { __typename: "FeeFollowModuleSettings" }
@@ -7390,8 +7375,8 @@ export type ProfileFeedQuery = {
                       value: string;
                     }> | null;
                     picture?:
-                      | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                      | { __typename?: "NftImage"; uri: any }
+                      | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                      | { __typename: "NftImage"; uri: any }
                       | null;
                     followModule?:
                       | { __typename: "FeeFollowModuleSettings" }
@@ -7533,8 +7518,8 @@ export type ProfileFeedQuery = {
             ownedBy: any;
             attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
             picture?:
-              | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-              | { __typename?: "NftImage"; uri: any }
+              | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+              | { __typename: "NftImage"; uri: any }
               | null;
             followModule?:
               | { __typename: "FeeFollowModuleSettings" }
@@ -7557,8 +7542,8 @@ export type ProfileFeedQuery = {
               ownedBy: any;
               attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
               picture?:
-                | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-                | { __typename?: "NftImage"; uri: any }
+                | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+                | { __typename: "NftImage"; uri: any }
                 | null;
               followModule?:
                 | { __typename: "FeeFollowModuleSettings" }
@@ -7686,8 +7671,8 @@ export type UserProfilesQuery = {
       dispatcher?: { __typename?: "Dispatcher"; canUseRelay: boolean } | null;
       attributes?: Array<{ __typename?: "Attribute"; key: string; value: string }> | null;
       picture?:
-        | { __typename?: "MediaSet"; original: { __typename?: "Media"; url: any } }
-        | { __typename?: "NftImage"; uri: any }
+        | { __typename: "MediaSet"; original: { __typename?: "Media"; url: any } }
+        | { __typename: "NftImage"; uri: any }
         | null;
       followModule?:
         | { __typename: "FeeFollowModuleSettings" }
@@ -7713,11 +7698,13 @@ export const ProfileFieldsFragmentDoc = `
   }
   picture {
     ... on MediaSet {
+      __typename
       original {
         url
       }
     }
     ... on NftImage {
+      __typename
       uri
     }
   }
@@ -8071,12 +8058,14 @@ export const FollowersDocument = `
           handle
           picture {
             ... on NftImage {
+              __typename
               contractAddress
               tokenId
               uri
               verified
             }
             ... on MediaSet {
+              __typename
               original {
                 url
                 mimeType
@@ -8196,11 +8185,13 @@ export const ProfileDocument = `
     }
     picture {
       ... on MediaSet {
+        __typename
         original {
           url
         }
       }
       ... on NftImage {
+        __typename
         uri
       }
     }

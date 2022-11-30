@@ -7,6 +7,7 @@ import { useProfileStore } from "src/store/profiles";
 import { STATIC_ASSETS } from "src/config/constants";
 import { useRightSidebarState } from "src/store/rightSidebar";
 import { ProfileSidebar } from "@components/Profile/ProfileSidebar";
+import { PicturelessIcon } from "./PicturelessIcon";
 
 interface Props {
   rightSidebarOpen: boolean;
@@ -26,11 +27,31 @@ export const RightSidebar: FC<Props> = ({ rightSidebarOpen, setRightSidebarOpen 
     currentProfile.setCurrentProfileId(newProfile[0].id);
   };
 
+  // {
+  //   item?.wallet?.defaultProfile?.picture
+  //     ? (
+  //         <img 
+  //           className='h-10 w-10 rounded-full' 
+  //           src={
+  //             item?.wallet?.defaultProfile?.picture?.__typename === "MediaSet"
+  //               ? getIPFSLink(item?.wallet?.defaultProfile?.picture?.original?.url)
+  //               : item?.wallet?.defaultProfile?.picture?.uri
+  //           } 
+  //           alt={`${item?.wallet?.defaultProfile?.handle} picture` }
+  //         />
+  //       )
+  //     : <PicturelessIcon />  
+  // }
+
+  console.log(currentProfile)
+
   // Profile image (Improve)
   const currentProfileImage =
-    currentProfile?.currentProfile?.picture?.__typename === "MediaSet"
+    currentProfile?.currentProfile?.picture && currentProfile?.currentProfile?.picture?.__typename === "MediaSet"
       ? currentProfile?.currentProfile?.picture?.original?.url
-      : `${STATIC_ASSETS}/patterns/2.svg`;
+      : currentProfile?.currentProfile?.picture && currentProfile?.currentProfile?.picture?.__typename === "NftImage"
+      ? currentProfile?.currentProfile?.picture?.uri
+      : <PicturelessIcon />
 
   return (
     <Transition.Root show={rightSidebarOpen} as={Fragment}>
